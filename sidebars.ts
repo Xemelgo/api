@@ -5,8 +5,9 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'API Documentation',
-      collapsed: true, // Enables collapsing
-      collapsible: true, // Allows user to expand/collapse
+      collapsed: false, // Keep expanded by default
+      collapsible: true, // Allow users to collapse
+      link: { type: 'doc', id: 'index' }, // This sets index.md as the landing page for the category
       items: [
         {
           type: 'category',
@@ -29,7 +30,7 @@ const sidebars: SidebarsConfig = {
             'api/Inventory/v1.1',
             'api/Inventory/v1.4',
             'api/Inventory/transfer',
-            'api/Inventory/upload' // Updated to correct version
+            'api/Inventory/upload',
           ],
         },
         {
