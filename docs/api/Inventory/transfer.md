@@ -1,25 +1,16 @@
-# Xemelgo Transfer Orders API Documentation
+---
+title: ""
+pagination_next: null
+pagination_prev: null
+---
 
-## Version 1.0 — May 2024
+<h1 style={{ color: '#004FDB' }}>Transfer Orders API</h1>
 
-© 2024 Xemelgo, Inc.  
-📧 support@xemelgo.com  
+<h2>Version 1.0 — May 2024</h2>
 
 ---
 
-## Table of Contents
-
-1. [Release Versions](#release-versions)
-2. [Authentication - Login API](#authentication---login-api)
-3. [Create Inventory Transfer Order API](#create-inventory-transfer-order-api)
-4. [Get Transfer Order API](#get-transfer-order-api)
-5. [List Transfer Orders API](#list-transfer-orders-api)
-6. [Delete Transfer Order API](#delete-transfer-order-api)
-7. [Errors](#errors)
-
----
-
-## Release Versions
+## <span style={{ color: '#004FDB' }}>Release Versions</span>
 
 | Version | Description                             | Author         | Release Date |
 |---------|-----------------------------------------|---------------|--------------|
@@ -27,15 +18,15 @@
 
 ---
 
-## Authentication - Login API
+## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://rest.api.xemelgo.com/login`
 - **Method:** `POST`
 
-### **Request Body**
+### Request Body
 ```json
 {
   "email": "base64_encoded_email",
@@ -43,7 +34,7 @@ To access the GraphQL APIs, users must first authenticate using the Xemelgo Logi
 }
 ```
 
-### **Response Body**
+### Response Body
 ```json
 {
   "AccessToken": "$accessToken",
@@ -58,15 +49,15 @@ Use the `$idToken` as the authorization header for all API requests.
 
 ---
 
-## Create Inventory Transfer Order API
+## <span style={{ color: '#004FDB' }}>Create Inventory Transfer Order API</span>
 
 Allows creating a transfer order and tracking items associated with the order.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
 - **Method:** `POST`
 
-### **Request Body**
+### Request Body
 ```graphql
 mutation {
   createInventoryTransferOrder(
@@ -101,11 +92,11 @@ mutation {
 
 ---
 
-## Get Transfer Order API
+## <span style={{ color: '#004FDB' }}>Get Transfer Order API</span>
 
 Allows retrieving a transfer order and viewing its status.
 
-### **Request Body**
+### Request Body
 ```graphql
 query {
   inventoryTransferOrder(input: { id: "TEST_TRANSFER_ORDER" }) {
@@ -137,11 +128,11 @@ query {
 
 ---
 
-## List Transfer Orders API
+## <span style={{ color: '#004FDB' }}>List Transfer Orders API</span>
 
 Retrieves all transfer orders and their statuses.
 
-### **Request Body**
+### Request Body
 ```graphql
 query {
   inventoryTransferOrders(input: { filter: null, nextToken: null }) {
@@ -164,11 +155,11 @@ query {
 
 ---
 
-## Delete Transfer Order API
+## <span style={{ color: '#004FDB' }}>Delete Transfer Order API</span>
 
 Removes a transfer order from the system.
 
-### **Request Body**
+### Request Body
 ```graphql
 mutation {
   deleteInventoryTransferOrder(input: { id: "TEST_TRANSFER_ORDER" }) {
@@ -182,7 +173,7 @@ mutation {
 
 ---
 
-## Errors
+## <span style={{ color: '#004FDB' }}>Errors</span>
 
 | Error                  | Code | Description                     |
 |------------------------|------|---------------------------------|

@@ -1,22 +1,16 @@
-# Xemelgo Upload CSV API Documentation
+---
+title: ""
+pagination_next: null
+pagination_prev: null
+---
 
-## Version 1.1 — February 2025
+<h1 style={{ color: '#004FDB' }}>Upload CSV API</h1>
 
-© 2025 Xemelgo, Inc.  
-📧 support@xemelgo.com  
+<h2>Version 1.1 — February 2025</h2>
 
 ---
 
-## Table of Contents
-
-1. [Release Versions](#release-versions)
-2. [Authentication - Login API](#authentication---login-api)
-3. [Upload CSV API](#upload-csv-api)
-4. [Errors](#errors)
-
----
-
-## Release Versions
+## <span style={{ color: '#004FDB' }}>Release Versions</span>
 
 | Version | Description                                 | Author           | Release Date |
 |---------|---------------------------------------------|------------------|--------------|
@@ -25,15 +19,15 @@
 
 ---
 
-## Authentication - Login API
+## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://rest.api.xemelgo.com/login`
 - **Method:** `POST`
 
-### **Request Body**
+### Request Body
 ```json
 {
   "email": "base64_encoded_email",
@@ -41,7 +35,7 @@ To access the GraphQL APIs, users must first authenticate using the Xemelgo Logi
 }
 ```
 
-### **Response Body**
+### Response Body
 ```json
 {
   "AccessToken": "$accessToken",
@@ -56,7 +50,7 @@ Use the `$idToken` as the authorization header to make any subsequent API reques
 
 ---
 
-## Upload CSV API
+## <span style={{ color: '#004FDB' }}>Upload CSV API</span>
 
 The Upload CSV API allows uploading CSV files to be processed by Xemelgo to:
 
@@ -64,23 +58,23 @@ The Upload CSV API allows uploading CSV files to be processed by Xemelgo to:
 2. **Upload supplemental data**, such as Stock on Order for inventory tracking
 3. **Define stock threshold values** at different locations
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
 - **Method:** `POST`
 
-### **Request Properties**
+### Request Properties
 
 | Property      | Type   | Description | Required |
 |--------------|--------|-------------|----------|
-| fileContent  | String | CSV file contents in JSON string format (including headers) | Yes |
-| fileName     | String | Name of the file to be created in Xemelgo (`.csv` filename) | Yes |
-| filePath     | String | Path for upload, e.g., `ItemTypeSync` | No |
-| type         | String | Type of upload: `ANY`, `STOCK_ON_ORDER`, `STOCK_THRESHOLD` | No, defaults to `ANY` |
-| batchName    | String | Group multiple file uploads under a batch name | Required for `STOCK_ON_ORDER` |
+| `fileContent`  | String | CSV file contents in JSON string format (including headers) | Yes |
+| `fileName`     | String | Name of the file to be created in Xemelgo (`.csv` filename) | Yes |
+| `filePath`     | String | Path for upload, e.g., `ItemTypeSync` | No |
+| `type`         | String | Type of upload: `ANY`, `STOCK_ON_ORDER`, `STOCK_THRESHOLD` | No, defaults to `ANY` |
+| `batchName`    | String | Group multiple file uploads under a batch name | Required for `STOCK_ON_ORDER` |
 
-### **Required CSV Columns**
+### Required CSV Columns
 
-#### **Stock Threshold**
+#### Stock Threshold
 | Header   | Value Description | Required |
 |----------|------------------|----------|
 | Item Type | Item Type ID | Yes |
@@ -88,14 +82,14 @@ The Upload CSV API allows uploading CSV files to be processed by Xemelgo to:
 | Min | Minimum stock level | No |
 | Optimal | Optimal stock level | No |
 
-#### **Stock on Order**
+#### Stock on Order
 | Header   | Value Description | Required |
 |----------|------------------|----------|
 | Item Type | Item Type ID | Yes |
 | Location | Xemelgo location name | Yes |
 | Stock on Order | Amount of stock on order | No |
 
-### **Request Body Example (General Upload)**
+### Request Body Example (General Upload)
 ```graphql
 mutation {
   uploadCSV(
@@ -110,7 +104,7 @@ mutation {
 }
 ```
 
-### **Request Body Example (Stock Threshold Upload)**
+### Request Body Example (Stock Threshold Upload)
 ```graphql
 mutation {
   uploadCSV(
@@ -125,7 +119,7 @@ mutation {
 }
 ```
 
-### **Request Body Example (Stock on Order Upload)**
+### Request Body Example (Stock on Order Upload)
 ```graphql
 mutation {
   uploadCSV(
@@ -141,7 +135,7 @@ mutation {
 }
 ```
 
-### **Response Body Example**
+### Response Body Example
 ```json
 {
   "data": {
@@ -154,7 +148,7 @@ mutation {
 
 ---
 
-## Errors
+## <span style={{ color: '#004FDB' }}>Errors</span>
 
 | Error | Code | Description |
 |-------|------|-------------|
@@ -164,8 +158,8 @@ mutation {
 | Invalid String or JSON | 400 | Malformed request |
 | Missing required `fileContent` field | 400 | Required field missing |
 
-### **Example Error Responses**
-#### **Expired Token:**
+### Example Error Responses
+#### Expired Token:
 ```json
 {
   "errors": [
@@ -177,7 +171,7 @@ mutation {
 }
 ```
 
-#### **Invalid Token:**
+#### Invalid Token:
 ```json
 {
   "errors": [
@@ -189,7 +183,7 @@ mutation {
 }
 ```
 
-#### **Missing Required Field (`fileContent`)**
+#### Missing Required Field (`fileContent`)
 ```json
 {
   "data": null,

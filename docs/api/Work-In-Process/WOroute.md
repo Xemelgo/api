@@ -1,22 +1,16 @@
-# Xemelgo Work Order Route API Documentation
+---
+title: ""
+pagination_next: null
+pagination_prev: null
+---
 
-## Version 1.0 — October 2024
+<h1 style={{ color: '#004FDB' }}>Work Order Route API</h1>
 
-© 2024 Xemelgo, Inc.  
-📧 support@xemelgo.com  
+<h2>Version 1.0 — October 2024</h2>
 
 ---
 
-## Table of Contents
-
-1. [Release Versions](#release-versions)
-2. [Authentication - Login API](#authentication---login-api)
-3. [Get Work Order Route API](#get-work-order-route-api)
-4. [Errors](#errors)
-
----
-
-## Release Versions
+## <span style={{ color: '#004FDB' }}>Release Versions</span>
 
 | Version | Description                     | Author   | Release Date |
 |---------|---------------------------------|----------|--------------|
@@ -24,15 +18,15 @@
 
 ---
 
-## Authentication - Login API
+## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://rest.api.xemelgo.com/login`
 - **Method:** `POST`
 
-### **Request Body**
+### Request Body
 ```json
 {
   "email": "base64_encoded_email",
@@ -40,7 +34,7 @@ To access the GraphQL APIs, users must first authenticate using the Xemelgo Logi
 }
 ```
 
-### **Response Body**
+### Response Body
 ```json
 {
   "AccessToken": "$accessToken",
@@ -55,47 +49,47 @@ Use the `$idToken` as the authorization header to make subsequent API requests.
 
 ---
 
-## Get Work Order Route API
+## <span style={{ color: '#004FDB' }}>Get Work Order Route API</span>
 
 Retrieves all work orders, their statuses, and allows filtering by properties.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
 - **Method:** `POST`
 
-### **Request Headers**
+### Request Headers
 ```http
 Authorization: Bearer {IdToken}
 ```
 
-### **Input Properties**
+### Input Properties
 
 | Property  | Type        | Description                         | Required |
 |-----------|------------|-------------------------------------|----------|
-| number    | String     | Work order number                   | Yes      |
-| startDate | AWSTimestamp | Start date for route               | No       |
-| endDate   | AWSTimestamp | End date for route                 | No       |
+| `number`    | String     | Work order number                   | Yes      |
+| `startDate` | AWSTimestamp | Start date for route               | No       |
+| `endDate`   | AWSTimestamp | End date for route                 | No       |
 
-### **Response Properties**
+### Response Properties
 
 | Property  | Type        | Description                                    | Required |
 |-----------|------------|------------------------------------------------|----------|
-| state     | String     | Current state of Work Order at location       | No       |
-| startDate | AWSTimestamp | First detection timestamp at location        | No       |
-| endDate   | AWSTimestamp | Last detection timestamp at location         | No       |
-| location  | Object     | Location where work order was last seen       | No       |
-| duration  | Number     | Time spent at that location                   | No       |
+| `state`    | String     | Current state of Work Order at location       | No       |
+| `startDate` | AWSTimestamp | First detection timestamp at location        | No       |
+| `endDate`   | AWSTimestamp | Last detection timestamp at location         | No       |
+| `location`  | Object     | Location where work order was last seen       | No       |
+| `duration`  | Number     | Time spent at that location                   | No       |
 
-### **Location Properties**
+### Location Properties
 
 | Property | Type   | Description               | Required |
 |----------|--------|---------------------------|----------|
-| id       | String | Location identifier       | Yes      |
-| name     | String | Location name             | No       |
+| `id`       | String | Location identifier       | Yes      |
+| `name`     | String | Location name             | No       |
 
 ---
 
-### **Request Body Example**
+### Request Body Example
 ```graphql
 query workOrderRoute ($number: String!, $startDate: AWSTimestamp, $endDate: AWSTimestamp, $nextToken: String) {
   workOrderRoute(input: { number: $number, startDate: $startDate, endDate: $endDate, nextToken: $nextToken }) {
@@ -114,7 +108,7 @@ query workOrderRoute ($number: String!, $startDate: AWSTimestamp, $endDate: AWST
 }
 ```
 
-### **Example Input**
+### Example Input
 ```json
 {
   "number": "WO12345",
@@ -123,7 +117,7 @@ query workOrderRoute ($number: String!, $startDate: AWSTimestamp, $endDate: AWST
 }
 ```
 
-### **Example Response**
+### Example Response
 ```json
 {
   "data": {
@@ -155,7 +149,7 @@ query workOrderRoute ($number: String!, $startDate: AWSTimestamp, $endDate: AWST
 
 ---
 
-## Errors
+## <span style={{ color: '#004FDB' }}>Errors</span>
 
 | Error                   | Code | Description         |
 |-------------------------|------|---------------------|
@@ -163,8 +157,8 @@ query workOrderRoute ($number: String!, $startDate: AWSTimestamp, $endDate: AWST
 | Invalid token          | 401  | Unauthorized       |
 | Missing Auth Header    | 401  | Unauthorized       |
 
-### **Example Error Responses**
-#### **Expired Token:**
+### Example Error Responses
+#### Expired Token:
 ```json
 {
   "errors": [
@@ -176,7 +170,7 @@ query workOrderRoute ($number: String!, $startDate: AWSTimestamp, $endDate: AWST
 }
 ```
 
-#### **Invalid Token:**
+#### Invalid Token:
 ```json
 {
   "errors": [
@@ -188,7 +182,7 @@ query workOrderRoute ($number: String!, $startDate: AWSTimestamp, $endDate: AWST
 }
 ```
 
-#### **Missing Authorization Header:**
+#### Missing Authorization Header:
 ```json
 {
   "errors": [

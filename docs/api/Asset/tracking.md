@@ -1,22 +1,16 @@
-# Xemelgo Asset Tracking API Documentation
+---
+title: ""
+pagination_next: null
+pagination_prev: null
+---
 
-## Version 1.1 — June 2023
+<h1 style={{ color: '#004FDB' }}>Asset Tracking API</h1>
 
-© 2023 Xemelgo, Inc.  
-📧 support@xemelgo.com  
+<h2>Version 1.1 — June 2023</h2>
 
 ---
 
-## Table of Contents
-
-1. [Release Versions](#release-versions)
-2. [Authentication - Login API](#authentication---login-api)
-3. [Create Item Set API](#create-item-set-api)
-4. [Errors](#errors)
-
----
-
-## Release Versions
+## <span style={{ color: '#004FDB' }}>Release Versions</span>
 
 | Version | Description                  | Author         | Release Date |
 |---------|------------------------------|---------------|--------------|
@@ -25,15 +19,15 @@
 
 ---
 
-## Authentication - Login API
+## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://rest.api.xemelgo.com/login`
 - **Method:** `POST`
 
-### **Request Body**
+### Request Body
 ```json
 {
   "email": "base64_encoded_email",
@@ -41,7 +35,7 @@ To access the GraphQL APIs, users must first authenticate using the Xemelgo Logi
 }
 ```
 
-### **Response Body**
+### Response Body
 ```json
 {
   "AccessToken": "token123",
@@ -56,20 +50,20 @@ Use the `IdToken` as the authorization header for all API requests.
 
 ---
 
-## Create Item Set API
+## <span style={{ color: '#004FDB' }}>Create Item Set API</span>
 
 The **Create Item Set API** allows creating multiple items at the same time and associating them with their respective RFID tracker serial numbers.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
 - **Method:** `POST`
 
-### **Request Headers**
+### Request Headers
 ```http
 Authorization: Bearer {IdToken}
 ```
 
-### **Request Body**
+### Request Body
 ```graphql
 mutation createItemSet($input: CreateItemSetInput!) {
   createItemSet(input: $input) {
@@ -78,20 +72,20 @@ mutation createItemSet($input: CreateItemSetInput!) {
 }
 ```
 
-### **Input Properties**
+### Input Properties
 
 | Property          | Type          | Description                                      | Required |
 |------------------|--------------|--------------------------------------------------|----------|
-| tracker_serial  | String       | Serial number of the RFID tag associated with the item | Yes      |
-| item_number     | String       | Item/SKU number of the product                   | Yes      |
-| item_name       | String       | Name of the item/SKU (optional)                  | No       |
-| lot_number      | String       | Lot number the item belongs to                   | No       |
-| category        | String       | Higher-level category of the item                | No       |
-| expiry_date     | AWSTimestamp | Expiration, calibration, or maintenance date     | No       |
-| onboarding_location | String   | Location where the item is being added           | No       |
-| tenant_properties | AWSJSON   | Additional custom properties                     | No       |
+| `tracker_serial`  | String       | Serial number of the RFID tag associated with the item | Yes      |
+| `item_number`     | String       | Item/SKU number of the product                   | Yes      |
+| `item_name`       | String       | Name of the item/SKU (optional)                  | No       |
+| `lot_number`      | String       | Lot number the item belongs to                   | No       |
+| `category`        | String       | Higher-level category of the item                | No       |
+| `expiry_date`     | AWSTimestamp | Expiration, calibration, or maintenance date     | No       |
+| `onboarding_location` | String   | Location where the item is being added           | No       |
+| `tenant_properties` | AWSJSON   | Additional custom properties                     | No       |
 
-### **Example Request Body**
+### Example Request Body
 ```json
 {
   "tracker_serial": "RFID12345",
@@ -105,7 +99,7 @@ mutation createItemSet($input: CreateItemSetInput!) {
 }
 ```
 
-### **Example Response Body**
+### Example Response Body
 ```json
 {
   "data": {
@@ -118,7 +112,7 @@ mutation createItemSet($input: CreateItemSetInput!) {
 
 ---
 
-## Errors
+## <span style={{ color: '#004FDB' }}>Errors</span>
 
 | Error                         | Code | Description                                |
 |-------------------------------|------|--------------------------------------------|
@@ -128,8 +122,8 @@ mutation createItemSet($input: CreateItemSetInput!) {
 | Duplicate tracker_serial      | 400  | All tracker_serials must be unique        |
 | Tracker_serial already exists | 400  | Tracker serial already exists in system   |
 
-### **Error Responses**
-#### **Expired Token**
+### Error Responses
+#### Expired Token
 ```json
 {
   "errors": [
@@ -140,7 +134,7 @@ mutation createItemSet($input: CreateItemSetInput!) {
   ]
 }
 ```
-#### **Invalid Token**
+#### Invalid Token
 ```json
 {
   "errors": [
@@ -151,7 +145,7 @@ mutation createItemSet($input: CreateItemSetInput!) {
   ]
 }
 ```
-#### **Missing Authorization Header**
+#### Missing Authorization Header
 ```json
 {
   "errors": [
@@ -162,7 +156,7 @@ mutation createItemSet($input: CreateItemSetInput!) {
   ]
 }
 ```
-#### **Duplicate Tracker Serial**
+#### Duplicate Tracker Serial
 ```json
 {
   "data": { "createItemSet": null },
@@ -173,7 +167,7 @@ mutation createItemSet($input: CreateItemSetInput!) {
   ]
 }
 ```
-#### **Tracker Serial Already Exists**
+#### Tracker Serial Already Exists
 ```json
 {
   "data": { "createItemSet": null },

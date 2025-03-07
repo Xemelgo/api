@@ -1,25 +1,16 @@
-# Xemelgo Assets CRUD API Documentation
+---
+title: ""
+pagination_next: null
+pagination_prev: null
+---
 
-## Version 1.1 — August 2024
+<h1 style={{ color: '#004FDB' }}>Assets CRUD API</h1>
 
-© 2024 Xemelgo, Inc.  
-📧 support@xemelgo.com  
+<h2>Version 1.1 — August 2024</h2>
 
 ---
 
-## Table of Contents
-
-1. [Release Versions](#release-versions)
-2. [Authentication - Login API](#authentication---login-api)
-3. [List Assets API](#list-assets-api)
-4. [Create Asset Type API](#create-asset-type-api)
-5. [Create Asset API](#create-asset-api)
-6. [Update Asset API](#update-asset-api)
-7. [Errors](#errors)
-
----
-
-## Release Versions
+## <span style={{ color: '#004FDB' }}>Release Versions</span>
 
 | Version | Description                 | Author           | Release Date |
 |---------|-----------------------------|-----------------|--------------|
@@ -28,15 +19,15 @@
 
 ---
 
-## Authentication - Login API
+## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://rest.api.xemelgo.com/login`
 - **Method:** `POST`
 
-### **Request Body**
+### Request Body
 ```json
 {
   "email": "base64_encoded_email",
@@ -44,7 +35,7 @@ To access the GraphQL APIs, users must first authenticate using the Xemelgo Logi
 }
 ```
 
-### **Response Body**
+### Response Body
 ```json
 {
   "AccessToken": "token123",
@@ -59,20 +50,20 @@ Use the `IdToken` as the authorization header for all API requests.
 
 ---
 
-## List Assets API
+## <span style={{ color: '#004FDB' }}>List Assets API</span>
 
 The List Assets API retrieves all asset details and allows filtering.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
 - **Method:** `POST`
 
-### **Request Headers**
+### Request Headers
 ```http
 Authorization: Bearer {IdToken}
 ```
 
-### **Request Body**
+### Request Body
 ```graphql
 query assets ($filter: String, $nextToken: String) {
   assets (input: {filter: $filter, nextToken: $nextToken}) {
@@ -97,7 +88,7 @@ query assets ($filter: String, $nextToken: String) {
 }
 ```
 
-### **Example Response**
+### Example Response
 ```json
 {
   "data": {
@@ -119,18 +110,18 @@ query assets ($filter: String, $nextToken: String) {
 
 ---
 
-## Create Asset Type API
+## <span style={{ color: '#004FDB' }}>Create Asset Type API</span>
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
 - **Method:** `POST`
 
-### **Request Headers**
+### Request Headers
 ```http
 Authorization: Bearer {IdToken}
 ```
 
-### **Request Body**
+### Request Body
 ```graphql
 mutation {
   createAssetTypes(input: {
@@ -147,7 +138,7 @@ mutation {
 }
 ```
 
-### **Example Response**
+### Example Response
 ```json
 {
   "data": {
@@ -160,9 +151,9 @@ mutation {
 
 ---
 
-## Create Asset API
+## <span style={{ color: '#004FDB' }}>Create Asset API</span>
 
-### **Request Body**
+### Request Body
 ```graphql
 mutation {
   createAssets(input: {
@@ -181,7 +172,7 @@ mutation {
 }
 ```
 
-### **Example Response**
+### Example Response
 ```json
 {
   "data": {
@@ -194,9 +185,9 @@ mutation {
 
 ---
 
-## Update Asset API
+## <span style={{ color: '#004FDB' }}>Update Asset API</span>
 
-### **Request Body**
+### Request Body
 ```graphql
 mutation {
   updateAssets(input: {
@@ -217,7 +208,7 @@ mutation {
 }
 ```
 
-### **Example Response**
+### Example Response
 ```json
 {
   "data": {
@@ -236,7 +227,7 @@ mutation {
 
 ---
 
-## Errors
+## <span style={{ color: '#004FDB' }}>Errors</span>
 
 | Error                   | Code | Description         |
 |-------------------------|------|---------------------|
@@ -244,7 +235,7 @@ mutation {
 | Invalid token          | 401  | Unauthorized       |
 | Missing Auth Header    | 401  | Unauthorized       |
 
-#### **Error Responses**
+#### Error Responses
 ```json
 {
   "errors": [

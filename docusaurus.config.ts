@@ -6,8 +6,9 @@ const config: Config = {
   tagline: 'Your API Reference',
   favicon: 'img/xemelgo_logo.jpeg',
 
-  url: 'https://xemelgo.com',
-  baseUrl: '/',
+  // ✅ Set the correct GitHub Pages URL
+  url: 'https://Xemelgo.github.io',  
+  baseUrl: '/API-Doc/',  // ✅ MUST match your GitHub repo name exactly
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -33,14 +34,13 @@ const config: Config = {
   themeConfig: {
     docs: {
       sidebar: {
-        hideable: true, // 🔥 Enables collapsible sidebar
-        autoCollapseCategories: true, // Auto-collapse inactive sections
+        hideable: true, 
+        autoCollapseCategories: true, 
       },
     },
     theme: {
-      customCss: require.resolve('./src/css/custom.css'), // Ensure this is included!
+      customCss: require.resolve('./src/css/custom.css'), 
     },
-
 
     navbar: {
       title: 'Xemelgo API Docs',
@@ -62,6 +62,11 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   },
+
+  // ✅ Add this for GitHub Pages deployment
+  organizationName: 'Xemelgo', // Your GitHub username or org
+  projectName: 'API-Doc', // Your repository name
+  trailingSlash: false, // Important for GitHub Pages
 };
 
 export default config;

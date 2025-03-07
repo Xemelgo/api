@@ -1,23 +1,16 @@
-# Xemelgo Create Item Set API Documentation
+---
+title: ""
+pagination_next: null
+pagination_prev: null
+---
 
-## Version 1.3 — June 2024
+<h1 style={{ color: '#004FDB' }}>Create Item Set API</h1>
 
-© 2024 Xemelgo, Inc.  
-📧 support@xemelgo.com  
+<h2>Version 1.3 — June 2024</h2>
 
 ---
 
-## Table of Contents
-
-1. [Release Versions](#release-versions)
-2. [Authentication - Login API](#authentication---login-api)
-3. [Create Asset Type API](#create-asset-type-api)
-4. [Create Item Set API](#create-item-set-api)
-5. [Errors](#errors)
-
----
-
-## Release Versions
+## <span style={{ color: '#004FDB' }}>Release Versions</span>
 
 | Version | Description               | Author           | Release Date |
 |---------|---------------------------|------------------|--------------|
@@ -28,15 +21,15 @@
 
 ---
 
-## Authentication - Login API
+## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://rest.api.xemelgo.com/login`
 - **Method:** `POST`
 
-### **Request Body**
+### Request Body
 ```json
 {
   "email": "base64_encoded_email",
@@ -44,7 +37,7 @@ To access the GraphQL APIs, users must first authenticate using the Xemelgo Logi
 }
 ```
 
-### **Response Body**
+### Response Body
 ```json
 {
   "AccessToken": "token123",
@@ -59,20 +52,20 @@ Use the `IdToken` as the authorization header for all API requests.
 
 ---
 
-## Create Asset Type API
+## <span style={{ color: '#004FDB' }}>Create Asset Type API</span>
 
 Allows creating asset types that will be used when creating assets.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
 - **Method:** `POST`
 
-### **Request Headers**
+### Request Headers
 ```http
 Authorization: Bearer {IdToken}
 ```
 
-### **Request Body**
+### Request Body
 ```graphql
 mutation {
   createAssetTypes(
@@ -93,7 +86,7 @@ mutation {
 }
 ```
 
-### **Example Response**
+### Example Response
 ```json
 {
   "data": {
@@ -106,22 +99,22 @@ mutation {
 
 ---
 
-## Create Item Set API
+## <span style={{ color: '#004FDB' }}>Create Item Set API</span>
 
 Allows creating multiple assets at the same time for different asset types and associating them with RFID tracker serial numbers.
 
 **Note:** The asset type must be created prior to creating assets.
 
-### **Endpoint Details**
+### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
 - **Method:** `POST`
 
-### **Request Headers**
+### Request Headers
 ```http
 Authorization: Bearer {IdToken}
 ```
 
-### **Request Body**
+### Request Body
 ```graphql
 mutation {
   createItemSet(
@@ -139,7 +132,7 @@ mutation {
 }
 ```
 
-### **Example Response**
+### Example Response
 ```json
 {
   "data": {
@@ -152,7 +145,7 @@ mutation {
 
 ---
 
-## Errors
+## <span style={{ color: '#004FDB' }}>Errors</span>
 
 | Error                     | Code | Description                        |
 |---------------------------|------|------------------------------------|
@@ -162,9 +155,9 @@ mutation {
 | Duplicate tracker_serial | 400  | All tracker_serials must be unique |
 | Tracker_serial exists    | 400  | Tracker serial already exists      |
 
-#### **Error Responses**
+#### Error Responses
 
-##### **Expired Token:**
+##### Expired Token:
 ```json
 {
   "errors": [
@@ -176,7 +169,7 @@ mutation {
 }
 ```
 
-##### **Invalid Token:**
+##### Invalid Token:
 ```json
 {
   "errors": [
@@ -188,7 +181,7 @@ mutation {
 }
 ```
 
-##### **Missing Authorization Header:**
+##### Missing Authorization Header:
 ```json
 {
   "errors": [
@@ -214,7 +207,7 @@ mutation {
 }
 ```
 
-##### **Tracker_serial Already Exists:**
+##### Tracker_serial Already Exists:
 ```json
 {
   "data": {
