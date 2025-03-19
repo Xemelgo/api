@@ -14,12 +14,7 @@ const sidebars: SidebarsConfig = {
           label: 'Asset API',
           collapsed: true,
           items: [
-            { type: 'doc', id: 'api/Asset/v1.1', label: 'Asset Route' },
-            { type: 'doc', id: 'api/Asset/tracking', label: 'Asset Tracking' },
             { type: 'doc', id: 'api/Asset/crud', label: 'Asset CRUD' },
-            { type: 'doc', id: 'api/Asset/list', label: 'Asset List' },
-            { type: 'doc', id: 'api/Asset/create', label: 'Create Item Set' },
-            { type: 'doc', id: 'api/Asset/v1.3', label: 'Asset API' },
           ],
         },
         {
@@ -28,9 +23,15 @@ const sidebars: SidebarsConfig = {
           collapsed: true,
           items: [
             { type: 'doc', id: 'api/Inventory/v1.1', label: 'Inventory Management' },
-            { type: 'doc', id: 'api/Inventory/v1.4', label: 'Inventory API' },
-            { type: 'doc', id: 'api/Inventory/transfer', label: 'Transfer Orders' },
-            { type: 'doc', id: 'api/Inventory/upload', label: 'Upload CSV' },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Transfer Order API',
+          collapsed: true,
+          items: [
+            { type: 'doc', id: 'api/Transfer Orders/transfer', label: 'Inventory' },
+            { type: 'doc', id: 'api/Transfer Orders/transferAsset', label: 'Asset' },
           ],
         },
         {
@@ -38,7 +39,6 @@ const sidebars: SidebarsConfig = {
           label: 'Work-In-Process API',
           collapsed: true,
           items: [
-            { type: 'doc', id: 'api/Work-In-Process/WOroute', label: 'Work Order Route' },
             { type: 'doc', id: 'api/Work-In-Process/v1.1', label: 'Work Order' },
           ],
         },

@@ -4,7 +4,7 @@ pagination_next: null
 pagination_prev: null
 ---
 
-<h1 style={{ color: '#004FDB' }}>Transfer Orders API</h1>
+<h1 style={{ color: '#004FDB' }}>Transfer Order API - Inventory</h1>
 
 <h2>Version 1.0 — May 2024</h2>
 
