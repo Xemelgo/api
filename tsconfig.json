@@ -1,9 +1,0 @@
-{
-  "extends": "@docusaurus/tsconfig",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "jsx": "react-jsx", 
-    "lib": ["DOM", "ESNext"]
-  },
-  "exclude": [".docusaurus", "build"]
-}
