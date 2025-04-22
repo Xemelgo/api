@@ -4,22 +4,11 @@ pagination_next: null
 pagination_prev: null
 ---
 
-<h1 style={{ color: '#004FDB' }}>Asset CRUD API</h1>
+<h1 style={{ color: '#0D8CFF' }}>Asset CRUD API</h1>
 
 <h2>Version 1.1 — August 2024</h2>
 
----
-
-## <span style={{ color: '#004FDB' }}>Release Versions</span>
-
-| Version | Description                 | Author           | Release Date |
-|---------|-----------------------------|-----------------|--------------|
-| 1.0     | List API for Assets        | George Gu      | 05/28/2024   |
-| 1.1     | Create & Update Asset APIs | Renuka Agrawal | 08/16/2024   |
-
----
-
-## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
+## <span style={{ color: '#0D8CFF' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
@@ -50,7 +39,7 @@ Use the `IdToken` as the authorization header for all API requests.
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Create Asset API</span>
+## <span style={{ color: '#0D8CFF' }}>Create Asset API</span>
 
 ### Request Body
 ```graphql
@@ -84,7 +73,7 @@ mutation {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Create Asset Type API</span>
+## <span style={{ color: '#0D8CFF' }}>Create Asset Type API</span>
 
 ### Endpoint Details
 - **URL:** `https://api.xemelgo.com/graphql`
@@ -125,7 +114,7 @@ mutation {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Update Asset API</span>
+## <span style={{ color: '#0D8CFF' }}>Update Asset API</span>
 
 ### Request Body
 ```graphql
@@ -167,7 +156,7 @@ mutation {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>List Assets API</span>
+## <span style={{ color: '#0D8CFF' }}>List Assets API</span>
 
 The List Assets API retrieves all asset details and allows filtering.
 
@@ -227,7 +216,7 @@ query assets ($filter: String, $nextToken: String) {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Get Asset Route API</span>
+## <span style={{ color: '#0D8CFF' }}>Get Asset Route API</span>
 
 The Get Asset Route API retrieves asset details and status updates.
 
@@ -288,7 +277,7 @@ query assetRoute($id: String!, $startDate: AWSTimestamp, $endDate: AWSTimestamp)
 
 ---
 
-## <span style={{ color: '#004FDB' }}>List Asset Types at Locations API</span>
+## <span style={{ color: '#0D8CFF' }}>List Asset Types at Locations API</span>
 
 Retrieves all asset types at locations and their statuses.
 
@@ -341,7 +330,7 @@ query assetTypeMetrics ($filter: String, $nextToken: String) {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>List Asset Types Counts at Locations API</span>
+## <span style={{ color: '#0D8CFF' }}>List Asset Types Counts at Locations API</span>
 
 Retrieves total asset type counts at locations.
 
@@ -380,7 +369,7 @@ query assetTypeLocationMetrics ($filter: String, $nextToken: String) {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Errors</span>
+## <span style={{ color: '#0D8CFF' }}>Errors</span>
 
 | Error                   | Code | Description         |
 |-------------------------|------|---------------------|

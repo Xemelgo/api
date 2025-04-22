@@ -4,21 +4,11 @@ pagination_next: null
 pagination_prev: null
 ---
 
-<h1 style={{ color: '#004FDB' }}>Transfer Order API - Asset</h1>
+<h1 style={{ color: '#0D8CFF' }}>Transfer Order API - Asset</h1>
 
 <h2>Version 1.0 — May 2024</h2>
 
----
-
-## <span style={{ color: '#004FDB' }}>Release Versions</span>
-
-| Version | Description                             | Author         | Release Date |
-|---------|-----------------------------------------|---------------|--------------|
-| 1.0     | Transfer Order APIs for Inventory     | George Gu     | 05/10/2024   |
-
----
-
-## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
+## <span style={{ color: '#0D8CFF' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
@@ -49,7 +39,7 @@ Use the `$idToken` as the authorization header for all API requests.
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Create Inventory Transfer Order API</span>
+## <span style={{ color: '#0D8CFF' }}>Create Inventory Transfer Order API</span>
 
 Allows creating a transfer order and tracking items associated with the order.
 
@@ -92,7 +82,7 @@ mutation {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Get Transfer Order API</span>
+## <span style={{ color: '#0D8CFF' }}>Get Transfer Order API</span>
 
 Allows retrieving a transfer order and viewing its status.
 
@@ -128,7 +118,7 @@ query {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>List Transfer Orders API</span>
+## <span style={{ color: '#0D8CFF' }}>List Transfer Orders API</span>
 
 Retrieves all transfer orders and their statuses.
 
@@ -155,7 +145,7 @@ query {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Delete Transfer Order API</span>
+## <span style={{ color: '#0D8CFF' }}>Delete Transfer Order API</span>
 
 Removes a transfer order from the system.
 
@@ -173,7 +163,7 @@ mutation {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Errors</span>
+## <span style={{ color: '#0D8CFF' }}>Errors</span>
 
 | Error                  | Code | Description                     |
 |------------------------|------|---------------------------------|

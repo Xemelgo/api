@@ -13,7 +13,7 @@ const DynamicText = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <span style={{ color: "#004FDB", fontWeight: "bold" }}>{words[index]}</span>;
+  return <span style={{ color: "#0D8CFF", fontWeight: "bold" }}>{words[index]}</span>;
 };
 
 export default DynamicText;

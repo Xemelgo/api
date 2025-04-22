@@ -4,13 +4,13 @@ pagination_next: null
 pagination_prev: null
 ---
 
-<h1 style={{ color: '#004FDB' }}>Work Order Route API</h1>
+<h1 style={{ color: '#0D8CFF' }}>Work Order Route API</h1>
 
 <h2>Version 1.0 — October 2024</h2>
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Release Versions</span>
+## <span style={{ color: '#0D8CFF' }}>Release Versions</span>
 
 | Version | Description                     | Author   | Release Date |
 |---------|---------------------------------|----------|--------------|
@@ -18,7 +18,7 @@ pagination_prev: null
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
+## <span style={{ color: '#0D8CFF' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
@@ -49,7 +49,7 @@ Use the `$idToken` as the authorization header to make subsequent API requests.
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Get Work Order Route API</span>
+## <span style={{ color: '#0D8CFF' }}>Get Work Order Route API</span>
 
 Retrieves all work orders, their statuses, and allows filtering by properties.
 
@@ -149,7 +149,7 @@ query workOrderRoute ($number: String!, $startDate: AWSTimestamp, $endDate: AWST
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Errors</span>
+## <span style={{ color: '#0D8CFF' }}>Errors</span>
 
 | Error                   | Code | Description         |
 |-------------------------|------|---------------------|

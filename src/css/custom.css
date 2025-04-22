@@ -6,32 +6,34 @@
 
 /* Override default Infima primary colors */
 :root {
-  --ifm-color-primary: #004FDB;
-  --ifm-color-primary-dark: #003EA5;
-  --ifm-color-primary-darker: #00398F;
-  --ifm-color-primary-darkest: #002F77;
-  --ifm-color-primary-light: #0066FF;
-  --ifm-color-primary-lighter: #1A7FFF;
-  --ifm-color-primary-lightest: #3399FF;
+  --ifm-color-primary: #0D8CFF;
+  --ifm-color-primary-dark: #0D8CFF;
+  --ifm-color-primary-darker: #0D8CFF;
+  --ifm-color-primary-darkest: #0D8CFF;
+  --ifm-color-primary-light: #0D8CFF;
+  --ifm-color-primary-lighter: #0D8CFF;
+  --ifm-color-primary-lightest: #0D8CFF;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* Dark mode adjustments */
 [data-theme='dark'] {
-  --ifm-color-primary: #4A90E2;
-  --ifm-color-primary-dark: #3A7EC9;
-  --ifm-color-primary-darker: #326FB2;
-  --ifm-color-primary-darkest: #285B8E;
-  --ifm-color-primary-light: #5BA5FF;
-  --ifm-color-primary-lighter: #6BB3FF;
-  --ifm-color-primary-lightest: #7FC2FF;
+  --ifm-color-primary: #0D8CFF;
+  --ifm-color-primary: #0D8CFF;
+  --ifm-color-primary-dark: #0D8CFF;
+  --ifm-color-primary: #0D8CFF;
+  --ifm-color-primary-darker: #0D8CFF;
+  --ifm-color-primary-darkest: #0D8CFF;
+  --ifm-color-primary-light: #0D8CFF;
+  --ifm-color-primary-lighter: #0D8CFF;
+  --ifm-color-primary-lightest: #0D8CFF;
   --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
 }
 
-/* Force headers to use #004FDB */
+/* Force headers to use #0D8CFF */
 h1, h2, h3, h4, h5, h6 {
-  color: #004FDB !important;
+  color: #0D8CFF !important;
 }
 
 /* Ensure header color applies in dark mode */
@@ -41,7 +43,7 @@ h1, h2, h3, h4, h5, h6 {
 [data-theme='dark'] h4,
 [data-theme='dark'] h5,
 [data-theme='dark'] h6 {
-  color: #4A90E2 !important; /* Slightly lighter for better contrast */
+  color: #0D8CFF !important; /* Slightly lighter for better contrast */
 }
 
 /* Move sidebar collapse button to the top */
@@ -109,9 +111,9 @@ pre {
   display: block;
 }
 
-/* Change all headers to #004FDB */
+/* Change all headers to #0D8CFF */
 h1, h2, h3, h4, h5, h6 {
-  color: #004FDB !important;
+  color: #0D8CFF !important;
 }
 
 /* Ensure dark mode has different contrast */
@@ -121,11 +123,11 @@ h1, h2, h3, h4, h5, h6 {
 [data-theme='dark'] h4,
 [data-theme='dark'] h5,
 [data-theme='dark'] h6 {
-  color: #4A90E2 !important; /* Slightly lighter for better contrast */
+  color: #0D8CFF !important; /* Slightly lighter for better contrast */
 }
 
 .footer {
-  background-color: #004FDB !important; /* Change this to your desired color */
+  background-color: #0D8CFF !important; /* Change this to your desired color */
   color: white !important; /* Change text color */
 }
 

@@ -4,13 +4,13 @@ pagination_next: null
 pagination_prev: null
 ---
 
-<h1 style={{ color: '#004FDB' }}>Asset Tracking API</h1>
+<h1 style={{ color: '#0D8CFF' }}>Asset Tracking API</h1>
 
 <h2>Version 1.1 — June 2023</h2>
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Release Versions</span>
+## <span style={{ color: '#0D8CFF' }}>Release Versions</span>
 
 | Version | Description                  | Author         | Release Date |
 |---------|------------------------------|---------------|--------------|
@@ -19,7 +19,7 @@ pagination_prev: null
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Authentication - Login API</span>
+## <span style={{ color: '#0D8CFF' }}>Authentication - Login API</span>
 
 To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
 
@@ -50,7 +50,7 @@ Use the `IdToken` as the authorization header for all API requests.
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Create Item Set API</span>
+## <span style={{ color: '#0D8CFF' }}>Create Item Set API</span>
 
 The **Create Item Set API** allows creating multiple items at the same time and associating them with their respective RFID tracker serial numbers.
 
@@ -112,7 +112,7 @@ mutation createItemSet($input: CreateItemSetInput!) {
 
 ---
 
-## <span style={{ color: '#004FDB' }}>Errors</span>
+## <span style={{ color: '#0D8CFF' }}>Errors</span>
 
 | Error                         | Code | Description                                |
 |-------------------------------|------|--------------------------------------------|

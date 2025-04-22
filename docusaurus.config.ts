@@ -7,8 +7,8 @@ const config: Config = {
   favicon: 'img/xemelgo_logo.jpeg',
 
   // ✅ Set the correct GitHub Pages URL
-  url: 'https://Xemelgo.github.io',  
-  baseUrl: '/API-Doc/',  // ✅ MUST match your GitHub repo name exactly
+  url: 'https://xemelgo.github.io', // Your website URL
+  baseUrl: '/api/',  // Changed to /api/
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -65,7 +65,7 @@ const config: Config = {
 
   // ✅ Add this for GitHub Pages deployment
   organizationName: 'Xemelgo', // Your GitHub username or org
-  projectName: 'API-Doc', // Your repository name
+  projectName: 'api', // Changed to match the path
   trailingSlash: false, // Important for GitHub Pages
 };
 
