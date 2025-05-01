@@ -30,8 +30,9 @@ const sidebars: SidebarsConfig = {
           label: 'Transfer Order API',
           collapsed: true,
           items: [
-            { type: 'doc', id: 'api/Transfer Orders/transfer', label: 'Inventory' },
             { type: 'doc', id: 'api/Transfer Orders/transferAsset', label: 'Asset' },
+            { type: 'doc', id: 'api/Transfer Orders/transfer', label: 'Inventory' },
+            { type: 'doc', id: 'api/Transfer Orders/transferPackage', label: 'Package' }
           ],
         },
         {
