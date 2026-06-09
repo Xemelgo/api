@@ -12,12 +12,16 @@ on:
   push:
     branches:
       - main
+  # Build (not deploy) on PRs targeting main, so broken builds surface in the PR
+  # instead of landing on main.
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
+# Least privilege at workflow level; the deploy job elevates its own scope below.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # Allow one concurrent deployment; don't cancel an in-progress production deploy.
 concurrency:
@@ -27,6 +31,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,7 +55,13 @@ jobs:
 
   deploy:
     needs: build
+    # Only deploy from main; skips PR builds and non-main workflow_dispatch runs.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    # Scope Pages/OIDC write to deploy only (build job stays contents: read).
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
