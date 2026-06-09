@@ -57,9 +57,9 @@ Use the `$idToken` as the authorization header for all API requests.
 
 ---
 
-## <span style={{ color: '#0D8CFF' }}>Create Inventory Transfer Order API</span>
+## <span style={{ color: '#0D8CFF' }}>Create Asset Transfer Order API</span>
 
-Create Inventory Transfer Order API allows to create the transfer order and keep track
+Create Asset Transfer Order API allows to create the transfer order and keep track
 of the items associated with the transfer order.
 
 ### Endpoint Details
@@ -73,16 +73,16 @@ of the items associated with the transfer order.
 | `id`             | String     | Transfer order number                                 | Yes      |
 | `transferFromId` | String     | Source location                                       | No       |
 | `transferToId`   | String     | Destination location                                  | No       |
-| `entries`        | Array      | List of SKU and the quantities *(view table below)*   | Yes      |
+| `entries`        | Array      | List of assets and their quantities *(view table below)*| Yes      |
 | `customProperties` | AWSJSON  | Additional properties applicable to transfer orders   | No       |
 
 ### entries
 
 | Property        | Type           | Description                                              | Required |
 |-----------------|----------------|----------------------------------------------------------|----------|
-| `partId`        | String         | Item type or SKU                                         | Yes      |
-| `totalQuantity` | Number         | Quantity of the item type or SKU                         | Yes      |
-| `trackerSerials`| Array of String| List of EPCs for the item as part of the transfer order  | No       |
+| `assetId`       | String         | Asset identifier                                         | Yes      |
+| `totalQuantity` | Number         | Quantity of the asset                                    | Yes      |
+| `trackerSerials`| Array of String| List of EPCs for the asset as part of the transfer order | No       |
 | `unit`          | String         | Unit of measure (if applicable)                          | No       |
 
 <h3>Headers</h3>
@@ -92,11 +92,11 @@ of the items associated with the transfer order.
 ### Request Body
 
 ```graphql
-mutation createInventoryTransferOrder {
-  createInventoryTransferOrder(
-    input: CreateInventoryTransferOrderInput!
+mutation createAssetTransferOrder {
+  createAssetTransferOrder(
+    input: CreateAssetTransferOrderInput!
   ) {
-    inventoryTransferOrder {
+    assetTransferOrder {
       cancelledDate
       creationDate
       id
@@ -112,15 +112,11 @@ mutation createInventoryTransferOrder {
       lastUpdatedDate
       entries {
         lastUpdatedDate
-        part {
+        asset {
           customProperties
           description
-          imagePath
           name
           id
-          number
-          quantity
-          unit
         }
         inventory {
           trackerSerial
@@ -144,18 +140,18 @@ mutation createInventoryTransferOrder {
 }
 ----------------------------------------------------------------------
 
-CreateInventoryTransferOrderInput {
+CreateAssetTransferOrderInput {
   transferFromId: "Location A",
   transferToId: "Location B",
   entries: [
     {
-      partId: "SKU-PART-1",
+      assetId: "Asset-123",
       totalQuantity: 3,
       trackerSerials: ["EPC1", "EPC2", "EPC3"],
-      unit: "lbs"
+      unit: "EA"
     }
   ],
-  id: "TEST_TRANSFER_ORDER"
+  id: "TEST_ASSET_TRANSFER_ORDER"
 }
 ```
 
@@ -164,7 +160,7 @@ CreateInventoryTransferOrderInput {
 ### Response Body
 
 ```graphql
-InventoryTransferOrder {
+AssetTransferOrder {
   id: String
   status: TransferOrderStatus
   transferFrom: LocationV2
@@ -173,7 +169,7 @@ InventoryTransferOrder {
   startDate: AWSTimestamp
   completedDate: AWSTimestamp
   cancelledDate: AWSTimestamp
-  entries: [InventoryTransferOrderEntry!]!
+  entries: [AssetTransferOrderEntry!]!
   lastUpdatedDate: AWSTimestamp
   customProperties: AWSJSON
 }
@@ -231,7 +227,7 @@ InventoryTransferOrder {
 
 | Error                    | Error description                                                                 | Error code |
 |--------------------------|------------------------------------------------------------------------------------|------------|
-| `ValidationError`        | No id provided, no entries, quantity ≤ 0, no item type, duplicate item type       | 200        |
+| `ValidationError`        | No id provided, no entries, quantity ≤ 0, no asset, duplicate asset                | 200        |
 | `ResourceNotFoundError`  | Tracker serial does not exist                                                      | 200        |
 | `UnexpectedError`        | Some unexpected things happened on create, duplicate locations with the same identifier | 200    |
 | `LocationNotFoundError`  | From/to location not found                                                         | 200        |
@@ -260,9 +256,9 @@ Get Transfer Order API allows to retrieve the transfer order and view its status
 ### Request Body
 
 ```graphql
-query inventoryTransferOrder($id: String) {
-  inventoryTransferOrder(input: { id: $id }) {
-    inventoryTransferOrder {
+query assetTransferOrder($id: String) {
+  assetTransferOrder(input: { id: $id }) {
+    assetTransferOrder {
       cancelledDate
       creationDate
       id
@@ -278,14 +274,11 @@ query inventoryTransferOrder($id: String) {
       lastUpdatedDate
       entries {
         lastUpdatedDate
-        part {
+        asset {
           customProperties
           description
-          imagePath
           id
-          number
-          quantity
-          unit
+          name
         }
         inventory {
           trackerSerial
@@ -314,7 +307,7 @@ query inventoryTransferOrder($id: String) {
 ### Response Body
 
 ```graphql
-InventoryTransferOrder {
+AssetTransferOrder {
   id: String
   status: TransferOrderStatus
   transferFrom: LocationV2
@@ -323,7 +316,7 @@ InventoryTransferOrder {
   startDate: AWSTimestamp
   completedDate: AWSTimestamp
   cancelledDate: AWSTimestamp
-  entries: [InventoryTransferOrderEntry!]!
+  entries: [AssetTransferOrderEntry!]!
   lastUpdatedDate: AWSTimestamp
   customProperties: AWSJSON
 }
@@ -408,9 +401,9 @@ statuses.
 
 ### Request Body
 ```graphql
-query inventoryTransferOrders($filter: String, $nextToken: String) {
-  inventoryTransferOrders(input: { filter: $filter, nextToken: $nextToken }) {
-    inventoryTransferOrders {
+query assetTransferOrders($filter: String, $nextToken: String) {
+  assetTransferOrders(input: { filter: $filter, nextToken: $nextToken }) {
+    assetTransferOrders {
       cancelledDate
       creationDate
       id
@@ -426,15 +419,11 @@ query inventoryTransferOrders($filter: String, $nextToken: String) {
       lastUpdatedDate
       entries {
         lastUpdatedDate
-        part {
+        asset {
           customProperties
           description
-          imagePath
-          name
           id
-          number
-          quantity
-          unit
+          name
         }
         inventory {
           trackerSerial
@@ -463,7 +452,7 @@ query inventoryTransferOrders($filter: String, $nextToken: String) {
 ### Response Body
 
 ```graphql
-InventoryTransferOrder {
+AssetTransferOrder {
   id: String
   status: TransferOrderStatus
   transferFrom: LocationV2
@@ -472,7 +461,7 @@ InventoryTransferOrder {
   startDate: AWSTimestamp
   completedDate: AWSTimestamp
   cancelledDate: AWSTimestamp
-  entries: [InventoryTransferOrderEntry]!
+  entries: [AssetTransferOrderEntry]!
   lastUpdatedDate: AWSTimestamp
   customProperties: AWSJSON
 }
@@ -548,9 +537,9 @@ Delete Transfer Order API allows to remove the transfer order.
 
 ### Request Body
 ```graphql
-mutation deleteInventoryTransferOrder {
-  deleteInventoryTransferOrder(input: { id: "TEST_TRANSFER_ORDER" }) {
-    inventoryTransferOrder {
+mutation deleteAssetTransferOrder {
+  deleteAssetTransferOrder(input: { id: "TEST_ASSET_TRANSFER_ORDER" }) {
+    assetTransferOrder {
       cancelledDate
       creationDate
       id
@@ -566,15 +555,11 @@ mutation deleteInventoryTransferOrder {
       lastUpdatedDate
       entries {
         lastUpdatedDate
-        part {
+        asset {
           customProperties
           description
-          imagePath
-          name
           id
-          number
-          quantity
-          unit
+          name
         }
         inventory {
           trackerSerial
@@ -603,7 +588,7 @@ mutation deleteInventoryTransferOrder {
 ### Response Body
 
 ```graphql
-InventoryTransferOrder {
+AssetTransferOrder {
   id: String
   status: TransferOrderStatus
   transferFrom: LocationV2
@@ -612,7 +597,7 @@ InventoryTransferOrder {
   startDate: AWSTimestamp
   completedDate: AWSTimestamp
   cancelledDate: AWSTimestamp
-  entries: [InventoryTransferOrderEntry!]!
+  entries: [AssetTransferOrderEntry!]!
   lastUpdatedDate: AWSTimestamp
   customProperties: AWSJSON
 }
@@ -672,5 +657,3 @@ InventoryTransferOrder {
 |------------------------|---------------------------|------------|
 | ValidationError        | No id provided            | 200        |
 | ResourceNotFoundError  | Transfer order not found  | 200        |
-
----

@@ -4,7 +4,7 @@ pagination_next: null
 pagination_prev: null
 ---
 
-<h1 style={{ color: '#0D8CFF' }}>Work Order API</h1>
+<h1 style={{ color: '#0D8CFF' }}>Work Order Management API</h1>
 
 <h2>Version 1.4 — March 2025</h2>
 
@@ -490,7 +490,8 @@ In the case of a resolver error the **attachWorkOrderTracker** node of the respo
 errors array will have the error details
 
 ### Missing Work Orders Error Example  
-**Status Code:** `200`
+
+**Status Code:** - 200
 
 ```json
 {
