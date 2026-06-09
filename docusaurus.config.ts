@@ -1,30 +1,30 @@
-import type { Config } from '@docusaurus/types';
-import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from "@docusaurus/types";
+import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
-  title: 'Xemelgo API Docs',
-  tagline: 'Your API Reference',
-  favicon: 'img/xemelgo_logo.jpeg',
+  title: "Xemelgo API Docs",
+  tagline: "Your API Reference",
+  favicon: "img/Xemelgo-Logomark.webp",
 
   // ✅ Set the correct GitHub Pages URL
-  url: 'https://xemelgo.github.io', // Your website URL
-  baseUrl: '/api/',  // Changed to /api/
+  url: "https://xemelgo.github.io", // Your website URL
+  baseUrl: "/api/", // Changed to /api/
 
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "warn",
 
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       {
         docs: {
-          routeBasePath: '/',
-          sidebarPath: require.resolve('./sidebars.ts'),
+          routeBasePath: "/",
+          sidebarPath: require.resolve("./sidebars.ts"),
         },
         blog: false,
       },
@@ -34,25 +34,25 @@ const config: Config = {
   themeConfig: {
     docs: {
       sidebar: {
-        hideable: true, 
-        autoCollapseCategories: true, 
+        hideable: true,
+        autoCollapseCategories: true,
       },
     },
     theme: {
-      customCss: require.resolve('./src/css/custom.css'), 
+      customCss: require.resolve("./src/css/custom.css"),
     },
 
     navbar: {
-      title: 'Xemelgo API Docs',
+      title: "Xemelgo API Docs",
       logo: {
-        alt: 'Xemelgo Logo',
-        src: 'img/xemelgo_logo.jpeg',
+        alt: "Xemelgo Logo",
+        src: "img/Xemelgo-Logomark.webp",
       },
       items: [],
     },
 
     footer: {
-      style: 'dark',
+      style: "dark",
       links: [],
       copyright: `Copyright © ${new Date().getFullYear()} Xemelgo, Inc.`,
     },
@@ -64,8 +64,8 @@ const config: Config = {
   },
 
   // ✅ Add this for GitHub Pages deployment
-  organizationName: 'Xemelgo', // Your GitHub username or org
-  projectName: 'api', // Changed to match the path
+  organizationName: "Xemelgo", // Your GitHub username or org
+  projectName: "api", // Changed to match the path
   trailingSlash: false, // Important for GitHub Pages
 };
 

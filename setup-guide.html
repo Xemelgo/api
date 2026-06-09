@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xemelgo → Power BI Setup Guide</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1117;
+      --surface:   #1a1d27;
+      --surface2:  #22263a;
+      --border:    #2e3250;
+      --accent:    #4f6ef7;
+      --accent2:   #7c3aed;
+      --green:     #22c55e;
+      --yellow:    #f59e0b;
+      --red:       #ef4444;
+      --text:      #e2e8f0;
+      --muted:     #8892a4;
+      --code-bg:   #141720;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #1a1d27 0%, #22263a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 48px;
+    }
+    .header-inner { max-width: 900px; margin: 0 auto; }
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+    header p  { color: var(--muted); font-size: 14px; }
+
+    /* ── Layout ──────────────────────────────────────────────────────── */
+    main { max-width: 900px; margin: 0 auto; padding: 40px 48px; }
+
+    /* ── Section ─────────────────────────────────────────────────────── */
+    .section { margin-bottom: 48px; }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .num {
+      background: var(--accent);
+      color: #fff;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Approach tabs ───────────────────────────────────────────────── */
+    .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .15s;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .tab-btn:hover:not(.active) { border-color: var(--accent); color: var(--text); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Recommendation banner ───────────────────────────────────────── */
+    .recommend {
+      background: linear-gradient(135deg, #1e2d4a 0%, #1a2744 100%);
+      border: 1px solid #3b5ea6;
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+    .recommend strong { color: var(--accent); }
+
+    /* ── Steps ───────────────────────────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 20px; }
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .step-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .step-num {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      min-width: 28px; height: 28px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-title { font-size: 15px; font-weight: 700; }
+    .step-body  { color: var(--muted); font-size: 14px; padding-left: 42px; }
+    .step-body p { margin-bottom: 8px; }
+    .step-body p:last-child { margin-bottom: 0; }
+
+    /* ── Code blocks ─────────────────────────────────────────────────── */
+    .code-wrap {
+      position: relative;
+      margin: 12px 0 4px;
+    }
+    .code-lang {
+      position: absolute;
+      top: 10px; left: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      user-select: none;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 4px 12px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      z-index: 1;
+    }
+    .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 42px 16px 16px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+    code { font-family: "SF Mono", "Fira Code", "Cascadia Code", Consolas, monospace; }
+
+    /* ── Inline code ────────────────────────────────────────────────── */
+    :not(pre) > code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 13px;
+    }
+
+    /* ── Callouts ────────────────────────────────────────────────────── */
+    .callout {
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      margin: 12px 0;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .callout.warn  { background: #2d2100; border: 1px solid #78350f; }
+    .callout.info  { background: #0d1f3c; border: 1px solid #1e3a5f; }
+    .callout.tip   { background: #052e16; border: 1px solid #14532d; }
+    .callout-icon  { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+    .callout-body  { color: var(--text); }
+    .callout-body strong { display: block; margin-bottom: 4px; }
+
+    /* ── Table ───────────────────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 12px 0;
+    }
+    th {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: .05em;
+    }
+    td {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      vertical-align: top;
+    }
+    tr:hover td { background: var(--surface2); }
+
+    /* ── Divider ─────────────────────────────────────────────────────── */
+    hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* ── Footer ──────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      header, main, footer { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="badge">Xemelgo Inventory API</div>
+    <h1>Power BI Setup Guide</h1>
+    <p>Run the Xemelgo inventory Python script directly inside Power BI — no CSV, no external files.</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="section">
+    <div class="steps">
+
+      <!-- Step 1 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-title">Download Python</div>
+        </div>
+        <div class="step-body">
+          <p>Click the link below to download the Python installer directly. It will download a file called <code>python-3.14.5-amd64.exe</code> to your Downloads folder.</p>
+          <p style="margin: 12px 0;">
+            <a href="https://www.python.org/ftp/python/3.14.5/python-3.14.5-amd64.exe"
+               style="display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:14px;padding:10px 22px;border-radius:8px;text-decoration:none;">
+              Download Python 3.14.5 for Windows (64-bit)
+            </a>
+          </p>
+          <div class="callout info">
+            <span class="callout-icon">ℹ️</span>
+            <div class="callout-body">
+              Not sure if you're on 64-bit Windows? You almost certainly are — any computer made after 2012 is 64-bit. If you're unsure, this version is safe to use.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-title">Run the installer — IMPORTANT: check the box at the bottom</div>
+        </div>
+        <div class="step-body">
+          <p>1. Open your <strong>Downloads</strong> folder and double-click <code>python-3.14.5-amd64.exe</code></p>
+          <p>2. A window will appear. <strong>Before you click anything else</strong>, look at the very bottom of the window — you will see a checkbox that says <strong>"Add python.exe to PATH"</strong></p>
+          <div class="callout warn">
+            <span class="callout-icon">⚠️</span>
+            <div class="callout-body">
+              <strong>Check that box.</strong> This is the most important step. If you skip it, nothing will work and you'll need to reinstall. The box is NOT checked by default.
+            </div>
+          </div>
+          <p>3. After checking the box, click <strong>"Install Now"</strong> (the top option)</p>
+          <p>4. If Windows asks <em>"Do you want to allow this app to make changes to your device?"</em> — click <strong>Yes</strong></p>
+          <p>5. Wait for the progress bar to finish (about 1–2 minutes)</p>
+          <p>6. When you see <strong>"Setup was successful"</strong>, click <strong>Close</strong></p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div class="step-title">Verify Python installed correctly</div>
+        </div>
+        <div class="step-body">
+          <p>1. Press the <strong>Windows key</strong> on your keyboard (the key with the Windows logo, bottom-left of your keyboard)</p>
+          <p>2. Type <strong>cmd</strong> and press <strong>Enter</strong>. A black window called "Command Prompt" will open.</p>
+          <p>3. Type the following exactly and press <strong>Enter</strong>:</p>
+          <div class="code-wrap">
+            <span class="code-lang">shell</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>python --version</code></pre>
+          </div>
+          <p>You should see: <code>Python 3.14.5</code></p>
+          <div class="callout warn">
+            <span class="callout-icon">⚠️</span>
+            <div class="callout-body">
+              <strong>If you see an error</strong> like <em>"'python' is not recognized"</em> — it means you forgot to check the PATH box in Step 2. Uninstall Python via Windows Settings → Apps, then redo Step 2 and make sure to check the box.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4 — Install packages -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">4</div>
+          <div class="step-title">Install the required packages</div>
+        </div>
+        <div class="step-body">
+          <p>Still in the black Command Prompt window from the previous step (or open a new one — Windows key → type <strong>cmd</strong> → Enter), type the following exactly and press <strong>Enter</strong>:</p>
+          <div class="code-wrap">
+            <span class="code-lang">shell</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>pip install requests pandas matplotlib</code></pre>
+          </div>
+          <p>You will see a lot of text scroll by — that is normal. Wait until it stops and you see a new line with a blinking cursor.</p>
+          <p>Then run this to confirm everything installed:</p>
+          <div class="code-wrap">
+            <span class="code-lang">shell</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>python -c "import requests, pandas, matplotlib; print('All good!')"</code></pre>
+          </div>
+          <p>You should see: <code>All good!</code></p>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div class="callout-body">
+              You can close the Command Prompt window now. You won't need it again.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">5</div>
+          <div class="step-title">Tell Power BI where Python is installed</div>
+        </div>
+        <div class="step-body">
+          <p>Open <strong>Power BI Desktop</strong>. If you don't have it, download it free from <a href="https://www.microsoft.com/en-us/download/details.aspx?id=58494" style="color:var(--accent);">microsoft.com/en-us/download/details.aspx?id=58494</a></p>
+          <p style="margin-top:10px;">Then:</p>
+          <p>1. Click <strong>File</strong> in the top-left corner</p>
+          <p>2. Click <strong>Options and settings</strong></p>
+          <p>3. Click <strong>Options</strong></p>
+          <p>4. On the left side panel, under the <strong>Global</strong> section, click <strong>Python scripting</strong></p>
+          <p>5. Under <strong>Detected Python home directories</strong>, open the dropdown — if you see a Python path listed, select it. Most of the time Power BI finds it automatically after installation.</p>
+          <p>6. If it shows "Other" or nothing useful, open a new Command Prompt (Windows key → type <strong>cmd</strong> → Enter) and run:</p>
+          <div class="code-wrap">
+            <span class="code-lang">shell</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>python -c "import sys; print(sys.executable)"</code></pre>
+          </div>
+          <p>You'll see something like <code>C:\Users\YourName\AppData\Local\Programs\Python\Python314\python.exe</code>. Copy everything <strong>except</strong> the <code>\python.exe</code> at the end, and paste that into the Power BI field.</p>
+          <p>7. Click <strong>OK</strong></p>
+          <p>8. <strong>Close and reopen Power BI Desktop</strong> so it picks up the change.</p>
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">6</div>
+          <div class="step-title">Load your inventory data into Power BI</div>
+        </div>
+        <div class="step-body">
+          <p>In Power BI Desktop:</p>
+          <p>1. Click <strong>Home</strong> in the top ribbon</p>
+          <p>2. Click <strong>Get Data</strong></p>
+          <p>3. In the search box that appears, type <strong>Python</strong></p>
+          <p>4. Click <strong>Python script</strong> in the results, then click <strong>Connect</strong></p>
+          <p>5. A text box appears. Click inside it, select all with <strong>Ctrl+A</strong>, delete it, then paste the script below</p>
+          <p>6. <strong>Before clicking OK</strong>, find the two lines near the top that say <code>EMAIL</code> and <code>PASSWORD</code> and replace the placeholder text with your actual Xemelgo login credentials</p>
+          <p>7. Click <strong>OK</strong> — Power BI will run the script (this may take 30–60 seconds depending on how many items you have)</p>
+          <div class="code-wrap">
+            <span class="code-lang">python</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>import base64, json, requests, pandas as pd
+
+EMAIL    = "your@email.com"
+PASSWORD = "yourPassword"
+FILTER   = None   # e.g. 'not isConsumed', or None for all items
+
+LOGIN_URL   = "https://rest.api.xemelgo.com/login"
+GRAPHQL_URL = "https://api.xemelgo.com/graphql"
+
+QUERY_TEMPLATE = """query {
+  inventory(input: { filter: %s, nextToken: %s }) {
+    inventory {
+      id name description trackerSerial state isConsumed
+      lotNumber customerPartNumber creationDate lastUpdatedDate
+      expirationDate consumedDate customProperties
+      part { id number name description unit quantity }
+      location { id name }
+      lastDetectedAtLocation { id name }
+    }
+    nextToken
+  }
+}"""
+
+b64e = base64.b64encode(EMAIL.encode()).decode()
+b64p = base64.b64encode(PASSWORD.encode()).decode()
+token = requests.post(LOGIN_URL, json={"email": b64e, "password": b64p}).json()["IdToken"]
+
+headers = {"Content-Type": "application/json", "Authorization": token}
+all_items, next_token = [], None
+
+while True:
+    f = f'"{FILTER}"' if FILTER else "null"
+    t = f'"{next_token}"' if next_token else "null"
+    resp = requests.post(GRAPHQL_URL, json={"query": QUERY_TEMPLATE % (f, t)}, headers=headers).json()
+    page = resp["data"]["inventory"]
+    all_items += page["inventory"]
+    next_token = page["nextToken"]
+    if not next_token:
+        break
+
+def _get(d, *keys):
+    for k in keys:
+        d = (d or {}).get(k)
+    return d
+
+rows = []
+for item in all_items:
+    cp_raw = item.get("customProperties")
+    try:
+        cp = json.loads(cp_raw) if cp_raw and cp_raw != "{}" else {}
+    except (json.JSONDecodeError, TypeError):
+        cp = {}
+    row = {
+        "id":                 item.get("id"),
+        "name":               item.get("name"),
+        "description":        item.get("description"),
+        "trackerSerial":      item.get("trackerSerial"),
+        "state":              item.get("state"),
+        "isConsumed":         item.get("isConsumed"),
+        "lotNumber":          item.get("lotNumber"),
+        "customerPartNumber": item.get("customerPartNumber"),
+        "partNumber":         _get(item, "part", "number"),
+        "partName":           _get(item, "part", "name"),
+        "partUnit":           _get(item, "part", "unit"),
+        "partQuantity":       _get(item, "part", "quantity"),
+        "locationName":       _get(item, "location", "name"),
+        "lastDetectedName":   _get(item, "lastDetectedAtLocation", "name"),
+        "creationDate":       pd.to_datetime(item.get("creationDate"),    unit="ms", utc=True),
+        "lastUpdatedDate":    pd.to_datetime(item.get("lastUpdatedDate"), unit="ms", utc=True),
+        "expirationDate":     pd.to_datetime(item.get("expirationDate"),  unit="ms", utc=True),
+        "consumedDate":       pd.to_datetime(item.get("consumedDate"),    unit="ms", utc=True),
+    }
+    for k, v in cp.items():
+        row[f"cp_{k}"] = v
+    rows.append(row)
+
+df = pd.DataFrame(rows)
+</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 7 -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-num">7</div>
+          <div class="step-title">Select the table and load it</div>
+        </div>
+        <div class="step-body">
+          <p>After the script finishes running, a window called <strong>Navigator</strong> appears. It shows a list of tables the script produced.</p>
+          <p>1. You'll see one item called <strong>df</strong> — click on it once to see a preview of the data on the right side</p>
+          <p>2. Check the <strong>checkbox</strong> next to <strong>df</strong></p>
+          <p>3. Click the <strong>Load</strong> button in the bottom-right corner</p>
+          <p>Power BI will load all your inventory rows into a table. You'll see it appear in the <strong>Data</strong> panel on the right side of Power BI. You're done — you can now build visuals from it.</p>
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div class="callout-body">
+              <strong>To get fresh data later:</strong> click <strong>Home → Refresh</strong> in Power BI. It will re-run the script automatically and pull the latest inventory.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+
+    <!-- Filter examples -->
+    <div style="margin-top:28px;">
+      <div class="section-title" style="font-size:16px;margin-bottom:12px;">
+        <div class="num" style="width:22px;height:22px;font-size:11px;">+</div>
+        Filtering (optional)
+      </div>
+      <div class="step-body" style="padding-left:0;">
+        <p>Change the <code>FILTER</code> line at the top of the script:</p>
+        <table>
+          <thead><tr><th>Goal</th><th>FILTER value</th></tr></thead>
+          <tbody>
+            <tr><td>All items</td><td><code>None</code></td></tr>
+            <tr><td>Active items only</td><td><code>'not isConsumed'</code></td></tr>
+            <tr><td>Specific item</td><td><code>'id == "ITEM_1234"'</code></td></tr>
+            <tr><td>ID starts with prefix</td><td><code>'id ~= "ITEM_"'</code></td></tr>
+            <tr><td>Created after a date</td><td><code>'creationDate > 1709254800000'</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /section -->
+
+  <hr />
+
+  <!-- ── Additional Queries ───────────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-title">
+      <div class="num">+</div>
+      Additional Queries
+    </div>
+
+    <div class="recommend">
+      <strong>Prerequisites already done:</strong> Steps 1–5 only need to be completed once. To add any of these as a new table in Power BI, follow <strong>Steps 6 and 7</strong> again using the script below instead.
+    </div>
+
+    <!-- Item Types -->
+    <div style="margin-bottom:36px;">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px;">
+        <div class="num" style="width:22px;height:22px;font-size:11px;">A</div>
+        Item Types &nbsp;<span style="font-weight:400;color:var(--muted);font-size:13px;">— all item type definitions (part catalog)</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">Returns every item type with its ID, name, number, unit, quantity, and custom properties.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-body" style="padding-left:0;">
+            <div class="code-wrap">
+              <span class="code-lang">python</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              <pre><code>import base64, json, requests, pandas as pd
+
+EMAIL    = "your@email.com"
+PASSWORD = "yourPassword"
+FILTER   = None   # e.g. 'name == "Part A"' or None for all
+
+LOGIN_URL   = "https://rest.api.xemelgo.com/login"
+GRAPHQL_URL = "https://api.xemelgo.com/graphql"
+
+QUERY = """
+query inventoryParts($filter: String, $nextToken: String) {
+  inventoryParts(input: { filter: $filter, nextToken: $nextToken }) {
+    nextToken
+    inventoryParts {
+      id name number unit description quantity imagePath customProperties
+    }
+  }
+}
+"""
+
+b64e = base64.b64encode(EMAIL.encode()).decode()
+b64p = base64.b64encode(PASSWORD.encode()).decode()
+token = requests.post(LOGIN_URL, json={"email": b64e, "password": b64p}).json()["IdToken"]
+
+headers = {"Content-Type": "application/json", "Authorization": token}
+all_items, next_token = [], None
+
+while True:
+    resp = requests.post(GRAPHQL_URL, json={
+        "query": QUERY,
+        "variables": {"filter": FILTER, "nextToken": next_token}
+    }, headers=headers).json()
+    page = resp["data"]["inventoryParts"]
+    all_items += page["inventoryParts"]
+    next_token = page["nextToken"]
+    if not next_token:
+        break
+
+rows = []
+for item in all_items:
+    cp_raw = item.get("customProperties")
+    try:
+        cp = json.loads(cp_raw) if cp_raw and cp_raw != "{}" else {}
+    except (json.JSONDecodeError, TypeError):
+        cp = {}
+    row = {
+        "id":          item.get("id"),
+        "name":        item.get("name"),
+        "number":      item.get("number"),
+        "unit":        item.get("unit"),
+        "description": item.get("description"),
+        "quantity":    item.get("quantity"),
+        "imagePath":   item.get("imagePath"),
+    }
+    for k, v in cp.items():
+        row[f"cp_{k}"] = v
+    rows.append(row)
+
+df = pd.DataFrame(rows)
+</code></pre>
+            </div>
+            <table style="margin-top:10px;">
+              <thead><tr><th>Column</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>id</code></td><td>Item type identifier</td></tr>
+                <tr><td><code>name</code> / <code>number</code></td><td>Display name and part number</td></tr>
+                <tr><td><code>unit</code> / <code>quantity</code></td><td>Unit of measure and default quantity</td></tr>
+                <tr><td><code>imagePath</code></td><td>URL of the item type image</td></tr>
+                <tr><td><code>cp_*</code></td><td>Expanded custom properties</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item Types at Locations (Metrics) -->
+    <div style="margin-bottom:36px;">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px;">
+        <div class="num" style="width:22px;height:22px;font-size:11px;">B</div>
+        Item Types at Locations &nbsp;<span style="font-weight:400;color:var(--muted);font-size:13px;">— counts and status per item type per location</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">Returns on-hand, missing, overdue, and due-soon counts broken down by item type and location. Great for a dashboard showing inventory health across locations.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-body" style="padding-left:0;">
+            <div class="code-wrap">
+              <span class="code-lang">python</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              <pre><code>import base64, json, requests, pandas as pd
+
+EMAIL    = "your@email.com"
+PASSWORD = "yourPassword"
+FILTER   = None   # e.g. 'location.name == "Location A"' or None for all
+
+LOGIN_URL   = "https://rest.api.xemelgo.com/login"
+GRAPHQL_URL = "https://api.xemelgo.com/graphql"
+
+QUERY = """
+query inventoryPartMetrics($filter: String, $nextToken: String) {
+  inventoryPartMetrics(input: { filter: $filter, nextToken: $nextToken }) {
+    nextToken
+    inventoryParts {
+      id name missingCount dueSoonCount overdueCount onHandCount totalCount
+      location { id name }
+      type { id name description customProperties }
+    }
+  }
+}
+"""
+
+b64e = base64.b64encode(EMAIL.encode()).decode()
+b64p = base64.b64encode(PASSWORD.encode()).decode()
+token = requests.post(LOGIN_URL, json={"email": b64e, "password": b64p}).json()["IdToken"]
+
+headers = {"Content-Type": "application/json", "Authorization": token}
+all_items, next_token = [], None
+
+while True:
+    resp = requests.post(GRAPHQL_URL, json={
+        "query": QUERY,
+        "variables": {"filter": FILTER, "nextToken": next_token}
+    }, headers=headers).json()
+    page = resp["data"]["inventoryPartMetrics"]
+    all_items += page["inventoryParts"]
+    next_token = page["nextToken"]
+    if not next_token:
+        break
+
+def _get(d, *keys):
+    for k in keys:
+        d = (d or {}).get(k)
+    return d
+
+rows = []
+for item in all_items:
+    cp_raw = _get(item, "type", "customProperties")
+    try:
+        cp = json.loads(cp_raw) if cp_raw and cp_raw != "{}" else {}
+    except (json.JSONDecodeError, TypeError):
+        cp = {}
+    row = {
+        "id":              item.get("id"),
+        "name":            item.get("name"),
+        "missingCount":    item.get("missingCount"),
+        "dueSoonCount":    item.get("dueSoonCount"),
+        "overdueCount":    item.get("overdueCount"),
+        "onHandCount":     item.get("onHandCount"),
+        "totalCount":      item.get("totalCount"),
+        "locationId":      _get(item, "location", "id"),
+        "locationName":    _get(item, "location", "name"),
+        "typeId":          _get(item, "type", "id"),
+        "typeName":        _get(item, "type", "name"),
+        "typeDescription": _get(item, "type", "description"),
+    }
+    for k, v in cp.items():
+        row[f"cp_{k}"] = v
+    rows.append(row)
+
+df = pd.DataFrame(rows)
+</code></pre>
+            </div>
+            <table style="margin-top:10px;">
+              <thead><tr><th>Column</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>locationName</code></td><td>Which location this row is for</td></tr>
+                <tr><td><code>typeName</code></td><td>Which item type this row is for</td></tr>
+                <tr><td><code>onHandCount</code></td><td>Items currently at this location</td></tr>
+                <tr><td><code>missingCount</code></td><td>Expected but not detected</td></tr>
+                <tr><td><code>dueSoonCount</code></td><td>Items nearing maintenance due date</td></tr>
+                <tr><td><code>overdueCount</code></td><td>Items past maintenance due date</td></tr>
+                <tr><td><code>totalCount</code></td><td>Total items of this type at this location</td></tr>
+              </tbody>
+            </table>
+            <div class="callout tip" style="margin-top:12px;">
+              <span class="callout-icon">💡</span>
+              <div class="callout-body">
+                To filter to a single location, change <code>FILTER = None</code> to <code>FILTER = 'location.name == "Your Location Name"'</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item Type Location Counts -->
+    <div style="margin-bottom:8px;">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px;">
+        <div class="num" style="width:22px;height:22px;font-size:11px;">C</div>
+        Item Type Location Counts &nbsp;<span style="font-weight:400;color:var(--muted);font-size:13px;">— total and on-hand counts per location</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">Lightweight count-only query — no status breakdown, just total and customer on-hand count per location. Faster to load than the full metrics query.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-body" style="padding-left:0;">
+            <div class="code-wrap">
+              <span class="code-lang">python</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              <pre><code>import base64, requests, pandas as pd
+
+EMAIL    = "your@email.com"
+PASSWORD = "yourPassword"
+FILTER   = None   # e.g. 'location.name == "Location A"' or None for all
+
+LOGIN_URL   = "https://rest.api.xemelgo.com/login"
+GRAPHQL_URL = "https://api.xemelgo.com/graphql"
+
+QUERY = """
+query inventoryPartLocationMetrics($filter: String, $nextToken: String) {
+  inventoryPartLocationMetrics(input: { filter: $filter, nextToken: $nextToken }) {
+    nextToken
+    inventoryParts {
+      totalCount
+      customerOnHandCount
+      location { id name }
+    }
+  }
+}
+"""
+
+b64e = base64.b64encode(EMAIL.encode()).decode()
+b64p = base64.b64encode(PASSWORD.encode()).decode()
+token = requests.post(LOGIN_URL, json={"email": b64e, "password": b64p}).json()["IdToken"]
+
+headers = {"Content-Type": "application/json", "Authorization": token}
+all_items, next_token = [], None
+
+while True:
+    resp = requests.post(GRAPHQL_URL, json={
+        "query": QUERY,
+        "variables": {"filter": FILTER, "nextToken": next_token}
+    }, headers=headers).json()
+    page = resp["data"]["inventoryPartLocationMetrics"]
+    all_items += page["inventoryParts"]
+    next_token = page["nextToken"]
+    if not next_token:
+        break
+
+rows = [{
+    "totalCount":          item.get("totalCount"),
+    "customerOnHandCount": item.get("customerOnHandCount"),
+    "locationId":          (item.get("location") or {}).get("id"),
+    "locationName":        (item.get("location") or {}).get("name"),
+} for item in all_items]
+
+df = pd.DataFrame(rows)
+</code></pre>
+            </div>
+            <table style="margin-top:10px;">
+              <thead><tr><th>Column</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>locationName</code></td><td>Which location this row is for</td></tr>
+                <tr><td><code>totalCount</code></td><td>Total items at this location</td></tr>
+                <tr><td><code>customerOnHandCount</code></td><td>On-hand count as defined by customer rules</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Roles -->
+    <div style="margin-bottom:36px;">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px;">
+        <div class="num" style="width:22px;height:22px;font-size:11px;">D</div>
+        Location Roles &nbsp;<span style="font-weight:400;color:var(--muted);font-size:13px;">— reference list of assignable location roles</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">No pagination or filter — returns the full static list in one request. Use this as a lookup table to join against the Locations query.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-body" style="padding-left:0;">
+            <div class="code-wrap">
+              <span class="code-lang">python</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              <pre><code>import base64, requests, pandas as pd
+
+EMAIL    = "your@email.com"
+PASSWORD = "yourPassword"
+
+LOGIN_URL   = "https://rest.api.xemelgo.com/login"
+GRAPHQL_URL = "https://api.xemelgo.com/graphql"
+
+QUERY = """
+query locationRoles {
+  locationRoles {
+    roles {
+      id
+      name
+      description
+    }
+  }
+}
+"""
+
+b64e = base64.b64encode(EMAIL.encode()).decode()
+b64p = base64.b64encode(PASSWORD.encode()).decode()
+token = requests.post(LOGIN_URL, json={"email": b64e, "password": b64p}).json()["IdToken"]
+
+headers = {"Content-Type": "application/json", "Authorization": token}
+roles = requests.post(GRAPHQL_URL, json={"query": QUERY}, headers=headers).json()["data"]["locationRoles"]["roles"]
+
+df = pd.DataFrame([{
+    "id":          role.get("id"),
+    "name":        role.get("name"),
+    "description": role.get("description"),
+} for role in roles])
+</code></pre>
+            </div>
+            <table style="margin-top:10px;">
+              <thead><tr><th>Column</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>id</code></td><td>Role identifier (used as <code>roleId</code> in Locations)</td></tr>
+                <tr><td><code>name</code></td><td>Human-readable role name</td></tr>
+                <tr><td><code>description</code></td><td>Role description</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Categories -->
+    <div style="margin-bottom:36px;">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px;">
+        <div class="num" style="width:22px;height:22px;font-size:11px;">E</div>
+        Location Categories &nbsp;<span style="font-weight:400;color:var(--muted);font-size:13px;">— hierarchy of location category levels</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">No pagination or filter — returns the full category hierarchy in one request. <code>childCategoryIds</code> is returned as a comma-separated string.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-body" style="padding-left:0;">
+            <div class="code-wrap">
+              <span class="code-lang">python</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              <pre><code>import base64, requests, pandas as pd
+
+EMAIL    = "your@email.com"
+PASSWORD = "yourPassword"
+
+LOGIN_URL   = "https://rest.api.xemelgo.com/login"
+GRAPHQL_URL = "https://api.xemelgo.com/graphql"
+
+QUERY = """
+query locationCategories {
+  locationCategories {
+    categories {
+      id
+      parentCategoryId
+      childCategoryIds
+    }
+  }
+}
+"""
+
+b64e = base64.b64encode(EMAIL.encode()).decode()
+b64p = base64.b64encode(PASSWORD.encode()).decode()
+token = requests.post(LOGIN_URL, json={"email": b64e, "password": b64p}).json()["IdToken"]
+
+headers = {"Content-Type": "application/json", "Authorization": token}
+categories = requests.post(GRAPHQL_URL, json={"query": QUERY}, headers=headers).json()["data"]["locationCategories"]["categories"]
+
+df = pd.DataFrame([{
+    "id":               cat.get("id"),
+    "parentCategoryId": cat.get("parentCategoryId"),
+    "childCategoryIds": ", ".join(cat.get("childCategoryIds") or []),
+} for cat in categories])
+</code></pre>
+            </div>
+            <table style="margin-top:10px;">
+              <thead><tr><th>Column</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>id</code></td><td>Category identifier (e.g. "Facility", "Department")</td></tr>
+                <tr><td><code>parentCategoryId</code></td><td>Parent category in the hierarchy (null for top level)</td></tr>
+                <tr><td><code>childCategoryIds</code></td><td>Comma-separated child category IDs</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customers -->
+    <div style="margin-bottom:36px;">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px;">
+        <div class="num" style="width:22px;height:22px;font-size:11px;">F</div>
+        Customers &nbsp;<span style="font-weight:400;color:var(--muted);font-size:13px;">— list of all customers with custom properties</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">Paginated. Custom properties are expanded into <code>cp_*</code> columns.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-body" style="padding-left:0;">
+            <div class="code-wrap">
+              <span class="code-lang">python</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              <pre><code>import base64, json, requests, pandas as pd
+
+EMAIL    = "your@email.com"
+PASSWORD = "yourPassword"
+FILTER   = None   # e.g. 'id == "Customer 2"' or None for all
+
+LOGIN_URL   = "https://rest.api.xemelgo.com/login"
+GRAPHQL_URL = "https://api.xemelgo.com/graphql"
+
+QUERY = """
+query customers($filter: String, $nextToken: String) {
+  customers(input: { filter: $filter, nextToken: $nextToken }) {
+    nextToken
+    customers {
+      id
+      name
+      description
+      customProperties
+    }
+  }
+}
+"""
+
+b64e = base64.b64encode(EMAIL.encode()).decode()
+b64p = base64.b64encode(PASSWORD.encode()).decode()
+token = requests.post(LOGIN_URL, json={"email": b64e, "password": b64p}).json()["IdToken"]
+
+headers = {"Content-Type": "application/json", "Authorization": token}
+all_items, next_token = [], None
+
+while True:
+    resp = requests.post(GRAPHQL_URL, json={
+        "query": QUERY,
+        "variables": {"filter": FILTER, "nextToken": next_token}
+    }, headers=headers).json()
+    page = resp["data"]["customers"]
+    all_items += page["customers"]
+    next_token = page["nextToken"]
+    if not next_token:
+        break
+
+rows = []
+for item in all_items:
+    cp_raw = item.get("customProperties")
+    try:
+        cp = json.loads(cp_raw) if cp_raw and cp_raw != "{}" else {}
+    except (json.JSONDecodeError, TypeError):
+        cp = {}
+    row = {
+        "id":          item.get("id"),
+        "name":        item.get("name"),
+        "description": item.get("description"),
+    }
+    for k, v in cp.items():
+        row[f"cp_{k}"] = v
+    rows.append(row)
+
+df = pd.DataFrame(rows)
+</code></pre>
+            </div>
+            <table style="margin-top:10px;">
+              <thead><tr><th>Column</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>id</code></td><td>Customer identifier</td></tr>
+                <tr><td><code>name</code></td><td>Display name</td></tr>
+                <tr><td><code>description</code></td><td>Customer description</td></tr>
+                <tr><td><code>cp_*</code></td><td>Expanded custom properties</td></tr>
+              </tbody>
+            </table>
+            <div class="callout warn" style="margin-top:12px;">
+              <span class="callout-icon">⚠️</span>
+              <div class="callout-body">
+                Filter syntax errors and invalid tokens return HTTP 200 with an <code>errors</code> field instead of a 401. If the table loads empty, check the script output for a <code>FilterError</code> or <code>Invalid token</code> message in the response.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Locations -->
+    <div style="margin-bottom:8px;">
+      <div class="section-title" style="font-size:16px;margin-bottom:4px;">
+        <div class="num" style="width:22px;height:22px;font-size:11px;">G</div>
+        Locations &nbsp;<span style="font-weight:400;color:var(--muted);font-size:13px;">— full location hierarchy with roles and categories</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">Paginated. <code>childLocationIds</code> is returned as a comma-separated string. Pair with Location Roles (D) and Location Categories (E) as lookup tables.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-body" style="padding-left:0;">
+            <div class="code-wrap">
+              <span class="code-lang">python</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              <pre><code>import base64, requests, pandas as pd
+
+EMAIL    = "your@email.com"
+PASSWORD = "yourPassword"
+FILTER   = None   # e.g. 'categoryId == "Department"' or None for all
+
+LOGIN_URL   = "https://rest.api.xemelgo.com/login"
+GRAPHQL_URL = "https://api.xemelgo.com/graphql"
+
+QUERY = """
+query locations($filter: String, $nextToken: String) {
+  Locations(input: { filter: $filter, nextToken: $nextToken }) {
+    nextToken
+    locations {
+      id
+      name
+      description
+      categoryId
+      roleId
+      parentLocationId
+      childLocationIds
+    }
+  }
+}
+"""
+
+b64e = base64.b64encode(EMAIL.encode()).decode()
+b64p = base64.b64encode(PASSWORD.encode()).decode()
+token = requests.post(LOGIN_URL, json={"email": b64e, "password": b64p}).json()["IdToken"]
+
+headers = {"Content-Type": "application/json", "Authorization": token}
+all_items, next_token = [], None
+
+while True:
+    resp = requests.post(GRAPHQL_URL, json={
+        "query": QUERY,
+        "variables": {"filter": FILTER, "nextToken": next_token}
+    }, headers=headers).json()
+    page = resp["data"]["Locations"]
+    all_items += page["locations"]
+    next_token = page.get("nextToken")
+    if not next_token:
+        break
+
+df = pd.DataFrame([{
+    "id":               loc.get("id"),
+    "name":             loc.get("name"),
+    "description":      loc.get("description"),
+    "categoryId":       loc.get("categoryId"),
+    "roleId":           loc.get("roleId"),
+    "parentLocationId": loc.get("parentLocationId"),
+    "childLocationIds": ", ".join(loc.get("childLocationIds") or []),
+} for loc in all_items])
+</code></pre>
+            </div>
+            <table style="margin-top:10px;">
+              <thead><tr><th>Column</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td><code>id</code> / <code>name</code></td><td>Location identifier and display name</td></tr>
+                <tr><td><code>categoryId</code></td><td>Category level (join to Location Categories table)</td></tr>
+                <tr><td><code>roleId</code></td><td>Assigned role (join to Location Roles table)</td></tr>
+                <tr><td><code>parentLocationId</code></td><td>Parent in the hierarchy (null for top-level)</td></tr>
+                <tr><td><code>childLocationIds</code></td><td>Comma-separated child location IDs</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /additional queries -->
+
+  <hr />
+
+  <!-- ── Troubleshooting ───────────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-title">
+      <div class="num">!</div>
+      Troubleshooting
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-header"><div class="step-num" style="background:#ef444420;color:var(--red);border-color:var(--red);">!</div>
+          <div class="step-title">"Python scripting is not enabled" or no Python option in Get Data</div></div>
+        <div class="step-body">
+          <p>Power BI didn't find a Python installation. Go back to <strong>Step 5</strong> and make sure the Python path is set correctly in <strong>Options → Python scripting</strong>. Close and reopen Power BI after changing it.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-header"><div class="step-num" style="background:#ef444420;color:var(--red);border-color:var(--red);">!</div>
+          <div class="step-title">ModuleNotFoundError: No module named 'requests' (or 'pandas' or 'matplotlib')</div></div>
+        <div class="step-body">
+          <p>The packages aren't installed in the Python environment Power BI is using. Run <code>python -c "import sys; print(sys.executable)"</code> to confirm which Python Power BI is pointing to, then run <code>pip install requests pandas matplotlib</code> using that same Python.</p>
+          <p style="margin-top:8px;">If you're using Anaconda: <code>conda install requests pandas matplotlib</code> in the active environment.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-header"><div class="step-num" style="background:#ef444420;color:var(--red);border-color:var(--red);">!</div>
+          <div class="step-title">Script runs but Navigator shows no tables</div></div>
+        <div class="step-body">
+          <p>Power BI only surfaces variables that are <code>pandas.DataFrame</code> objects. Make sure the script ends with <code>df = pd.DataFrame(rows)</code> and that the script didn't exit early due to an error. Check that the credentials are correct.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-header"><div class="step-num" style="background:#ef444420;color:var(--red);border-color:var(--red);">!</div>
+          <div class="step-title">401 Unauthorized</div></div>
+        <div class="step-body">
+          <p>Wrong credentials, or the token expired mid-run (tokens are valid for 480 seconds). Double-check <code>EMAIL</code> and <code>PASSWORD</code> at the top of the script, then refresh again.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-header"><div class="step-num" style="background:#f59e0b20;color:var(--yellow);border-color:var(--yellow);">!</div>
+          <div class="step-title">Only getting first page of results</div></div>
+        <div class="step-body">
+          <p>The API paginates via <code>nextToken</code>. The script loops until <code>nextToken</code> is null — if you truncated the script, restore the full <code>while True</code> loop from Step 4.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Xemelgo Inventory Management API — Setup guide updated May 2026
+</footer>
+
+<script>
+  function copyCode(btn) {
+    const code = btn.closest('.code-wrap').querySelector('pre code').innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
