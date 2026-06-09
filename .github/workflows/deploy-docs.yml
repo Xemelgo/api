@@ -1,0 +1,71 @@
+name: Deploy docs
+
+# Builds the Docusaurus site and publishes it to GitHub Pages on every push to main.
+# Replaces the manual `docusaurus deploy` from a local machine.
+#
+# One-time human setup required before this takes effect:
+#   Repo Settings -> Pages -> Build and deployment -> Source = "GitHub Actions"
+# Until then this workflow runs the build but the deploy step is a no-op target,
+# so merging it is safe and inert.
+
+on:
+  push:
+    branches:
+      - main
+  # Build (not deploy) on PRs targeting main, so broken builds surface in the PR
+  # instead of landing on main.
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Least privilege at workflow level; the deploy job elevates its own scope below.
+permissions:
+  contents: read
+
+# Allow one concurrent deployment; don't cancel an in-progress production deploy.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    needs: build
+    # Only deploy from main; skips PR builds and non-main workflow_dispatch runs.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Scope Pages/OIDC write to deploy only (build job stays contents: read).
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
