@@ -704,7 +704,7 @@ Occurs when a work order is created.
     }
   ],
   "poNumber": "PO-12345",
-  "priority": "2",
+  "priority": 2,
   "startDate": 1765410060000,
   "state": null,
   "status": "IN_PROGRESS",
