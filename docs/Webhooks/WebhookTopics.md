@@ -30,6 +30,8 @@ Topics follow a hierarchical naming convention: `{resource}.{action}` (e.g., `as
 | `inventory.returned`         | Triggered when an inventory item is returned              |
 | `package.created`            | Triggered when a package is created                       |
 | `package.moved`              | Triggered when a package moves to a new location          |
+| `work_order.created`         | Triggered when a work order is created                    |
+| `work_order.moved`           | Triggered when a work order moves to a new location       |
 
 > Additional topics will be documented as they become available. Contact your Xemelgo representative for information about upcoming topics.
 
@@ -644,6 +646,133 @@ Occurs when a package moves to a new location.
     "name": "Zone 1"
   },
   "name": "Package Move 1",
+  "uuid": "1753075b-7945-4a64-84f8-3361913672d6"
+}
+```
+
+---
+
+### <span style={{ color: '#0D8CFF' }}>work_order.created</span>
+
+Occurs when a work order is created.
+
+#### Data Structure
+
+```json
+{
+  "comments": "Rush order",
+  "completionDate": 32503680000000,
+  "creationDate": 1765420060123,
+  "currentOperation": {
+    "delayedStartSeverity": null,
+    "severity": null,
+    "startStatus": "NOT_STARTED",
+    "status": "NOT_STARTED"
+  },
+  "customProperties": {},
+  "customer": "Acme Corp",
+  "description": "Widget assembly job",
+  "dueDate": 1765420060000,
+  "inputs": [
+    {
+      "category": "Raw Material",
+      "id": "PART-IN-1",
+      "isActive": null,
+      "name": null,
+      "part": null,
+      "quantity": 10,
+      "trackerSerial": null,
+      "type": null
+    }
+  ],
+  "isActive": true,
+  "lastDetectedAtLocation": null,
+  "lastDetectionDate": null,
+  "lastUpdatedDate": 1765420060123,
+  "location": null,
+  "number": "WO-CREATE-1",
+  "outputs": [
+    {
+      "category": "Finished Good",
+      "id": "PART-OUT-1",
+      "isActive": null,
+      "name": null,
+      "part": null,
+      "quantity": 5,
+      "trackerSerial": null,
+      "type": null
+    }
+  ],
+  "poNumber": "PO-12345",
+  "priority": 2,
+  "startDate": 1765410060000,
+  "state": null,
+  "status": "IN_PROGRESS",
+  "statusFlags": [],
+  "trackerSerial": "TRACKER-WO-CREATE-1",
+  "trackerSerialAttachDate": 1765420060123,
+  "trackerSerials": ["TRACKER-WO-CREATE-1"],
+  "uuid": "1753075b-7945-4a64-84f8-3361913672d6"
+}
+```
+
+---
+
+### <span style={{ color: '#0D8CFF' }}>work_order.moved</span>
+
+Occurs when a work order moves to a new location.
+
+#### Data Structure
+
+```json
+{
+  "comments": null,
+  "completionDate": null,
+  "creationDate": 1765420060123,
+  "currentOperation": null,
+  "customProperties": {},
+  "customer": null,
+  "description": null,
+  "dueDate": null,
+  "inputs": [],
+  "isActive": true,
+  "lastDetectedAtLocation": {
+    "categoryId": "Dock Door",
+    "customProperties": {
+      "locationTs": "Reader location"
+    },
+    "customerId": null,
+    "description": "At detector",
+    "id": "Dock Door 1",
+    "name": "Dock Door 1",
+    "parentLocationId": null,
+    "roleId": null
+  },
+  "lastDetectionDate": null,
+  "lastUpdatedDate": 1765420060123,
+  "location": {
+    "categoryId": "Dock Door",
+    "customProperties": {
+      "locationTs": "Reader location"
+    },
+    "customerId": null,
+    "description": "At detector",
+    "id": "Dock Door 1",
+    "name": "Dock Door 1",
+    "parentLocationId": null,
+    "roleId": null
+  },
+  "number": "WO-TRACKER-001",
+  "outputs": [],
+  "poNumber": null,
+  "priority": null,
+  "startDate": null,
+  "state": null,
+  "status": null,
+  "statusFlags": [],
+  "trackerSerial": "WO-TRACKER-001",
+  "trackerSerialAttachDate": 1765420060123,
+  "trackerSerials": ["WO-TRACKER-001"],
   "uuid": "1753075b-7945-4a64-84f8-3361913672d6"
 }
 ```
