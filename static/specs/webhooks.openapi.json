@@ -247,7 +247,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {}
+                            "additionalProperties": true
                           },
                           "customerId": {
                             "type": "string",
@@ -287,7 +287,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {}
+                            "additionalProperties": true
                           },
                           "customerId": {
                             "type": "string",
@@ -1822,7 +1822,7 @@
                             },
                             "customProperties": {
                               "type": "object",
-                              "properties": {},
+                              "additionalProperties": true,
                               "nullable": true
                             },
                             "firstName": {
@@ -2216,7 +2216,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {}
+                            "additionalProperties": true
                           },
                           "customerId": {
                             "type": "string",
@@ -2256,7 +2256,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {}
+                            "additionalProperties": true
                           },
                           "customerId": {
                             "type": "string",
@@ -3242,7 +3242,7 @@
                             },
                             "customProperties": {
                               "type": "object",
-                              "properties": {},
+                              "additionalProperties": true,
                               "nullable": true
                             },
                             "firstName": {
@@ -3624,7 +3624,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {}
+                            "additionalProperties": true
                           },
                           "customerId": {
                             "type": "string",
@@ -3664,7 +3664,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {}
+                            "additionalProperties": true
                           },
                           "customerId": {
                             "type": "string",
@@ -4093,7 +4093,7 @@
                                 },
                                 "customProperties": {
                                   "type": "object",
-                                  "properties": {}
+                                  "additionalProperties": true
                                 },
                                 "description": {
                                   "nullable": true
@@ -4107,7 +4107,10 @@
                                 },
                                 "images": {
                                   "type": "array",
-                                  "items": {}
+                                  "items": {
+                                    "type": "string",
+                                    "nullable": true
+                                  }
                                 },
                                 "lastUpdatedDate": {
                                   "type": "integer"
@@ -4145,7 +4148,7 @@
                                 },
                                 "customProperties": {
                                   "type": "object",
-                                  "properties": {}
+                                  "additionalProperties": true
                                 },
                                 "description": {
                                   "nullable": true
@@ -4158,7 +4161,10 @@
                                 },
                                 "images": {
                                   "type": "array",
-                                  "items": {}
+                                  "items": {
+                                    "type": "string",
+                                    "nullable": true
+                                  }
                                 },
                                 "lastUpdatedDate": {
                                   "type": "integer"
@@ -4193,7 +4199,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {}
+                            "additionalProperties": true
                           },
                           "customerId": {
                             "type": "string",
@@ -4237,7 +4243,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {}
+                            "additionalProperties": true
                           },
                           "customerId": {
                             "type": "string",
@@ -4291,7 +4297,7 @@
                                 },
                                 "customProperties": {
                                   "type": "object",
-                                  "properties": {}
+                                  "additionalProperties": true
                                 },
                                 "description": {
                                   "nullable": true
@@ -4305,7 +4311,10 @@
                                 },
                                 "images": {
                                   "type": "array",
-                                  "items": {}
+                                  "items": {
+                                    "type": "string",
+                                    "nullable": true
+                                  }
                                 },
                                 "lastUpdatedDate": {
                                   "type": "integer"
@@ -4343,7 +4352,7 @@
                                 },
                                 "customProperties": {
                                   "type": "object",
-                                  "properties": {}
+                                  "additionalProperties": true
                                 },
                                 "description": {
                                   "nullable": true
@@ -4356,7 +4365,10 @@
                                 },
                                 "images": {
                                   "type": "array",
-                                  "items": {}
+                                  "items": {
+                                    "type": "string",
+                                    "nullable": true
+                                  }
                                 },
                                 "lastUpdatedDate": {
                                   "type": "integer"
@@ -4401,7 +4413,9 @@
                       },
                       "statusFlags": {
                         "type": "array",
-                        "items": {}
+                        "items": {
+                          "type": "string"
+                        }
                       },
                       "trackerSerial": {
                         "type": "string",
@@ -4476,7 +4490,9 @@
                   "startDate": 1765410060000,
                   "state": null,
                   "status": "IN_PROGRESS",
-                  "statusFlags": [],
+                  "statusFlags": [
+                    "DELAYED"
+                  ],
                   "trackerSerial": "TRACKER-WO-CREATE-1",
                   "trackerSerialAttachDate": 1765420060123,
                   "trackerSerials": [
@@ -4757,7 +4773,10 @@
                       },
                       "statusFlags": {
                         "type": "array",
-                        "items": {}
+                        "items": {
+                          "type": "string",
+                          "nullable": true
+                        }
                       },
                       "trackerSerial": {
                         "type": "string",
