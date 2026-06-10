@@ -8,6 +8,8 @@ pagination_prev: null
 
 Webhooks allow you to build integrations that subscribe to events in your Xemelgo account. When an event occurs—like a new cycle count being created or inventory being updated—Xemelgo sends an HTTP POST request to your configured endpoint with event details.
 
+> For the full list of topics and their payload schemas, see the generated [**Webhooks API reference**](/webhooks-api/).
+
 ## <span style={{ color: '#0D8CFF' }}>How Webhooks Work</span>
 
 1. **Register a webhook** with your endpoint URL, signing secret, and event topics you want to subscribe to
