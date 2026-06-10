@@ -10,4 +10,4 @@ Webhook topics and their payload schemas are now published in the generated [**W
 
 That reference is generated directly from the Xemelgo backend's webhook definitions, so it always reflects the current set of topics, the delivery envelope, and each topic's payload. Bookmark it for the authoritative list.
 
-> Looking for how to register, list, or remove webhook subscriptions? See [Webhook Management](./WebhookManagementAPI).
+> Looking for how to register, list, or remove webhook subscriptions? See [Webhook Management](./WebhookManagementAPI.md).
