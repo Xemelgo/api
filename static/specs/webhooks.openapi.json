@@ -5,10 +5,26 @@
     "version": "1.0.0",
     "description": "Outbound webhook events Xemelgo sends to your registered endpoint. Each entry is an event Xemelgo POSTs to you."
   },
+  "tags": [
+    {
+      "name": "Asset"
+    },
+    {
+      "name": "Inventory"
+    },
+    {
+      "name": "Package"
+    },
+    {
+      "name": "Work Order"
+    }
+  ],
   "webhooks": {
     "asset.bulk_update": {
       "post": {
-        "summary": "Sent when an asset bulk-update operation completes. The payload contains the updated assets.",
+        "summary": "asset.bulk_update",
+        "operationId": "asset.bulk_update",
+        "description": "Sent when an asset bulk-update operation completes. The payload contains the updated assets.",
         "requestBody": {
           "required": true,
           "content": {
@@ -39,30 +55,6 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
-                      },
-                      "creationDate": {
-                        "type": "number"
-                      },
-                      "submittedByUser": {
-                        "type": "object",
-                        "properties": {
-                          "alias": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "firstName": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "lastName": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "additionalProperties": true
-                      },
                       "assets": {
                         "type": "array",
                         "items": {
@@ -71,12 +63,13 @@
                             "id": {
                               "type": "string"
                             },
-                            "uuid": {
-                              "type": "string"
-                            },
-                            "uom": {
-                              "type": "string",
-                              "nullable": true
+                            "itemUpdate": {
+                              "type": "object",
+                              "properties": {
+                                "quantityAdded": {
+                                  "type": "integer"
+                                }
+                              }
                             },
                             "location": {
                               "type": "object",
@@ -84,38 +77,111 @@
                                 "id": {
                                   "type": "string"
                                 }
-                              },
-                              "required": [
-                                "id"
-                              ],
-                              "additionalProperties": true,
-                              "nullable": true
-                            },
-                            "itemUpdate": {
-                              "type": "object",
-                              "additionalProperties": {}
+                              }
                             },
                             "previousFieldValues": {
                               "type": "object",
-                              "additionalProperties": {}
+                              "properties": {}
+                            },
+                            "uom": {
+                              "type": "string"
+                            },
+                            "uuid": {
+                              "type": "string"
                             }
-                          },
-                          "required": [
-                            "id",
-                            "uuid"
-                          ],
-                          "additionalProperties": true
+                          }
                         }
+                      },
+                      "creationDate": {
+                        "type": "integer"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "properties": {
+                          "assetTs": {
+                            "type": "string"
+                          },
+                          "assetTypeTs": {
+                            "nullable": true
+                          },
+                          "locationTs": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "department": {
+                            "type": "string"
+                          },
+                          "inventoryTs": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "inventoryPartTs": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "packageTs": {
+                            "type": "string"
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "submittedAtLocationId": {
+                        "type": "string"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "submittedByUser",
-                      "assets"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "asset.bulk_update",
+                "data": {
+                  "assets": [
+                    {
+                      "id": "A-1",
+                      "itemUpdate": {
+                        "quantityAdded": 1
+                      },
+                      "location": {
+                        "id": "L-1"
+                      },
+                      "previousFieldValues": {},
+                      "uom": "EA",
+                      "uuid": "11111111-1111-4111-8111-111111111111"
+                    }
+                  ],
+                  "creationDate": 1765420060123,
+                  "customProperties": null,
+                  "submittedAtLocationId": "1-Z",
+                  "submittedByUser": {
+                    "alias": "person1",
+                    "customProperties": {},
+                    "firstName": "door",
+                    "lastName": "dash"
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -127,14 +193,16 @@
           }
         },
         "tags": [
-          "asset"
+          "Asset"
         ],
         "x-stability": "stable"
       }
     },
     "asset.created": {
       "post": {
-        "summary": "Sent when a new asset is created. The payload contains the full asset, including its type and any custom properties.",
+        "summary": "asset.created",
+        "operationId": "asset.created",
+        "description": "Sent when a new asset is created. The payload contains the full asset, including its type and any custom properties.",
         "requestBody": {
           "required": true,
           "content": {
@@ -165,15 +233,78 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
+                      "comments": {
                         "type": "string"
                       },
+                      "containerId": {
+                        "nullable": true
+                      },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
+                        "properties": {
+                          "assetTs": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "dueDate": {
+                        "type": "integer"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
                       },
                       "location": {
                         "type": "object",
@@ -181,35 +312,46 @@
                           "id": {
                             "type": "string"
                           },
-                          "name": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
                             "type": "string",
                             "nullable": true
-                          }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
-                      },
-                      "lastDetectedAtLocation": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
+                          },
+                          "description": {
                             "type": "string"
                           },
                           "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
                             "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
                             "nullable": true
                           }
                         },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
                         "nullable": true
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "trackerSerial": {
+                        "type": "string"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -217,25 +359,103 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string"
+                      "type": {
+                        "type": "object",
+                        "properties": {
+                          "creationDate": {
+                            "type": "integer"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "assetTypeTs": {
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "imagePath": {
+                            "nullable": true
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "lastUpdatedDate": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "number": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "nullable": true
+                          },
+                          "unit": {
+                            "nullable": true
+                          }
+                        }
                       },
-                      "id": {
+                      "uuid": {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state",
-                      "id"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "asset.created",
+                "data": {
+                  "comments": "Asset Create 1 Comments",
+                  "containerId": null,
+                  "creationDate": 1765420060123,
+                  "customProperties": {
+                    "assetTs": "Asset 12345"
+                  },
+                  "description": "Asset Create 1 Description",
+                  "dueDate": 1765420060189,
+                  "id": "ASSET-CREATE-1",
+                  "images": [
+                    "img1.jpg"
+                  ],
+                  "lastDetectedAtLocation": null,
+                  "lastUpdatedDate": 1765420060123,
+                  "location": null,
+                  "name": "Asset Create 1",
+                  "state": "incoming",
+                  "trackerSerial": "TRACKER-ASSET-CREATE-1",
+                  "trackerSerials": [
+                    "TRACKER-ASSET-CREATE-1"
+                  ],
+                  "type": {
+                    "creationDate": 1765420060123,
+                    "customProperties": {
+                      "assetTypeTs": null
+                    },
+                    "description": null,
+                    "id": "TYPE-1",
+                    "imagePath": null,
+                    "images": [],
+                    "lastUpdatedDate": 1765420060123,
+                    "name": null,
+                    "number": null,
+                    "quantity": null,
+                    "unit": null
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -247,14 +467,16 @@
           }
         },
         "tags": [
-          "asset"
+          "Asset"
         ],
         "x-stability": "stable"
       }
     },
     "asset.cycle_count": {
       "post": {
-        "summary": "Sent when an asset cycle count is submitted. Provides item-level detail and aggregate counts per asset type.",
+        "summary": "asset.cycle_count",
+        "operationId": "asset.cycle_count",
+        "description": "Sent when an asset cycle count is submitted. Provides item-level detail and aggregate counts per asset type.",
         "requestBody": {
           "required": true,
           "content": {
@@ -285,96 +507,175 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
-                      },
-                      "creationDate": {
-                        "type": "number"
-                      },
-                      "locationId": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "customerId": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "submittedByUser": {
-                        "type": "object",
-                        "properties": {
-                          "alias": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "firstName": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "lastName": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "additionalProperties": true
-                      },
                       "assetTypes": {
                         "type": "array",
                         "items": {
                           "type": "object",
                           "properties": {
+                            "addedCount": {
+                              "type": "integer"
+                            },
+                            "assets": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "action": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "trackerSerial": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            "detectedCount": {
+                              "type": "integer"
+                            },
+                            "foundCount": {
+                              "type": "integer"
+                            },
                             "id": {
                               "type": "string"
+                            },
+                            "missingCount": {
+                              "type": "integer"
+                            },
+                            "movedCount": {
+                              "type": "integer"
                             },
                             "name": {
                               "type": "string",
                               "nullable": true
                             },
+                            "noActionCount": {
+                              "type": "integer"
+                            },
+                            "removedCount": {
+                              "type": "integer"
+                            },
                             "totalCount": {
-                              "type": "number"
+                              "type": "integer"
                             }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
+                          }
                         }
                       },
-                      "inventoryParts": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string",
-                              "nullable": true
-                            },
-                            "totalCount": {
-                              "type": "number"
-                            }
+                      "creationDate": {
+                        "type": "integer"
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
                           },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
                         }
+                      },
+                      "locationId": {
+                        "type": "string"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "locationId",
-                      "customerId",
-                      "submittedByUser"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "asset.cycle_count",
+                "data": {
+                  "assetTypes": [
+                    {
+                      "addedCount": 0,
+                      "assets": [
+                        {
+                          "action": "DETECTED",
+                          "id": "Asset-1",
+                          "trackerSerial": "vid-asset-1"
+                        }
+                      ],
+                      "detectedCount": 1,
+                      "foundCount": 0,
+                      "id": "TypeA",
+                      "missingCount": 0,
+                      "movedCount": 0,
+                      "name": null,
+                      "noActionCount": 0,
+                      "removedCount": 0,
+                      "totalCount": 1
+                    }
+                  ],
+                  "creationDate": 1765420060123,
+                  "customerId": null,
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {},
+                    "customerId": null,
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": null,
+                    "roleId": null
+                  },
+                  "locationId": "1-Z",
+                  "submittedByUser": {
+                    "alias": "person1",
+                    "customProperties": {},
+                    "firstName": "door",
+                    "lastName": "dash"
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -386,14 +687,16 @@
           }
         },
         "tags": [
-          "asset"
+          "Asset"
         ],
         "x-stability": "stable"
       }
     },
     "asset.cycle_count.counts": {
       "post": {
-        "summary": "Sent when an asset cycle count is submitted. Provides aggregate counts per asset type only (no item-level detail).",
+        "summary": "asset.cycle_count.counts",
+        "operationId": "asset.cycle_count.counts",
+        "description": "Sent when an asset cycle count is submitted. Provides aggregate counts per asset type only (no item-level detail).",
         "requestBody": {
           "required": true,
           "content": {
@@ -424,96 +727,151 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
-                      },
-                      "creationDate": {
-                        "type": "number"
-                      },
-                      "locationId": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "customerId": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "submittedByUser": {
-                        "type": "object",
-                        "properties": {
-                          "alias": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "firstName": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "lastName": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "additionalProperties": true
-                      },
                       "assetTypes": {
                         "type": "array",
                         "items": {
                           "type": "object",
                           "properties": {
+                            "addedCount": {
+                              "type": "integer"
+                            },
+                            "detectedCount": {
+                              "type": "integer"
+                            },
+                            "foundCount": {
+                              "type": "integer"
+                            },
                             "id": {
                               "type": "string"
+                            },
+                            "missingCount": {
+                              "type": "integer"
+                            },
+                            "movedCount": {
+                              "type": "integer"
                             },
                             "name": {
                               "type": "string",
                               "nullable": true
                             },
+                            "noActionCount": {
+                              "type": "integer"
+                            },
+                            "removedCount": {
+                              "type": "integer"
+                            },
                             "totalCount": {
-                              "type": "number"
+                              "type": "integer"
                             }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
+                          }
                         }
                       },
-                      "inventoryParts": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string",
-                              "nullable": true
-                            },
-                            "totalCount": {
-                              "type": "number"
-                            }
+                      "creationDate": {
+                        "type": "integer"
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
                           },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
                         }
+                      },
+                      "locationId": {
+                        "type": "string"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "locationId",
-                      "customerId",
-                      "submittedByUser"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "asset.cycle_count.counts",
+                "data": {
+                  "assetTypes": [
+                    {
+                      "addedCount": 0,
+                      "detectedCount": 1,
+                      "foundCount": 0,
+                      "id": "TypeA",
+                      "missingCount": 0,
+                      "movedCount": 0,
+                      "name": null,
+                      "noActionCount": 0,
+                      "removedCount": 0,
+                      "totalCount": 1
+                    }
+                  ],
+                  "creationDate": 1765420060123,
+                  "customerId": null,
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {},
+                    "customerId": null,
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": null,
+                    "roleId": null
+                  },
+                  "locationId": "1-Z",
+                  "submittedByUser": {
+                    "alias": "person1",
+                    "customProperties": {},
+                    "firstName": "door",
+                    "lastName": "dash"
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -525,14 +883,16 @@
           }
         },
         "tags": [
-          "asset"
+          "Asset"
         ],
         "x-stability": "stable"
       }
     },
     "asset.moved": {
       "post": {
-        "summary": "Sent when a tracked asset is detected at or moved to a new location. The payload contains the full asset, including its current and last-detected locations.",
+        "summary": "asset.moved",
+        "operationId": "asset.moved",
+        "description": "Sent when a tracked asset is detected at or moved to a new location. The payload contains the full asset, including its current and last-detected locations.",
         "requestBody": {
           "required": true,
           "content": {
@@ -563,51 +923,119 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
+                      "comments": {
                         "type": "string"
                       },
+                      "containerId": {
+                        "nullable": true
+                      },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
-                      },
-                      "location": {
-                        "type": "object",
                         "properties": {
-                          "id": {
+                          "assetTs": {
                             "type": "string"
-                          },
-                          "name": {
-                            "type": "string",
-                            "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
+                        }
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "dueDate": {
+                        "type": "integer"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
                       },
                       "lastDetectedAtLocation": {
                         "type": "object",
                         "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
+                        }
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "trackerSerial": {
+                        "type": "string"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -615,25 +1043,125 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string"
+                      "type": {
+                        "type": "object",
+                        "properties": {
+                          "creationDate": {
+                            "type": "integer"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "assetTypeTs": {
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "imagePath": {
+                            "nullable": true
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "lastUpdatedDate": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "number": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "nullable": true
+                          },
+                          "unit": {
+                            "nullable": true
+                          }
+                        }
                       },
-                      "id": {
+                      "uuid": {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state",
-                      "id"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "asset.moved",
+                "data": {
+                  "comments": "Asset Move 1 Comments",
+                  "containerId": null,
+                  "creationDate": 1765420060123,
+                  "customProperties": {
+                    "assetTs": "Asset 12345"
+                  },
+                  "description": "Asset Move 1 Description",
+                  "dueDate": 1765420060189,
+                  "id": "ASSET-MOVE-1",
+                  "images": [
+                    "img1.jpg"
+                  ],
+                  "lastDetectedAtLocation": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "lastUpdatedDate": 1765420060123,
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "name": "Asset Move 1",
+                  "state": "onhand",
+                  "trackerSerial": "TRACKER-ASSET-MOVE-1",
+                  "trackerSerials": [
+                    "TRACKER-ASSET-MOVE-1"
+                  ],
+                  "type": {
+                    "creationDate": 1765420060123,
+                    "customProperties": {
+                      "assetTypeTs": null
+                    },
+                    "description": null,
+                    "id": "TYPE-1",
+                    "imagePath": null,
+                    "images": [],
+                    "lastUpdatedDate": 1765420060123,
+                    "name": null,
+                    "number": null,
+                    "quantity": null,
+                    "unit": null
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -645,14 +1173,16 @@
           }
         },
         "tags": [
-          "asset"
+          "Asset"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.audit": {
       "post": {
-        "summary": "Sent when an inventory audit is submitted. Provides item-level detail and aggregate counts per inventory part.",
+        "summary": "inventory.audit",
+        "operationId": "inventory.audit",
+        "description": "Sent when an inventory audit is submitted. Provides item-level detail and aggregate counts per inventory part.",
         "requestBody": {
           "required": true,
           "content": {
@@ -683,96 +1213,205 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
-                      },
                       "creationDate": {
-                        "type": "number"
-                      },
-                      "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "integer"
                       },
                       "customerId": {
                         "type": "string",
                         "nullable": true
-                      },
-                      "submittedByUser": {
-                        "type": "object",
-                        "properties": {
-                          "alias": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "firstName": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "lastName": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "additionalProperties": true
-                      },
-                      "assetTypes": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string",
-                              "nullable": true
-                            },
-                            "totalCount": {
-                              "type": "number"
-                            }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
-                        }
                       },
                       "inventoryParts": {
                         "type": "array",
                         "items": {
                           "type": "object",
                           "properties": {
+                            "automaticallyAddedCount": {
+                              "type": "integer"
+                            },
+                            "customerOnHandCount": {
+                              "type": "integer"
+                            },
                             "id": {
                               "type": "string"
+                            },
+                            "inventory": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "action": {
+                                    "type": "string"
+                                  },
+                                  "expirationDate": {
+                                    "type": "integer"
+                                  },
+                                  "isConsumed": {
+                                    "type": "boolean"
+                                  },
+                                  "lotNumber": {
+                                    "type": "string"
+                                  },
+                                  "trackerSerial": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            "manuallyAddedCount": {
+                              "type": "integer"
                             },
                             "name": {
                               "type": "string",
                               "nullable": true
                             },
+                            "removedCount": {
+                              "type": "integer"
+                            },
+                            "scannedCount": {
+                              "type": "integer"
+                            },
                             "totalCount": {
-                              "type": "number"
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "locationId": {
+                        "type": "string"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "department": {
+                                "type": "string"
+                              }
                             }
                           },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          }
                         }
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "locationId",
-                      "customerId",
-                      "submittedByUser"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "inventory.audit",
+                "data": {
+                  "creationDate": 1765420060123,
+                  "customerId": null,
+                  "inventoryParts": [
+                    {
+                      "automaticallyAddedCount": 1,
+                      "customerOnHandCount": 1,
+                      "id": "audit-itemType1",
+                      "inventory": [
+                        {
+                          "action": "MANUALLY ADDED",
+                          "expirationDate": 1766187135000,
+                          "isConsumed": false,
+                          "lotNumber": "LOT-001",
+                          "trackerSerial": "AUDIT-VID-001"
+                        },
+                        {
+                          "action": "SCANNED",
+                          "expirationDate": 1766187135000,
+                          "isConsumed": false,
+                          "lotNumber": "LOT-002",
+                          "trackerSerial": "AUDIT-VID-002"
+                        },
+                        {
+                          "action": "AUTOMATICALLY ADDED",
+                          "isConsumed": false,
+                          "lotNumber": "LOT-003",
+                          "trackerSerial": "AUDIT-VID-003"
+                        },
+                        {
+                          "action": "REMOVED",
+                          "isConsumed": false,
+                          "lotNumber": "LOT-004",
+                          "trackerSerial": "AUDIT-VID-004"
+                        },
+                        {
+                          "action": "CUSTOMER ONHAND",
+                          "isConsumed": false,
+                          "lotNumber": "LOT-005",
+                          "trackerSerial": "AUDIT-VID-005"
+                        }
+                      ],
+                      "manuallyAddedCount": 1,
+                      "name": null,
+                      "removedCount": 1,
+                      "scannedCount": 1,
+                      "totalCount": 5
+                    }
+                  ],
+                  "location": {
+                    "categoryId": "Stock Room",
+                    "customProperties": {},
+                    "customerId": null,
+                    "description": "Audit Stock Room 1",
+                    "id": "AUDIT-R-STOCKRM1",
+                    "name": "Audit Stock Room 1",
+                    "parentLocationId": "AUDIT-1-Z",
+                    "roleId": null
+                  },
+                  "locationId": "AUDIT-R-STOCKRM1",
+                  "submittedByUser": {
+                    "alias": "audit-person1",
+                    "customProperties": {
+                      "department": "Operations"
+                    },
+                    "firstName": "User",
+                    "lastName": "Audit"
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -784,14 +1423,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.audit.counts": {
       "post": {
-        "summary": "Sent when an inventory audit is submitted. Provides aggregate counts per inventory part only (no item-level detail).",
+        "summary": "inventory.audit.counts",
+        "operationId": "inventory.audit.counts",
+        "description": "Sent when an inventory audit is submitted. Provides aggregate counts per inventory part only (no item-level detail).",
         "requestBody": {
           "required": true,
           "content": {
@@ -822,96 +1463,148 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
-                      },
                       "creationDate": {
-                        "type": "number"
-                      },
-                      "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "integer"
                       },
                       "customerId": {
                         "type": "string",
                         "nullable": true
-                      },
-                      "submittedByUser": {
-                        "type": "object",
-                        "properties": {
-                          "alias": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "firstName": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "lastName": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "additionalProperties": true
-                      },
-                      "assetTypes": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string",
-                              "nullable": true
-                            },
-                            "totalCount": {
-                              "type": "number"
-                            }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
-                        }
                       },
                       "inventoryParts": {
                         "type": "array",
                         "items": {
                           "type": "object",
                           "properties": {
+                            "automaticallyAddedCount": {
+                              "type": "integer"
+                            },
+                            "customerOnHandCount": {
+                              "type": "integer"
+                            },
                             "id": {
                               "type": "string"
+                            },
+                            "manuallyAddedCount": {
+                              "type": "integer"
                             },
                             "name": {
                               "type": "string",
                               "nullable": true
                             },
+                            "removedCount": {
+                              "type": "integer"
+                            },
+                            "scannedCount": {
+                              "type": "integer"
+                            },
                             "totalCount": {
-                              "type": "number"
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "locationId": {
+                        "type": "string"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "department": {
+                                "type": "string"
+                              }
                             }
                           },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          }
                         }
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "locationId",
-                      "customerId",
-                      "submittedByUser"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "inventory.audit.counts",
+                "data": {
+                  "creationDate": 1765420060123,
+                  "customerId": null,
+                  "inventoryParts": [
+                    {
+                      "automaticallyAddedCount": 1,
+                      "customerOnHandCount": 1,
+                      "id": "audit-itemType1",
+                      "manuallyAddedCount": 1,
+                      "name": null,
+                      "removedCount": 1,
+                      "scannedCount": 1,
+                      "totalCount": 5
+                    }
+                  ],
+                  "location": {
+                    "categoryId": "Stock Room",
+                    "customProperties": {},
+                    "customerId": null,
+                    "description": "Audit Stock Room 1",
+                    "id": "AUDIT-R-STOCKRM1",
+                    "name": "Audit Stock Room 1",
+                    "parentLocationId": "AUDIT-1-Z",
+                    "roleId": null
+                  },
+                  "locationId": "AUDIT-R-STOCKRM1",
+                  "submittedByUser": {
+                    "alias": "audit-person1",
+                    "customProperties": {
+                      "department": "Operations"
+                    },
+                    "firstName": "User",
+                    "lastName": "Audit"
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -923,14 +1616,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.bulk_update": {
       "post": {
-        "summary": "Sent when an inventory bulk-update operation completes. The payload contains the updated inventory items.",
+        "summary": "inventory.bulk_update",
+        "operationId": "inventory.bulk_update",
+        "description": "Sent when an inventory bulk-update operation completes. The payload contains the updated inventory items.",
         "requestBody": {
           "required": true,
           "content": {
@@ -959,84 +1654,7 @@
                     ]
                   },
                   "data": {
-                    "type": "object",
-                    "properties": {
-                      "uuid": {
-                        "type": "string"
-                      },
-                      "creationDate": {
-                        "type": "number"
-                      },
-                      "submittedByUser": {
-                        "type": "object",
-                        "properties": {
-                          "alias": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "firstName": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "lastName": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "additionalProperties": true
-                      },
-                      "inventory": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "uuid": {
-                              "type": "string"
-                            },
-                            "uom": {
-                              "type": "string",
-                              "nullable": true
-                            },
-                            "location": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "id"
-                              ],
-                              "additionalProperties": true,
-                              "nullable": true
-                            },
-                            "itemUpdate": {
-                              "type": "object",
-                              "additionalProperties": {}
-                            },
-                            "previousFieldValues": {
-                              "type": "object",
-                              "additionalProperties": {}
-                            }
-                          },
-                          "required": [
-                            "id",
-                            "uuid"
-                          ],
-                          "additionalProperties": true
-                        }
-                      }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "submittedByUser",
-                      "inventory"
-                    ],
-                    "additionalProperties": true
+                    "type": "object"
                   }
                 }
               }
@@ -1049,14 +1667,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.consumed": {
       "post": {
-        "summary": "Sent when an inventory item is marked as consumed. The payload contains the full inventory item with its consumed state and date.",
+        "summary": "inventory.consumed",
+        "operationId": "inventory.consumed",
+        "description": "Sent when an inventory item is marked as consumed. The payload contains the full inventory item with its consumed state and date.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1087,51 +1707,200 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
+                      "associatedPersons": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "alias": {
+                              "type": "string"
+                            },
+                            "customProperties": {
+                              "type": "object",
+                              "properties": {}
+                            },
+                            "firstName": {
+                              "type": "string"
+                            },
+                            "lastName": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "comments": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "consumedDate": {
+                        "type": "integer"
+                      },
+                      "containerId": {
+                        "nullable": true
                       },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
-                      },
-                      "location": {
-                        "type": "object",
                         "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "name": {
+                          "inventoryTs": {
                             "type": "string",
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
+                        }
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "expirationDate": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "isConsumed": {
+                        "type": "boolean"
                       },
                       "lastDetectedAtLocation": {
                         "type": "object",
                         "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
+                        }
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "lotNumber": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "part": {
+                        "type": "object",
+                        "properties": {
+                          "creationDate": {
+                            "type": "integer"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "inventoryPartTs": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "imagePath": {
+                            "nullable": true
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "lastUpdatedDate": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "number": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "nullable": true
+                          },
+                          "unit": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "quantity": {
+                        "type": "integer",
                         "nullable": true
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "trackerSerial": {
+                        "type": "string"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -1139,25 +1908,93 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string"
-                      },
-                      "id": {
+                      "uuid": {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state",
-                      "id"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "inventory.consumed",
+                "data": {
+                  "associatedPersons": [
+                    {
+                      "alias": "consume-person-1",
+                      "customProperties": {},
+                      "firstName": "Consume",
+                      "lastName": "Person"
+                    },
+                    {
+                      "alias": "consume-person-2",
+                      "customProperties": {},
+                      "firstName": "Consume",
+                      "lastName": "Person2"
+                    }
+                  ],
+                  "comments": null,
+                  "consumedDate": 1765420060123,
+                  "containerId": null,
+                  "creationDate": 1765420060123,
+                  "customProperties": {
+                    "inventoryTs": null
+                  },
+                  "description": "",
+                  "expirationDate": "",
+                  "id": "INV-TRACKER-001",
+                  "images": [],
+                  "isConsumed": true,
+                  "lastDetectedAtLocation": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "lastUpdatedDate": 1765420060123,
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "lotNumber": "",
+                  "name": "",
+                  "part": {
+                    "creationDate": 1765420060123,
+                    "customProperties": {
+                      "inventoryPartTs": "type1 custom field"
+                    },
+                    "description": null,
+                    "id": "type1",
+                    "imagePath": null,
+                    "images": [],
+                    "lastUpdatedDate": 1765420060123,
+                    "name": "type1-name",
+                    "number": null,
+                    "quantity": null,
+                    "unit": null
+                  },
+                  "quantity": null,
+                  "state": "onhand",
+                  "trackerSerial": "INV-TRACKER-001",
+                  "trackerSerials": [
+                    "INV-TRACKER-001"
+                  ],
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -1169,14 +2006,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.created": {
       "post": {
-        "summary": "Sent when a new inventory item is created. The payload contains the full inventory item, including its part and any custom properties.",
+        "summary": "inventory.created",
+        "operationId": "inventory.created",
+        "description": "Sent when a new inventory item is created. The payload contains the full inventory item, including its part and any custom properties.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1207,15 +2046,86 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
+                      "comments": {
                         "type": "string"
                       },
+                      "consumedDate": {
+                        "type": "integer",
+                        "nullable": true
+                      },
+                      "containerId": {
+                        "nullable": true
+                      },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
+                        "properties": {
+                          "inventoryTs": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "expirationDate": {
+                        "type": "integer"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "isConsumed": {
+                        "type": "boolean",
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
                       },
                       "location": {
                         "type": "object",
@@ -1223,35 +2133,101 @@
                           "id": {
                             "type": "string"
                           },
-                          "name": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
                             "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
                             "nullable": true
                           }
                         },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
                         "nullable": true
                       },
-                      "lastDetectedAtLocation": {
+                      "lotNumber": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "part": {
                         "type": "object",
                         "properties": {
+                          "creationDate": {
+                            "type": "integer"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "inventoryPartTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
                           "id": {
                             "type": "string"
+                          },
+                          "imagePath": {
+                            "nullable": true
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "lastUpdatedDate": {
+                            "type": "integer"
                           },
                           "name": {
                             "type": "string",
                             "nullable": true
+                          },
+                          "number": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "nullable": true
+                          },
+                          "unit": {
+                            "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
+                        }
+                      },
+                      "quantity": {
+                        "type": "integer"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "trackerSerial": {
+                        "type": "string"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -1259,25 +2235,59 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string"
-                      },
-                      "id": {
+                      "uuid": {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state",
-                      "id"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "inventory.created",
+                "data": {
+                  "comments": "Inventory Create 1 Comments",
+                  "consumedDate": null,
+                  "containerId": null,
+                  "creationDate": 1765420060123,
+                  "customProperties": {
+                    "inventoryTs": "Inventory 12345"
+                  },
+                  "description": "Inventory Create 1 Description",
+                  "expirationDate": 1765420060189,
+                  "id": "INVENTORY-CREATE-1",
+                  "images": [
+                    "img1.jpg"
+                  ],
+                  "isConsumed": null,
+                  "lastDetectedAtLocation": null,
+                  "lastUpdatedDate": 1765420060123,
+                  "location": null,
+                  "lotNumber": "32",
+                  "name": "Inventory Create 1",
+                  "part": {
+                    "creationDate": 1765420060123,
+                    "customProperties": {
+                      "inventoryPartTs": null
+                    },
+                    "description": null,
+                    "id": "TYPE-1",
+                    "imagePath": null,
+                    "images": [],
+                    "lastUpdatedDate": 1765420060123,
+                    "name": null,
+                    "number": null,
+                    "quantity": null,
+                    "unit": null
+                  },
+                  "quantity": 13,
+                  "state": "incoming",
+                  "trackerSerial": "TRACKER-INV-CREATE-1",
+                  "trackerSerials": [
+                    "TRACKER-INV-CREATE-1"
+                  ],
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -1289,14 +2299,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.cycle_count": {
       "post": {
-        "summary": "Sent when an inventory cycle count is submitted. Provides item-level detail and aggregate counts per inventory part.",
+        "summary": "inventory.cycle_count",
+        "operationId": "inventory.cycle_count",
+        "description": "Sent when an inventory cycle count is submitted. Provides item-level detail and aggregate counts per inventory part.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1327,96 +2339,199 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
-                      },
                       "creationDate": {
-                        "type": "number"
-                      },
-                      "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "integer"
                       },
                       "customerId": {
                         "type": "string",
                         "nullable": true
-                      },
-                      "submittedByUser": {
-                        "type": "object",
-                        "properties": {
-                          "alias": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "firstName": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "lastName": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "additionalProperties": true
-                      },
-                      "assetTypes": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string",
-                              "nullable": true
-                            },
-                            "totalCount": {
-                              "type": "number"
-                            }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
-                        }
                       },
                       "inventoryParts": {
                         "type": "array",
                         "items": {
                           "type": "object",
                           "properties": {
+                            "addedCount": {
+                              "type": "integer"
+                            },
+                            "detectedCount": {
+                              "type": "integer"
+                            },
+                            "foundCount": {
+                              "type": "integer"
+                            },
                             "id": {
                               "type": "string"
+                            },
+                            "inventory": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "action": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "trackerSerial": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            "missingCount": {
+                              "type": "integer"
+                            },
+                            "movedCount": {
+                              "type": "integer"
                             },
                             "name": {
                               "type": "string",
                               "nullable": true
                             },
+                            "noActionCount": {
+                              "type": "integer"
+                            },
+                            "removedCount": {
+                              "type": "integer"
+                            },
                             "totalCount": {
-                              "type": "number"
+                              "type": "integer"
                             }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
+                          }
                         }
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "locationId": {
+                        "type": "string"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "locationId",
-                      "customerId",
-                      "submittedByUser"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "inventory.cycle_count",
+                "data": {
+                  "creationDate": 1765420060123,
+                  "customerId": null,
+                  "inventoryParts": [
+                    {
+                      "addedCount": 0,
+                      "detectedCount": 1,
+                      "foundCount": 0,
+                      "id": "Desktop",
+                      "inventory": [
+                        {
+                          "action": "DETECTED",
+                          "id": "728",
+                          "trackerSerial": "012417377714585"
+                        },
+                        {
+                          "action": "MISSING",
+                          "id": "identifier2",
+                          "trackerSerial": "vid2"
+                        }
+                      ],
+                      "missingCount": 1,
+                      "movedCount": 0,
+                      "name": null,
+                      "noActionCount": 0,
+                      "removedCount": 0,
+                      "totalCount": 2
+                    },
+                    {
+                      "addedCount": 0,
+                      "detectedCount": 1,
+                      "foundCount": 0,
+                      "id": "Laptop",
+                      "inventory": [
+                        {
+                          "action": "DETECTED",
+                          "id": "identifier3",
+                          "trackerSerial": "vid3"
+                        }
+                      ],
+                      "missingCount": 0,
+                      "movedCount": 0,
+                      "name": null,
+                      "noActionCount": 0,
+                      "removedCount": 0,
+                      "totalCount": 1
+                    }
+                  ],
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {},
+                    "customerId": null,
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": null,
+                    "roleId": null
+                  },
+                  "locationId": "1-Z",
+                  "submittedByUser": {
+                    "alias": "person1",
+                    "customProperties": {},
+                    "firstName": "door",
+                    "lastName": "dash"
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -1428,14 +2543,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.cycle_count.counts": {
       "post": {
-        "summary": "Sent when an inventory cycle count is submitted. Provides aggregate counts per inventory part only (no item-level detail).",
+        "summary": "inventory.cycle_count.counts",
+        "operationId": "inventory.cycle_count.counts",
+        "description": "Sent when an inventory cycle count is submitted. Provides aggregate counts per inventory part only (no item-level detail).",
         "requestBody": {
           "required": true,
           "content": {
@@ -1466,96 +2583,151 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
-                      },
                       "creationDate": {
-                        "type": "number"
-                      },
-                      "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": "integer"
                       },
                       "customerId": {
                         "type": "string",
                         "nullable": true
-                      },
-                      "submittedByUser": {
-                        "type": "object",
-                        "properties": {
-                          "alias": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "firstName": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "lastName": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "additionalProperties": true
-                      },
-                      "assetTypes": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string",
-                              "nullable": true
-                            },
-                            "totalCount": {
-                              "type": "number"
-                            }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
-                        }
                       },
                       "inventoryParts": {
                         "type": "array",
                         "items": {
                           "type": "object",
                           "properties": {
+                            "addedCount": {
+                              "type": "integer"
+                            },
+                            "detectedCount": {
+                              "type": "integer"
+                            },
+                            "foundCount": {
+                              "type": "integer"
+                            },
                             "id": {
                               "type": "string"
+                            },
+                            "missingCount": {
+                              "type": "integer"
+                            },
+                            "movedCount": {
+                              "type": "integer"
                             },
                             "name": {
                               "type": "string",
                               "nullable": true
                             },
+                            "noActionCount": {
+                              "type": "integer"
+                            },
+                            "removedCount": {
+                              "type": "integer"
+                            },
                             "totalCount": {
-                              "type": "number"
+                              "type": "integer"
                             }
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "totalCount"
-                          ],
-                          "additionalProperties": true
+                          }
                         }
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "locationId": {
+                        "type": "string"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "locationId",
-                      "customerId",
-                      "submittedByUser"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "inventory.cycle_count.counts",
+                "data": {
+                  "creationDate": 1765420060123,
+                  "customerId": null,
+                  "inventoryParts": [
+                    {
+                      "addedCount": 0,
+                      "detectedCount": 1,
+                      "foundCount": 0,
+                      "id": "TypeI",
+                      "missingCount": 0,
+                      "movedCount": 0,
+                      "name": null,
+                      "noActionCount": 0,
+                      "removedCount": 0,
+                      "totalCount": 1
+                    }
+                  ],
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {},
+                    "customerId": null,
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": null,
+                    "roleId": null
+                  },
+                  "locationId": "1-Z",
+                  "submittedByUser": {
+                    "alias": "person1",
+                    "customProperties": {},
+                    "firstName": "door",
+                    "lastName": "dash"
+                  },
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -1567,14 +2739,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.moved": {
       "post": {
-        "summary": "Sent when an inventory item is detected at or moved to a new location. The payload contains the full inventory item, including its current and last-detected locations.",
+        "summary": "inventory.moved",
+        "operationId": "inventory.moved",
+        "description": "Sent when an inventory item is detected at or moved to a new location. The payload contains the full inventory item, including its current and last-detected locations.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1605,51 +2779,182 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
+                      "comments": {
                         "type": "string"
                       },
+                      "consumedDate": {
+                        "type": "integer",
+                        "nullable": true
+                      },
+                      "containerId": {
+                        "nullable": true
+                      },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
-                      },
-                      "location": {
-                        "type": "object",
                         "properties": {
-                          "id": {
+                          "inventoryTs": {
                             "type": "string"
-                          },
-                          "name": {
-                            "type": "string",
-                            "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
+                        }
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "expirationDate": {
+                        "type": "integer"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "isConsumed": {
+                        "type": "boolean",
                         "nullable": true
                       },
                       "lastDetectedAtLocation": {
                         "type": "object",
                         "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
+                        }
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "lotNumber": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "part": {
+                        "type": "object",
+                        "properties": {
+                          "creationDate": {
+                            "type": "integer"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "inventoryPartTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "imagePath": {
+                            "nullable": true
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "lastUpdatedDate": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "number": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "nullable": true
+                          },
+                          "unit": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "quantity": {
+                        "type": "integer"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "trackerSerial": {
+                        "type": "string"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -1657,25 +2962,81 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string"
-                      },
-                      "id": {
+                      "uuid": {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state",
-                      "id"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "inventory.moved",
+                "data": {
+                  "comments": "Item Move 1 Comments",
+                  "consumedDate": null,
+                  "containerId": null,
+                  "creationDate": 1765420060123,
+                  "customProperties": {
+                    "inventoryTs": "12345"
+                  },
+                  "description": "Item Move 1 Description",
+                  "expirationDate": 1765420060189,
+                  "id": "ITEM-MOVE-1",
+                  "images": [
+                    "img1.jpg"
+                  ],
+                  "isConsumed": null,
+                  "lastDetectedAtLocation": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "lastUpdatedDate": 1765420060123,
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "lotNumber": "32",
+                  "name": "Item Move 1",
+                  "part": {
+                    "creationDate": 1765420060123,
+                    "customProperties": {
+                      "inventoryPartTs": null
+                    },
+                    "description": null,
+                    "id": "PART-1",
+                    "imagePath": null,
+                    "images": [],
+                    "lastUpdatedDate": 1765420060123,
+                    "name": null,
+                    "number": null,
+                    "quantity": null,
+                    "unit": null
+                  },
+                  "quantity": 13,
+                  "state": "onhand",
+                  "trackerSerial": "TRACKER-INV-MOVE-1",
+                  "trackerSerials": [
+                    "TRACKER-INV-MOVE-1"
+                  ],
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -1687,14 +3048,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "inventory.returned": {
       "post": {
-        "summary": "Sent when a previously consumed inventory item is returned to stock. The payload contains the full inventory item with its restored state.",
+        "summary": "inventory.returned",
+        "operationId": "inventory.returned",
+        "description": "Sent when a previously consumed inventory item is returned to stock. The payload contains the full inventory item with its restored state.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1725,51 +3088,200 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
+                      "associatedPersons": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "alias": {
+                              "type": "string"
+                            },
+                            "customProperties": {
+                              "type": "object",
+                              "properties": {}
+                            },
+                            "firstName": {
+                              "type": "string"
+                            },
+                            "lastName": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "comments": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "consumedDate": {
+                        "type": "integer"
+                      },
+                      "containerId": {
+                        "nullable": true
                       },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
-                      },
-                      "location": {
-                        "type": "object",
                         "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "name": {
+                          "inventoryTs": {
                             "type": "string",
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
+                        }
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "expirationDate": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "isConsumed": {
+                        "type": "boolean"
                       },
                       "lastDetectedAtLocation": {
                         "type": "object",
                         "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
+                        }
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "lotNumber": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "part": {
+                        "type": "object",
+                        "properties": {
+                          "creationDate": {
+                            "type": "integer"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "inventoryPartTs": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "description": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "imagePath": {
+                            "nullable": true
+                          },
+                          "images": {
+                            "type": "array",
+                            "items": {}
+                          },
+                          "lastUpdatedDate": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "number": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "nullable": true
+                          },
+                          "unit": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "quantity": {
+                        "type": "integer",
                         "nullable": true
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "trackerSerial": {
+                        "type": "string"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -1777,25 +3289,93 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string"
-                      },
-                      "id": {
+                      "uuid": {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state",
-                      "id"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "inventory.returned",
+                "data": {
+                  "associatedPersons": [
+                    {
+                      "alias": "consume-person-1",
+                      "customProperties": {},
+                      "firstName": "Consume",
+                      "lastName": "Person"
+                    },
+                    {
+                      "alias": "consume-person-2",
+                      "customProperties": {},
+                      "firstName": "Consume",
+                      "lastName": "Person2"
+                    }
+                  ],
+                  "comments": null,
+                  "consumedDate": 1765420060123,
+                  "containerId": null,
+                  "creationDate": 1765420060123,
+                  "customProperties": {
+                    "inventoryTs": null
+                  },
+                  "description": "",
+                  "expirationDate": "",
+                  "id": "INV-TRACKER-001",
+                  "images": [],
+                  "isConsumed": false,
+                  "lastDetectedAtLocation": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "lastUpdatedDate": 1765420060123,
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "lotNumber": "",
+                  "name": "",
+                  "part": {
+                    "creationDate": 1765420060123,
+                    "customProperties": {
+                      "inventoryPartTs": "type1 custom field"
+                    },
+                    "description": null,
+                    "id": "type1",
+                    "imagePath": null,
+                    "images": [],
+                    "lastUpdatedDate": 1765420060123,
+                    "name": "type1-name",
+                    "number": null,
+                    "quantity": null,
+                    "unit": null
+                  },
+                  "quantity": null,
+                  "state": "onhand",
+                  "trackerSerial": "INV-TRACKER-001",
+                  "trackerSerials": [
+                    "INV-TRACKER-001"
+                  ],
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -1807,14 +3387,16 @@
           }
         },
         "tags": [
-          "inventory"
+          "Inventory"
         ],
         "x-stability": "stable"
       }
     },
     "package.created": {
       "post": {
-        "summary": "Sent when a new package is created. The payload contains the full package and any custom properties.",
+        "summary": "package.created",
+        "operationId": "package.created",
+        "description": "Sent when a new package is created. The payload contains the full package and any custom properties.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1845,15 +3427,75 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
+                      "comments": {
                         "type": "string"
                       },
+                      "containerId": {
+                        "nullable": true
+                      },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
+                        "properties": {
+                          "packageTs": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
                       },
                       "location": {
                         "type": "object",
@@ -1861,35 +3503,46 @@
                           "id": {
                             "type": "string"
                           },
-                          "name": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
                             "type": "string",
                             "nullable": true
-                          }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
-                      },
-                      "lastDetectedAtLocation": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
+                          },
+                          "description": {
                             "type": "string"
                           },
                           "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
                             "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
                             "nullable": true
                           }
                         },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
                         "nullable": true
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "trackerSerial": {
+                        "type": "string"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -1897,25 +3550,39 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string"
-                      },
-                      "id": {
+                      "uuid": {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state",
-                      "id"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "package.created",
+                "data": {
+                  "comments": "Package Create 1 Comments",
+                  "containerId": null,
+                  "creationDate": 1765420060123,
+                  "customProperties": {
+                    "packageTs": "Package 12345"
+                  },
+                  "description": "Package Create 1 Description",
+                  "id": "PACKAGE-CREATE-1",
+                  "images": [
+                    "img1.jpg"
+                  ],
+                  "lastDetectedAtLocation": null,
+                  "lastUpdatedDate": 1765420060123,
+                  "location": null,
+                  "name": "Package Create 1",
+                  "state": "incoming",
+                  "trackerSerial": "TRACKER-PKG-CREATE-1",
+                  "trackerSerials": [
+                    "TRACKER-PKG-CREATE-1"
+                  ],
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -1927,14 +3594,16 @@
           }
         },
         "tags": [
-          "package"
+          "Package"
         ],
         "x-stability": "stable"
       }
     },
     "package.moved": {
       "post": {
-        "summary": "Sent when a package is detected at or moved to a new location. The payload contains the full package, including its current and last-detected locations.",
+        "summary": "package.moved",
+        "operationId": "package.moved",
+        "description": "Sent when a package is detected at or moved to a new location. The payload contains the full package, including its current and last-detected locations.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1965,51 +3634,116 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
+                      "comments": {
                         "type": "string"
                       },
+                      "containerId": {
+                        "nullable": true
+                      },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
-                      },
-                      "location": {
-                        "type": "object",
                         "properties": {
-                          "id": {
+                          "packageTs": {
                             "type": "string"
-                          },
-                          "name": {
-                            "type": "string",
-                            "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
+                        }
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "images": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
                       },
                       "lastDetectedAtLocation": {
                         "type": "object",
                         "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
                             "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
+                        }
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string"
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "trackerSerial": {
+                        "type": "string"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -2017,25 +3751,61 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string"
-                      },
-                      "id": {
+                      "uuid": {
                         "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state",
-                      "id"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "package.moved",
+                "data": {
+                  "comments": "Package Move 1 Comments",
+                  "containerId": null,
+                  "creationDate": 1765420060123,
+                  "customProperties": {
+                    "packageTs": "12345"
+                  },
+                  "description": "Package Move 1 Description",
+                  "id": "PACKAGE-MOVE-1",
+                  "images": [
+                    "img1.jpg"
+                  ],
+                  "lastDetectedAtLocation": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "lastUpdatedDate": 1765420060123,
+                  "location": {
+                    "categoryId": "Zone",
+                    "customProperties": {
+                      "locationTs": null
+                    },
+                    "customerId": "ACME",
+                    "description": "Store 1",
+                    "id": "1-Z",
+                    "name": "Zone 1",
+                    "parentLocationId": "BLDG-A",
+                    "roleId": null
+                  },
+                  "name": "Package Move 1",
+                  "state": "onhand",
+                  "trackerSerial": "TRACKER-PKG-MOVE-1",
+                  "trackerSerials": [
+                    "TRACKER-PKG-MOVE-1"
+                  ],
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -2047,14 +3817,16 @@
           }
         },
         "tags": [
-          "package"
+          "Package"
         ],
         "x-stability": "stable"
       }
     },
     "work_order.created": {
       "post": {
-        "summary": "Sent when a new work order is created. The payload contains the full work order and its properties.",
+        "summary": "work_order.created",
+        "operationId": "work_order.created",
+        "description": "Sent when a new work order is created. The payload contains the full work order and its properties.",
         "requestBody": {
           "required": true,
           "content": {
@@ -2085,15 +3857,212 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
+                      "comments": {
                         "type": "string"
                       },
+                      "completionDate": {
+                        "type": "integer"
+                      },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
+                      },
+                      "currentOperation": {
+                        "type": "object",
+                        "properties": {
+                          "delayedStartSeverity": {
+                            "nullable": true
+                          },
+                          "severity": {
+                            "nullable": true
+                          },
+                          "startStatus": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          }
+                        }
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
+                        "properties": {}
+                      },
+                      "customer": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "dueDate": {
+                        "type": "integer"
+                      },
+                      "inputs": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "isActive": {
+                              "type": "boolean",
+                              "nullable": true
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "part": {
+                              "type": "object",
+                              "properties": {
+                                "creationDate": {
+                                  "type": "integer"
+                                },
+                                "customProperties": {
+                                  "type": "object",
+                                  "properties": {
+                                    "inventoryPartTs": {
+                                      "type": "string",
+                                      "nullable": true
+                                    }
+                                  }
+                                },
+                                "description": {
+                                  "nullable": true
+                                },
+                                "id": {
+                                  "type": "string"
+                                },
+                                "imagePath": {
+                                  "nullable": true
+                                },
+                                "images": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "lastUpdatedDate": {
+                                  "type": "integer"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "number": {
+                                  "nullable": true
+                                },
+                                "quantity": {
+                                  "nullable": true
+                                },
+                                "unit": {
+                                  "nullable": true
+                                }
+                              },
+                              "nullable": true
+                            },
+                            "quantity": {
+                              "type": "integer"
+                            },
+                            "trackerSerial": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "type": {
+                              "type": "object",
+                              "properties": {
+                                "creationDate": {
+                                  "type": "integer"
+                                },
+                                "customProperties": {
+                                  "type": "object",
+                                  "properties": {
+                                    "assetTypeTs": {
+                                      "nullable": true
+                                    }
+                                  }
+                                },
+                                "description": {
+                                  "nullable": true
+                                },
+                                "id": {
+                                  "type": "string"
+                                },
+                                "imagePath": {
+                                  "nullable": true
+                                },
+                                "images": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "lastUpdatedDate": {
+                                  "type": "integer"
+                                },
+                                "name": {
+                                  "nullable": true
+                                },
+                                "number": {
+                                  "nullable": true
+                                },
+                                "quantity": {
+                                  "nullable": true
+                                },
+                                "unit": {
+                                  "nullable": true
+                                }
+                              },
+                              "nullable": true
+                            }
+                          }
+                        }
+                      },
+                      "isActive": {
+                        "type": "boolean"
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "lastDetectionDate": {
+                        "nullable": true
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
                       },
                       "location": {
                         "type": "object",
@@ -2101,35 +4070,187 @@
                           "id": {
                             "type": "string"
                           },
-                          "name": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string",
+                                "nullable": true
+                              }
+                            }
+                          },
+                          "customerId": {
                             "type": "string",
                             "nullable": true
-                          }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
-                        "nullable": true
-                      },
-                      "lastDetectedAtLocation": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
+                          },
+                          "description": {
                             "type": "string"
                           },
                           "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
                             "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
                             "nullable": true
                           }
                         },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
                         "nullable": true
+                      },
+                      "number": {
+                        "type": "string"
+                      },
+                      "outputs": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "isActive": {
+                              "type": "boolean",
+                              "nullable": true
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "part": {
+                              "type": "object",
+                              "properties": {
+                                "creationDate": {
+                                  "type": "integer"
+                                },
+                                "customProperties": {
+                                  "type": "object",
+                                  "properties": {
+                                    "inventoryPartTs": {
+                                      "type": "string",
+                                      "nullable": true
+                                    }
+                                  }
+                                },
+                                "description": {
+                                  "nullable": true
+                                },
+                                "id": {
+                                  "type": "string"
+                                },
+                                "imagePath": {
+                                  "nullable": true
+                                },
+                                "images": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "lastUpdatedDate": {
+                                  "type": "integer"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "nullable": true
+                                },
+                                "number": {
+                                  "nullable": true
+                                },
+                                "quantity": {
+                                  "nullable": true
+                                },
+                                "unit": {
+                                  "nullable": true
+                                }
+                              },
+                              "nullable": true
+                            },
+                            "quantity": {
+                              "type": "integer"
+                            },
+                            "trackerSerial": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "type": {
+                              "type": "object",
+                              "properties": {
+                                "creationDate": {
+                                  "type": "integer"
+                                },
+                                "customProperties": {
+                                  "type": "object",
+                                  "properties": {
+                                    "assetTypeTs": {
+                                      "nullable": true
+                                    }
+                                  }
+                                },
+                                "description": {
+                                  "nullable": true
+                                },
+                                "id": {
+                                  "type": "string"
+                                },
+                                "imagePath": {
+                                  "nullable": true
+                                },
+                                "images": {
+                                  "type": "array",
+                                  "items": {}
+                                },
+                                "lastUpdatedDate": {
+                                  "type": "integer"
+                                },
+                                "name": {
+                                  "nullable": true
+                                },
+                                "number": {
+                                  "nullable": true
+                                },
+                                "quantity": {
+                                  "nullable": true
+                                },
+                                "unit": {
+                                  "nullable": true
+                                }
+                              },
+                              "nullable": true
+                            }
+                          }
+                        }
+                      },
+                      "poNumber": {
+                        "type": "string"
+                      },
+                      "priority": {
+                        "type": "integer"
+                      },
+                      "startDate": {
+                        "type": "integer"
+                      },
+                      "state": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "statusFlags": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "trackerSerial": {
+                        "type": "string"
+                      },
+                      "trackerSerialAttachDate": {
+                        "type": "integer"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -2137,22 +4258,73 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string",
-                        "nullable": true
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "work_order.created",
+                "data": {
+                  "comments": "Rush order",
+                  "completionDate": 32503680000000,
+                  "creationDate": 1765420060123,
+                  "currentOperation": {
+                    "delayedStartSeverity": null,
+                    "severity": null,
+                    "startStatus": "NOT_STARTED",
+                    "status": "NOT_STARTED"
+                  },
+                  "customProperties": {},
+                  "customer": "Acme Corp",
+                  "description": "Widget assembly job",
+                  "dueDate": 1765420060000,
+                  "inputs": [
+                    {
+                      "category": "Raw Material",
+                      "id": "PART-IN-1",
+                      "isActive": null,
+                      "name": null,
+                      "part": null,
+                      "quantity": 10,
+                      "trackerSerial": null,
+                      "type": null
+                    }
+                  ],
+                  "isActive": true,
+                  "lastDetectedAtLocation": null,
+                  "lastDetectionDate": null,
+                  "lastUpdatedDate": 1765420060123,
+                  "location": null,
+                  "number": "WO-CREATE-1",
+                  "outputs": [
+                    {
+                      "category": "Finished Good",
+                      "id": "PART-OUT-1",
+                      "isActive": null,
+                      "name": null,
+                      "part": null,
+                      "quantity": 5,
+                      "trackerSerial": null,
+                      "type": null
+                    }
+                  ],
+                  "poNumber": "PO-12345",
+                  "priority": 2,
+                  "startDate": 1765410060000,
+                  "state": null,
+                  "status": "IN_PROGRESS",
+                  "statusFlags": [],
+                  "trackerSerial": "TRACKER-WO-CREATE-1",
+                  "trackerSerialAttachDate": 1765420060123,
+                  "trackerSerials": [
+                    "TRACKER-WO-CREATE-1"
+                  ],
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -2164,14 +4336,16 @@
           }
         },
         "tags": [
-          "work_order"
+          "Work Order"
         ],
         "x-stability": "stable"
       }
     },
     "work_order.moved": {
       "post": {
-        "summary": "Sent when a work order is detected at or moved to a new location. The payload contains the full work order, including its current and last-detected locations.",
+        "summary": "work_order.moved",
+        "operationId": "work_order.moved",
+        "description": "Sent when a work order is detected at or moved to a new location. The payload contains the full work order, including its current and last-detected locations.",
         "requestBody": {
           "required": true,
           "content": {
@@ -2202,51 +4376,172 @@
                   "data": {
                     "type": "object",
                     "properties": {
-                      "uuid": {
-                        "type": "string"
+                      "comments": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "completionDate": {
+                        "type": "integer",
+                        "nullable": true
                       },
                       "creationDate": {
-                        "type": "number"
+                        "type": "integer"
+                      },
+                      "currentOperation": {
+                        "type": "object",
+                        "properties": {
+                          "delayedStartSeverity": {
+                            "nullable": true
+                          },
+                          "severity": {
+                            "nullable": true
+                          },
+                          "startStatus": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "nullable": true
                       },
                       "customProperties": {
                         "type": "object",
-                        "additionalProperties": {}
+                        "properties": {}
                       },
-                      "location": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
+                      "customer": {
+                        "type": "string",
                         "nullable": true
+                      },
+                      "description": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "dueDate": {
+                        "type": "integer",
+                        "nullable": true
+                      },
+                      "inputs": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "isActive": {
+                        "type": "boolean"
                       },
                       "lastDetectedAtLocation": {
                         "type": "object",
                         "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
                           "id": {
                             "type": "string"
                           },
                           "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
                             "type": "string",
                             "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "additionalProperties": true,
+                        }
+                      },
+                      "lastDetectionDate": {
                         "nullable": true
+                      },
+                      "lastUpdatedDate": {
+                        "type": "integer"
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "categoryId": {
+                            "type": "string"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "properties": {
+                              "locationTs": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "customerId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "parentLocationId": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "roleId": {
+                            "nullable": true
+                          }
+                        }
+                      },
+                      "number": {
+                        "type": "string"
+                      },
+                      "outputs": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "poNumber": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "priority": {
+                        "type": "integer",
+                        "nullable": true
+                      },
+                      "startDate": {
+                        "type": "integer",
+                        "nullable": true
+                      },
+                      "state": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "status": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "statusFlags": {
+                        "type": "array",
+                        "items": {}
+                      },
+                      "trackerSerial": {
+                        "type": "string"
+                      },
+                      "trackerSerialAttachDate": {
+                        "type": "integer"
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -2254,22 +4549,68 @@
                           "type": "string"
                         }
                       },
-                      "state": {
-                        "type": "string",
-                        "nullable": true
+                      "uuid": {
+                        "type": "string"
                       }
-                    },
-                    "required": [
-                      "uuid",
-                      "creationDate",
-                      "customProperties",
-                      "location",
-                      "lastDetectedAtLocation",
-                      "trackerSerials",
-                      "state"
-                    ],
-                    "additionalProperties": true
+                    }
                   }
+                }
+              },
+              "example": {
+                "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+                "eventTimestamp": 1765572297000,
+                "topic": "work_order.moved",
+                "data": {
+                  "comments": null,
+                  "completionDate": null,
+                  "creationDate": 1765420060123,
+                  "currentOperation": null,
+                  "customProperties": {},
+                  "customer": null,
+                  "description": null,
+                  "dueDate": null,
+                  "inputs": [],
+                  "isActive": true,
+                  "lastDetectedAtLocation": {
+                    "categoryId": "Dock Door",
+                    "customProperties": {
+                      "locationTs": "Reader location"
+                    },
+                    "customerId": null,
+                    "description": "At detector",
+                    "id": "Dock Door 1",
+                    "name": "Dock Door 1",
+                    "parentLocationId": null,
+                    "roleId": null
+                  },
+                  "lastDetectionDate": null,
+                  "lastUpdatedDate": 1765420060123,
+                  "location": {
+                    "categoryId": "Dock Door",
+                    "customProperties": {
+                      "locationTs": "Reader location"
+                    },
+                    "customerId": null,
+                    "description": "At detector",
+                    "id": "Dock Door 1",
+                    "name": "Dock Door 1",
+                    "parentLocationId": null,
+                    "roleId": null
+                  },
+                  "number": "WO-TRACKER-001",
+                  "outputs": [],
+                  "poNumber": null,
+                  "priority": null,
+                  "startDate": null,
+                  "state": null,
+                  "status": null,
+                  "statusFlags": [],
+                  "trackerSerial": "WO-TRACKER-001",
+                  "trackerSerialAttachDate": 1765420060123,
+                  "trackerSerials": [
+                    "WO-TRACKER-001"
+                  ],
+                  "uuid": "11111111-1111-4111-8111-111111111111"
                 }
               }
             }
@@ -2281,7 +4622,7 @@
           }
         },
         "tags": [
-          "work_order"
+          "Work Order"
         ],
         "x-stability": "stable"
       }
