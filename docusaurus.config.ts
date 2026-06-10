@@ -38,7 +38,7 @@ const config: Config = {
           {
             id: "webhooks",
             spec: "static/specs/webhooks.openapi.json",
-            route: "/webhooks-api/",
+            route: "/webhooks-api",
           },
         ],
         theme: {
@@ -65,7 +65,7 @@ const config: Config = {
         alt: "Xemelgo Logo",
         src: "img/Xemelgo-Logomark.webp",
       },
-      items: [{ to: "/webhooks-api/", label: "Webhooks API", position: "left" }],
+      items: [{ to: "/webhooks-api", label: "Webhooks API", position: "left" }],
     },
 
     footer: {
