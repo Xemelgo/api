@@ -29,6 +29,23 @@ const config: Config = {
         blog: false,
       },
     ],
+    [
+      "redocusaurus",
+      {
+        // Renders the webhook OpenAPI spec (generated in Xemelgo/server, synced
+        // here to static/specs/) as an interactive reference page.
+        specs: [
+          {
+            id: "webhooks",
+            spec: "static/specs/webhooks.openapi.json",
+            route: "/webhooks-api",
+          },
+        ],
+        theme: {
+          primaryColor: "#0D8CFF",
+        },
+      },
+    ],
   ],
 
   themeConfig: {
@@ -48,7 +65,7 @@ const config: Config = {
         alt: "Xemelgo Logo",
         src: "img/Xemelgo-Logomark.webp",
       },
-      items: [],
+      items: [{ to: "/webhooks-api", label: "Webhooks API", position: "left" }],
     },
 
     footer: {
