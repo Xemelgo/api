@@ -65,11 +65,7 @@
                             },
                             "itemUpdate": {
                               "type": "object",
-                              "properties": {
-                                "quantityAdded": {
-                                  "type": "integer"
-                                }
-                              }
+                              "additionalProperties": true
                             },
                             "location": {
                               "type": "object",
@@ -82,7 +78,7 @@
                             },
                             "previousFieldValues": {
                               "type": "object",
-                              "properties": {}
+                              "additionalProperties": true
                             },
                             "uom": {
                               "type": "string"
@@ -98,32 +94,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "assetTs": {
-                            "type": "string"
-                          },
-                          "assetTypeTs": {
-                            "nullable": true
-                          },
-                          "locationTs": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "department": {
-                            "type": "string"
-                          },
-                          "inventoryTs": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "inventoryPartTs": {
-                            "type": "string",
-                            "nullable": true
-                          },
-                          "packageTs": {
-                            "type": "string"
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "submittedAtLocationId": {
@@ -137,7 +108,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "firstName": {
@@ -247,11 +218,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "assetTs": {
-                            "type": "string"
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "description": {
@@ -279,12 +246,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            }
+                            "properties": {}
                           },
                           "customerId": {
                             "type": "string",
@@ -323,12 +285,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            }
+                            "properties": {}
                           },
                           "customerId": {
                             "type": "string",
@@ -376,11 +333,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "assetTypeTs": {
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "description": {
@@ -395,7 +348,10 @@
                           },
                           "images": {
                             "type": "array",
-                            "items": {}
+                            "items": {
+                              "type": "string",
+                              "nullable": true
+                            }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
@@ -590,7 +546,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -629,7 +585,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "firstName": {
@@ -798,7 +754,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -837,7 +793,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "firstName": {
@@ -957,11 +913,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "assetTs": {
-                            "type": "string"
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "description": {
@@ -989,12 +941,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -1033,12 +980,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -1092,11 +1034,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "assetTypeTs": {
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "description": {
@@ -1111,7 +1049,10 @@
                           },
                           "images": {
                             "type": "array",
-                            "items": {}
+                            "items": {
+                              "type": "string",
+                              "nullable": true
+                            }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
@@ -1330,7 +1271,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -1369,11 +1310,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "department": {
-                                "type": "string"
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "firstName": {
@@ -1563,7 +1500,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -1602,11 +1539,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "department": {
-                                "type": "string"
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "firstName": {
@@ -1803,12 +1736,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "inventoryTs": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "description": {
@@ -1824,7 +1752,10 @@
                       },
                       "images": {
                         "type": "array",
-                        "items": {}
+                        "items": {
+                          "type": "string",
+                          "nullable": true
+                        }
                       },
                       "isConsumed": {
                         "type": "boolean",
@@ -1838,12 +1769,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -1882,12 +1808,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -1930,12 +1851,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "inventoryPartTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "description": {
@@ -1950,7 +1866,10 @@
                           },
                           "images": {
                             "type": "array",
-                            "items": {}
+                            "items": {
+                              "type": "string",
+                              "nullable": true
+                            }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
@@ -2145,12 +2064,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "inventoryTs": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "description": {
@@ -2182,12 +2096,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            }
+                            "properties": {}
                           },
                           "customerId": {
                             "type": "string",
@@ -2226,12 +2135,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            }
+                            "properties": {}
                           },
                           "customerId": {
                             "type": "string",
@@ -2268,12 +2172,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "inventoryPartTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "description": {
@@ -2288,7 +2187,10 @@
                           },
                           "images": {
                             "type": "array",
-                            "items": {}
+                            "items": {
+                              "type": "string",
+                              "nullable": true
+                            }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
@@ -2505,7 +2407,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -2544,7 +2446,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "firstName": {
@@ -2737,7 +2639,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -2776,7 +2678,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {},
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "firstName": {
@@ -2900,12 +2802,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "inventoryTs": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "description": {
@@ -2937,12 +2834,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -2981,12 +2873,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -3029,12 +2916,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "inventoryPartTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "description": {
@@ -3049,7 +2931,10 @@
                           },
                           "images": {
                             "type": "array",
-                            "items": {}
+                            "items": {
+                              "type": "string",
+                              "nullable": true
+                            }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
@@ -3254,12 +3139,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "inventoryTs": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "description": {
@@ -3275,7 +3155,10 @@
                       },
                       "images": {
                         "type": "array",
-                        "items": {}
+                        "items": {
+                          "type": "string",
+                          "nullable": true
+                        }
                       },
                       "isConsumed": {
                         "type": "boolean",
@@ -3289,12 +3172,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -3333,12 +3211,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -3381,12 +3254,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "inventoryPartTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "description": {
@@ -3401,7 +3269,10 @@
                           },
                           "images": {
                             "type": "array",
-                            "items": {}
+                            "items": {
+                              "type": "string",
+                              "nullable": true
+                            }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
@@ -3592,11 +3463,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "packageTs": {
-                            "type": "string"
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "description": {
@@ -3620,12 +3487,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            }
+                            "properties": {}
                           },
                           "customerId": {
                             "type": "string",
@@ -3664,12 +3526,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            }
+                            "properties": {}
                           },
                           "customerId": {
                             "type": "string",
@@ -3805,11 +3662,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {
-                          "packageTs": {
-                            "type": "string"
-                          }
-                        },
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "description": {
@@ -3833,12 +3686,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -3877,12 +3725,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -4066,7 +3909,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {},
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "customer": {
@@ -4108,12 +3951,7 @@
                                 },
                                 "customProperties": {
                                   "type": "object",
-                                  "properties": {
-                                    "inventoryPartTs": {
-                                      "type": "string",
-                                      "nullable": true
-                                    }
-                                  }
+                                  "properties": {}
                                 },
                                 "description": {
                                   "nullable": true
@@ -4163,11 +4001,7 @@
                                 },
                                 "customProperties": {
                                   "type": "object",
-                                  "properties": {
-                                    "assetTypeTs": {
-                                      "nullable": true
-                                    }
-                                  }
+                                  "properties": {}
                                 },
                                 "description": {
                                   "nullable": true
@@ -4215,12 +4049,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            }
+                            "properties": {}
                           },
                           "customerId": {
                             "type": "string",
@@ -4262,12 +4091,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            }
+                            "properties": {}
                           },
                           "customerId": {
                             "type": "string",
@@ -4320,12 +4144,7 @@
                                 },
                                 "customProperties": {
                                   "type": "object",
-                                  "properties": {
-                                    "inventoryPartTs": {
-                                      "type": "string",
-                                      "nullable": true
-                                    }
-                                  }
+                                  "properties": {}
                                 },
                                 "description": {
                                   "nullable": true
@@ -4375,11 +4194,7 @@
                                 },
                                 "customProperties": {
                                   "type": "object",
-                                  "properties": {
-                                    "assetTypeTs": {
-                                      "nullable": true
-                                    }
-                                  }
+                                  "properties": {}
                                 },
                                 "description": {
                                   "nullable": true
@@ -4601,7 +4416,7 @@
                       },
                       "customProperties": {
                         "type": "object",
-                        "properties": {},
+                        "additionalProperties": true,
                         "nullable": true
                       },
                       "customer": {
@@ -4618,7 +4433,36 @@
                       },
                       "inputs": {
                         "type": "array",
-                        "items": {}
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "isActive": {
+                              "nullable": true
+                            },
+                            "name": {
+                              "nullable": true
+                            },
+                            "part": {
+                              "nullable": true
+                            },
+                            "quantity": {
+                              "type": "integer"
+                            },
+                            "trackerSerial": {
+                              "nullable": true
+                            },
+                            "type": {
+                              "nullable": true
+                            }
+                          },
+                          "nullable": true
+                        }
                       },
                       "isActive": {
                         "type": "boolean",
@@ -4632,12 +4476,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -4679,12 +4518,7 @@
                           },
                           "customProperties": {
                             "type": "object",
-                            "properties": {
-                              "locationTs": {
-                                "type": "string",
-                                "nullable": true
-                              }
-                            },
+                            "additionalProperties": true,
                             "nullable": true
                           },
                           "customerId": {
@@ -4718,7 +4552,36 @@
                       },
                       "outputs": {
                         "type": "array",
-                        "items": {}
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "category": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "isActive": {
+                              "nullable": true
+                            },
+                            "name": {
+                              "nullable": true
+                            },
+                            "part": {
+                              "nullable": true
+                            },
+                            "quantity": {
+                              "type": "integer"
+                            },
+                            "trackerSerial": {
+                              "nullable": true
+                            },
+                            "type": {
+                              "nullable": true
+                            }
+                          },
+                          "nullable": true
+                        }
                       },
                       "poNumber": {
                         "type": "string",
