@@ -1,0 +1,2290 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Xemelgo Webhooks",
+    "version": "1.0.0",
+    "description": "Outbound webhook events Xemelgo sends to your registered endpoint. Each entry is an event Xemelgo POSTs to you."
+  },
+  "webhooks": {
+    "asset.bulk_update": {
+      "post": {
+        "summary": "Sent when an asset bulk-update operation completes. The payload contains the updated assets.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "asset.bulk_update"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "assets": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "uuid": {
+                              "type": "string"
+                            },
+                            "uom": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "location": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id"
+                              ],
+                              "additionalProperties": true,
+                              "nullable": true
+                            },
+                            "itemUpdate": {
+                              "type": "object",
+                              "additionalProperties": {}
+                            },
+                            "previousFieldValues": {
+                              "type": "object",
+                              "additionalProperties": {}
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "uuid"
+                          ],
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "submittedByUser",
+                      "assets"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "asset"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "asset.created": {
+      "post": {
+        "summary": "Sent when a new asset is created. The payload contains the full asset, including its type and any custom properties.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "asset.created"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state",
+                      "id"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "asset"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "asset.cycle_count": {
+      "post": {
+        "summary": "Sent when an asset cycle count is submitted. Provides item-level detail and aggregate counts per asset type.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "asset.cycle_count"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "locationId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "assetTypes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      },
+                      "inventoryParts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "locationId",
+                      "customerId",
+                      "submittedByUser"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "asset"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "asset.cycle_count.counts": {
+      "post": {
+        "summary": "Sent when an asset cycle count is submitted. Provides aggregate counts per asset type only (no item-level detail).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "asset.cycle_count.counts"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "locationId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "assetTypes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      },
+                      "inventoryParts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "locationId",
+                      "customerId",
+                      "submittedByUser"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "asset"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "asset.moved": {
+      "post": {
+        "summary": "Sent when a tracked asset is detected at or moved to a new location. The payload contains the full asset, including its current and last-detected locations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "asset.moved"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state",
+                      "id"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "asset"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.audit": {
+      "post": {
+        "summary": "Sent when an inventory audit is submitted. Provides item-level detail and aggregate counts per inventory part.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.audit"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "locationId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "assetTypes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      },
+                      "inventoryParts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "locationId",
+                      "customerId",
+                      "submittedByUser"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.audit.counts": {
+      "post": {
+        "summary": "Sent when an inventory audit is submitted. Provides aggregate counts per inventory part only (no item-level detail).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.audit.counts"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "locationId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "assetTypes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      },
+                      "inventoryParts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "locationId",
+                      "customerId",
+                      "submittedByUser"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.bulk_update": {
+      "post": {
+        "summary": "Sent when an inventory bulk-update operation completes. The payload contains the updated inventory items.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.bulk_update"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "inventory": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "uuid": {
+                              "type": "string"
+                            },
+                            "uom": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "location": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id"
+                              ],
+                              "additionalProperties": true,
+                              "nullable": true
+                            },
+                            "itemUpdate": {
+                              "type": "object",
+                              "additionalProperties": {}
+                            },
+                            "previousFieldValues": {
+                              "type": "object",
+                              "additionalProperties": {}
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "uuid"
+                          ],
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "submittedByUser",
+                      "inventory"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.consumed": {
+      "post": {
+        "summary": "Sent when an inventory item is marked as consumed. The payload contains the full inventory item with its consumed state and date.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.consumed"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state",
+                      "id"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.created": {
+      "post": {
+        "summary": "Sent when a new inventory item is created. The payload contains the full inventory item, including its part and any custom properties.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.created"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state",
+                      "id"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.cycle_count": {
+      "post": {
+        "summary": "Sent when an inventory cycle count is submitted. Provides item-level detail and aggregate counts per inventory part.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.cycle_count"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "locationId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "assetTypes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      },
+                      "inventoryParts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "locationId",
+                      "customerId",
+                      "submittedByUser"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.cycle_count.counts": {
+      "post": {
+        "summary": "Sent when an inventory cycle count is submitted. Provides aggregate counts per inventory part only (no item-level detail).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.cycle_count.counts"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "locationId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "customerId": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "submittedByUser": {
+                        "type": "object",
+                        "properties": {
+                          "alias": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "nullable": true
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "assetTypes": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      },
+                      "inventoryParts": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string",
+                              "nullable": true
+                            },
+                            "totalCount": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "totalCount"
+                          ],
+                          "additionalProperties": true
+                        }
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "locationId",
+                      "customerId",
+                      "submittedByUser"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.moved": {
+      "post": {
+        "summary": "Sent when an inventory item is detected at or moved to a new location. The payload contains the full inventory item, including its current and last-detected locations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.moved"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state",
+                      "id"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "inventory.returned": {
+      "post": {
+        "summary": "Sent when a previously consumed inventory item is returned to stock. The payload contains the full inventory item with its restored state.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "inventory.returned"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state",
+                      "id"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "inventory"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "package.created": {
+      "post": {
+        "summary": "Sent when a new package is created. The payload contains the full package and any custom properties.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "package.created"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state",
+                      "id"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "package"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "package.moved": {
+      "post": {
+        "summary": "Sent when a package is detected at or moved to a new location. The payload contains the full package, including its current and last-detected locations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "package.moved"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state",
+                      "id"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "package"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "work_order.created": {
+      "post": {
+        "summary": "Sent when a new work order is created. The payload contains the full work order and its properties.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "work_order.created"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "work_order"
+        ],
+        "x-stability": "stable"
+      }
+    },
+    "work_order.moved": {
+      "post": {
+        "summary": "Sent when a work order is detected at or moved to a new location. The payload contains the full work order, including its current and last-detected locations.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "eventTimestamp",
+                  "topic",
+                  "data"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Unique webhook event id (UUID)."
+                  },
+                  "eventTimestamp": {
+                    "type": "integer",
+                    "description": "Event time as epoch milliseconds."
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "work_order.moved"
+                    ]
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "uuid": {
+                        "type": "string"
+                      },
+                      "creationDate": {
+                        "type": "number"
+                      },
+                      "customProperties": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      },
+                      "location": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "lastDetectedAtLocation": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name"
+                        ],
+                        "additionalProperties": true,
+                        "nullable": true
+                      },
+                      "trackerSerials": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "state": {
+                        "type": "string",
+                        "nullable": true
+                      }
+                    },
+                    "required": [
+                      "uuid",
+                      "creationDate",
+                      "customProperties",
+                      "location",
+                      "lastDetectedAtLocation",
+                      "trackerSerials",
+                      "state"
+                    ],
+                    "additionalProperties": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Return any 2xx status to acknowledge receipt."
+          }
+        },
+        "tags": [
+          "work_order"
+        ],
+        "x-stability": "stable"
+      }
+    }
+  }
+}
