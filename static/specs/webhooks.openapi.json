@@ -44,7 +44,8 @@
                     "type": "string",
                     "enum": [
                       "asset.bulk_update"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -62,21 +63,25 @@
                               "additionalProperties": true
                             },
                             "location": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "properties": {
                                 "id": {
                                   "type": "string"
                                 }
-                              },
-                              "nullable": true
+                              }
                             },
                             "previousFieldValues": {
                               "type": "object",
                               "additionalProperties": true
                             },
                             "uom": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "uuid": {
                               "type": "string"
@@ -88,9 +93,11 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "submittedAtLocationId": {
                         "type": "string"
@@ -99,21 +106,29 @@
                         "type": "object",
                         "properties": {
                           "alias": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "firstName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "lastName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
@@ -193,34 +208,45 @@
                     "type": "string",
                     "enum": [
                       "asset.created"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "containerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "dueDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -232,7 +258,10 @@
                         }
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
@@ -242,36 +271,48 @@
                             "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "id": {
                             "type": "string"
@@ -284,38 +325,51 @@
                             "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "state": {
                         "type": "string"
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -324,55 +378,73 @@
                         }
                       },
                       "type": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "creationDate": {
                             "type": "integer"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "imagePath": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "images": {
                             "type": "array",
                             "items": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "number": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "quantity": {
-                            "type": "integer",
-                            "nullable": true
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
                           },
                           "unit": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "uuid": {
                         "type": "string"
@@ -463,7 +535,8 @@
                     "type": "string",
                     "enum": [
                       "asset.cycle_count"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -488,8 +561,10 @@
                                     "type": "string"
                                   },
                                   "trackerSerial": {
-                                    "type": "string",
-                                    "nullable": true
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
                                   }
                                 }
                               }
@@ -510,8 +585,10 @@
                               "type": "integer"
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "noActionCount": {
                               "type": "integer"
@@ -529,69 +606,95 @@
                         "type": "integer"
                       },
                       "customerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "submittedByUser": {
                         "type": "object",
                         "properties": {
                           "alias": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "firstName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "lastName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
@@ -688,7 +791,8 @@
                     "type": "string",
                     "enum": [
                       "asset.cycle_count.counts"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -717,8 +821,10 @@
                               "type": "integer"
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "noActionCount": {
                               "type": "integer"
@@ -736,69 +842,95 @@
                         "type": "integer"
                       },
                       "customerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "submittedByUser": {
                         "type": "object",
                         "properties": {
                           "alias": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "firstName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "lastName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
@@ -888,34 +1020,45 @@
                     "type": "string",
                     "enum": [
                       "asset.moved"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "containerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "dueDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -927,92 +1070,124 @@
                         }
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "state": {
                         "type": "string"
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -1021,55 +1196,73 @@
                         }
                       },
                       "type": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "creationDate": {
                             "type": "integer"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "imagePath": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "images": {
                             "type": "array",
                             "items": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "number": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "quantity": {
-                            "type": "integer",
-                            "nullable": true
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
                           },
                           "unit": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "uuid": {
                         "type": "string"
@@ -1182,7 +1375,8 @@
                     "type": "string",
                     "enum": [
                       "inventory.audit"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -1191,8 +1385,10 @@
                         "type": "integer"
                       },
                       "customerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "inventoryParts": {
                         "type": "array",
@@ -1217,19 +1413,25 @@
                                     "type": "string"
                                   },
                                   "expirationDate": {
-                                    "type": "integer",
-                                    "nullable": true
+                                    "type": [
+                                      "integer",
+                                      "null"
+                                    ]
                                   },
                                   "isConsumed": {
-                                    "type": "boolean",
-                                    "nullable": true
+                                    "type": [
+                                      "boolean",
+                                      "null"
+                                    ]
                                   },
                                   "lotNumber": {
                                     "type": "string"
                                   },
                                   "trackerSerial": {
-                                    "type": "string",
-                                    "nullable": true
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
                                   }
                                 }
                               }
@@ -1238,8 +1440,10 @@
                               "type": "integer"
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "removedCount": {
                               "type": "integer"
@@ -1254,65 +1458,89 @@
                         }
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "submittedByUser": {
                         "type": "object",
                         "properties": {
                           "alias": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "firstName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "lastName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
@@ -1436,7 +1664,8 @@
                     "type": "string",
                     "enum": [
                       "inventory.audit.counts"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -1445,8 +1674,10 @@
                         "type": "integer"
                       },
                       "customerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "inventoryParts": {
                         "type": "array",
@@ -1466,8 +1697,10 @@
                               "type": "integer"
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "removedCount": {
                               "type": "integer"
@@ -1482,65 +1715,89 @@
                         }
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "submittedByUser": {
                         "type": "object",
                         "properties": {
                           "alias": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "firstName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "lastName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
@@ -1630,7 +1887,8 @@
                     "type": "string",
                     "enum": [
                       "inventory.bulk_update"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -1639,9 +1897,11 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "inventory": {
                         "type": "array",
@@ -1656,21 +1916,25 @@
                               "additionalProperties": true
                             },
                             "location": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "properties": {
                                 "id": {
                                   "type": "string"
                                 }
-                              },
-                              "nullable": true
+                              }
                             },
                             "previousFieldValues": {
                               "type": "object",
                               "additionalProperties": true
                             },
                             "uom": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "uuid": {
                               "type": "string"
@@ -1685,21 +1949,29 @@
                         "type": "object",
                         "properties": {
                           "alias": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "firstName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "lastName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
@@ -1779,7 +2051,8 @@
                     "type": "string",
                     "enum": [
                       "inventory.consumed"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -1793,9 +2066,11 @@
                               "type": "string"
                             },
                             "customProperties": {
-                              "type": "object",
-                              "additionalProperties": true,
-                              "nullable": true
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
                             },
                             "firstName": {
                               "type": "string"
@@ -1807,32 +2082,44 @@
                         }
                       },
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "consumedDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "containerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "expirationDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -1840,97 +2127,131 @@
                       "images": {
                         "type": "array",
                         "items": {
-                          "type": "string",
-                          "nullable": true
+                          "type": [
+                            "string",
+                            "null"
+                          ]
                         }
                       },
                       "isConsumed": {
-                        "type": "boolean",
-                        "nullable": true
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lotNumber": {
                         "type": "string"
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "part": {
                         "type": "object",
@@ -1939,59 +2260,79 @@
                             "type": "integer"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "imagePath": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "images": {
                             "type": "array",
                             "items": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "number": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "quantity": {
-                            "type": "integer",
-                            "nullable": true
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
                           },
                           "unit": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
                       "quantity": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "state": {
                         "type": "string"
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -2126,38 +2467,51 @@
                     "type": "string",
                     "enum": [
                       "inventory.created"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "consumedDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "containerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "expirationDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -2169,11 +2523,16 @@
                         }
                       },
                       "isConsumed": {
-                        "type": "boolean",
-                        "nullable": true
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
@@ -2183,36 +2542,48 @@
                             "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "id": {
                             "type": "string"
@@ -2225,34 +2596,45 @@
                             "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lotNumber": {
                         "type": "string"
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "part": {
                         "type": "object",
@@ -2261,59 +2643,79 @@
                             "type": "integer"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "imagePath": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "images": {
                             "type": "array",
                             "items": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "number": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "quantity": {
-                            "type": "integer",
-                            "nullable": true
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
                           },
                           "unit": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
                       "quantity": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "state": {
                         "type": "string"
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -2414,7 +2816,8 @@
                     "type": "string",
                     "enum": [
                       "inventory.cycle_count"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -2423,8 +2826,10 @@
                         "type": "integer"
                       },
                       "customerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "inventoryParts": {
                         "type": "array",
@@ -2455,8 +2860,10 @@
                                     "type": "string"
                                   },
                                   "trackerSerial": {
-                                    "type": "string",
-                                    "nullable": true
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
                                   }
                                 }
                               }
@@ -2468,8 +2875,10 @@
                               "type": "integer"
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "noActionCount": {
                               "type": "integer"
@@ -2484,65 +2893,89 @@
                         }
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "submittedByUser": {
                         "type": "object",
                         "properties": {
                           "alias": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "firstName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "lastName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
@@ -2663,7 +3096,8 @@
                     "type": "string",
                     "enum": [
                       "inventory.cycle_count.counts"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -2672,8 +3106,10 @@
                         "type": "integer"
                       },
                       "customerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "inventoryParts": {
                         "type": "array",
@@ -2699,8 +3135,10 @@
                               "type": "integer"
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "noActionCount": {
                               "type": "integer"
@@ -2715,65 +3153,89 @@
                         }
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "locationId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "submittedByUser": {
                         "type": "object",
                         "properties": {
                           "alias": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "firstName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "lastName": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
@@ -2863,38 +3325,51 @@
                     "type": "string",
                     "enum": [
                       "inventory.moved"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "consumedDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "containerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "expirationDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -2906,92 +3381,124 @@
                         }
                       },
                       "isConsumed": {
-                        "type": "boolean",
-                        "nullable": true
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lotNumber": {
                         "type": "string"
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "part": {
                         "type": "object",
@@ -3000,59 +3507,79 @@
                             "type": "integer"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "imagePath": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "images": {
                             "type": "array",
                             "items": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "number": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "quantity": {
-                            "type": "integer",
-                            "nullable": true
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
                           },
                           "unit": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
                       "quantity": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "state": {
                         "type": "string"
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -3175,7 +3702,8 @@
                     "type": "string",
                     "enum": [
                       "inventory.returned"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
@@ -3189,9 +3717,11 @@
                               "type": "string"
                             },
                             "customProperties": {
-                              "type": "object",
-                              "additionalProperties": true,
-                              "nullable": true
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
                             },
                             "firstName": {
                               "type": "string"
@@ -3203,32 +3733,44 @@
                         }
                       },
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "consumedDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "containerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "expirationDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -3236,97 +3778,131 @@
                       "images": {
                         "type": "array",
                         "items": {
-                          "type": "string",
-                          "nullable": true
+                          "type": [
+                            "string",
+                            "null"
+                          ]
                         }
                       },
                       "isConsumed": {
-                        "type": "boolean",
-                        "nullable": true
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lotNumber": {
                         "type": "string"
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "part": {
                         "type": "object",
@@ -3335,59 +3911,79 @@
                             "type": "integer"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "imagePath": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "images": {
                             "type": "array",
                             "items": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             }
                           },
                           "lastUpdatedDate": {
                             "type": "integer"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "number": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "quantity": {
-                            "type": "integer",
-                            "nullable": true
+                            "type": [
+                              "integer",
+                              "null"
+                            ]
                           },
                           "unit": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         }
                       },
                       "quantity": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "state": {
                         "type": "string"
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -3522,30 +4118,39 @@
                     "type": "string",
                     "enum": [
                       "package.created"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "containerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -3557,7 +4162,10 @@
                         }
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
@@ -3567,36 +4175,48 @@
                             "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "id": {
                             "type": "string"
@@ -3609,38 +4229,51 @@
                             "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "state": {
                         "type": "string"
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -3721,30 +4354,39 @@
                     "type": "string",
                     "enum": [
                       "package.moved"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "containerId": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "id": {
                         "type": "string"
@@ -3756,92 +4398,124 @@
                         }
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "name": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "state": {
                         "type": "string"
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerials": {
                         "type": "array",
@@ -3944,24 +4618,32 @@
                     "type": "string",
                     "enum": [
                       "work_order.created"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "completionDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "currentOperation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "delayedStartSeverity": {
                             "type": "string"
@@ -3973,28 +4655,37 @@
                             "type": "string"
                           },
                           "status": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "customer": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "dueDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "inputs": {
                         "type": "array",
@@ -4008,23 +4699,34 @@
                               "type": "string"
                             },
                             "isActive": {
-                              "type": "boolean",
-                              "nullable": true
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "quantity": {
-                              "type": "integer",
-                              "nullable": true
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
                             },
                             "trackerSerial": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "type": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "properties": {
                                 "creationDate": {
                                   "type": "integer"
@@ -4034,54 +4736,72 @@
                                   "additionalProperties": true
                                 },
                                 "description": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "id": {
                                   "type": "string"
                                 },
                                 "imagePath": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "images": {
                                   "type": "array",
                                   "items": {
-                                    "type": "string",
-                                    "nullable": true
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
                                   }
                                 },
                                 "lastUpdatedDate": {
                                   "type": "integer"
                                 },
                                 "name": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "number": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "quantity": {
-                                  "type": "integer",
-                                  "nullable": true
+                                  "type": [
+                                    "integer",
+                                    "null"
+                                  ]
                                 },
                                 "unit": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 }
-                              },
-                              "nullable": true
+                              }
                             }
                           }
                         }
                       },
                       "isActive": {
-                        "type": "boolean",
-                        "nullable": true
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
@@ -4091,40 +4811,54 @@
                             "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastDetectionDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "id": {
                             "type": "string"
@@ -4137,31 +4871,42 @@
                             "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "number": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "outputs": {
                         "type": "array",
@@ -4175,23 +4920,34 @@
                               "type": "string"
                             },
                             "isActive": {
-                              "type": "boolean",
-                              "nullable": true
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "quantity": {
-                              "type": "integer",
-                              "nullable": true
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
                             },
                             "trackerSerial": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "type": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "properties": {
                                 "creationDate": {
                                   "type": "integer"
@@ -4201,67 +4957,90 @@
                                   "additionalProperties": true
                                 },
                                 "description": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "id": {
                                   "type": "string"
                                 },
                                 "imagePath": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "images": {
                                   "type": "array",
                                   "items": {
-                                    "type": "string",
-                                    "nullable": true
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
                                   }
                                 },
                                 "lastUpdatedDate": {
                                   "type": "integer"
                                 },
                                 "name": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "number": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "quantity": {
-                                  "type": "integer",
-                                  "nullable": true
+                                  "type": [
+                                    "integer",
+                                    "null"
+                                  ]
                                 },
                                 "unit": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 }
-                              },
-                              "nullable": true
+                              }
                             }
                           }
                         }
                       },
                       "poNumber": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "priority": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "startDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "state": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "status": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "statusFlags": {
                         "type": "array",
@@ -4270,8 +5049,10 @@
                         }
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerialAttachDate": {
                         "type": "integer"
@@ -4389,24 +5170,32 @@
                     "type": "string",
                     "enum": [
                       "work_order.moved"
-                    ]
+                    ],
+                    "description": "The event type."
                   },
                   "data": {
                     "type": "object",
                     "properties": {
                       "comments": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "completionDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "creationDate": {
                         "type": "integer"
                       },
                       "currentOperation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "delayedStartSeverity": {
                             "type": "string"
@@ -4418,33 +5207,45 @@
                             "type": "string"
                           },
                           "status": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "customProperties": {
-                        "type": "object",
-                        "additionalProperties": true,
-                        "nullable": true
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "additionalProperties": true
                       },
                       "customer": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "description": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "dueDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "inputs": {
                         "type": "array",
                         "items": {
-                          "type": "object",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
                           "properties": {
                             "category": {
                               "type": "string"
@@ -4453,23 +5254,34 @@
                               "type": "string"
                             },
                             "isActive": {
-                              "type": "boolean",
-                              "nullable": true
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "quantity": {
-                              "type": "integer",
-                              "nullable": true
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
                             },
                             "trackerSerial": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "type": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "properties": {
                                 "creationDate": {
                                   "type": "integer"
@@ -4479,142 +5291,191 @@
                                   "additionalProperties": true
                                 },
                                 "description": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "id": {
                                   "type": "string"
                                 },
                                 "imagePath": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "images": {
                                   "type": "array",
                                   "items": {
-                                    "type": "string",
-                                    "nullable": true
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
                                   }
                                 },
                                 "lastUpdatedDate": {
                                   "type": "integer"
                                 },
                                 "name": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "number": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "quantity": {
-                                  "type": "integer",
-                                  "nullable": true
+                                  "type": [
+                                    "integer",
+                                    "null"
+                                  ]
                                 },
                                 "unit": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 }
-                              },
-                              "nullable": true
+                              }
                             }
-                          },
-                          "nullable": true
+                          }
                         }
                       },
                       "isActive": {
-                        "type": "boolean",
-                        "nullable": true
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
                       },
                       "lastDetectedAtLocation": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "lastDetectionDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "lastUpdatedDate": {
                         "type": "integer"
                       },
                       "location": {
-                        "type": "object",
+                        "type": [
+                          "object",
+                          "null"
+                        ],
                         "properties": {
                           "categoryId": {
                             "type": "string"
                           },
                           "customProperties": {
-                            "type": "object",
-                            "additionalProperties": true,
-                            "nullable": true
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "additionalProperties": true
                           },
                           "customerId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "description": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
                           "name": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "parentLocationId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           },
                           "roleId": {
-                            "type": "string",
-                            "nullable": true
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "number": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "outputs": {
                         "type": "array",
                         "items": {
-                          "type": "object",
+                          "type": [
+                            "object",
+                            "null"
+                          ],
                           "properties": {
                             "category": {
                               "type": "string"
@@ -4623,23 +5484,34 @@
                               "type": "string"
                             },
                             "isActive": {
-                              "type": "boolean",
-                              "nullable": true
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
                             },
                             "name": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "quantity": {
-                              "type": "integer",
-                              "nullable": true
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
                             },
                             "trackerSerial": {
-                              "type": "string",
-                              "nullable": true
+                              "type": [
+                                "string",
+                                "null"
+                              ]
                             },
                             "type": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "properties": {
                                 "creationDate": {
                                   "type": "integer"
@@ -4649,79 +5521,105 @@
                                   "additionalProperties": true
                                 },
                                 "description": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "id": {
                                   "type": "string"
                                 },
                                 "imagePath": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "images": {
                                   "type": "array",
                                   "items": {
-                                    "type": "string",
-                                    "nullable": true
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
                                   }
                                 },
                                 "lastUpdatedDate": {
                                   "type": "integer"
                                 },
                                 "name": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "number": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 },
                                 "quantity": {
-                                  "type": "integer",
-                                  "nullable": true
+                                  "type": [
+                                    "integer",
+                                    "null"
+                                  ]
                                 },
                                 "unit": {
-                                  "type": "string",
-                                  "nullable": true
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ]
                                 }
-                              },
-                              "nullable": true
+                              }
                             }
-                          },
-                          "nullable": true
+                          }
                         }
                       },
                       "poNumber": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "priority": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "startDate": {
-                        "type": "integer",
-                        "nullable": true
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
                       },
                       "state": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "status": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "statusFlags": {
                         "type": "array",
                         "items": {
-                          "type": "string",
-                          "nullable": true
+                          "type": [
+                            "string",
+                            "null"
+                          ]
                         }
                       },
                       "trackerSerial": {
-                        "type": "string",
-                        "nullable": true
+                        "type": [
+                          "string",
+                          "null"
+                        ]
                       },
                       "trackerSerialAttachDate": {
                         "type": "integer"
