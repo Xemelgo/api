@@ -31,12 +31,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -182,12 +176,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -455,12 +443,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -682,12 +664,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -884,12 +860,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -1185,12 +1155,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -1441,12 +1405,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -1637,12 +1595,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -1788,12 +1740,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -2142,12 +2088,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -2433,12 +2373,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -2684,12 +2618,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -2886,12 +2814,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -3205,12 +3127,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -3559,12 +3475,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -3761,12 +3671,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -3991,12 +3895,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
@@ -4426,12 +4324,6 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "id",
-                  "eventTimestamp",
-                  "topic",
-                  "data"
-                ],
                 "properties": {
                   "id": {
                     "type": "string",
