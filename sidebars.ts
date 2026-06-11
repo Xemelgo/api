@@ -133,9 +133,9 @@ const sidebars: SidebarsConfig = {
           label: "Management",
         },
         {
-          type: "doc",
-          id: "Webhooks/WebhookTopics",
+          type: "link",
           label: "Topics",
+          href: "/webhooks-api",
         },
       ],
     },
