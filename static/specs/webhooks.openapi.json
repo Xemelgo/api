@@ -2008,8 +2008,7 @@
                             "type": "string",
                             "nullable": true
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "quantity": {
                         "type": "integer",
@@ -2334,8 +2333,7 @@
                             "type": "string",
                             "nullable": true
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "quantity": {
                         "type": "integer",
@@ -3085,8 +3083,7 @@
                             "type": "string",
                             "nullable": true
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "quantity": {
                         "type": "integer",
@@ -3428,8 +3425,7 @@
                             "type": "string",
                             "nullable": true
                           }
-                        },
-                        "nullable": true
+                        }
                       },
                       "quantity": {
                         "type": "integer",
@@ -4085,53 +4081,6 @@
                               "type": "string",
                               "nullable": true
                             },
-                            "part": {
-                              "type": "object",
-                              "properties": {
-                                "creationDate": {
-                                  "type": "integer"
-                                },
-                                "customProperties": {
-                                  "type": "object",
-                                  "additionalProperties": true
-                                },
-                                "description": {
-                                  "nullable": true
-                                },
-                                "id": {
-                                  "type": "string"
-                                },
-                                "imagePath": {
-                                  "type": "string",
-                                  "nullable": true
-                                },
-                                "images": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string",
-                                    "nullable": true
-                                  }
-                                },
-                                "lastUpdatedDate": {
-                                  "type": "integer"
-                                },
-                                "name": {
-                                  "type": "string",
-                                  "nullable": true
-                                },
-                                "number": {
-                                  "nullable": true
-                                },
-                                "quantity": {
-                                  "nullable": true
-                                },
-                                "unit": {
-                                  "type": "string",
-                                  "nullable": true
-                                }
-                              },
-                              "nullable": true
-                            },
                             "quantity": {
                               "type": "integer",
                               "nullable": true
@@ -4289,53 +4238,6 @@
                               "type": "string",
                               "nullable": true
                             },
-                            "part": {
-                              "type": "object",
-                              "properties": {
-                                "creationDate": {
-                                  "type": "integer"
-                                },
-                                "customProperties": {
-                                  "type": "object",
-                                  "additionalProperties": true
-                                },
-                                "description": {
-                                  "nullable": true
-                                },
-                                "id": {
-                                  "type": "string"
-                                },
-                                "imagePath": {
-                                  "type": "string",
-                                  "nullable": true
-                                },
-                                "images": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string",
-                                    "nullable": true
-                                  }
-                                },
-                                "lastUpdatedDate": {
-                                  "type": "integer"
-                                },
-                                "name": {
-                                  "type": "string",
-                                  "nullable": true
-                                },
-                                "number": {
-                                  "nullable": true
-                                },
-                                "quantity": {
-                                  "nullable": true
-                                },
-                                "unit": {
-                                  "type": "string",
-                                  "nullable": true
-                                }
-                              },
-                              "nullable": true
-                            },
                             "quantity": {
                               "type": "integer",
                               "nullable": true
@@ -4443,7 +4345,7 @@
                 "topic": "work_order.created",
                 "data": {
                   "comments": "Rush order",
-                  "completionDate": 32503680000000,
+                  "completionDate": 1765520060000,
                   "creationDate": 1765420060123,
                   "currentOperation": {
                     "delayedStartSeverity": "CRITICAL",
@@ -4461,7 +4363,6 @@
                       "id": "PART-IN-1",
                       "isActive": null,
                       "name": null,
-                      "part": null,
                       "quantity": 10,
                       "trackerSerial": null,
                       "type": null
@@ -4479,7 +4380,6 @@
                       "id": "PART-OUT-1",
                       "isActive": null,
                       "name": null,
-                      "part": null,
                       "quantity": 5,
                       "trackerSerial": null,
                       "type": null
@@ -4613,9 +4513,6 @@
                             "name": {
                               "nullable": true
                             },
-                            "part": {
-                              "nullable": true
-                            },
                             "quantity": {
                               "type": "integer"
                             },
@@ -4733,9 +4630,6 @@
                               "nullable": true
                             },
                             "name": {
-                              "nullable": true
-                            },
-                            "part": {
                               "nullable": true
                             },
                             "quantity": {
