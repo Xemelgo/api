@@ -12,11 +12,11 @@ Four queries are available: **Locations**, **Customers**, **Location Roles**, an
 
 ## <span style={{ color: '#0D8CFF' }}>How to Set Up</span>
 
-1. Follow the [setup steps](./index.md) to encode your credentials
+1. Follow the [setup steps](./index.md) to configure privacy settings
 2. In Power BI Desktop, open **Transform data → Transform data**
 3. Click **New Source → Blank Query**, then open **Advanced Editor**
 4. Paste one of the queries below
-5. In the code, update `Email` and `Password` at the top with your base64 credentials from the [setup page](./index.md)
+5. In the code, replace `your@email.com` and `YourPassword123!` at the top with your Xemelgo credentials
 6. Click **Done** and rename the query (e.g., `Xemelgo Locations`)
 
 Repeat for each query you need.
@@ -27,8 +27,8 @@ Repeat for each query you need.
 
 ```powerquery
 let
-    Email    = "BASE64_ENCODED_EMAIL",
-    Password = "BASE64_ENCODED_PASSWORD",
+    Email    = Binary.ToText(Text.ToBinary("your@email.com",   TextEncoding.Utf8), BinaryEncoding.Base64),
+    Password = Binary.ToText(Text.ToBinary("YourPassword123!", TextEncoding.Utf8), BinaryEncoding.Base64),
 
     Token = Json.Document(
         Web.Contents("https://rest.api.xemelgo.com/login", [
@@ -81,8 +81,8 @@ in
 
 ```powerquery
 let
-    Email    = "BASE64_ENCODED_EMAIL",
-    Password = "BASE64_ENCODED_PASSWORD",
+    Email    = Binary.ToText(Text.ToBinary("your@email.com",   TextEncoding.Utf8), BinaryEncoding.Base64),
+    Password = Binary.ToText(Text.ToBinary("YourPassword123!", TextEncoding.Utf8), BinaryEncoding.Base64),
 
     Token = Json.Document(
         Web.Contents("https://rest.api.xemelgo.com/login", [
@@ -132,8 +132,8 @@ in
 
 ```powerquery
 let
-    Email    = "BASE64_ENCODED_EMAIL",
-    Password = "BASE64_ENCODED_PASSWORD",
+    Email    = Binary.ToText(Text.ToBinary("your@email.com",   TextEncoding.Utf8), BinaryEncoding.Base64),
+    Password = Binary.ToText(Text.ToBinary("YourPassword123!", TextEncoding.Utf8), BinaryEncoding.Base64),
 
     Token = Json.Document(
         Web.Contents("https://rest.api.xemelgo.com/login", [
@@ -166,8 +166,8 @@ in
 
 ```powerquery
 let
-    Email    = "BASE64_ENCODED_EMAIL",
-    Password = "BASE64_ENCODED_PASSWORD",
+    Email    = Binary.ToText(Text.ToBinary("your@email.com",   TextEncoding.Utf8), BinaryEncoding.Base64),
+    Password = Binary.ToText(Text.ToBinary("YourPassword123!", TextEncoding.Utf8), BinaryEncoding.Base64),
 
     Token = Json.Document(
         Web.Contents("https://rest.api.xemelgo.com/login", [
