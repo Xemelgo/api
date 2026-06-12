@@ -1,0 +1,3986 @@
+openapi: 3.1.0
+info:
+  title: Xemelgo Webhooks
+  version: 1.0.0
+  description: >-
+    Outbound webhook events Xemelgo sends to your registered endpoint. Each
+    entry is an event Xemelgo POSTs to you.
+tags:
+  - name: Asset
+  - name: Inventory
+  - name: Package
+  - name: Work Order
+webhooks:
+  asset.bulk_update:
+    post:
+      summary: asset.bulk_update
+      operationId: asset.bulk_update
+      description: >-
+        Sent when an asset bulk-update operation completes. The payload contains
+        the updated assets.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - asset.bulk_update
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    assets:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          itemUpdate:
+                            type: object
+                            additionalProperties: true
+                          location:
+                            type:
+                              - object
+                              - 'null'
+                            properties:
+                              id:
+                                type: string
+                          previousFieldValues:
+                            type: object
+                            additionalProperties: true
+                          uom:
+                            type:
+                              - string
+                              - 'null'
+                          uuid:
+                            type: string
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    submittedAtLocationId:
+                      type: string
+                    submittedByUser:
+                      type: object
+                      properties:
+                        alias:
+                          type:
+                            - string
+                            - 'null'
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        firstName:
+                          type:
+                            - string
+                            - 'null'
+                        lastName:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: asset.bulk_update
+              data:
+                assets:
+                  - id: A-1
+                    itemUpdate:
+                      quantityAdded: 1
+                    location:
+                      id: L-1
+                    previousFieldValues: {}
+                    uom: EA
+                    uuid: 11111111-1111-4111-8111-111111111111
+                creationDate: 1765420060123
+                customProperties: null
+                submittedAtLocationId: 1-Z
+                submittedByUser:
+                  alias: person1
+                  customProperties: {}
+                  firstName: door
+                  lastName: dash
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Asset
+      x-stability: stable
+  asset.created:
+    post:
+      summary: asset.created
+      operationId: asset.created
+      description: >-
+        Sent when a new asset is created. The payload contains the full asset,
+        including its type and any custom properties.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - asset.created
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    containerId:
+                      type:
+                        - string
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    dueDate:
+                      type:
+                        - integer
+                        - 'null'
+                    id:
+                      type: string
+                    images:
+                      type: array
+                      items:
+                        type: string
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type: object
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        id:
+                          type: string
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type: object
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                    state:
+                      type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    type:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        creationDate:
+                          type: integer
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        imagePath:
+                          type:
+                            - string
+                            - 'null'
+                        images:
+                          type: array
+                          items:
+                            type:
+                              - string
+                              - 'null'
+                        lastUpdatedDate:
+                          type: integer
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        number:
+                          type:
+                            - string
+                            - 'null'
+                        quantity:
+                          type:
+                            - integer
+                            - 'null'
+                        unit:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: asset.created
+              data:
+                comments: Asset Create 1 Comments
+                containerId: null
+                creationDate: 1765420060123
+                customProperties:
+                  assetTs: Asset 12345
+                description: Asset Create 1 Description
+                dueDate: 1765420060189
+                id: ASSET-CREATE-1
+                images:
+                  - img1.jpg
+                lastDetectedAtLocation: null
+                lastUpdatedDate: 1765420060123
+                location: null
+                name: Asset Create 1
+                state: incoming
+                trackerSerial: TRACKER-ASSET-CREATE-1
+                trackerSerials:
+                  - TRACKER-ASSET-CREATE-1
+                type:
+                  creationDate: 1765420060123
+                  customProperties:
+                    assetTypeTs: null
+                  description: null
+                  id: TYPE-1
+                  imagePath: null
+                  images: []
+                  lastUpdatedDate: 1765420060123
+                  name: null
+                  number: null
+                  quantity: null
+                  unit: null
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Asset
+      x-stability: stable
+  asset.cycle_count:
+    post:
+      summary: asset.cycle_count
+      operationId: asset.cycle_count
+      description: >-
+        Sent when an asset cycle count is submitted. Provides item-level detail
+        and aggregate counts per asset type.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - asset.cycle_count
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    assetTypes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          addedCount:
+                            type: integer
+                          assets:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                action:
+                                  type: string
+                                id:
+                                  type: string
+                                trackerSerial:
+                                  type:
+                                    - string
+                                    - 'null'
+                          detectedCount:
+                            type: integer
+                          foundCount:
+                            type: integer
+                          id:
+                            type: string
+                          missingCount:
+                            type: integer
+                          movedCount:
+                            type: integer
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          noActionCount:
+                            type: integer
+                          removedCount:
+                            type: integer
+                          totalCount:
+                            type: integer
+                    creationDate:
+                      type: integer
+                    customerId:
+                      type:
+                        - string
+                        - 'null'
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    locationId:
+                      type:
+                        - string
+                        - 'null'
+                    submittedByUser:
+                      type: object
+                      properties:
+                        alias:
+                          type:
+                            - string
+                            - 'null'
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        firstName:
+                          type:
+                            - string
+                            - 'null'
+                        lastName:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: asset.cycle_count
+              data:
+                assetTypes:
+                  - addedCount: 0
+                    assets:
+                      - action: DETECTED
+                        id: Asset-1
+                        trackerSerial: vid-asset-1
+                    detectedCount: 1
+                    foundCount: 0
+                    id: TypeA
+                    missingCount: 0
+                    movedCount: 0
+                    name: null
+                    noActionCount: 0
+                    removedCount: 0
+                    totalCount: 1
+                creationDate: 1765420060123
+                customerId: null
+                location:
+                  categoryId: Zone
+                  customProperties: {}
+                  customerId: null
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: null
+                  roleId: null
+                locationId: 1-Z
+                submittedByUser:
+                  alias: person1
+                  customProperties: {}
+                  firstName: door
+                  lastName: dash
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Asset
+      x-stability: stable
+  asset.cycle_count.counts:
+    post:
+      summary: asset.cycle_count.counts
+      operationId: asset.cycle_count.counts
+      description: >-
+        Sent when an asset cycle count is submitted. Provides aggregate counts
+        per asset type only (no item-level detail).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - asset.cycle_count.counts
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    assetTypes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          addedCount:
+                            type: integer
+                          detectedCount:
+                            type: integer
+                          foundCount:
+                            type: integer
+                          id:
+                            type: string
+                          missingCount:
+                            type: integer
+                          movedCount:
+                            type: integer
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          noActionCount:
+                            type: integer
+                          removedCount:
+                            type: integer
+                          totalCount:
+                            type: integer
+                    creationDate:
+                      type: integer
+                    customerId:
+                      type:
+                        - string
+                        - 'null'
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    locationId:
+                      type:
+                        - string
+                        - 'null'
+                    submittedByUser:
+                      type: object
+                      properties:
+                        alias:
+                          type:
+                            - string
+                            - 'null'
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        firstName:
+                          type:
+                            - string
+                            - 'null'
+                        lastName:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: asset.cycle_count.counts
+              data:
+                assetTypes:
+                  - addedCount: 0
+                    detectedCount: 1
+                    foundCount: 0
+                    id: TypeA
+                    missingCount: 0
+                    movedCount: 0
+                    name: null
+                    noActionCount: 0
+                    removedCount: 0
+                    totalCount: 1
+                creationDate: 1765420060123
+                customerId: null
+                location:
+                  categoryId: Zone
+                  customProperties: {}
+                  customerId: null
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: null
+                  roleId: null
+                locationId: 1-Z
+                submittedByUser:
+                  alias: person1
+                  customProperties: {}
+                  firstName: door
+                  lastName: dash
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Asset
+      x-stability: stable
+  asset.moved:
+    post:
+      summary: asset.moved
+      operationId: asset.moved
+      description: >-
+        Sent when a tracked asset is detected at or moved to a new location. The
+        payload contains the full asset, including its current and last-detected
+        locations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - asset.moved
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    containerId:
+                      type:
+                        - string
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    dueDate:
+                      type:
+                        - integer
+                        - 'null'
+                    id:
+                      type: string
+                    images:
+                      type: array
+                      items:
+                        type: string
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                    state:
+                      type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    type:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        creationDate:
+                          type: integer
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        imagePath:
+                          type:
+                            - string
+                            - 'null'
+                        images:
+                          type: array
+                          items:
+                            type:
+                              - string
+                              - 'null'
+                        lastUpdatedDate:
+                          type: integer
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        number:
+                          type:
+                            - string
+                            - 'null'
+                        quantity:
+                          type:
+                            - integer
+                            - 'null'
+                        unit:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: asset.moved
+              data:
+                comments: Asset Move 1 Comments
+                containerId: CONTAINER-A1
+                creationDate: 1765420060123
+                customProperties:
+                  assetTs: Asset 12345
+                description: Asset Move 1 Description
+                dueDate: 1765420060189
+                id: ASSET-MOVE-1
+                images:
+                  - img1.jpg
+                lastDetectedAtLocation:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: stockroom
+                lastUpdatedDate: 1765420060123
+                location:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: stockroom
+                name: Asset Move 1
+                state: onhand
+                trackerSerial: TRACKER-ASSET-MOVE-1
+                trackerSerials:
+                  - TRACKER-ASSET-MOVE-1
+                type:
+                  creationDate: 1765420060123
+                  customProperties:
+                    assetTypeTs: null
+                  description: null
+                  id: TYPE-1
+                  imagePath: null
+                  images: []
+                  lastUpdatedDate: 1765420060123
+                  name: null
+                  number: null
+                  quantity: null
+                  unit: null
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Asset
+      x-stability: stable
+  inventory.audit:
+    post:
+      summary: inventory.audit
+      operationId: inventory.audit
+      description: >-
+        Sent when an inventory audit is submitted. Provides item-level detail
+        and aggregate counts per inventory part.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.audit
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    creationDate:
+                      type: integer
+                    customerId:
+                      type:
+                        - string
+                        - 'null'
+                    inventoryParts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          automaticallyAddedCount:
+                            type: integer
+                          customerOnHandCount:
+                            type: integer
+                          id:
+                            type: string
+                          inventory:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                action:
+                                  type: string
+                                expirationDate:
+                                  type:
+                                    - integer
+                                    - 'null'
+                                isConsumed:
+                                  type:
+                                    - boolean
+                                    - 'null'
+                                lotNumber:
+                                  type: string
+                                trackerSerial:
+                                  type:
+                                    - string
+                                    - 'null'
+                          manuallyAddedCount:
+                            type: integer
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          removedCount:
+                            type: integer
+                          scannedCount:
+                            type: integer
+                          totalCount:
+                            type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    locationId:
+                      type:
+                        - string
+                        - 'null'
+                    submittedByUser:
+                      type: object
+                      properties:
+                        alias:
+                          type:
+                            - string
+                            - 'null'
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        firstName:
+                          type:
+                            - string
+                            - 'null'
+                        lastName:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.audit
+              data:
+                creationDate: 1765420060123
+                customerId: null
+                inventoryParts:
+                  - automaticallyAddedCount: 1
+                    customerOnHandCount: 1
+                    id: audit-itemType1
+                    inventory:
+                      - action: MANUALLY ADDED
+                        expirationDate: 1766187135000
+                        isConsumed: false
+                        lotNumber: LOT-001
+                        trackerSerial: AUDIT-VID-001
+                      - action: SCANNED
+                        expirationDate: 1766187135000
+                        isConsumed: false
+                        lotNumber: LOT-002
+                        trackerSerial: AUDIT-VID-002
+                      - action: AUTOMATICALLY ADDED
+                        isConsumed: false
+                        lotNumber: LOT-003
+                        trackerSerial: AUDIT-VID-003
+                      - action: REMOVED
+                        isConsumed: false
+                        lotNumber: LOT-004
+                        trackerSerial: AUDIT-VID-004
+                      - action: CUSTOMER ONHAND
+                        isConsumed: false
+                        lotNumber: LOT-005
+                        trackerSerial: AUDIT-VID-005
+                    manuallyAddedCount: 1
+                    name: null
+                    removedCount: 1
+                    scannedCount: 1
+                    totalCount: 5
+                location:
+                  categoryId: Stock Room
+                  customProperties: {}
+                  customerId: null
+                  description: Audit Stock Room 1
+                  id: AUDIT-R-STOCKRM1
+                  name: Audit Stock Room 1
+                  parentLocationId: AUDIT-1-Z
+                  roleId: null
+                locationId: AUDIT-R-STOCKRM1
+                submittedByUser:
+                  alias: audit-person1
+                  customProperties:
+                    department: Operations
+                  firstName: User
+                  lastName: Audit
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  inventory.audit.counts:
+    post:
+      summary: inventory.audit.counts
+      operationId: inventory.audit.counts
+      description: >-
+        Sent when an inventory audit is submitted. Provides aggregate counts per
+        inventory part only (no item-level detail).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.audit.counts
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    creationDate:
+                      type: integer
+                    customerId:
+                      type:
+                        - string
+                        - 'null'
+                    inventoryParts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          automaticallyAddedCount:
+                            type: integer
+                          customerOnHandCount:
+                            type: integer
+                          id:
+                            type: string
+                          manuallyAddedCount:
+                            type: integer
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          removedCount:
+                            type: integer
+                          scannedCount:
+                            type: integer
+                          totalCount:
+                            type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    locationId:
+                      type:
+                        - string
+                        - 'null'
+                    submittedByUser:
+                      type: object
+                      properties:
+                        alias:
+                          type:
+                            - string
+                            - 'null'
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        firstName:
+                          type:
+                            - string
+                            - 'null'
+                        lastName:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.audit.counts
+              data:
+                creationDate: 1765420060123
+                customerId: null
+                inventoryParts:
+                  - automaticallyAddedCount: 1
+                    customerOnHandCount: 1
+                    id: audit-itemType1
+                    manuallyAddedCount: 1
+                    name: null
+                    removedCount: 1
+                    scannedCount: 1
+                    totalCount: 5
+                location:
+                  categoryId: Stock Room
+                  customProperties: {}
+                  customerId: null
+                  description: Audit Stock Room 1
+                  id: AUDIT-R-STOCKRM1
+                  name: Audit Stock Room 1
+                  parentLocationId: AUDIT-1-Z
+                  roleId: null
+                locationId: AUDIT-R-STOCKRM1
+                submittedByUser:
+                  alias: audit-person1
+                  customProperties:
+                    department: Operations
+                  firstName: User
+                  lastName: Audit
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  inventory.bulk_update:
+    post:
+      summary: inventory.bulk_update
+      operationId: inventory.bulk_update
+      description: >-
+        Sent when an inventory bulk-update operation completes. The payload
+        contains the updated inventory items.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.bulk_update
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    inventory:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          itemUpdate:
+                            type: object
+                            additionalProperties: true
+                          location:
+                            type:
+                              - object
+                              - 'null'
+                            properties:
+                              id:
+                                type: string
+                          previousFieldValues:
+                            type: object
+                            additionalProperties: true
+                          uom:
+                            type:
+                              - string
+                              - 'null'
+                          uuid:
+                            type: string
+                    submittedAtLocationId:
+                      type: string
+                    submittedByUser:
+                      type: object
+                      properties:
+                        alias:
+                          type:
+                            - string
+                            - 'null'
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        firstName:
+                          type:
+                            - string
+                            - 'null'
+                        lastName:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.bulk_update
+              data:
+                creationDate: 1765420060123
+                customProperties: null
+                inventory:
+                  - id: ITEM-1
+                    itemUpdate:
+                      quantityAdded: 5
+                    location:
+                      id: 1-Z
+                    previousFieldValues: {}
+                    uom: EA
+                    uuid: 11111111-1111-4111-8111-111111111111
+                submittedAtLocationId: 1-Z
+                submittedByUser:
+                  alias: person1
+                  customProperties: {}
+                  firstName: door
+                  lastName: dash
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  inventory.consumed:
+    post:
+      summary: inventory.consumed
+      operationId: inventory.consumed
+      description: >-
+        Sent when an inventory item is marked as consumed. The payload contains
+        the full inventory item with its consumed state and date.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.consumed
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    associatedPersons:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          alias:
+                            type: string
+                          customProperties:
+                            type:
+                              - object
+                              - 'null'
+                            additionalProperties: true
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    consumedDate:
+                      type:
+                        - integer
+                        - 'null'
+                    containerId:
+                      type:
+                        - string
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    expirationDate:
+                      type:
+                        - integer
+                        - 'null'
+                    id:
+                      type: string
+                    images:
+                      type: array
+                      items:
+                        type:
+                          - string
+                          - 'null'
+                    isConsumed:
+                      type:
+                        - boolean
+                        - 'null'
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lotNumber:
+                      type: string
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                    part:
+                      type: object
+                      properties:
+                        creationDate:
+                          type: integer
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        imagePath:
+                          type:
+                            - string
+                            - 'null'
+                        images:
+                          type: array
+                          items:
+                            type:
+                              - string
+                              - 'null'
+                        lastUpdatedDate:
+                          type: integer
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        number:
+                          type:
+                            - string
+                            - 'null'
+                        quantity:
+                          type:
+                            - integer
+                            - 'null'
+                        unit:
+                          type:
+                            - string
+                            - 'null'
+                    quantity:
+                      type:
+                        - integer
+                        - 'null'
+                    state:
+                      type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.consumed
+              data:
+                associatedPersons:
+                  - alias: consume-person-1
+                    customProperties: {}
+                    firstName: Consume
+                    lastName: Person
+                  - alias: consume-person-2
+                    customProperties: {}
+                    firstName: Consume
+                    lastName: Person2
+                comments: null
+                consumedDate: 1765420060123
+                containerId: null
+                creationDate: 1765420060123
+                customProperties:
+                  inventoryTs: null
+                description: ''
+                expirationDate: null
+                id: INV-TRACKER-001
+                images: []
+                isConsumed: true
+                lastDetectedAtLocation:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: null
+                lastUpdatedDate: 1765420060123
+                location:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: null
+                lotNumber: ''
+                name: ''
+                part:
+                  creationDate: 1765420060123
+                  customProperties:
+                    inventoryPartTs: type1 custom field
+                  description: null
+                  id: type1
+                  imagePath: parts/type1.jpg
+                  images: []
+                  lastUpdatedDate: 1765420060123
+                  name: type1-name
+                  number: null
+                  quantity: null
+                  unit: EA
+                quantity: null
+                state: onhand
+                trackerSerial: INV-TRACKER-001
+                trackerSerials:
+                  - INV-TRACKER-001
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  inventory.created:
+    post:
+      summary: inventory.created
+      operationId: inventory.created
+      description: >-
+        Sent when a new inventory item is created. The payload contains the full
+        inventory item, including its part and any custom properties.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.created
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    consumedDate:
+                      type:
+                        - integer
+                        - 'null'
+                    containerId:
+                      type:
+                        - string
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    expirationDate:
+                      type:
+                        - integer
+                        - 'null'
+                    id:
+                      type: string
+                    images:
+                      type: array
+                      items:
+                        type: string
+                    isConsumed:
+                      type:
+                        - boolean
+                        - 'null'
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type: object
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        id:
+                          type: string
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type: object
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lotNumber:
+                      type: string
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                    part:
+                      type: object
+                      properties:
+                        creationDate:
+                          type: integer
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        imagePath:
+                          type:
+                            - string
+                            - 'null'
+                        images:
+                          type: array
+                          items:
+                            type:
+                              - string
+                              - 'null'
+                        lastUpdatedDate:
+                          type: integer
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        number:
+                          type:
+                            - string
+                            - 'null'
+                        quantity:
+                          type:
+                            - integer
+                            - 'null'
+                        unit:
+                          type:
+                            - string
+                            - 'null'
+                    quantity:
+                      type:
+                        - integer
+                        - 'null'
+                    state:
+                      type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.created
+              data:
+                comments: Inventory Create 1 Comments
+                consumedDate: null
+                containerId: null
+                creationDate: 1765420060123
+                customProperties:
+                  inventoryTs: Inventory 12345
+                description: Inventory Create 1 Description
+                expirationDate: 1765420060189
+                id: INVENTORY-CREATE-1
+                images:
+                  - img1.jpg
+                isConsumed: null
+                lastDetectedAtLocation: null
+                lastUpdatedDate: 1765420060123
+                location: null
+                lotNumber: '32'
+                name: Inventory Create 1
+                part:
+                  creationDate: 1765420060123
+                  customProperties:
+                    inventoryPartTs: null
+                  description: null
+                  id: TYPE-1
+                  imagePath: null
+                  images: []
+                  lastUpdatedDate: 1765420060123
+                  name: null
+                  number: null
+                  quantity: null
+                  unit: null
+                quantity: 13
+                state: incoming
+                trackerSerial: TRACKER-INV-CREATE-1
+                trackerSerials:
+                  - TRACKER-INV-CREATE-1
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  inventory.cycle_count:
+    post:
+      summary: inventory.cycle_count
+      operationId: inventory.cycle_count
+      description: >-
+        Sent when an inventory cycle count is submitted. Provides item-level
+        detail and aggregate counts per inventory part.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.cycle_count
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    creationDate:
+                      type: integer
+                    customerId:
+                      type:
+                        - string
+                        - 'null'
+                    inventoryParts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          addedCount:
+                            type: integer
+                          detectedCount:
+                            type: integer
+                          foundCount:
+                            type: integer
+                          id:
+                            type: string
+                          inventory:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                action:
+                                  type: string
+                                id:
+                                  type: string
+                                trackerSerial:
+                                  type:
+                                    - string
+                                    - 'null'
+                          missingCount:
+                            type: integer
+                          movedCount:
+                            type: integer
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          noActionCount:
+                            type: integer
+                          removedCount:
+                            type: integer
+                          totalCount:
+                            type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    locationId:
+                      type:
+                        - string
+                        - 'null'
+                    submittedByUser:
+                      type: object
+                      properties:
+                        alias:
+                          type:
+                            - string
+                            - 'null'
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        firstName:
+                          type:
+                            - string
+                            - 'null'
+                        lastName:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.cycle_count
+              data:
+                creationDate: 1765420060123
+                customerId: null
+                inventoryParts:
+                  - addedCount: 0
+                    detectedCount: 1
+                    foundCount: 0
+                    id: Desktop
+                    inventory:
+                      - action: DETECTED
+                        id: '728'
+                        trackerSerial: '012417377714585'
+                      - action: MISSING
+                        id: identifier2
+                        trackerSerial: vid2
+                    missingCount: 1
+                    movedCount: 0
+                    name: null
+                    noActionCount: 0
+                    removedCount: 0
+                    totalCount: 2
+                  - addedCount: 0
+                    detectedCount: 1
+                    foundCount: 0
+                    id: Laptop
+                    inventory:
+                      - action: DETECTED
+                        id: identifier3
+                        trackerSerial: vid3
+                    missingCount: 0
+                    movedCount: 0
+                    name: null
+                    noActionCount: 0
+                    removedCount: 0
+                    totalCount: 1
+                location:
+                  categoryId: Zone
+                  customProperties: {}
+                  customerId: null
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: null
+                  roleId: null
+                locationId: 1-Z
+                submittedByUser:
+                  alias: person1
+                  customProperties: {}
+                  firstName: door
+                  lastName: dash
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  inventory.cycle_count.counts:
+    post:
+      summary: inventory.cycle_count.counts
+      operationId: inventory.cycle_count.counts
+      description: >-
+        Sent when an inventory cycle count is submitted. Provides aggregate
+        counts per inventory part only (no item-level detail).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.cycle_count.counts
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    creationDate:
+                      type: integer
+                    customerId:
+                      type:
+                        - string
+                        - 'null'
+                    inventoryParts:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          addedCount:
+                            type: integer
+                          detectedCount:
+                            type: integer
+                          foundCount:
+                            type: integer
+                          id:
+                            type: string
+                          missingCount:
+                            type: integer
+                          movedCount:
+                            type: integer
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          noActionCount:
+                            type: integer
+                          removedCount:
+                            type: integer
+                          totalCount:
+                            type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    locationId:
+                      type:
+                        - string
+                        - 'null'
+                    submittedByUser:
+                      type: object
+                      properties:
+                        alias:
+                          type:
+                            - string
+                            - 'null'
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        firstName:
+                          type:
+                            - string
+                            - 'null'
+                        lastName:
+                          type:
+                            - string
+                            - 'null'
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.cycle_count.counts
+              data:
+                creationDate: 1765420060123
+                customerId: null
+                inventoryParts:
+                  - addedCount: 0
+                    detectedCount: 1
+                    foundCount: 0
+                    id: TypeI
+                    missingCount: 0
+                    movedCount: 0
+                    name: null
+                    noActionCount: 0
+                    removedCount: 0
+                    totalCount: 1
+                location:
+                  categoryId: Zone
+                  customProperties: {}
+                  customerId: null
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: null
+                  roleId: null
+                locationId: 1-Z
+                submittedByUser:
+                  alias: person1
+                  customProperties: {}
+                  firstName: door
+                  lastName: dash
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  inventory.moved:
+    post:
+      summary: inventory.moved
+      operationId: inventory.moved
+      description: >-
+        Sent when an inventory item is detected at or moved to a new location.
+        The payload contains the full inventory item, including its current and
+        last-detected locations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.moved
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    consumedDate:
+                      type:
+                        - integer
+                        - 'null'
+                    containerId:
+                      type:
+                        - string
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    expirationDate:
+                      type:
+                        - integer
+                        - 'null'
+                    id:
+                      type: string
+                    images:
+                      type: array
+                      items:
+                        type: string
+                    isConsumed:
+                      type:
+                        - boolean
+                        - 'null'
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lotNumber:
+                      type: string
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                    part:
+                      type: object
+                      properties:
+                        creationDate:
+                          type: integer
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        imagePath:
+                          type:
+                            - string
+                            - 'null'
+                        images:
+                          type: array
+                          items:
+                            type:
+                              - string
+                              - 'null'
+                        lastUpdatedDate:
+                          type: integer
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        number:
+                          type:
+                            - string
+                            - 'null'
+                        quantity:
+                          type:
+                            - integer
+                            - 'null'
+                        unit:
+                          type:
+                            - string
+                            - 'null'
+                    quantity:
+                      type:
+                        - integer
+                        - 'null'
+                    state:
+                      type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.moved
+              data:
+                comments: Item Move 1 Comments
+                consumedDate: null
+                containerId: CONTAINER-A1
+                creationDate: 1765420060123
+                customProperties:
+                  inventoryTs: '12345'
+                description: Item Move 1 Description
+                expirationDate: 1765420060189
+                id: ITEM-MOVE-1
+                images:
+                  - img1.jpg
+                isConsumed: null
+                lastDetectedAtLocation:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: stockroom
+                lastUpdatedDate: 1765420060123
+                location:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: stockroom
+                lotNumber: '32'
+                name: Item Move 1
+                part:
+                  creationDate: 1765420060123
+                  customProperties:
+                    inventoryPartTs: null
+                  description: null
+                  id: PART-1
+                  imagePath: null
+                  images: []
+                  lastUpdatedDate: 1765420060123
+                  name: null
+                  number: null
+                  quantity: null
+                  unit: null
+                quantity: 13
+                state: onhand
+                trackerSerial: TRACKER-INV-MOVE-1
+                trackerSerials:
+                  - TRACKER-INV-MOVE-1
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  inventory.returned:
+    post:
+      summary: inventory.returned
+      operationId: inventory.returned
+      description: >-
+        Sent when a previously consumed inventory item is returned to stock. The
+        payload contains the full inventory item with its restored state.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - inventory.returned
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    associatedPersons:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          alias:
+                            type: string
+                          customProperties:
+                            type:
+                              - object
+                              - 'null'
+                            additionalProperties: true
+                          firstName:
+                            type: string
+                          lastName:
+                            type: string
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    consumedDate:
+                      type:
+                        - integer
+                        - 'null'
+                    containerId:
+                      type:
+                        - string
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    expirationDate:
+                      type:
+                        - integer
+                        - 'null'
+                    id:
+                      type: string
+                    images:
+                      type: array
+                      items:
+                        type:
+                          - string
+                          - 'null'
+                    isConsumed:
+                      type:
+                        - boolean
+                        - 'null'
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lotNumber:
+                      type: string
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                    part:
+                      type: object
+                      properties:
+                        creationDate:
+                          type: integer
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        imagePath:
+                          type:
+                            - string
+                            - 'null'
+                        images:
+                          type: array
+                          items:
+                            type:
+                              - string
+                              - 'null'
+                        lastUpdatedDate:
+                          type: integer
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        number:
+                          type:
+                            - string
+                            - 'null'
+                        quantity:
+                          type:
+                            - integer
+                            - 'null'
+                        unit:
+                          type:
+                            - string
+                            - 'null'
+                    quantity:
+                      type:
+                        - integer
+                        - 'null'
+                    state:
+                      type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: inventory.returned
+              data:
+                associatedPersons:
+                  - alias: consume-person-1
+                    customProperties: {}
+                    firstName: Consume
+                    lastName: Person
+                  - alias: consume-person-2
+                    customProperties: {}
+                    firstName: Consume
+                    lastName: Person2
+                comments: null
+                consumedDate: 1765420060123
+                containerId: null
+                creationDate: 1765420060123
+                customProperties:
+                  inventoryTs: null
+                description: ''
+                expirationDate: null
+                id: INV-TRACKER-001
+                images: []
+                isConsumed: false
+                lastDetectedAtLocation:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: null
+                lastUpdatedDate: 1765420060123
+                location:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: null
+                lotNumber: ''
+                name: ''
+                part:
+                  creationDate: 1765420060123
+                  customProperties:
+                    inventoryPartTs: type1 custom field
+                  description: null
+                  id: type1
+                  imagePath: null
+                  images: []
+                  lastUpdatedDate: 1765420060123
+                  name: type1-name
+                  number: null
+                  quantity: null
+                  unit: null
+                quantity: null
+                state: onhand
+                trackerSerial: INV-TRACKER-001
+                trackerSerials:
+                  - INV-TRACKER-001
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Inventory
+      x-stability: stable
+  package.created:
+    post:
+      summary: package.created
+      operationId: package.created
+      description: >-
+        Sent when a new package is created. The payload contains the full
+        package and any custom properties.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - package.created
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    containerId:
+                      type:
+                        - string
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    id:
+                      type: string
+                    images:
+                      type: array
+                      items:
+                        type: string
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type: object
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        id:
+                          type: string
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type: object
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                    state:
+                      type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: package.created
+              data:
+                comments: Package Create 1 Comments
+                containerId: null
+                creationDate: 1765420060123
+                customProperties:
+                  packageTs: Package 12345
+                description: Package Create 1 Description
+                id: PACKAGE-CREATE-1
+                images:
+                  - img1.jpg
+                lastDetectedAtLocation: null
+                lastUpdatedDate: 1765420060123
+                location: null
+                name: Package Create 1
+                state: incoming
+                trackerSerial: TRACKER-PKG-CREATE-1
+                trackerSerials:
+                  - TRACKER-PKG-CREATE-1
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Package
+      x-stability: stable
+  package.moved:
+    post:
+      summary: package.moved
+      operationId: package.moved
+      description: >-
+        Sent when a package is detected at or moved to a new location. The
+        payload contains the full package, including its current and
+        last-detected locations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - package.moved
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    containerId:
+                      type:
+                        - string
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    id:
+                      type: string
+                    images:
+                      type: array
+                      items:
+                        type: string
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    name:
+                      type:
+                        - string
+                        - 'null'
+                    state:
+                      type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: package.moved
+              data:
+                comments: Package Move 1 Comments
+                containerId: CONTAINER-A1
+                creationDate: 1765420060123
+                customProperties:
+                  packageTs: '12345'
+                description: Package Move 1 Description
+                id: PACKAGE-MOVE-1
+                images:
+                  - img1.jpg
+                lastDetectedAtLocation:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: stockroom
+                lastUpdatedDate: 1765420060123
+                location:
+                  categoryId: Zone
+                  customProperties:
+                    locationTs: null
+                  customerId: ACME
+                  description: Store 1
+                  id: 1-Z
+                  name: Zone 1
+                  parentLocationId: BLDG-A
+                  roleId: stockroom
+                name: Package Move 1
+                state: onhand
+                trackerSerial: TRACKER-PKG-MOVE-1
+                trackerSerials:
+                  - TRACKER-PKG-MOVE-1
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Package
+      x-stability: stable
+  work_order.created:
+    post:
+      summary: work_order.created
+      operationId: work_order.created
+      description: >-
+        Sent when a new work order is created. The payload contains the full
+        work order and its properties.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - work_order.created
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    completionDate:
+                      type:
+                        - integer
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    currentOperation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        delayedStartSeverity:
+                          type: string
+                        severity:
+                          type: string
+                        startStatus:
+                          type: string
+                        status:
+                          type:
+                            - string
+                            - 'null'
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    customer:
+                      type:
+                        - string
+                        - 'null'
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    dueDate:
+                      type:
+                        - integer
+                        - 'null'
+                    inputs:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          id:
+                            type: string
+                          isActive:
+                            type:
+                              - boolean
+                              - 'null'
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          quantity:
+                            type:
+                              - integer
+                              - 'null'
+                          trackerSerial:
+                            type:
+                              - string
+                              - 'null'
+                          type:
+                            type:
+                              - object
+                              - 'null'
+                            properties:
+                              creationDate:
+                                type: integer
+                              customProperties:
+                                type: object
+                                additionalProperties: true
+                              description:
+                                type:
+                                  - string
+                                  - 'null'
+                              id:
+                                type: string
+                              imagePath:
+                                type:
+                                  - string
+                                  - 'null'
+                              images:
+                                type: array
+                                items:
+                                  type:
+                                    - string
+                                    - 'null'
+                              lastUpdatedDate:
+                                type: integer
+                              name:
+                                type:
+                                  - string
+                                  - 'null'
+                              number:
+                                type:
+                                  - string
+                                  - 'null'
+                              quantity:
+                                type:
+                                  - integer
+                                  - 'null'
+                              unit:
+                                type:
+                                  - string
+                                  - 'null'
+                    isActive:
+                      type:
+                        - boolean
+                        - 'null'
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type: object
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastDetectionDate:
+                      type:
+                        - integer
+                        - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        id:
+                          type: string
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type: object
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    number:
+                      type:
+                        - string
+                        - 'null'
+                    outputs:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          category:
+                            type: string
+                          id:
+                            type: string
+                          isActive:
+                            type:
+                              - boolean
+                              - 'null'
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          quantity:
+                            type:
+                              - integer
+                              - 'null'
+                          trackerSerial:
+                            type:
+                              - string
+                              - 'null'
+                          type:
+                            type:
+                              - object
+                              - 'null'
+                            properties:
+                              creationDate:
+                                type: integer
+                              customProperties:
+                                type: object
+                                additionalProperties: true
+                              description:
+                                type:
+                                  - string
+                                  - 'null'
+                              id:
+                                type: string
+                              imagePath:
+                                type:
+                                  - string
+                                  - 'null'
+                              images:
+                                type: array
+                                items:
+                                  type:
+                                    - string
+                                    - 'null'
+                              lastUpdatedDate:
+                                type: integer
+                              name:
+                                type:
+                                  - string
+                                  - 'null'
+                              number:
+                                type:
+                                  - string
+                                  - 'null'
+                              quantity:
+                                type:
+                                  - integer
+                                  - 'null'
+                              unit:
+                                type:
+                                  - string
+                                  - 'null'
+                    poNumber:
+                      type:
+                        - string
+                        - 'null'
+                    priority:
+                      type:
+                        - integer
+                        - 'null'
+                    startDate:
+                      type:
+                        - integer
+                        - 'null'
+                    state:
+                      type:
+                        - string
+                        - 'null'
+                    status:
+                      type:
+                        - string
+                        - 'null'
+                    statusFlags:
+                      type: array
+                      items:
+                        type: string
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerialAttachDate:
+                      type: integer
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: work_order.created
+              data:
+                comments: Rush order
+                completionDate: 1765520060000
+                creationDate: 1765420060123
+                currentOperation:
+                  delayedStartSeverity: CRITICAL
+                  severity: WARNING
+                  startStatus: NOT_STARTED
+                  status: NOT_STARTED
+                customProperties: {}
+                customer: Acme Corp
+                description: Widget assembly job
+                dueDate: 1765420060000
+                inputs:
+                  - category: Raw Material
+                    id: PART-IN-1
+                    isActive: null
+                    name: null
+                    quantity: 10
+                    trackerSerial: null
+                    type: null
+                isActive: true
+                lastDetectedAtLocation: null
+                lastDetectionDate: null
+                lastUpdatedDate: 1765420060123
+                location: null
+                number: WO-CREATE-1
+                outputs:
+                  - category: Finished Good
+                    id: PART-OUT-1
+                    isActive: null
+                    name: null
+                    quantity: 5
+                    trackerSerial: null
+                    type: null
+                poNumber: PO-12345
+                priority: 2
+                startDate: 1765410060000
+                state: null
+                status: IN_PROGRESS
+                statusFlags:
+                  - DELAYED
+                trackerSerial: TRACKER-WO-CREATE-1
+                trackerSerialAttachDate: 1765420060123
+                trackerSerials:
+                  - TRACKER-WO-CREATE-1
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Work Order
+      x-stability: stable
+  work_order.moved:
+    post:
+      summary: work_order.moved
+      operationId: work_order.moved
+      description: >-
+        Sent when a work order is detected at or moved to a new location. The
+        payload contains the full work order, including its current and
+        last-detected locations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: Unique webhook event id (UUID).
+                eventTimestamp:
+                  type: integer
+                  description: Event time as epoch milliseconds.
+                topic:
+                  type: string
+                  enum:
+                    - work_order.moved
+                  description: The event type.
+                data:
+                  type: object
+                  properties:
+                    comments:
+                      type:
+                        - string
+                        - 'null'
+                    completionDate:
+                      type:
+                        - integer
+                        - 'null'
+                    creationDate:
+                      type: integer
+                    currentOperation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        delayedStartSeverity:
+                          type: string
+                        severity:
+                          type: string
+                        startStatus:
+                          type: string
+                        status:
+                          type:
+                            - string
+                            - 'null'
+                    customProperties:
+                      type:
+                        - object
+                        - 'null'
+                      additionalProperties: true
+                    customer:
+                      type:
+                        - string
+                        - 'null'
+                    description:
+                      type:
+                        - string
+                        - 'null'
+                    dueDate:
+                      type:
+                        - integer
+                        - 'null'
+                    inputs:
+                      type: array
+                      items:
+                        type:
+                          - object
+                          - 'null'
+                        properties:
+                          category:
+                            type: string
+                          id:
+                            type: string
+                          isActive:
+                            type:
+                              - boolean
+                              - 'null'
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          quantity:
+                            type:
+                              - integer
+                              - 'null'
+                          trackerSerial:
+                            type:
+                              - string
+                              - 'null'
+                          type:
+                            type:
+                              - object
+                              - 'null'
+                            properties:
+                              creationDate:
+                                type: integer
+                              customProperties:
+                                type: object
+                                additionalProperties: true
+                              description:
+                                type:
+                                  - string
+                                  - 'null'
+                              id:
+                                type: string
+                              imagePath:
+                                type:
+                                  - string
+                                  - 'null'
+                              images:
+                                type: array
+                                items:
+                                  type:
+                                    - string
+                                    - 'null'
+                              lastUpdatedDate:
+                                type: integer
+                              name:
+                                type:
+                                  - string
+                                  - 'null'
+                              number:
+                                type:
+                                  - string
+                                  - 'null'
+                              quantity:
+                                type:
+                                  - integer
+                                  - 'null'
+                              unit:
+                                type:
+                                  - string
+                                  - 'null'
+                    isActive:
+                      type:
+                        - boolean
+                        - 'null'
+                    lastDetectedAtLocation:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    lastDetectionDate:
+                      type:
+                        - integer
+                        - 'null'
+                    lastUpdatedDate:
+                      type: integer
+                    location:
+                      type:
+                        - object
+                        - 'null'
+                      properties:
+                        categoryId:
+                          type: string
+                        customProperties:
+                          type:
+                            - object
+                            - 'null'
+                          additionalProperties: true
+                        customerId:
+                          type:
+                            - string
+                            - 'null'
+                        description:
+                          type:
+                            - string
+                            - 'null'
+                        id:
+                          type: string
+                        name:
+                          type:
+                            - string
+                            - 'null'
+                        parentLocationId:
+                          type:
+                            - string
+                            - 'null'
+                        roleId:
+                          type:
+                            - string
+                            - 'null'
+                    number:
+                      type:
+                        - string
+                        - 'null'
+                    outputs:
+                      type: array
+                      items:
+                        type:
+                          - object
+                          - 'null'
+                        properties:
+                          category:
+                            type: string
+                          id:
+                            type: string
+                          isActive:
+                            type:
+                              - boolean
+                              - 'null'
+                          name:
+                            type:
+                              - string
+                              - 'null'
+                          quantity:
+                            type:
+                              - integer
+                              - 'null'
+                          trackerSerial:
+                            type:
+                              - string
+                              - 'null'
+                          type:
+                            type:
+                              - object
+                              - 'null'
+                            properties:
+                              creationDate:
+                                type: integer
+                              customProperties:
+                                type: object
+                                additionalProperties: true
+                              description:
+                                type:
+                                  - string
+                                  - 'null'
+                              id:
+                                type: string
+                              imagePath:
+                                type:
+                                  - string
+                                  - 'null'
+                              images:
+                                type: array
+                                items:
+                                  type:
+                                    - string
+                                    - 'null'
+                              lastUpdatedDate:
+                                type: integer
+                              name:
+                                type:
+                                  - string
+                                  - 'null'
+                              number:
+                                type:
+                                  - string
+                                  - 'null'
+                              quantity:
+                                type:
+                                  - integer
+                                  - 'null'
+                              unit:
+                                type:
+                                  - string
+                                  - 'null'
+                    poNumber:
+                      type:
+                        - string
+                        - 'null'
+                    priority:
+                      type:
+                        - integer
+                        - 'null'
+                    startDate:
+                      type:
+                        - integer
+                        - 'null'
+                    state:
+                      type:
+                        - string
+                        - 'null'
+                    status:
+                      type:
+                        - string
+                        - 'null'
+                    statusFlags:
+                      type: array
+                      items:
+                        type:
+                          - string
+                          - 'null'
+                    trackerSerial:
+                      type:
+                        - string
+                        - 'null'
+                    trackerSerialAttachDate:
+                      type: integer
+                    trackerSerials:
+                      type: array
+                      items:
+                        type: string
+                    uuid:
+                      type: string
+            example:
+              id: c1314cc5-60f7-ddba-7be3-900030a8ee05
+              eventTimestamp: 1765572297000
+              topic: work_order.moved
+              data:
+                comments: null
+                completionDate: null
+                creationDate: 1765420060123
+                currentOperation: null
+                customProperties: {}
+                customer: null
+                description: null
+                dueDate: null
+                inputs: []
+                isActive: true
+                lastDetectedAtLocation:
+                  categoryId: Dock Door
+                  customProperties:
+                    locationTs: Reader location
+                  customerId: null
+                  description: At detector
+                  id: Dock Door 1
+                  name: Dock Door 1
+                  parentLocationId: null
+                  roleId: null
+                lastDetectionDate: 1765420060123
+                lastUpdatedDate: 1765420060123
+                location:
+                  categoryId: Dock Door
+                  customProperties:
+                    locationTs: Reader location
+                  customerId: null
+                  description: At detector
+                  id: Dock Door 1
+                  name: Dock Door 1
+                  parentLocationId: null
+                  roleId: null
+                number: WO-TRACKER-001
+                outputs: []
+                poNumber: null
+                priority: null
+                startDate: null
+                state: null
+                status: null
+                statusFlags: []
+                trackerSerial: WO-TRACKER-001
+                trackerSerialAttachDate: 1765420060123
+                trackerSerials:
+                  - WO-TRACKER-001
+                uuid: 11111111-1111-4111-8111-111111111111
+      responses:
+        2XX:
+          description: Return any 2xx status to acknowledge receipt.
+      tags:
+        - Work Order
+      x-stability: stable
+components: {}
