@@ -14,11 +14,11 @@ Three queries are available — one for each transfer order type: **Asset**, **I
 
 ## <span style={{ color: '#0D8CFF' }}>How to Set Up</span>
 
-1. Follow the [setup steps](./index.md) to encode your credentials
+1. Follow the [setup steps](./index.md) to configure privacy settings
 2. In Power BI Desktop, open **Transform data → Transform data**
 3. Click **New Source → Blank Query**, then open **Advanced Editor**
 4. Paste one of the queries below
-5. In the code, update `Email`, `Password`, and `OrderId` at the top with your values
+5. In the code, replace `your@email.com`, `YourPassword123!`, and `OrderId` at the top with your values
 6. Click **Done** and rename the query (e.g., `Xemelgo Asset Transfer Order`)
 
 ---
@@ -27,8 +27,8 @@ Three queries are available — one for each transfer order type: **Asset**, **I
 
 ```powerquery
 let
-    Email    = "BASE64_ENCODED_EMAIL",
-    Password = "BASE64_ENCODED_PASSWORD",
+    Email    = Binary.ToText(Text.ToBinary("your@email.com",   TextEncoding.Utf8), BinaryEncoding.Base64),
+    Password = Binary.ToText(Text.ToBinary("YourPassword123!", TextEncoding.Utf8), BinaryEncoding.Base64),
     OrderId  = "YOUR_TRANSFER_ORDER_ID",
 
     Token = Json.Document(
@@ -81,8 +81,8 @@ in
 
 ```powerquery
 let
-    Email    = "BASE64_ENCODED_EMAIL",
-    Password = "BASE64_ENCODED_PASSWORD",
+    Email    = Binary.ToText(Text.ToBinary("your@email.com",   TextEncoding.Utf8), BinaryEncoding.Base64),
+    Password = Binary.ToText(Text.ToBinary("YourPassword123!", TextEncoding.Utf8), BinaryEncoding.Base64),
     OrderId  = "YOUR_TRANSFER_ORDER_ID",
 
     Token = Json.Document(
@@ -133,8 +133,8 @@ in
 
 ```powerquery
 let
-    Email    = "BASE64_ENCODED_EMAIL",
-    Password = "BASE64_ENCODED_PASSWORD",
+    Email    = Binary.ToText(Text.ToBinary("your@email.com",   TextEncoding.Utf8), BinaryEncoding.Base64),
+    Password = Binary.ToText(Text.ToBinary("YourPassword123!", TextEncoding.Utf8), BinaryEncoding.Base64),
     OrderId  = "YOUR_TRANSFER_ORDER_ID",
 
     Token = Json.Document(
@@ -187,8 +187,8 @@ If you have a list of IDs, replace the single-order query with this pattern:
 
 ```powerquery
 let
-    Email    = "BASE64_ENCODED_EMAIL",
-    Password = "BASE64_ENCODED_PASSWORD",
+    Email    = Binary.ToText(Text.ToBinary("your@email.com",   TextEncoding.Utf8), BinaryEncoding.Base64),
+    Password = Binary.ToText(Text.ToBinary("YourPassword123!", TextEncoding.Utf8), BinaryEncoding.Base64),
     OrderIds = {"ORDER-001", "ORDER-002", "ORDER-003"},
 
     Token = Json.Document(
