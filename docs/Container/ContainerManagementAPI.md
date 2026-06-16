@@ -8,56 +8,7 @@ pagination_prev: null
 
 <h2>Version 1.0 — April 2026</h2>
 
-## <span style={{ color: '#0D8CFF' }}>Authentication - Login API</span>
-
-To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
-
-### Endpoint Details
-
-- **URL:** `https://rest.api.xemelgo.com/login`
-- **Method:** `POST`
-
-### Properties
-
-| Property   | Type   | Description                      | Required |
-| ---------- | ------ | -------------------------------- | -------- |
-| `email`    | String | base64 Encoded email id for user | Yes      |
-| `password` | String | base64 encoded password for user | Yes      |
-
-> Password needs to be a minimum of 8 characters and should have a number in it.
-
-### Request Body
-
-```json
-{
-  "email": "base64_encoded_email",
-  "password": "base64_encoded_password"
-}
-```
-
-**StatusCode** - 200 on success
-
-### Response Body
-
-```json
-{
-  "AccessToken": "$accessToken",
-  "ExpiresIn": 480,
-  "TokenType": "Bearer",
-  "RefreshToken": "$refreshToken",
-  "IdToken": "$idToken"
-}
-```
-
-Use the `$idToken` as the authorization header for all API requests.
-
-### Errors
-
-| Error                              | Error code | Exception              |
-| ---------------------------------- | ---------- | ---------------------- |
-| Incorrect username and/or password | 400        | NotAuthorizedException |
-
----
+> **Authentication:** All requests require an `IdToken` from the Login API. See [Authentication](/Authentication) to obtain one and [Errors](/Errors) for authorization errors.
 
 ## <span style={{ color: '#0D8CFF' }}>Types</span>
 
@@ -100,24 +51,6 @@ All mutations and queries that return a container use this type.
 |----------|--------|---------------------|
 | `id`     | String | Location identifier |
 | `name`   | String | Location name       |
-
-### Standard Errors
-
-All APIs return the following errors for authentication failures:
-
-| Error                          | Error code | Exception     |
-|--------------------------------|------------|---------------|
-| `Expired token`                | 401        | Unauthorized  |
-| `Invalid token`                | 401        | Unauthorized  |
-| `Missing Authorization Header` | 401        | Unauthorized  |
-
-```json
-{ "errors": [{ "errorType": "UnauthorizedException", "message": "Token has expired." }] }
-```
-
-```json
-{ "errors": [{ "errorType": "UnauthorizedException", "message": "Unable to parse JWT token" }] }
-```
 
 ---
 
@@ -288,7 +221,7 @@ mutation {
 
 ### Errors
 
-See [Standard Errors](#standard-errors).
+See [authorization errors](/Errors).
 
 ---
 
@@ -398,7 +331,7 @@ mutation {
 
 ### Errors
 
-See [Standard Errors](#standard-errors).
+See [authorization errors](/Errors).
 
 ### Additional Errors
 
@@ -485,7 +418,7 @@ mutation deleteContainer {
 
 ### Errors
 
-See [Standard Errors](#standard-errors).
+See [authorization errors](/Errors).
 
 ---
 
@@ -612,4 +545,4 @@ Filter variable example:
 
 ### Errors
 
-See [Standard Errors](#standard-errors).
+See [authorization errors](/Errors).

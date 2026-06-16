@@ -8,56 +8,7 @@ pagination_prev: null
 
 <h2>Version 1.1 — August 2024</h2>
 
-## <span style={{ color: '#0D8CFF' }}>Authentication - Login API</span>
-
-To access the GraphQL APIs, users must first authenticate using the Xemelgo Login REST API.
-
-### Endpoint Details
-
-- **URL:** `https://rest.api.xemelgo.com/login`
-- **Method:** `POST`
-
-### Properties
-
-| Property   | Type   | Description                      | Required |
-| ---------- | ------ | -------------------------------- | -------- |
-| `email`    | String | base64 Encoded email id for user | Yes      |
-| `password` | String | base64 encoded password for user | Yes      |
-
-> Password needs to be a minimum of 8 characters and should have a number in it.
-
-### Request Body
-
-```json
-{
-  "email": "base64_encoded_email",
-  "password": "base64_encoded_password"
-}
-```
-
-**StatusCode** - 200 on success
-
-### Response Body
-
-```json
-{
-  "AccessToken": "$accessToken",
-  "ExpiresIn": 480,
-  "TokenType": "Bearer",
-  "RefreshToken": "$refreshToken",
-  "IdToken": "$idToken"
-}
-```
-
-Use the `$idToken` as the authorization header for all API requests.
-
-### Errors
-
-| Error                               | Error code | Exception              |
-| ----------------------------------- | ---------- | ---------------------- |
-| In correct username and/or password | 400        | NotAuthorizedException |
-
----
+> **Authentication:** All requests require an `IdToken` from the Login API. See [Authentication](/Authentication) to obtain one and [Errors](/Errors) for authorization errors.
 
 ## <span style={{ color: '#0D8CFF' }}>Create Assets API</span>
 
@@ -136,52 +87,7 @@ Response consists of a list of all the asset Ids that were created.
 
 ### Errors
 
-| Error                          | Error code | Exception    |
-| ------------------------------ | ---------- | ------------ |
-| `Expired token`                | 401        | Unauthorized |
-| `Invalid token`                | 401        | Unauthorized |
-| `Missing Authorization Header` | 401        | Unauthorized |
-
-#### Error Response Examples
-
-#### Expired Token
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "Token has expired."
-    }
-  ]
-}
-```
-
-#### Invalid token
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "Unable to parse JWT token"
-    }
-  ]
-}
-```
-
-#### Missing Authorization Header
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "User is not authorized to make this call."
-    }
-  ]
-}
-```
+See [authorization errors](/Errors).
 
 ---
 
@@ -296,52 +202,7 @@ properties that were requested in the response.
 
 ### Errors
 
-| Error                          | Error code | Exception    |
-| ------------------------------ | ---------- | ------------ |
-| `Expired token`                | 401        | Unauthorized |
-| `Invalid token`                | 401        | Unauthorized |
-| `Missing Authorization Header` | 401        | Unauthorized |
-
-#### Error Response Examples
-
-#### Expired Token
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "Token has expired."
-    }
-  ]
-}
-```
-
-#### Invalid token
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "Unable to parse JWT token"
-    }
-  ]
-}
-```
-
-#### Missing Authorization Header
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "User is not authorized to make this call."
-    }
-  ]
-}
-```
+See [authorization errors](/Errors).
 
 ### Additional 200-Level Errors
 
@@ -578,52 +439,7 @@ Filter input
 
 ### Errors
 
-| Error                          | Error code | Exception    |
-| ------------------------------ | ---------- | ------------ |
-| `Expired token`                | 401        | Unauthorized |
-| `Invalid token`                | 401        | Unauthorized |
-| `Missing Authorization Header` | 401        | Unauthorized |
-
-#### Error Response Examples
-
-#### Expired Token
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "Token has expired."
-    }
-  ]
-}
-```
-
-#### Invalid token
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "Unable to parse JWT token"
-    }
-  ]
-}
-```
-
-#### Missing Authorization Header
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "User is not authorized to make this call."
-    }
-  ]
-}
-```
+See [authorization errors](/Errors).
 
 ---
 
@@ -794,52 +610,7 @@ query assetRoute(
 
 ### Errors
 
-| Error                          | Error code | Exception    |
-| ------------------------------ | ---------- | ------------ |
-| `Expired token`                | 401        | Unauthorized |
-| `Invalid token`                | 401        | Unauthorized |
-| `Missing Authorization Header` | 401        | Unauthorized |
-
-#### Error Response Examples
-
-#### Expired Token
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "Token has expired."
-    }
-  ]
-}
-```
-
-#### Invalid token
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "Unable to parse JWT token"
-    }
-  ]
-}
-```
-
-#### Missing Authorization Header
-
-```json
-{
-  "errors": [
-    {
-      "errorType": "UnauthorizedException",
-      "message": "User is not authorized to make this call."
-    }
-  ]
-}
-```
+See [authorization errors](/Errors).
 
 ---
 

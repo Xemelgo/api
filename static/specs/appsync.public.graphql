@@ -1,0 +1,4874 @@
+scalar AWSJSON
+
+scalar AWSTimestamp
+
+"""Snapshot of an asset as captured on an activity record."""
+type ActivityAsset {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the asset."""
+  id: String!
+
+  """State of the asset at the time of the event."""
+  state: String
+
+  """Tracker attached to the asset at the time of the event."""
+  tracker: ActivityTracker
+
+  """Transfer order the asset was associated with, if any."""
+  transferOrder: ActivityAssetTransferOrder
+
+  """Transfer order entry the asset was associated with, if any."""
+  transferOrderEntry: ActivityAssetTransferOrderEntry
+
+  """Transfer status of the asset at the time of the event."""
+  transferStatus: TransferOrderStatus
+
+  """Type of the asset."""
+  type: ActivityAssetType
+
+  """Globally unique identifier of the asset."""
+  uuid: String!
+}
+
+"""Snapshot of an asset transfer order as captured on an activity record."""
+type ActivityAssetTransferOrder {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the transfer order."""
+  id: String!
+
+  """Status of the transfer order at the time of the event."""
+  status: String
+
+  """Tracker attached to the transfer order at the time of the event."""
+  tracker: ActivityTracker
+
+  """Globally unique identifier of the transfer order."""
+  uuid: String!
+}
+
+"""
+Snapshot of an asset transfer order entry as captured on an activity record.
+"""
+type ActivityAssetTransferOrderEntry {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Quantity received for this transfer order entry."""
+  receivedQuantity: Int
+
+  """Quantity shipped for this transfer order entry."""
+  shippedQuantity: Int
+
+  """Quantity staged for this transfer order entry."""
+  stagedQuantity: Int
+
+  """Total quantity covered by this transfer order entry."""
+  totalQuantity: Int
+
+  """Asset type covered by this transfer order entry."""
+  type: ActivityAssetType
+
+  """Unique identifier of the transfer order entry."""
+  uuid: String!
+
+  """Quantity verified for this transfer order entry."""
+  verifiedQuantity: Int
+}
+
+"""Snapshot of an asset type as captured on an activity record."""
+type ActivityAssetType {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the asset type."""
+  id: String
+
+  """Globally unique identifier of the asset type."""
+  uuid: String
+}
+
+"""Snapshot of a container as captured on an activity record."""
+type ActivityContainer {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the container."""
+  id: String!
+
+  """State of the container at the time of the event."""
+  state: String
+
+  """Tracker attached to the container at the time of the event."""
+  tracker: ActivityTracker
+
+  """Transfer order the container was associated with, if any."""
+  transferOrder: ActivityContainerTransferOrder
+
+  """Transfer order entry the container was associated with, if any."""
+  transferOrderEntry: ActivityContainerTransferOrderEntry
+
+  """Transfer status of the container at the time of the event."""
+  transferStatus: TransferOrderStatus
+
+  """Type of the container."""
+  type: ActivityContainerType
+
+  """Globally unique identifier of the container."""
+  uuid: String!
+}
+
+"""
+Snapshot of a container transfer order as captured on an activity record.
+"""
+type ActivityContainerTransferOrder {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the transfer order."""
+  id: String!
+
+  """Status of the transfer order at the time of the event."""
+  status: String
+
+  """Tracker attached to the transfer order at the time of the event."""
+  tracker: ActivityTracker
+
+  """Globally unique identifier of the transfer order."""
+  uuid: String!
+}
+
+"""
+Snapshot of a container transfer order entry as captured on an activity record.
+"""
+type ActivityContainerTransferOrderEntry {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Quantity received for this transfer order entry."""
+  receivedQuantity: Int
+
+  """Quantity shipped for this transfer order entry."""
+  shippedQuantity: Int
+
+  """Quantity staged for this transfer order entry."""
+  stagedQuantity: Int
+
+  """Total quantity covered by this transfer order entry."""
+  totalQuantity: Int
+
+  """Container type covered by this transfer order entry."""
+  type: ActivityContainerType
+
+  """Unique identifier of the transfer order entry."""
+  uuid: String!
+
+  """Quantity verified for this transfer order entry."""
+  verifiedQuantity: Int
+}
+
+"""Snapshot of a container type as captured on an activity record."""
+type ActivityContainerType {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the container type."""
+  id: String
+
+  """Globally unique identifier of the container type."""
+  uuid: String
+}
+
+"""Snapshot of the detector that observed an activity event."""
+type ActivityDetector {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Serial of the detector."""
+  serial: String
+
+  """Type of the detector."""
+  type: ActivityDetectorType
+
+  """Globally unique identifier of the detector."""
+  uuid: String!
+}
+
+"""Kind of detector that observed an activity event."""
+enum ActivityDetectorType {
+  """A portable, handheld detector."""
+  HANDHELD
+
+  """A fixed, permanently installed detector."""
+  MOUNTED
+}
+
+"""Snapshot of an inventory item as captured on an activity record."""
+type ActivityInventory {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the inventory item."""
+  id: String!
+
+  """Part of the inventory item."""
+  part: ActivityInventoryPart
+
+  """Quantity of the inventory item at the time of the event."""
+  quantity: Int
+
+  """State of the inventory item at the time of the event."""
+  state: String
+
+  """Tracker attached to the inventory item at the time of the event."""
+  tracker: ActivityTracker
+
+  """Transfer order the inventory item was associated with, if any."""
+  transferOrder: ActivityInventoryTransferOrder
+
+  """Transfer order entry the inventory item was associated with, if any."""
+  transferOrderEntry: ActivityInventoryTransferOrderEntry
+
+  """Transfer status of the inventory item at the time of the event."""
+  transferStatus: TransferOrderStatus
+
+  """Globally unique identifier of the inventory item."""
+  uuid: String!
+}
+
+"""Snapshot of an inventory part as captured on an activity record."""
+type ActivityInventoryPart {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the part."""
+  id: String
+
+  """Globally unique identifier of the part."""
+  uuid: String
+}
+
+"""
+Snapshot of an inventory transfer order as captured on an activity record.
+"""
+type ActivityInventoryTransferOrder {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the transfer order."""
+  id: String!
+
+  """Status of the transfer order at the time of the event."""
+  status: String
+
+  """Tracker attached to the transfer order at the time of the event."""
+  tracker: ActivityTracker
+
+  """Globally unique identifier of the transfer order."""
+  uuid: String!
+}
+
+"""
+Snapshot of an inventory transfer order entry as captured on an activity record.
+"""
+type ActivityInventoryTransferOrderEntry {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Part covered by this transfer order entry."""
+  part: ActivityInventoryPart
+
+  """Quantity received for this transfer order entry."""
+  receivedQuantity: Int
+
+  """Quantity shipped for this transfer order entry."""
+  shippedQuantity: Int
+
+  """Quantity staged for this transfer order entry."""
+  stagedQuantity: Int
+
+  """Total quantity covered by this transfer order entry."""
+  totalQuantity: Int
+
+  """Type covered by this transfer order entry."""
+  type: ActivityContainerType
+
+  """Unique identifier of the transfer order entry."""
+  uuid: String!
+
+  """Quantity verified for this transfer order entry."""
+  verifiedQuantity: Int
+}
+
+"""Snapshot of the location where an activity event occurred."""
+type ActivityLocation {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the location."""
+  id: String
+
+  """Display name of the location."""
+  name: String
+
+  """Globally unique identifier of the location."""
+  uuid: String!
+}
+
+"""Snapshot of a package as captured on an activity record."""
+type ActivityPackage {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the package."""
+  id: String!
+
+  """State of the package at the time of the event."""
+  state: String
+
+  """Tracker attached to the package at the time of the event."""
+  tracker: ActivityTracker
+
+  """Transfer order the package was associated with, if any."""
+  transferOrder: ActivityPackageTransferOrder
+
+  """Transfer order entry the package was associated with, if any."""
+  transferOrderEntry: ActivityPackageTransferOrderEntry
+
+  """Transfer status of the package at the time of the event."""
+  transferStatus: TransferOrderStatus
+
+  """Globally unique identifier of the package."""
+  uuid: String!
+}
+
+"""
+Snapshot of a package transfer order as captured on an activity record.
+"""
+type ActivityPackageTransferOrder {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the transfer order."""
+  id: String!
+
+  """Status of the transfer order at the time of the event."""
+  status: String
+
+  """Tracker attached to the transfer order at the time of the event."""
+  tracker: ActivityTracker
+
+  """Globally unique identifier of the transfer order."""
+  uuid: String!
+}
+
+"""
+Snapshot of a package transfer order entry as captured on an activity record.
+"""
+type ActivityPackageTransferOrderEntry {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Quantity received for this transfer order entry."""
+  receivedQuantity: Int
+
+  """Quantity shipped for this transfer order entry."""
+  shippedQuantity: Int
+
+  """Quantity staged for this transfer order entry."""
+  stagedQuantity: Int
+
+  """Total quantity covered by this transfer order entry."""
+  totalQuantity: Int
+
+  """Unique identifier of the transfer order entry."""
+  uuid: String!
+
+  """Quantity verified for this transfer order entry."""
+  verifiedQuantity: Int
+}
+
+"""Snapshot of a user tracked at the location during an activity event."""
+type ActivityTrackedUser {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """First name of the tracked user."""
+  firstName: String
+
+  """Unique identifier of the tracked user."""
+  id: String
+
+  """Last name of the tracked user."""
+  lastName: String
+
+  """Tracker attached to the tracked user at the time of the event."""
+  tracker: ActivityTracker
+}
+
+"""
+Snapshot of the tracker attached to an item at the time of an activity event.
+"""
+type ActivityTracker {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Serial of the tracker."""
+  serial: String
+
+  """Globally unique identifier of the tracker."""
+  uuid: String!
+}
+
+"""Snapshot of the user associated with an activity event."""
+type ActivityUser {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """First name of the user."""
+  firstName: String
+
+  """Unique identifier of the user."""
+  id: String
+
+  """Last name of the user."""
+  lastName: String
+}
+
+"""Snapshot of a work order as captured on an activity record."""
+type ActivityWorkOrder {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the work order."""
+  id: String!
+
+  """Operation the work order was on at the time of the event."""
+  operation: ActivityWorkOrderOperation
+
+  """Priority of the work order at the time of the event."""
+  priority: String
+
+  """Severity of the work order at the time of the event."""
+  severity: String
+
+  """State of the work order at the time of the event."""
+  state: String
+
+  """Status of the work order at the time of the event."""
+  status: String
+
+  """Status flags applied to the work order at the time of the event."""
+  statusFlags: [String!]
+
+  """Tracker attached to the work order at the time of the event."""
+  tracker: ActivityTracker
+
+  """Globally unique identifier of the work order."""
+  uuid: String!
+}
+
+"""Snapshot of a work order operation as captured on an activity record."""
+type ActivityWorkOrderOperation {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Severity of the operation at the time of the event."""
+  severity: String
+
+  """Status of the operation at the time of the event."""
+  status: String
+}
+
+"""Snapshot of a work order part as captured on an activity record."""
+type ActivityWorkOrderPart {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the work order part."""
+  id: String!
+
+  """State of the work order part at the time of the event."""
+  state: String
+
+  """Tracker attached to the work order part at the time of the event."""
+  tracker: ActivityTracker
+
+  """Type of the work order part."""
+  type: ActivityWorkOrderPartType
+
+  """Globally unique identifier of the work order part."""
+  uuid: String!
+}
+
+"""Snapshot of a work order part type as captured on an activity record."""
+type ActivityWorkOrderPartType {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the work order part type."""
+  id: String!
+
+  """Globally unique identifier of the work order part type."""
+  uuid: String!
+}
+
+"""Snapshot of the workflow that produced an activity event."""
+type ActivityWorkflow {
+  """Action the workflow performed."""
+  action: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Type of the workflow."""
+  type: String
+
+  """Globally unique identifier of the workflow."""
+  uuid: String
+}
+
+"""A tracked asset."""
+type Asset {
+  """Any comments or remarks for the asset."""
+  comments: String
+
+  """Identifier of the container holding this asset, if any."""
+  containerId: String
+
+  """Epoch-millisecond timestamp when the asset was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the asset."""
+  description: String
+
+  """
+  Epoch-millisecond timestamp when the asset is due for maintenance or calibration.
+  """
+  dueDate: AWSTimestamp
+
+  """Unique identifier of the asset, usually the asset number."""
+  id: String
+
+  """Public image URLs for the asset."""
+  images: [String]
+
+  """Location where the asset was last detected."""
+  lastDetectedAtLocation: LocationV2
+
+  """Epoch-millisecond timestamp when the asset was last detected."""
+  lastDetectionDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the asset was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Location where the asset is currently tracked."""
+  location: LocationV2
+
+  """Display name of the asset."""
+  name: String
+
+  """Quantity represented by this asset record."""
+  quantity: Float
+
+  """Current state of the asset at its location (e.g. onhand, removed)."""
+  state: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
+
+  """Trackers currently attached to this asset."""
+  trackers: [Tracker]
+
+  """Identifier of the transfer order this asset belongs to, if any."""
+  transferOrderId: String
+
+  """Current transfer status of the asset, if part of a transfer order."""
+  transferStatus: String
+
+  """Asset type of the asset."""
+  type: AssetType
+}
+
+"""Filter and paging criteria for querying asset activity records."""
+input AssetActivityInput {
+  """Restrict results to these activity action types."""
+  actions: [String!]
+
+  """Epoch-millisecond timestamp marking the end of the query window."""
+  endDate: AWSTimestamp
+
+  """Restrict results to these asset identifiers."""
+  ids: [String!]
+
+  """Restrict results to events at these location identifiers."""
+  locationIds: [String!]
+
+  """
+  Opaque pagination token returned by a previous query, used to fetch the next page.
+  """
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the query window."""
+  startDate: AWSTimestamp
+
+  """Restrict results to events involving these tracker serials."""
+  trackerSerials: [String!]
+
+  """Restrict results to events on these transfer order identifiers."""
+  transferOrderIds: [String!]
+
+  """Restrict results to assets of these type identifiers."""
+  typeIds: [String!]
+}
+
+"""
+A page of asset activity records together with the queried window and pagination token.
+"""
+type AssetActivityPayload {
+  """The asset activity records in this page."""
+  activity: [AssetActivityRecord!]
+
+  """Epoch-millisecond timestamp marking the end of the returned window."""
+  endDate: AWSTimestamp
+
+  """
+  Opaque pagination token to fetch the next page, or null if no more results.
+  """
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the returned window."""
+  startDate: AWSTimestamp
+}
+
+"""
+A single historical asset event (e.g. a move, detection, or state change) at a point in time.
+"""
+type AssetActivityRecord {
+  """Action that this event represents."""
+  action: String!
+
+  """Asset affected by this event."""
+  asset: ActivityAsset
+
+  """Container involved in this event, if any."""
+  container: ActivityContainer
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Detector that observed this event, if any."""
+  detector: ActivityDetector
+
+  """Epoch-millisecond timestamp when the event occurred."""
+  eventDate: AWSTimestamp!
+
+  """
+  Ordinal index disambiguating events that share the same event timestamp.
+  """
+  eventIndex: Int!
+
+  """Location associated with this event."""
+  location: ActivityLocation
+
+  """Users tracked at the location during this event."""
+  trackedUsers: [ActivityTrackedUser!]
+
+  """Tracker attached to the affected item at the time of the event."""
+  tracker: ActivityTracker
+
+  """Transfer order associated with this event, if any."""
+  transferOrder: ActivityAssetTransferOrder
+
+  """Transfer order entry associated with this event, if any."""
+  transferOrderEntry: ActivityAssetTransferOrderEntry
+
+  """Type of the affected asset."""
+  type: ActivityAssetType
+
+  """User who performed or is associated with this event."""
+  user: ActivityUser
+
+  """Workflow that produced this event, if any."""
+  workflow: ActivityWorkflow
+}
+
+"""A single segment of an asset's location route."""
+type AssetRoute {
+  """Time spent at this location, in milliseconds."""
+  duration: AWSTimestamp
+
+  """Epoch-millisecond timestamp of last detection at this location."""
+  endDate: AWSTimestamp
+
+  """Location for this route segment."""
+  location: LocationV2
+
+  """Epoch-millisecond timestamp of first detection at this location."""
+  startDate: AWSTimestamp
+
+  """State of the asset at this location (e.g. onhand, removed)."""
+  state: String
+}
+
+"""Input for the assetRoute query, identifying the asset and time window."""
+input AssetRouteInput {
+  """Epoch-millisecond end timestamp for the route window."""
+  endDate: AWSTimestamp
+
+  """Unique identifier of the asset whose route is requested."""
+  id: String!
+
+  """Pagination token to retrieve the next page of results."""
+  nextToken: String
+
+  """Epoch-millisecond start timestamp for the route window."""
+  startDate: AWSTimestamp
+}
+
+"""Result of the assetRoute query."""
+type AssetRoutePayload {
+  """Pagination token to retrieve the next page of results."""
+  nextToken: String
+
+  """Ordered route segments for the asset."""
+  route: [AssetRoute!]
+}
+
+"""A transfer order moving assets between locations."""
+type AssetTransferOrder {
+  """Epoch-millisecond timestamp when the transfer order was cancelled."""
+  cancelledDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Asset entries included in the transfer order."""
+  entries: [AssetTransferOrderEntry!]!
+
+  """Unique identifier of the asset transfer order."""
+  id: String
+  inTransitDate: AWSTimestamp @deprecated(reason: "use shippedDate")
+
+  """Location where the transfer order was last detected."""
+  lastDetectedAtLocation: LocationV2
+
+  """Epoch-millisecond timestamp when the transfer order was last detected."""
+  lastDetectionDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Current location of the transfer order."""
+  location: LocationV2
+
+  """Epoch-millisecond timestamp when the transfer order was received."""
+  receivedDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was shipped."""
+  shippedDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was staged."""
+  stagedDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was started."""
+  startDate: AWSTimestamp
+
+  """Current lifecycle status of the transfer order."""
+  status: TransferOrderStatus
+
+  """Serial of the tracker attached to the transfer order."""
+  trackerSerial: String
+
+  """Trackers attached to the transfer order."""
+  trackers: [Tracker]
+
+  """Source location the assets are transferred from."""
+  transferFrom: LocationV2
+
+  """Destination location the assets are transferred to."""
+  transferTo: LocationV2
+
+  """Epoch-millisecond timestamp when the transfer order was verified."""
+  verifiedDate: AWSTimestamp
+}
+
+"""A single asset-type entry within an asset transfer order."""
+type AssetTransferOrderEntry {
+  """Assets associated with this entry."""
+  assets: [Asset!]
+  inTransitQuantity: Int @deprecated(reason: "use shippedQuantity")
+
+  """Epoch-millisecond timestamp when this entry was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Quantity that has been received for this entry."""
+  receivedQuantity: Int
+
+  """Quantity that has been shipped for this entry."""
+  shippedQuantity: Int
+
+  """Quantity that has been staged for this entry."""
+  stagedQuantity: Int
+
+  """Current lifecycle status of this entry."""
+  status: TransferOrderStatus
+
+  """Total quantity to transfer for this entry."""
+  totalQuantity: Int
+
+  """The asset type being transferred in this entry."""
+  type: AssetType
+
+  """Unit of measure for the quantities, if applicable."""
+  unit: String
+
+  """Quantity that has been verified for this entry."""
+  verifiedQuantity: Int
+}
+
+"""Input identifying a single asset transfer order to retrieve."""
+input AssetTransferOrderInput {
+  """Identifier of the asset transfer order to retrieve."""
+  id: String
+}
+
+"""Result of the assetTransferOrder query."""
+type AssetTransferOrderPayload {
+  """The requested asset transfer order."""
+  assetTransferOrder: AssetTransferOrder
+}
+
+"""
+Input for listing asset transfer orders with optional filtering and pagination.
+"""
+input AssetTransferOrdersInput {
+  """Filter expression applied to asset transfer order properties."""
+  filter: String
+
+  """Pagination token returned by a previous call to fetch the next page."""
+  nextToken: String
+}
+
+"""Result of the assetTransferOrders query."""
+type AssetTransferOrdersPayload {
+  """The matching asset transfer orders."""
+  assetTransferOrders: [AssetTransferOrder!]
+
+  """Pagination token to pass to the next call, if more results remain."""
+  nextToken: String
+}
+
+"""A type (template) describing a class of assets."""
+type AssetType {
+  """Epoch-millisecond timestamp when the asset type was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the asset type."""
+  description: String
+
+  """
+  Unique identifier of the asset type, usually the asset type number or SKU.
+  """
+  id: String
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Public image URLs for the asset type."""
+  images: [String!]
+
+  """Epoch-millisecond timestamp when the asset type was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Display name of the asset type."""
+  name: String
+
+  """Asset type number."""
+  number: String
+
+  """Expected quantity of the asset type."""
+  quantity: Int
+
+  """Unit of measure of the asset type."""
+  unit: String
+}
+
+"""Input for the assetTypes query, supporting filtering and pagination."""
+input AssetTypesInput {
+  """Filter expression for asset type properties."""
+  filter: String
+
+  """Pagination token to retrieve the next page of results."""
+  nextToken: String
+}
+
+"""Updates to apply to a single asset."""
+input AssetUpdates {
+  """Tracker serials to attach to the asset."""
+  addTrackerSerials: [String!]
+
+  """Any comments or remarks for the asset."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the asset."""
+  description: String
+
+  """
+  Epoch-millisecond timestamp when the asset is due for maintenance or calibration.
+  """
+  dueDate: AWSTimestamp
+
+  """Unique identifier of the asset to update."""
+  id: String
+
+  """Public image URLs for the asset."""
+  images: [String]
+
+  """Identifier of the location to move the asset to."""
+  locationId: String
+
+  """Display name of the asset."""
+  name: String
+
+  """Tracker serials to detach from the asset."""
+  removeTrackerSerials: [String!]
+
+  """
+  Whether to reuse an existing tracker serial if it is already in the system.
+  """
+  reuseTrackerSerial: Boolean
+
+  """Current state of the asset at its location (e.g. onhand, removed)."""
+  state: String
+  trackerSerial: String @deprecated(reason: "use addTrackerSerials and removeTrackerSerials instead")
+
+  """Identifier of the asset type this asset is associated with."""
+  typeId: String
+}
+
+"""Input for the assets query, supporting filtering and pagination."""
+input AssetsInput {
+  """Filter expression for asset properties."""
+  filter: String
+
+  """Pagination token to retrieve the next page of results."""
+  nextToken: String
+}
+
+"""Result of the assets query."""
+type AssetsPayload {
+  """Matching assets for this page."""
+  assets: [Asset!]!
+
+  """Pagination token to retrieve the next page of results."""
+  nextToken: String
+}
+
+"""Input for attaching a tracker to a single work order."""
+input AttachWorkOrderTrackerInput {
+  """
+  Whether to detach the tracker from any previous work order it was attached to. Defaults to false.
+  """
+  detachTracker: Boolean
+
+  """
+  Xemelgo-verified location identifier the work order should be onboarded to.
+  """
+  onboardingLocation: String
+
+  """
+  Whether the tracker may be reused from a previous work order if already in use. Defaults to false.
+  """
+  reuseTracker: Boolean
+
+  """Serial number of the tracker to attach."""
+  trackerSerial: String!
+
+  """Number of the work order to attach the tracker to."""
+  workOrderNumber: String!
+}
+
+"""Input for completing one or more work orders."""
+input CompleteWorkOrdersInput {
+  """Whether to mark the work orders' input parts as complete."""
+  completeInputParts: Boolean
+
+  """Whether to mark the work orders' output parts as complete."""
+  completeOutputParts: Boolean
+
+  """Whether to detach trackers from the work orders on completion."""
+  detachTracker: Boolean
+
+  """Numbers of the work orders to complete."""
+  workOrderNumbers: [String!]!
+}
+
+"""Input for the consumeInventory mutation."""
+input ConsumeInventoryInput {
+  """Identifiers of the inventory items to mark as consumed."""
+  inventoryIds: [String!]!
+}
+
+"""Result of the consumeInventory mutation."""
+type ConsumeInventoryPayload {
+  """Identifiers of the consumed inventory items."""
+  inventoryIds: [String!]!
+}
+
+"""
+A container that holds assets, inventory items, packages, or nested child containers.
+"""
+type Container {
+  """Identifiers of assets held inside the container."""
+  assetIds: [String!]!
+
+  """Identifiers of child containers nested inside this container."""
+  childContainerIds: [String!]!
+
+  """Comments or remarks recorded for the container."""
+  comments: String
+
+  """Epoch-millisecond timestamp when the container was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the container."""
+  description: String
+
+  """Unique identifier of the container."""
+  id: String!
+
+  """Image URLs associated with the container."""
+  images: [String]
+
+  """Identifiers of inventory items held inside the container."""
+  inventoryIds: [String!]!
+
+  """Location where the container was most recently detected."""
+  lastDetectedAtLocation: LocationV2
+
+  """
+  Epoch-millisecond timestamp when the container was most recently detected.
+  """
+  lastDetectionDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the container was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Location currently assigned to the container."""
+  location: LocationV2
+
+  """Display name of the container."""
+  name: String
+
+  """Identifiers of packages held inside the container."""
+  packageIds: [String!]!
+
+  """Identifier of the parent container, if this container is nested."""
+  parentContainerId: String
+
+  """Current lifecycle state of the container."""
+  state: String
+
+  """Serial of the tracker (such as an RFID tag) attached to the container."""
+  trackerSerial: String
+
+  """Trackers attached to the container."""
+  trackers: [Tracker]
+
+  """Identifier of the transfer order this container belongs to, if any."""
+  transferOrderId: String
+
+  """Status of the container within its transfer order, if any."""
+  transferStatus: String
+
+  """The container type this container is classified under."""
+  type: ContainerType
+}
+
+"""Filter and paging criteria for querying container activity records."""
+input ContainerActivityInput {
+  """Restrict results to these activity action types."""
+  actions: [String!]
+
+  """Epoch-millisecond timestamp marking the end of the query window."""
+  endDate: AWSTimestamp
+
+  """Restrict results to these container identifiers."""
+  ids: [String!]
+
+  """Restrict results to events at these location identifiers."""
+  locationIds: [String!]
+
+  """
+  Opaque pagination token returned by a previous query, used to fetch the next page.
+  """
+  nextToken: String
+
+  """Restrict results to containers holding these part identifiers."""
+  partIds: [String!]
+
+  """Epoch-millisecond timestamp marking the start of the query window."""
+  startDate: AWSTimestamp
+
+  """Restrict results to events involving these tracker serials."""
+  trackerSerials: [String!]
+}
+
+"""
+A page of container activity records together with the queried window and pagination token.
+"""
+type ContainerActivityPayload {
+  """The container activity records in this page."""
+  activity: [ContainerActivityRecord!]
+
+  """Epoch-millisecond timestamp marking the end of the returned window."""
+  endDate: AWSTimestamp
+
+  """
+  Opaque pagination token to fetch the next page, or null if no more results.
+  """
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the returned window."""
+  startDate: AWSTimestamp
+}
+
+"""
+A single historical container event (e.g. a move, detection, or contents change) at a point in time.
+"""
+type ContainerActivityRecord {
+  """Action that this event represents."""
+  action: String!
+
+  """Asset involved in this event, if any."""
+  asset: ActivityAsset
+
+  """Child container nested within the affected container, if any."""
+  childContainer: ActivityContainer
+
+  """Container affected by this event."""
+  container: ActivityContainer
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Detector that observed this event, if any."""
+  detector: ActivityDetector
+
+  """Epoch-millisecond timestamp when the event occurred."""
+  eventDate: AWSTimestamp!
+
+  """
+  Ordinal index disambiguating events that share the same event timestamp.
+  """
+  eventIndex: Int!
+
+  """Inventory item involved in this event, if any."""
+  inventory: ActivityInventory
+
+  """Location associated with this event."""
+  location: ActivityLocation
+
+  """Package involved in this event, if any."""
+  package: ActivityPackage
+
+  """Users tracked at the location during this event."""
+  trackedUsers: [ActivityTrackedUser!]
+
+  """Tracker attached to the affected item at the time of the event."""
+  tracker: ActivityTracker
+
+  """Type of the affected container."""
+  type: ActivityContainerType
+
+  """User who performed or is associated with this event."""
+  user: ActivityUser
+
+  """Workflow that produced this event, if any."""
+  workflow: ActivityWorkflow
+}
+
+"""
+An asset to place inside a container, either by referencing an existing asset or creating a new one.
+"""
+input ContainerAssetInput {
+  """Comments or remarks recorded for the asset."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the asset."""
+  description: String
+
+  """Epoch-millisecond timestamp for the asset's due date."""
+  dueDate: AWSTimestamp
+
+  """Identifier of the existing asset to add to the container."""
+  id: String!
+
+  """Image URLs associated with the asset."""
+  images: [String]
+
+  """Identifier of the location to associate with the asset."""
+  locationId: String
+
+  """Display name of the asset."""
+  name: String
+
+  """Whether to reuse the tracker serial if it already exists."""
+  reuseTrackerSerial: Boolean
+
+  """Serial of the tracker to attach to the asset."""
+  trackerSerial: String
+
+  """Identifier of the asset type to associate with the asset."""
+  typeId: String
+}
+
+"""
+An inventory item to place inside a container, either by referencing an existing item or creating a new one.
+"""
+input ContainerInventoryInput {
+  """Comments or remarks recorded for the inventory item."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the inventory item."""
+  description: String
+
+  """Epoch-millisecond timestamp for the inventory item's expiration date."""
+  expirationDate: AWSTimestamp
+
+  """Identifier of the existing inventory item to add to the container."""
+  id: String!
+
+  """Image URLs associated with the inventory item."""
+  images: [String]
+
+  """Identifier of the location to associate with the inventory item."""
+  locationId: String
+
+  """Lot number of the inventory item."""
+  lotNumber: String
+
+  """Display name of the inventory item."""
+  name: String
+
+  """Identifier of the part associated with the inventory item."""
+  partId: String
+
+  """Quantity of the inventory item."""
+  quantity: Float
+
+  """Whether to reuse the tracker serial if it already exists."""
+  reuseTrackerSerial: Boolean
+
+  """Serial of the tracker to attach to the inventory item."""
+  trackerSerial: String
+}
+
+"""
+A package to place inside a container, either by referencing an existing package or creating a new one.
+"""
+input ContainerPackageInput {
+  """Comments or remarks recorded for the package."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the package."""
+  description: String
+
+  """Identifier of the existing package to add to the container."""
+  id: String!
+
+  """Identifier of the location to associate with the package."""
+  locationId: String
+
+  """Display name of the package."""
+  name: String
+
+  """Whether to reuse the tracker serial if it already exists."""
+  reuseTrackerSerial: Boolean
+
+  """Serial of the tracker to attach to the package."""
+  trackerSerial: String
+}
+
+"""
+A container type: the classification template (e.g. Bin, Pallet, Tote) that describes a class of containers.
+"""
+type ContainerType {
+  """Epoch-millisecond timestamp when the container type was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the container type."""
+  description: String
+
+  """Unique identifier of the container type."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image URLs associated with the container type."""
+  images: [String!]
+
+  """Epoch-millisecond timestamp when the container type was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Display name of the container type."""
+  name: String
+
+  """Container type number or SKU."""
+  number: String
+
+  """Expected quantity for this container type."""
+  quantity: Int
+
+  """Unit of measure for the container type."""
+  unit: String
+}
+
+"""
+Input for listing container types, with optional filtering and pagination.
+"""
+input ContainerTypesInput {
+  """Filter expression applied to container type properties."""
+  filter: String
+
+  """Pagination token for the next page of results."""
+  nextToken: String
+}
+
+"""Result of the containerTypes query."""
+type ContainerTypesPayload {
+  """The matching container types."""
+  containerTypes: [ContainerType!]!
+
+  """Token for retrieving the next page of results, if any."""
+  nextToken: String
+}
+
+"""Fields to update on a container, including contents to add or remove."""
+input ContainerUpdates {
+  """Assets to add to the container."""
+  addAssets: [ContainerAssetInput!]
+
+  """Identifiers of containers to nest inside this container."""
+  addChildContainerIds: [String!]
+
+  """Inventory items to add to the container."""
+  addInventory: [ContainerInventoryInput!]
+
+  """Packages to add to the container."""
+  addPackages: [ContainerPackageInput!]
+
+  """New comments or remarks for the container."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """New description for the container."""
+  description: String
+
+  """New identifier for the container (rename)."""
+  id: String
+
+  """New location to associate with the container."""
+  locationId: String
+
+  """New display name for the container."""
+  name: String
+
+  """Identifiers of assets to remove from the container."""
+  removeAssetIds: [String!]
+
+  """Identifiers of child containers to remove from this container."""
+  removeChildContainerIds: [String!]
+
+  """Identifiers of inventory items to remove from the container."""
+  removeInventoryIds: [String!]
+
+  """Identifiers of packages to remove from the container."""
+  removePackageIds: [String!]
+
+  """Whether to reuse the tracker serial if it already exists."""
+  reuseTrackerSerial: Boolean
+
+  """New tracker serial to attach to the container."""
+  trackerSerial: String
+
+  """New container type identifier."""
+  typeId: String
+}
+
+"""Input for listing containers, with optional filtering and pagination."""
+input ContainersInput {
+  """Filter expression applied to container properties."""
+  filter: String
+
+  """Pagination token for the next page of results."""
+  nextToken: String
+}
+
+"""Result of the containers query."""
+type ContainersOutput {
+  """The matching containers."""
+  containers: [Container!]
+
+  """Token for retrieving the next page of results, if any."""
+  nextToken: String
+}
+
+"""Definition of a single asset to create."""
+input CreateAssetInput {
+  """Any comments or remarks for the asset."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the asset."""
+  description: String
+
+  """
+  Epoch-millisecond timestamp when the asset is due for maintenance or calibration.
+  """
+  dueDate: AWSTimestamp
+
+  """Serial or unique identifier for the asset."""
+  id: String!
+
+  """Public image URLs for the asset."""
+  images: [String]
+
+  """Identifier of the location of the asset."""
+  locationId: String
+
+  """Display name of the asset."""
+  name: String
+
+  """
+  Whether to reuse an existing tracker serial if it is already in the system.
+  """
+  reuseTrackerSerial: Boolean
+
+  """Serial of the RFID tracker to attach to the asset for tracking."""
+  trackerSerial: String
+
+  """Identifier of the asset type this asset is associated with."""
+  typeId: String!
+}
+
+"""
+Input describing a single asset entry (asset type and quantity) of an asset transfer order.
+"""
+input CreateAssetTransferOrderEntryInput {
+  """Detailed assets associated with this entry."""
+  assets: [CreateAssetTransferOrderItemInput!]
+
+  """Quantity of the asset type to transfer."""
+  totalQuantity: Int!
+
+  """EPCs or tracker serial numbers of the assets in this entry."""
+  trackerSerials: [String!]
+
+  """Identifier of the asset type for this entry."""
+  typeId: String!
+
+  """Unit of measure for the quantity, if applicable."""
+  unit: String
+}
+
+"""Input for creating an asset transfer order and its entries."""
+input CreateAssetTransferOrderInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """
+  Asset entries (asset types and quantities) included in the transfer order.
+  """
+  entries: [CreateAssetTransferOrderEntryInput!]!
+
+  """
+  Identifier (transfer order number) to assign to the new asset transfer order.
+  """
+  id: String!
+
+  """Serial of the tracker to attach to the transfer order, if any."""
+  trackerSerial: String
+
+  """Identifier of the source location to transfer from."""
+  transferFromId: String
+
+  """Identifier of the destination location to transfer to."""
+  transferToId: String
+}
+
+"""Input identifying a single asset to include in a transfer order entry."""
+input CreateAssetTransferOrderItemInput {
+  """Unique identifier of the asset."""
+  id: String
+
+  """EPC or tracker serial number identifying the asset."""
+  trackerSerial: String
+}
+
+"""Result of the createAssetTransferOrder mutation."""
+type CreateAssetTransferOrderPayload {
+  """The newly created asset transfer order."""
+  assetTransferOrder: AssetTransferOrder
+}
+
+"""Definition of a single asset type to create."""
+input CreateAssetTypeInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Customer-specific asset type identifiers mapped to this asset type."""
+  customerAssetTypes: [CustomerAssetTypeInput!]
+
+  """Free-text description of the asset type."""
+  description: String
+
+  """
+  Unique identifier of the asset type, usually the asset type number or SKU.
+  """
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Public image URLs for the asset type."""
+  images: [String!]
+
+  """Display name of the asset type."""
+  name: String
+
+  """Asset type number."""
+  number: String
+
+  """Expected quantity of the asset type."""
+  quantity: Int
+
+  """Unit of measure of the asset type."""
+  unit: String
+}
+
+"""
+Input for the createAssetTypes mutation, carrying the asset types to create.
+"""
+input CreateAssetTypesInput {
+  """Asset types to create."""
+  assetTypes: [CreateAssetTypeInput!]
+  inputList: [CreateAssetTypeInput!] @deprecated(reason: "Use assetTypes instead")
+}
+
+"""Result of the createAssetTypes mutation."""
+type CreateAssetTypesPayload {
+  """Identifiers of the created asset types."""
+  assetTypeIds: [String]
+}
+
+"""Input for the createAssets mutation, carrying the assets to create."""
+input CreateAssetsInput {
+  """Assets to create."""
+  assets: [CreateAssetInput!]!
+}
+
+"""Result of the createAssets mutation."""
+type CreateAssetsPayload {
+  """Identifiers of the created assets."""
+  assetIds: [String!]
+}
+
+"""Input for creating a container, optionally with its initial contents."""
+input CreateContainerInput {
+  """Assets to place inside the container."""
+  assets: [ContainerAssetInput!]
+
+  """Identifiers of existing containers to nest inside this container."""
+  childContainerIds: [String!]
+
+  """Comments or remarks recorded for the container."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the container."""
+  description: String
+
+  """Unique identifier for the new container."""
+  id: String!
+
+  """Inventory items to place inside the container."""
+  inventory: [ContainerInventoryInput!]
+
+  """Identifier of the location to associate with the container."""
+  locationId: String
+
+  """Display name of the container."""
+  name: String
+
+  """Packages to place inside the container."""
+  packages: [ContainerPackageInput!]
+
+  """Whether to reuse the tracker serial if it already exists."""
+  reuseTrackerSerial: Boolean
+
+  """Serial of the tracker to attach to the container."""
+  trackerSerial: String
+
+  """Identifier of the container type to associate with the container."""
+  typeId: String
+}
+
+"""Result of the createContainer mutation."""
+type CreateContainerOutput {
+  """The created container."""
+  container: Container!
+}
+
+"""A single container type to create."""
+input CreateContainerTypeInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the container type."""
+  description: String
+
+  """Unique identifier for the new container type."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image URLs associated with the container type."""
+  images: [String!]
+
+  """Display name of the container type."""
+  name: String
+
+  """Container type number or SKU."""
+  number: String
+
+  """Expected quantity for this container type."""
+  quantity: Int
+
+  """Unit of measure for the container type."""
+  unit: String
+}
+
+"""Input for creating one or more container types."""
+input CreateContainerTypesInput {
+  """The container types to create."""
+  containerTypes: [CreateContainerTypeInput!]!
+}
+
+"""Result of the createContainerTypes mutation."""
+type CreateContainerTypesPayload {
+  """Identifiers of the created container types."""
+  containerTypeIds: [String]
+}
+
+"""Input for the createInventory mutation."""
+input CreateInventoryInput {
+  """Inventory items to create."""
+  inventory: [CreatedInventory!]!
+}
+
+"""Definition of a single inventory part (item type) to create."""
+input CreateInventoryPartInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Per-customer part numbers mapped to this part."""
+  customerPartNumbers: [CustomerPartNumberInput!]
+
+  """Free-text description of the part."""
+  description: String
+
+  """
+  Unique identifier of the part, usually the item or SKU number; when that number is not unique, combine properties to form a unique value.
+  """
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image URLs for the part."""
+  images: [String!]
+
+  """Display name of the part."""
+  name: String
+
+  """Part number."""
+  number: String
+
+  """Expected quantity represented by the part."""
+  quantity: Int
+
+  """Unit of measure for the part."""
+  unit: String
+}
+
+"""Input for the createInventoryParts mutation."""
+input CreateInventoryPartsInput {
+  inputList: [CreateInventoryPartInput!] @deprecated(reason: "Use inventoryParts instead")
+
+  """Inventory parts (item types) to create."""
+  inventoryParts: [CreateInventoryPartInput!]
+}
+
+"""Result of the createInventoryParts mutation."""
+type CreateInventoryPartsPayload {
+  """Identifiers of the created inventory parts."""
+  partIds: [String]
+}
+
+"""Result of the createInventory mutation."""
+type CreateInventoryPayload {
+  """Identifiers of the created inventory items."""
+  inventoryIds: [String!]!
+}
+
+"""Definition of a single inventory request to create."""
+input CreateInventoryRequests {
+  """Free-text comment on the request."""
+  comment: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Identifier of the location the inventory should be delivered to."""
+  deliveryLocationId: String!
+
+  """Epoch-millisecond timestamp of the estimated delivery date."""
+  estimatedDeliveryDate: AWSTimestamp
+
+  """Unique identifier of the inventory request."""
+  id: String!
+
+  """Line items requested in this inventory request."""
+  requestEntries: [InventoryRequestEntryInput]
+
+  """Identifier of the user requesting the inventory."""
+  requestorId: String!
+}
+
+"""Input for the createInventoryRequests mutation."""
+input CreateInventoryRequestsInput {
+  """Inventory requests to create."""
+  inputList: [CreateInventoryRequests!]!
+}
+
+"""
+Input describing a single part entry (SKU and quantity) of an inventory transfer order.
+"""
+input CreateInventoryTransferOrderEntryInput {
+  """Detailed inventory items associated with the part."""
+  inventory: [CreateInventoryTransferOrderItemInput!]
+
+  """Identifier of the part type or SKU for this entry."""
+  partId: String!
+
+  """Quantity of the part type or SKU to transfer."""
+  totalQuantity: Int!
+
+  """EPCs or tracker serial numbers of the inventory items in this entry."""
+  trackerSerials: [String!]
+
+  """Unit of measure for the quantity, if applicable."""
+  unit: String
+}
+
+"""Input for creating an inventory transfer order and its part entries."""
+input CreateInventoryTransferOrderInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Part entries (SKUs and quantities) included in the transfer order."""
+  entries: [CreateInventoryTransferOrderEntryInput!]!
+
+  """
+  Identifier (transfer order number) to assign to the new inventory transfer order.
+  """
+  id: String!
+
+  """Serial of the tracker to attach to the transfer order, if any."""
+  trackerSerial: String
+
+  """Identifier of the source location to transfer from."""
+  transferFromId: String
+
+  """Identifier of the destination location to transfer to."""
+  transferToId: String
+}
+
+"""
+Input identifying a single inventory item to include in a transfer order entry.
+"""
+input CreateInventoryTransferOrderItemInput {
+  """Unique identifier of the inventory item."""
+  id: String
+
+  """EPC or tracker serial number identifying the inventory item."""
+  trackerSerial: String
+}
+
+"""Result of the createInventoryTransferOrder mutation."""
+type CreateInventoryTransferOrderPayload {
+  """The newly created inventory transfer order."""
+  inventoryTransferOrder: InventoryTransferOrder
+}
+
+"""A single location to create as part of the createLocations mutation."""
+input CreateLocationInput {
+  """
+  Identifier of the predefined category that determines the location's level in the hierarchy.
+  """
+  categoryId: String!
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Identifier of the customer assigned to the location, if any."""
+  customerId: String
+
+  """Free-text description of the location."""
+  description: String
+
+  """Unique identifier of the location, used for all future transactions."""
+  id: String!
+
+  """Display name of the location."""
+  name: String
+
+  """Identifier of the parent location in the hierarchy, if any."""
+  parentLocationId: String
+
+  """Identifier of the role to assign to the location, if any."""
+  roleId: String
+}
+
+"""Input for the createLocations mutation."""
+input CreateLocationsInput {
+  """Locations to create."""
+  locations: [CreateLocationInput!]!
+}
+
+"""Result of the createLocations mutation."""
+type CreateLocationsPayload {
+  """Identifiers of the created locations."""
+  locationIds: [String!]!
+}
+
+"""Input for creating a package transfer order and its packages."""
+input CreatePackageTransferOrderInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """
+  Identifier (transfer order number) to assign to the new package transfer order.
+  """
+  id: String!
+
+  """Packages included in the transfer order."""
+  packages: [PackageInput!]
+
+  """Total quantity of packages in the transfer order."""
+  totalQuantity: Int
+
+  """Serial of the tracker to attach to the transfer order, if any."""
+  trackerSerial: String
+
+  """Identifier of the source location to transfer from."""
+  transferFromId: String
+
+  """Identifier of the destination location to transfer to."""
+  transferToId: String
+}
+
+"""Result of the createPackageTransferOrder mutation."""
+type CreatePackageTransferOrderPayload {
+  """The newly created package transfer order."""
+  packageTransferOrder: PackageTransferOrder
+}
+
+"""Input for the createPackages mutation."""
+input CreatePackagesInput {
+  """Packages to create."""
+  packages: [PackageInput!]!
+}
+
+"""Result of the createPackages mutation."""
+type CreatePackagesPayload {
+  """Identifiers of the created packages."""
+  packageIds: [String!]!
+}
+
+"""Input for creating one or more work order part types."""
+input CreateWorkOrderPartTypesInput {
+  inputList: [WorkOrderPartTypesInput!] @deprecated(reason: "Use workOrderPartTypes instead")
+
+  """Work order part types to create."""
+  workOrderPartTypes: [WorkOrderPartTypesInput!]
+}
+
+"""Result of the createWorkOrderPartTypes mutation."""
+type CreateWorkOrderPartTypesPayload {
+  """Identifiers of the created part types."""
+  typeIds: [String]
+}
+
+"""Options controlling work order set creation behavior."""
+input CreateWorkOrderSetOptions {
+  """
+  Whether the request may partially succeed instead of failing as a whole.
+  """
+  enablePartialSuccess: Boolean
+
+  """Whether an existing tracker may be reused."""
+  reuseTracker: Boolean
+}
+
+"""Definition of a single inventory item to create."""
+input CreatedInventory {
+  """Free-text comments on the item."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the item."""
+  description: String
+
+  """Epoch-millisecond timestamp when the item expires."""
+  expirationDate: AWSTimestamp
+
+  """
+  Serial number of the item; may match the tracker serial when items are not serialized.
+  """
+  id: String!
+
+  """Image URLs for the item."""
+  images: [String]
+
+  """Identifier of the location the item is currently being added to."""
+  locationId: String
+
+  """Lot number of the lot this item belongs to."""
+  lotNumber: String
+
+  """Display name of the item."""
+  name: String
+
+  """Identifier of the part (item type) this item is an instance of."""
+  partId: String!
+
+  """Quantity represented by this item."""
+  quantity: Float
+
+  """Whether to reuse a tracker serial already attached to another item."""
+  reuseTrackerSerial: Boolean
+
+  """Serial of the tracker (e.g. RFID tag) to attach to the item."""
+  trackerSerial: String
+}
+
+"""Status summary of the work order's currently active operation."""
+type CurrentOperation {
+  """Severity applied when the operation's start is delayed."""
+  delayedStartSeverity: OperationSeverity
+
+  """Severity of the current operation condition."""
+  severity: OperationSeverity
+
+  """Status of the operation relative to its expected start time."""
+  startStatus: OperationStartStatus
+
+  """Current lifecycle status of the operation."""
+  status: OperationStatus
+}
+
+"""Mapping of a customer to one of its asset type identifiers."""
+input CustomerAssetTypeInput {
+  """Customer-specific asset type identifier."""
+  customerAssetTypeId: String!
+
+  """Unique identifier of the customer."""
+  customerId: String!
+}
+
+"""A customer-specific part number mapped to an inventory part."""
+type CustomerPartNumber {
+  """Unique identifier of the customer."""
+  customerId: String!
+
+  """The customer's part number for this part."""
+  customerPartNumber: String!
+}
+
+"""Input mapping a customer to its part number for a part."""
+input CustomerPartNumberInput {
+  """Unique identifier of the customer."""
+  customerId: String!
+
+  """The customer's part number for this part."""
+  customerPartNumber: String!
+}
+
+"""Input identifying the asset transfer order to delete."""
+input DeleteAssetTransferOrderInput {
+  """Identifier of the asset transfer order to delete."""
+  id: String!
+}
+
+"""Result of the deleteAssetTransferOrder mutation."""
+type DeleteAssetTransferOrderPayload {
+  """The deleted asset transfer order."""
+  assetTransferOrder: AssetTransferOrder
+}
+
+"""Input for the deleteAssets mutation, listing the assets to delete."""
+input DeleteAssetsInput {
+  """Identifiers of the assets to delete."""
+  assetIds: [String!]!
+}
+
+"""Result of the deleteAssets mutation."""
+type DeleteAssetsPayload {
+  """Identifiers of the deleted assets."""
+  assetIds: [String!]!
+}
+
+"""Input for deleting a container."""
+input DeleteContainerInput {
+  """Identifier of the container to delete."""
+  containerId: String!
+}
+
+"""Result of the deleteContainer mutation."""
+type DeleteContainerOutput {
+  """The deleted container."""
+  container: Container!
+}
+
+"""Input for the deleteInventory mutation."""
+input DeleteInventoryInput {
+  """Identifiers of the inventory items to delete."""
+  inventoryIds: [String!]!
+}
+
+"""Result of the deleteInventory mutation."""
+type DeleteInventoryPayload {
+  """Identifiers of the deleted inventory items."""
+  inventoryIds: [String!]!
+}
+
+"""Input identifying the inventory transfer order to delete."""
+input DeleteInventoryTransferOrderInput {
+  """Identifier of the inventory transfer order to delete."""
+  id: String!
+}
+
+"""Result of the deleteInventoryTransferOrder mutation."""
+type DeleteInventoryTransferOrderPayload {
+  """The deleted inventory transfer order."""
+  inventoryTransferOrder: InventoryTransferOrder
+}
+
+"""Input for the deleteLocations mutation."""
+input DeleteLocationsInput {
+  """Identifiers of the locations to delete."""
+  locationIds: [String!]!
+}
+
+"""Result of the deleteLocations mutation."""
+type DeleteLocationsPayload {
+  """Identifiers of the deleted locations."""
+  locationIds: [String!]!
+}
+
+"""Input identifying the package transfer order to delete."""
+input DeletePackageTransferOrderInput {
+  """Identifier of the package transfer order to delete."""
+  id: String!
+}
+
+"""Result of the deletePackageTransferOrder mutation."""
+type DeletePackageTransferOrderPayload {
+  """The deleted package transfer order."""
+  packageTransferOrder: PackageTransferOrder
+}
+
+"""Input for the deletePackages mutation."""
+input DeletePackagesInput {
+  """Identifiers of the packages to delete."""
+  packageIds: [String!]!
+}
+
+"""Result of the deletePackages mutation."""
+type DeletePackagesPayload {
+  """Identifiers of the deleted packages."""
+  packageIds: [String!]!
+}
+
+"""A tracked inventory item."""
+type Inventory {
+  """Free-text comments on the inventory item."""
+  comments: String
+
+  """Epoch-millisecond timestamp when the item was consumed."""
+  consumedDate: AWSTimestamp
+
+  """Identifier of the container holding this item, if any."""
+  containerId: String
+
+  """Epoch-millisecond timestamp when the item was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Customer-specific part number for this item, if any."""
+  customerPartNumber: String
+
+  """Free-text description of the inventory item."""
+  description: String
+
+  """Epoch-millisecond timestamp when the item expires."""
+  expirationDate: AWSTimestamp
+
+  """Unique identifier of the inventory item."""
+  id: String
+
+  """Image URLs for the inventory item."""
+  images: [String]
+
+  """Whether the item has been consumed."""
+  isConsumed: Boolean
+
+  """Location where the inventory item was last detected."""
+  lastDetectedAtLocation: LocationV2
+
+  """Epoch-millisecond timestamp when the item was last detected."""
+  lastDetectionDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the item was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Current location of the inventory item."""
+  location: LocationV2
+
+  """Lot number of the lot this item belongs to."""
+  lotNumber: String
+
+  """Display name of the inventory item."""
+  name: String
+
+  """The part (item type) this inventory item is an instance of."""
+  part: InventoryPart
+
+  """Quantity represented by this inventory item."""
+  quantity: Float
+
+  """Current state of the inventory item (e.g. OnHand)."""
+  state: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
+
+  """Trackers attached to this inventory item."""
+  trackers: [Tracker]
+
+  """Identifier of the transfer order this item is part of, if any."""
+  transferOrderId: String
+
+  """Transfer status of the inventory item."""
+  transferStatus: String
+}
+
+"""Filter and paging criteria for querying inventory activity records."""
+input InventoryActivityInput {
+  """Restrict results to these activity action types."""
+  actions: [String!]
+
+  """Epoch-millisecond timestamp marking the end of the query window."""
+  endDate: AWSTimestamp
+
+  """Restrict results to these inventory item identifiers."""
+  ids: [String!]
+
+  """Restrict results to events at these location identifiers."""
+  locationIds: [String!]
+
+  """
+  Opaque pagination token returned by a previous query, used to fetch the next page.
+  """
+  nextToken: String
+
+  """Restrict results to inventory of these part identifiers."""
+  partIds: [String!]
+
+  """Epoch-millisecond timestamp marking the start of the query window."""
+  startDate: AWSTimestamp
+
+  """Restrict results to events involving these tracker serials."""
+  trackerSerials: [String!]
+
+  """Restrict results to events on these transfer order identifiers."""
+  transferOrderIds: [String!]
+}
+
+"""
+A page of inventory activity records together with the queried window and pagination token.
+"""
+type InventoryActivityPayload {
+  """The inventory activity records in this page."""
+  activity: [InventoryActivityRecord!]
+
+  """Epoch-millisecond timestamp marking the end of the returned window."""
+  endDate: AWSTimestamp
+
+  """
+  Opaque pagination token to fetch the next page, or null if no more results.
+  """
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the returned window."""
+  startDate: AWSTimestamp
+}
+
+"""
+A single historical inventory event (e.g. a move, detection, or state change) at a point in time.
+"""
+type InventoryActivityRecord {
+  """Action that this event represents."""
+  action: String!
+
+  """Container involved in this event, if any."""
+  container: ActivityContainer
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Detector that observed this event, if any."""
+  detector: ActivityDetector
+
+  """Epoch-millisecond timestamp when the event occurred."""
+  eventDate: AWSTimestamp!
+
+  """
+  Ordinal index disambiguating events that share the same event timestamp.
+  """
+  eventIndex: Int!
+
+  """Inventory item affected by this event."""
+  inventory: ActivityInventory
+
+  """Location associated with this event."""
+  location: ActivityLocation
+
+  """Part of the affected inventory item."""
+  part: ActivityInventoryPart
+
+  """Users tracked at the location during this event."""
+  trackedUsers: [ActivityTrackedUser!]
+
+  """Tracker attached to the affected item at the time of the event."""
+  tracker: ActivityTracker
+
+  """Transfer order associated with this event, if any."""
+  transferOrder: ActivityInventoryTransferOrder
+
+  """Transfer order entry associated with this event, if any."""
+  transferOrderEntry: ActivityInventoryTransferOrderEntry
+
+  """User who performed or is associated with this event."""
+  user: ActivityUser
+
+  """Workflow that produced this event, if any."""
+  workflow: ActivityWorkflow
+}
+
+"""Input for the inventory query."""
+input InventoryInput {
+  """Filter expression on inventory item properties."""
+  filter: String
+
+  """Pagination token from a previous response to fetch the next page."""
+  nextToken: String
+}
+
+"""An inventory part (item type) describing a class of inventory items."""
+type InventoryPart {
+  """Epoch-millisecond timestamp when the part was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Per-customer part numbers mapped to this part."""
+  customerPartNumbers: [CustomerPartNumber!]
+
+  """Free-text description of the part."""
+  description: String
+
+  """
+  Unique identifier of the inventory part (item type), usually the item or SKU number.
+  """
+  id: String
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image URLs for the part."""
+  images: [String!]
+
+  """Epoch-millisecond timestamp when the part was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Display name of the part."""
+  name: String
+
+  """Part number."""
+  number: String
+
+  """Expected quantity represented by the part."""
+  quantity: Int
+
+  """Unit of measure for the part."""
+  unit: String
+}
+
+"""Input for the inventoryParts query."""
+input InventoryPartsInput {
+  """Filter expression on inventory part properties."""
+  filter: String
+
+  """Pagination token from a previous response to fetch the next page."""
+  nextToken: String
+}
+
+"""Result of the inventoryParts query."""
+type InventoryPartsPayload {
+  """The matching inventory parts."""
+  inventoryParts: [InventoryPart!]!
+
+  """Pagination token to fetch the next page, if any."""
+  nextToken: String
+}
+
+"""Result of the inventory query."""
+type InventoryPayload {
+  """The matching inventory items."""
+  inventory: [Inventory!]!
+
+  """Pagination token to fetch the next page, if any."""
+  nextToken: String
+}
+
+"""A request to procure or restock inventory."""
+type InventoryRequest {
+  """Epoch-millisecond timestamp when the request was cancelled."""
+  cancelledDate: AWSTimestamp
+
+  """Free-text comment on the request."""
+  comment: String
+
+  """Epoch-millisecond timestamp when the request was created."""
+  creationDate: AWSTimestamp
+
+  """Identifier of the location the inventory should be delivered to."""
+  deliveryLocationId: String
+
+  """Epoch-millisecond timestamp of the estimated delivery date."""
+  estimatedDeliveryDate: AWSTimestamp
+
+  """Unique identifier of the inventory request."""
+  id: String
+
+  """Whether the request is archived."""
+  isArchived: Boolean
+
+  """Epoch-millisecond timestamp when the request was ordered."""
+  orderedDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the request was received."""
+  receivedDate: AWSTimestamp
+
+  """Identifier of the user who created the request."""
+  reqestorId: String
+
+  """Line items in the request."""
+  requestEntries: [InventoryRequestEntry]
+
+  """Detailed status of the request."""
+  statusDetail: StatusDetail
+}
+
+"""A single line item in an inventory request."""
+type InventoryRequestEntry {
+  """Identifier of the requested part."""
+  partId: String
+
+  """Quantity of the part requested."""
+  quantity: Int
+
+  """Unit cost of the requested part."""
+  unitCost: Float
+}
+
+"""Input for a single line item in an inventory request."""
+input InventoryRequestEntryInput {
+  """Identifier of the requested part."""
+  partId: String!
+
+  """Quantity of the part requested."""
+  quantity: Int!
+
+  """Unit cost of the requested part."""
+  unitCost: Float
+}
+
+"""Result of the inventory request create/update mutations."""
+type InventoryRequestOutput {
+  """The affected inventory requests."""
+  result: [InventoryRequest]
+}
+
+"""A single segment of an inventory item's movement history."""
+type InventoryRoute {
+  """Duration spent at the location for this segment."""
+  duration: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the item left the location."""
+  endDate: AWSTimestamp
+
+  """Location the item was detected at during this segment."""
+  location: LocationV2
+
+  """Epoch-millisecond timestamp when the item entered the location."""
+  startDate: AWSTimestamp
+
+  """State of the item during this segment."""
+  state: String
+}
+
+"""Input for the inventoryRoute query."""
+input InventoryRouteInput {
+  """Epoch-millisecond timestamp marking the end of the route window."""
+  endDate: AWSTimestamp
+
+  """Unique identifier of the inventory item whose route is requested."""
+  id: String!
+
+  """Pagination token from a previous response to fetch the next page."""
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the route window."""
+  startDate: AWSTimestamp
+}
+
+"""Result of the inventoryRoute query."""
+type InventoryRoutePayload {
+  """Pagination token to fetch the next page, if any."""
+  nextToken: String
+
+  """The ordered route segments."""
+  route: [InventoryRoute!]
+}
+
+"""A transfer order moving inventory parts between locations."""
+type InventoryTransferOrder {
+  """Epoch-millisecond timestamp when the transfer order was cancelled."""
+  cancelledDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Part entries included in the transfer order."""
+  entries: [InventoryTransferOrderEntry!]!
+
+  """Unique identifier of the inventory transfer order."""
+  id: String
+  inTransitDate: AWSTimestamp @deprecated(reason: "use shippedDate")
+
+  """Location where the transfer order was last detected."""
+  lastDetectedAtLocation: LocationV2
+
+  """Epoch-millisecond timestamp when the transfer order was last detected."""
+  lastDetectionDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Current location of the transfer order."""
+  location: LocationV2
+
+  """Epoch-millisecond timestamp when the transfer order was received."""
+  receivedDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was shipped."""
+  shippedDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was staged."""
+  stagedDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was started."""
+  startDate: AWSTimestamp
+
+  """Current lifecycle status of the transfer order."""
+  status: TransferOrderStatus
+
+  """Serial of the tracker attached to the transfer order."""
+  trackerSerial: String
+
+  """Trackers attached to the transfer order."""
+  trackers: [Tracker]
+
+  """Source location the inventory is transferred from."""
+  transferFrom: LocationV2
+
+  """Destination location the inventory is transferred to."""
+  transferTo: LocationV2
+
+  """Epoch-millisecond timestamp when the transfer order was verified."""
+  verifiedDate: AWSTimestamp
+}
+
+"""A single part entry within an inventory transfer order."""
+type InventoryTransferOrderEntry {
+  inTransitQuantity: Int @deprecated(reason: "use shippedQuantity")
+
+  """Inventory items associated with this entry."""
+  inventory: [Inventory!]
+
+  """Epoch-millisecond timestamp when this entry was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """The part type or SKU being transferred in this entry."""
+  part: InventoryPart
+
+  """Quantity that has been received for this entry."""
+  receivedQuantity: Int
+
+  """Quantity that has been shipped for this entry."""
+  shippedQuantity: Int
+
+  """Quantity that has been staged for this entry."""
+  stagedQuantity: Int
+
+  """Current lifecycle status of this entry."""
+  status: TransferOrderStatus
+
+  """Total quantity to transfer for this entry."""
+  totalQuantity: Int
+
+  """Unit of measure for the quantities, if applicable."""
+  unit: String
+
+  """Quantity that has been verified for this entry."""
+  verifiedQuantity: Int
+}
+
+"""Input identifying a single inventory transfer order to retrieve."""
+input InventoryTransferOrderInput {
+  """Identifier of the inventory transfer order to retrieve."""
+  id: String
+}
+
+"""Result of the inventoryTransferOrder query."""
+type InventoryTransferOrderPayload {
+  """The requested inventory transfer order."""
+  inventoryTransferOrder: InventoryTransferOrder
+}
+
+"""
+Input for listing inventory transfer orders with optional filtering and pagination.
+"""
+input InventoryTransferOrdersInput {
+  """Filter expression applied to inventory transfer order properties."""
+  filter: String
+
+  """Pagination token returned by a previous call to fetch the next page."""
+  nextToken: String
+}
+
+"""Result of the inventoryTransferOrders query."""
+type InventoryTransferOrdersPayload {
+  """The matching inventory transfer orders."""
+  inventoryTransferOrders: [InventoryTransferOrder!]
+
+  """Pagination token to pass to the next call, if more results remain."""
+  nextToken: String
+}
+
+"""Fields that can be updated on an inventory item."""
+input InventoryUpdates {
+  """Tracker serials to attach to the item."""
+  addTrackerSerials: [String!]
+
+  """Updated free-text comments on the item."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Updated customer-specific part number for this item."""
+  customerPartNumber: String
+
+  """Updated free-text description of the item."""
+  description: String
+
+  """Updated epoch-millisecond timestamp when the item expires."""
+  expirationDate: AWSTimestamp
+
+  """Updated unique identifier of the item."""
+  id: String
+
+  """Updated image URLs for the item."""
+  images: [String]
+
+  """Updated identifier of the item's location."""
+  locationId: String
+
+  """Updated lot number of the lot this item belongs to."""
+  lotNumber: String
+
+  """Updated display name of the item."""
+  name: String
+
+  """
+  Updated identifier of the part (item type) this item is an instance of.
+  """
+  partId: String
+
+  """Updated quantity represented by this item."""
+  quantity: Float
+
+  """Tracker serials to detach from the item."""
+  removeTrackerSerials: [String!]
+
+  """Whether to reuse a tracker serial already attached to another item."""
+  reuseTrackerSerial: Boolean
+
+  """Updated state of the item."""
+  state: String
+  trackerSerial: String @deprecated(reason: "use addTrackerSerials and removeTrackerSerials instead")
+}
+
+"""
+A location where items are tracked. Legacy shape; newer APIs return `LocationV2`.
+"""
+type Location {
+  """Name of the location's category."""
+  category: String
+
+  """Unique identifier of the location."""
+  id: ID
+
+  """Human-readable location identifier."""
+  identifier: String
+
+  """Display name of the location."""
+  name: String
+}
+
+"""Result of the locationCategories query."""
+type LocationCategoriesPayload {
+  """
+  The predefined location categories available for classifying locations in the hierarchy.
+  """
+  categories: [LocationCategory!]!
+}
+
+"""A node in the location category hierarchy."""
+type LocationCategory {
+  """Identifiers of categories nested directly beneath this one."""
+  childCategoryIds: [String!]
+
+  """Unique identifier of the location category."""
+  id: String
+
+  """Identifier of the parent category, if any."""
+  parentCategoryId: String
+}
+
+"""
+A role classifying how a location is used (e.g. staging, shipping, storage).
+"""
+type LocationRole {
+  """Free-text description of the role."""
+  description: String
+
+  """Unique identifier of the location role."""
+  id: String
+
+  """Display name of the role."""
+  name: String
+}
+
+"""Result of the locationRoles query."""
+type LocationRolesPayload {
+  """The predefined location roles that can be assigned to a location."""
+  roles: [LocationRole!]!
+}
+
+"""Fields to update on an existing location."""
+input LocationUpdates {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Identifier of the customer this location belongs to."""
+  customerId: String
+
+  """Free-text description of the location."""
+  description: String
+
+  """Unique identifier of the location."""
+  id: String
+
+  """Display name of the location."""
+  name: String
+
+  """Identifier of the parent location, establishing the hierarchy."""
+  parentLocationId: String
+
+  """Identifier of the role to assign to the location."""
+  roleId: String
+}
+
+"""A location in the tenant's location hierarchy."""
+type LocationV2 {
+  """Identifier of the location category this location is classified under."""
+  categoryId: String
+
+  """Identifiers of locations nested directly beneath this one."""
+  childLocationIds: [String!]
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Identifier of the customer this location belongs to, if any."""
+  customerId: String
+
+  """Free-text description of the location."""
+  description: String
+
+  """Unique identifier of the location."""
+  id: String
+
+  """Display name of the location."""
+  name: String
+
+  """Identifier of the parent location in the hierarchy, if any."""
+  parentLocationId: String
+
+  """Identifier of the location role describing how this location is used."""
+  roleId: String
+}
+
+"""Input for filtering and paging the locations query."""
+input LocationsInput {
+  """Filter expression applied to location properties."""
+  filter: String
+
+  """
+  Opaque pagination token from a previous response to fetch the next page.
+  """
+  nextToken: String
+}
+
+"""Result of the locations query."""
+type LocationsPayload {
+  """
+  Locations matching the query, each with its category, role, and assigned customer.
+  """
+  locations: [LocationV2!]
+
+  """Opaque pagination token to fetch the next page, if more results exist."""
+  nextToken: String
+}
+
+type Mutation {
+  """
+  Associates RFID tracker serial numbers with work orders and returns the updated work orders.
+  """
+  attachWorkOrderTracker(input: [AttachWorkOrderTrackerInput!]!, options: WorkOrderProcessingOptions): [WorkOrder]
+
+  """Completes the given work orders and returns the updated work orders."""
+  completeWorkOrders(input: CompleteWorkOrdersInput!): [WorkOrder]
+
+  """
+  Mark one or more inventory items as consumed and return their identifiers.
+  """
+  consumeInventory(input: ConsumeInventoryInput!): ConsumeInventoryPayload
+
+  """Creates an asset transfer order and returns the created order."""
+  createAssetTransferOrder(input: CreateAssetTransferOrderInput): CreateAssetTransferOrderPayload
+
+  """Creates one or more asset types and returns their identifiers."""
+  createAssetTypes(input: CreateAssetTypesInput!): CreateAssetTypesPayload
+
+  """Creates one or more assets and returns their identifiers."""
+  createAssets(input: CreateAssetsInput!): CreateAssetsPayload
+
+  """
+  Creates a container, optionally with its initial contents, and returns it.
+  """
+  createContainer(input: CreateContainerInput!): CreateContainerOutput
+
+  """Creates one or more container types and returns their identifiers."""
+  createContainerTypes(input: CreateContainerTypesInput!): CreateContainerTypesPayload
+
+  """Create one or more inventory items and return their identifiers."""
+  createInventory(input: CreateInventoryInput!): CreateInventoryPayload
+
+  """
+  Create one or more inventory parts (item types) and return their identifiers.
+  """
+  createInventoryParts(input: CreateInventoryPartsInput!): CreateInventoryPartsPayload
+
+  """Create one or more inventory requests and return them."""
+  createInventoryRequests(input: CreateInventoryRequestsInput!): InventoryRequestOutput
+
+  """Creates an inventory transfer order and returns the created order."""
+  createInventoryTransferOrder(input: CreateInventoryTransferOrderInput): CreateInventoryTransferOrderPayload
+
+  """Create one or more locations and build the location hierarchy."""
+  createLocations(input: CreateLocationsInput!): CreateLocationsPayload
+
+  """Creates a package transfer order and returns the created order."""
+  createPackageTransferOrder(input: CreatePackageTransferOrderInput!): CreatePackageTransferOrderPayload
+
+  """Creates one or more packages and returns their identifiers."""
+  createPackages(input: CreatePackagesInput!): CreatePackagesPayload
+
+  """Creates work order part types and returns their identifiers."""
+  createWorkOrderPartTypes(input: CreateWorkOrderPartTypesInput!): CreateWorkOrderPartTypesPayload
+
+  """Creates a set of work orders and returns their numbers."""
+  createWorkOrderSet(input: [WorkOrderSetInput!]!, options: CreateWorkOrderSetOptions): WorkOrderSet
+
+  """Deletes an asset transfer order and returns the deleted order."""
+  deleteAssetTransferOrder(input: DeleteAssetTransferOrderInput): DeleteAssetTransferOrderPayload
+
+  """Deletes one or more assets and returns their identifiers."""
+  deleteAssets(input: DeleteAssetsInput!): DeleteAssetsPayload
+
+  """Deletes an empty container and returns it."""
+  deleteContainer(input: DeleteContainerInput!): DeleteContainerOutput
+
+  """
+  Permanently delete one or more inventory items and return their identifiers.
+  """
+  deleteInventory(input: DeleteInventoryInput!): DeleteInventoryPayload
+
+  """Deletes an inventory transfer order and returns the deleted order."""
+  deleteInventoryTransferOrder(input: DeleteInventoryTransferOrderInput): DeleteInventoryTransferOrderPayload
+
+  """Permanently delete one or more locations."""
+  deleteLocations(input: DeleteLocationsInput!): DeleteLocationsPayload
+
+  """Deletes a package transfer order and returns the deleted order."""
+  deletePackageTransferOrder(input: DeletePackageTransferOrderInput!): DeletePackageTransferOrderPayload
+
+  """Deletes one or more packages and returns their identifiers."""
+  deletePackages(input: DeletePackagesInput!): DeletePackagesPayload
+
+  """Updates an asset transfer order and returns the updated order."""
+  updateAssetTransferOrder(input: UpdateAssetTransferOrderInput): UpdateAssetTransferOrderPayload
+
+  """Updates one or more asset types and returns their identifiers."""
+  updateAssetTypes(input: UpdateAssetTypesInput!): UpdateAssetTypesPayload
+
+  """Updates one or more assets and returns the updated assets."""
+  updateAssets(input: UpdateAssetsInput!): UpdateAssetsPayload
+
+  """Updates a container's properties and contents, and returns it."""
+  updateContainer(input: UpdateContainerInput!): UpdateContainerOutput
+
+  """Updates one or more container types and returns their identifiers."""
+  updateContainerTypes(input: UpdateContainerTypesInput!): UpdateContainerTypesPayload
+
+  """Update one or more inventory items and return the updated items."""
+  updateInventory(input: UpdateInventoryInput!): UpdateInventoryPayload
+
+  """
+  Update one or more inventory parts (item types) and return their identifiers.
+  """
+  updateInventoryParts(input: UpdateInventoryPartsInput!): UpdateInventoryPartsPayload
+
+  """Update one or more inventory requests and return them."""
+  updateInventoryRequests(input: UpdateInventoryRequestsInput!): InventoryRequestOutput
+
+  """Updates an inventory transfer order and returns the updated order."""
+  updateInventoryTransferOrder(input: UpdateInventoryTransferOrderInput): UpdateInventoryTransferOrderPayload
+
+  """Update one or more existing locations with new properties."""
+  updateLocations(input: UpdateLocationsInput!): UpdateLocationsPayload
+
+  """Updates a package transfer order and returns the updated order."""
+  updatePackageTransferOrder(input: UpdatePackageTransferOrderInput!): UpdatePackageTransferOrderPayload
+
+  """Updates one or more packages and returns the updated records."""
+  updatePackages(input: UpdatePackagesInput!): UpdatePackagesPayload
+
+  """
+  Updates an input part on a work order and returns the updated work order.
+  """
+  updateWorkOrderInputPart(input: UpdateWorkOrderInputPartInput!): WorkOrder
+
+  """Updates work order part types and returns their identifiers."""
+  updateWorkOrderPartTypes(input: UpdateWorkOrderPartTypesInput!): UpdateWorkOrderPartTypesPayload
+
+  """
+  Updates properties on the given work orders and returns the updated work orders.
+  """
+  updateWorkOrderProperties(input: [UpdateWorkOrderPropertiesInput!]!, options: UpdateWorkOrderPropertiesOptions): [WorkOrder]
+}
+
+"""A single operation (step) within a work order's process."""
+type Operation {
+  """Epoch-millisecond timestamp when the operation was cancelled."""
+  cancelledOn: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the operation was completed."""
+  completedOn: AWSTimestamp
+
+  """Epoch-millisecond timestamp for the operation's due date."""
+  dueDate: AWSTimestamp
+
+  """Unique identifier of the operation."""
+  id: ID
+
+  """Display name of the operation."""
+  name: String!
+
+  """Position of this operation within the work order's sequence."""
+  sequenceNumber: Int
+
+  """Epoch-millisecond timestamp for the operation's expected start."""
+  startDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the operation actually started."""
+  startedOn: AWSTimestamp
+
+  """Current lifecycle status of the operation."""
+  status: OperationStatus
+}
+
+"""Severity level applied to an operation condition."""
+enum OperationSeverity {
+  """Condition is critical."""
+  CRITICAL
+
+  """Condition is a warning."""
+  WARNING
+}
+
+"""Status of an operation relative to its expected start time."""
+enum OperationStartStatus {
+  """Operation started later than expected."""
+  DELAYED
+
+  """Operation has not started yet."""
+  NOT_STARTED
+
+  """Operation started on time."""
+  ON_TIME
+}
+
+"""Lifecycle status of a single work order operation."""
+enum OperationStatus {
+  """Operation has been cancelled."""
+  CANCELLED
+
+  """Operation has been completed."""
+  COMPLETED
+
+  """Operation status could not be determined."""
+  INDETERMINATE
+
+  """Operation is currently in progress."""
+  IN_PROGRESS
+
+  """Operation has not started yet."""
+  NOT_STARTED
+
+  """Operation has run past its allotted time."""
+  TIME_EXCEEDED
+}
+
+"""A status update applied to an operation at a point in time."""
+type OperationUpdate {
+  """Severity of the operation condition at the time of the update."""
+  severity: String
+
+  """Status of the operation at the time of the update."""
+  status: OperationStatus
+
+  """Epoch-millisecond timestamp of the update."""
+  updateDate: AWSTimestamp
+}
+
+"""A tracked package, identified by its package ID and optional tracker."""
+type Package {
+  """Any comments or remarks recorded for the package."""
+  comments: String
+
+  """Identifier of the container holding this package, if any."""
+  containerId: String
+
+  """Epoch-millisecond timestamp when the package was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the package."""
+  description: String
+
+  """Unique identifier of the package."""
+  id: String!
+
+  """Location where the package was last detected."""
+  lastDetectedAtLocation: LocationV2
+
+  """Epoch-millisecond timestamp when the package was last detected."""
+  lastDetectionDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the package was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Current location of the package."""
+  location: LocationV2
+
+  """Display name of the package."""
+  name: String
+
+  """Current state of the package."""
+  state: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
+
+  """Identifier trackers currently attached to the package."""
+  trackers: [Tracker]
+
+  """Identifier of the transfer order this package belongs to, if any."""
+  transferOrderId: String
+
+  """Current transfer status of the package."""
+  transferStatus: String
+}
+
+"""Filter and paging criteria for querying package activity records."""
+input PackageActivityInput {
+  """Restrict results to these activity action types."""
+  actions: [String!]
+
+  """Epoch-millisecond timestamp marking the end of the query window."""
+  endDate: AWSTimestamp
+
+  """Restrict results to these package identifiers."""
+  ids: [String!]
+
+  """Restrict results to events at these location identifiers."""
+  locationIds: [String!]
+
+  """
+  Opaque pagination token returned by a previous query, used to fetch the next page.
+  """
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the query window."""
+  startDate: AWSTimestamp
+
+  """Restrict results to events involving these tracker serials."""
+  trackerSerials: [String!]
+
+  """Restrict results to events on these transfer order identifiers."""
+  transferOrderIds: [String!]
+}
+
+"""
+A page of package activity records together with the queried window and pagination token.
+"""
+type PackageActivityPayload {
+  """The package activity records in this page."""
+  activity: [PackageActivityRecord!]
+
+  """Epoch-millisecond timestamp marking the end of the returned window."""
+  endDate: AWSTimestamp
+
+  """
+  Opaque pagination token to fetch the next page, or null if no more results.
+  """
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the returned window."""
+  startDate: AWSTimestamp
+}
+
+"""
+A single historical package event (e.g. a move, detection, or state change) at a point in time.
+"""
+type PackageActivityRecord {
+  """Action that this event represents."""
+  action: String!
+
+  """Container involved in this event, if any."""
+  container: ActivityContainer
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Detector that observed this event, if any."""
+  detector: ActivityDetector
+
+  """Epoch-millisecond timestamp when the event occurred."""
+  eventDate: AWSTimestamp!
+
+  """
+  Ordinal index disambiguating events that share the same event timestamp.
+  """
+  eventIndex: Int!
+
+  """Location associated with this event."""
+  location: ActivityLocation
+
+  """Package affected by this event."""
+  package: ActivityPackage
+
+  """Users tracked at the location during this event."""
+  trackedUsers: [ActivityTrackedUser!]
+
+  """Tracker attached to the affected item at the time of the event."""
+  tracker: ActivityTracker
+
+  """Transfer order associated with this event, if any."""
+  transferOrder: ActivityPackageTransferOrder
+
+  """Transfer order entry associated with this event, if any."""
+  transferOrderEntry: ActivityPackageTransferOrderEntry
+
+  """User who performed or is associated with this event."""
+  user: ActivityUser
+
+  """Workflow that produced this event, if any."""
+  workflow: ActivityWorkflow
+}
+
+"""A single package to create."""
+input PackageInput {
+  """Any comments or remarks recorded for the package."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the package."""
+  description: String
+
+  """Serial or unique identifier for the package."""
+  id: String!
+
+  """Identifier of the location the package is at."""
+  locationId: String
+
+  """Display name of the package."""
+  name: String
+
+  """Whether to reuse an existing tracker serial."""
+  reuseTrackerSerial: Boolean
+
+  """RFID tag associated with the package for tracking."""
+  trackerSerial: String
+}
+
+"""A single stop in a package's location route history."""
+type PackageRoute {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Duration the package spent at this stop."""
+  duration: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the package left this stop."""
+  endDate: AWSTimestamp
+
+  """Location of this route stop."""
+  location: LocationV2
+
+  """Epoch-millisecond timestamp when the package entered this stop."""
+  startDate: AWSTimestamp
+
+  """State of the package at this route stop."""
+  state: String
+}
+
+"""Input for the packageRoute query."""
+input PackageRouteInput {
+  """Epoch-millisecond timestamp marking the end of the route window."""
+  endDate: AWSTimestamp
+
+  """Unique identifier of the package whose route is requested."""
+  id: String!
+
+  """Pagination token for fetching the next page of results."""
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the route window."""
+  startDate: AWSTimestamp
+}
+
+"""Result of the packageRoute query."""
+type PackageRoutePayload {
+  """Pagination token for fetching the next page of results."""
+  nextToken: String
+
+  """Ordered list of route stops for the package."""
+  route: [PackageRoute!]
+}
+
+"""A transfer order moving packages between locations."""
+type PackageTransferOrder {
+  """Epoch-millisecond timestamp when the transfer order was cancelled."""
+  cancelledDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Unique identifier of the package transfer order."""
+  id: String!
+
+  """Location where the transfer order was last detected."""
+  lastDetectedAtLocation: LocationV2
+
+  """Epoch-millisecond timestamp when the transfer order was last detected."""
+  lastDetectionDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the transfer order was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Current location of the transfer order."""
+  location: LocationV2
+
+  """Packages included in the transfer order."""
+  packages: [Package!]
+
+  """Epoch-millisecond timestamp when the transfer order was received."""
+  receivedDate: AWSTimestamp
+
+  """Quantity of packages that have been received."""
+  receivedQuantity: Int
+
+  """Epoch-millisecond timestamp when the transfer order was shipped."""
+  shippedDate: AWSTimestamp
+
+  """Quantity of packages that have been shipped."""
+  shippedQuantity: Int
+
+  """Epoch-millisecond timestamp when the transfer order was staged."""
+  stagedDate: AWSTimestamp
+
+  """Quantity of packages that have been staged."""
+  stagedQuantity: Int
+
+  """Epoch-millisecond timestamp when the transfer order was started."""
+  startDate: AWSTimestamp
+
+  """Current lifecycle status of the transfer order."""
+  status: TransferOrderStatus
+
+  """Total quantity of packages in the transfer order."""
+  totalQuantity: Int
+
+  """Serial of the tracker attached to the transfer order."""
+  trackerSerial: String
+
+  """Trackers attached to the transfer order."""
+  trackers: [Tracker]
+
+  """Source location the packages are transferred from."""
+  transferFrom: LocationV2
+
+  """Destination location the packages are transferred to."""
+  transferTo: LocationV2
+
+  """Epoch-millisecond timestamp when the transfer order was verified."""
+  verifiedDate: AWSTimestamp
+
+  """Quantity of packages that have been verified."""
+  verifiedQuantity: Int
+}
+
+"""Input identifying a single package transfer order to retrieve."""
+input PackageTransferOrderInput {
+  """Identifier of the package transfer order to retrieve."""
+  id: String
+}
+
+"""Result of the packageTransferOrder query."""
+type PackageTransferOrderPayload {
+  """The requested package transfer order."""
+  packageTransferOrder: PackageTransferOrder
+}
+
+"""
+Input for listing package transfer orders with optional filtering and pagination.
+"""
+input PackageTransferOrdersInput {
+  """Filter expression applied to package transfer order properties."""
+  filter: String
+
+  """Pagination token returned by a previous call to fetch the next page."""
+  nextToken: String
+}
+
+"""Result of the packageTransferOrders query."""
+type PackageTransferOrdersPayload {
+  """Pagination token to pass to the next call, if more results remain."""
+  nextToken: String
+
+  """The matching package transfer orders."""
+  packageTransferOrders: [PackageTransferOrder!]
+}
+
+"""Updatable fields for a package."""
+input PackageUpdates {
+  """Tracker serials to attach to the package."""
+  addTrackerSerials: [String!]
+
+  """Any comments or remarks recorded for the package."""
+  comments: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the package."""
+  description: String
+
+  """Unique identifier of the package."""
+  id: String
+
+  """Identifier of the location the package is at."""
+  locationId: String
+
+  """Display name of the package."""
+  name: String
+
+  """Tracker serials to detach from the package."""
+  removeTrackerSerials: [String!]
+
+  """Whether to reuse an existing tracker serial."""
+  reuseTrackerSerial: Boolean
+  trackerSerial: String @deprecated(reason: "use addTrackerSerials and removeTrackerSerials instead")
+}
+
+"""A tracked part or item, identified by its EPC or tracker serial."""
+type Part {
+  """Higher-level category the part is grouped under."""
+  category: String
+
+  """Number of the container holding this part, if any."""
+  containerNumber: String
+  epc: String @deprecated(reason: "epc field is deprecated. Use trackerSerial instead.")
+
+  """Unique identifier of the part."""
+  id: ID
+
+  """Whether the part is currently active."""
+  isActive: Boolean
+
+  """Display name of the part."""
+  partName: String
+
+  """Customer-facing part number."""
+  partNumber: String
+
+  """The part type this part is an instance of."""
+  partType: PartType
+
+  """Quantity represented by this part record."""
+  quantity: Int
+
+  """Ordered history of shipment status events for this part."""
+  shipmentHistory: [ShipmentStatus]
+
+  """Current status labels applied to the part."""
+  status: [String]
+
+  """EPC or tracker serial of the tag attached to this part."""
+  trackerSerial: String
+
+  """Class of the part (e.g. inventory, asset)."""
+  type: String
+}
+
+"""
+A part type (also called an item type): the template that describes a class of parts.
+Individual tracked parts reference their part type for shared attributes.
+"""
+type PartType {
+  """Unique identifier of the part type."""
+  id: ID
+
+  """Display name of the part type."""
+  name: String
+
+  """Customer-facing part type number."""
+  partTypeNumber: String
+}
+
+type Query {
+  """
+  Returns a paginated history of asset activity events matching the given filters.
+  """
+  assetActivity(input: AssetActivityInput): AssetActivityPayload
+
+  """Returns the location route history for an asset over a time window."""
+  assetRoute(input: AssetRouteInput): AssetRoutePayload
+
+  """Retrieves a single asset transfer order and its status."""
+  assetTransferOrder(input: AssetTransferOrderInput): AssetTransferOrderPayload
+
+  """Lists asset transfer orders with their statuses."""
+  assetTransferOrders(input: AssetTransferOrdersInput): AssetTransferOrdersPayload
+
+  """Lists asset types matching the given filter."""
+  assetTypes(input: AssetTypesInput): QueryAssetTypesPayload
+
+  """Lists assets matching the given filter."""
+  assets(input: AssetsInput): AssetsPayload
+
+  """
+  Returns a paginated history of container activity events matching the given filters.
+  """
+  containerActivity(input: ContainerActivityInput): ContainerActivityPayload
+
+  """Lists container types, with optional filtering and pagination."""
+  containerTypes(input: ContainerTypesInput): ContainerTypesPayload
+
+  """
+  Lists containers and their contents, with optional filtering and pagination.
+  """
+  containers(input: ContainersInput): ContainersOutput
+
+  """Retrieve a paginated list of inventory items, optionally filtered."""
+  inventory(input: InventoryInput): InventoryPayload
+
+  """
+  Returns a paginated history of inventory activity events matching the given filters.
+  """
+  inventoryActivity(input: InventoryActivityInput): InventoryActivityPayload
+
+  """
+  Retrieve a paginated list of inventory parts (item types), optionally filtered.
+  """
+  inventoryParts(input: InventoryPartsInput): InventoryPartsPayload
+
+  """Retrieve the movement history of an inventory item across locations."""
+  inventoryRoute(input: InventoryRouteInput): InventoryRoutePayload
+
+  """Retrieves a single inventory transfer order and its status."""
+  inventoryTransferOrder(input: InventoryTransferOrderInput): InventoryTransferOrderPayload
+
+  """Lists inventory transfer orders with their statuses."""
+  inventoryTransferOrders(input: InventoryTransferOrdersInput): InventoryTransferOrdersPayload
+
+  """Fetch a single location by its identifier."""
+  location(id: ID): Location
+
+  """List the location categories available in the tenant's hierarchy."""
+  locationCategories: LocationCategoriesPayload
+
+  """List the location roles that can be assigned to a location."""
+  locationRoles: LocationRolesPayload
+
+  """List locations with their category, role, and assigned customer."""
+  locations(input: LocationsInput): LocationsPayload
+
+  """
+  Returns a paginated history of package activity events matching the given filters.
+  """
+  packageActivity(input: PackageActivityInput): PackageActivityPayload
+
+  """Returns the location route history for a package."""
+  packageRoute(input: PackageRouteInput): PackageRoutePayload
+
+  """Retrieves a single package transfer order and its status."""
+  packageTransferOrder(input: PackageTransferOrderInput!): PackageTransferOrderPayload
+
+  """Lists package transfer orders with their statuses."""
+  packageTransferOrders(input: PackageTransferOrdersInput!): PackageTransferOrdersPayload
+
+  """Retrieves a single work order by its number."""
+  workOrder(number: String): WorkOrder
+
+  """
+  Returns a paginated history of work order activity events matching the given filters.
+  """
+  workOrderActivity(input: WorkOrderActivityInput): WorkOrderActivityPayload
+
+  """Retrieves the travel route of a work order part across locations."""
+  workOrderPartRoute(input: WorkOrderPartRouteInput): WorkOrderPartRoutePayload
+
+  """Retrieves the shipment history of a work order part."""
+  workOrderPartShipmentHistory(input: WorkOrderPartShipmentHistoryInput): WorkOrderPartShipmentHistoryPayload
+
+  """Retrieves the process route of a work order across locations."""
+  workOrderProcessRoute(input: WorkOrderProcessRouteInput): WorkOrderProcessRoutePayload
+
+  """Retrieves the travel route of a work order across locations."""
+  workOrderRoute(input: WorkOrderRouteInput): WorkOrderRoutePayload
+
+  """Lists work orders, with optional filtering and pagination."""
+  workOrders(input: WorkOrdersInput): WorkOrdersPayload
+}
+
+"""Result of the assetTypes query."""
+type QueryAssetTypesPayload {
+  """Matching asset types for this page."""
+  assetTypes: [AssetType!]!
+
+  """Pagination token to retrieve the next page of results."""
+  nextToken: String
+}
+
+"""A single status event in an item's shipment history."""
+type ShipmentStatus {
+  """Optional comment recorded with the event."""
+  comment: String
+
+  """Duration, in seconds, the item spent in this status."""
+  duration: Int
+
+  """Epoch-millisecond timestamp when the event occurred."""
+  eventTime: AWSTimestamp
+
+  """Location associated with this shipment event."""
+  location: Location
+
+  """Status label for this event."""
+  status: String
+}
+
+"""Lifecycle status shared by work orders and other process entities."""
+enum Status {
+  """Cancelled before completion."""
+  CANCELLED
+
+  """Finished successfully."""
+  COMPLETED
+
+  """Currently being worked."""
+  IN_PROGRESS
+
+  """Created but not yet started."""
+  PLANNED
+}
+
+"""Detailed status of an inventory request."""
+type StatusDetail {
+  """Optional condition qualifying the status."""
+  condition: String
+
+  """Primary status label."""
+  status: String!
+
+  """Optional sub-status label."""
+  subStatus: String
+}
+
+"""Input describing the status of an inventory request."""
+input StatusDetailInput {
+  """Optional condition qualifying the status."""
+  condition: String
+
+  """Primary status label."""
+  status: String!
+
+  """Optional sub-status label."""
+  subStatus: String
+}
+
+"""
+An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
+"""
+type Tracker {
+  """Epoch-millisecond timestamp when the tracker was attached to the item."""
+  attachDate: AWSTimestamp
+
+  """EPC or tracker serial identifying this tracker."""
+  serial: String
+}
+
+"""
+Lifecycle status of a transfer order as it moves from creation through verification.
+"""
+enum TransferOrderStatus {
+  """The transfer order has been cancelled."""
+  CANCELLED
+
+  """The transfer order has been created but not yet started."""
+  CREATED
+  IN_TRANSIT @deprecated(reason: "use SHIPPED")
+
+  """
+  All items for the transfer order have been received at the destination.
+  """
+  RECEIVED
+
+  """Items for the transfer order are being received at the destination."""
+  RECEIVING_IN_PROGRESS
+
+  """All items for the transfer order have been shipped."""
+  SHIPPED
+
+  """Items for the transfer order are being shipped."""
+  SHIPPING_IN_PROGRESS
+
+  """All items for the transfer order have been staged."""
+  STAGED
+
+  """Items for the transfer order are being staged for shipment."""
+  STAGING_IN_PROGRESS
+
+  """All received items for the transfer order have been verified."""
+  VERIFIED
+
+  """Received items for the transfer order are being verified."""
+  VERIFYING_IN_PROGRESS
+}
+
+"""A single leg of a work order's travel through locations."""
+type TravelRoute {
+  """Time spent at the location, in seconds."""
+  duration: Int
+
+  """Epoch-millisecond timestamp when the work order entered the location."""
+  entryTime: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the work order exited the location."""
+  exitTime: AWSTimestamp
+
+  """Location visited during this leg of the route."""
+  location: Location
+}
+
+"""Input for updating a single asset entry of an asset transfer order."""
+input UpdateAssetTransferOrderEntryInput {
+  """Assets to add to the entry."""
+  addAssets: [CreateAssetTransferOrderItemInput!]
+
+  """Assets to remove from the entry."""
+  removeAssets: [CreateAssetTransferOrderItemInput!]
+
+  """Updated total quantity for the asset type in the transfer order."""
+  totalQuantity: Int
+
+  """Identifier of the asset type for the entry to update."""
+  typeId: String!
+}
+
+"""
+Input for updating an asset transfer order's locations, tracker, asset types, and custom properties.
+"""
+input UpdateAssetTransferOrderInput {
+  """New asset type entries to add to the transfer order."""
+  addTypes: [CreateAssetTransferOrderEntryInput!]
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Identifier of the asset transfer order to update."""
+  id: String!
+
+  """Identifiers of asset type entries to remove from the transfer order."""
+  removeTypeIds: [String!]
+
+  """Updated serial of the tracker attached to the transfer order."""
+  trackerSerial: String
+
+  """Updated identifier of the source location."""
+  transferFromId: String
+
+  """Updated identifier of the destination location."""
+  transferToId: String
+
+  """Existing asset type entries to update in the transfer order."""
+  updateTypes: [UpdateAssetTransferOrderEntryInput!]
+}
+
+"""Result of the updateAssetTransferOrder mutation."""
+type UpdateAssetTransferOrderPayload {
+  """The updated asset transfer order."""
+  assetTransferOrder: AssetTransferOrder
+}
+
+"""Updates to apply to a single asset type."""
+input UpdateAssetTypeInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the asset type."""
+  description: String
+
+  """Unique identifier of the asset type to update."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Public image URLs for the asset type."""
+  images: [String!]
+
+  """Display name of the asset type."""
+  name: String
+
+  """Asset type number."""
+  number: String
+
+  """Expected quantity of the asset type."""
+  quantity: Int
+
+  """Unit of measure of the asset type."""
+  unit: String
+}
+
+"""
+Input for the updateAssetTypes mutation, carrying the asset type updates to apply.
+"""
+input UpdateAssetTypesInput {
+  """Asset types to update."""
+  assetTypes: [UpdateAssetTypeInput!]
+  inputList: [UpdateAssetTypeInput!] @deprecated(reason: "Use assetTypes instead")
+}
+
+"""Result of the updateAssetTypes mutation."""
+type UpdateAssetTypesPayload {
+  """Identifiers of the updated asset types."""
+  assetTypeIds: [String]
+}
+
+"""
+Input for the updateAssets mutation, carrying the asset updates to apply.
+"""
+input UpdateAssetsInput {
+  """Assets to update."""
+  assets: [UpdatedAsset!]!
+}
+
+"""Result of the updateAssets mutation."""
+type UpdateAssetsPayload {
+  """The updated assets."""
+  assets: [Asset!]
+}
+
+"""Input for updating a container."""
+input UpdateContainerInput {
+  """Identifier of the container to update."""
+  id: String!
+
+  """Fields to apply to the container."""
+  updates: ContainerUpdates!
+}
+
+"""Result of the updateContainer mutation."""
+type UpdateContainerOutput {
+  """The updated container."""
+  container: Container!
+}
+
+"""A single container type to update."""
+input UpdateContainerTypeInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the container type."""
+  description: String
+
+  """Identifier of the container type to update."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image URLs associated with the container type."""
+  images: [String!]
+
+  """Display name of the container type."""
+  name: String
+
+  """Container type number or SKU."""
+  number: String
+
+  """Expected quantity for this container type."""
+  quantity: Int
+
+  """Unit of measure for the container type."""
+  unit: String
+}
+
+"""Input for updating one or more container types."""
+input UpdateContainerTypesInput {
+  """The container types to update."""
+  containerTypes: [UpdateContainerTypeInput!]!
+}
+
+"""Result of the updateContainerTypes mutation."""
+type UpdateContainerTypesPayload {
+  """Identifiers of the updated container types."""
+  containerTypeIds: [String]
+}
+
+"""Input for the updateInventory mutation."""
+input UpdateInventoryInput {
+  """Inventory items to update."""
+  inventory: [UpdatedInventory]!
+}
+
+"""Definition of a single inventory part (item type) to update."""
+input UpdateInventoryPartInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Updated free-text description of the part."""
+  description: String
+
+  """Unique identifier of the part (item type) to update."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Updated image URLs for the part."""
+  images: [String!]
+
+  """Updated display name of the part."""
+  name: String
+
+  """Updated part number."""
+  number: String
+
+  """Updated expected quantity represented by the part."""
+  quantity: Int
+
+  """Updated unit of measure for the part."""
+  unit: String
+}
+
+"""Input for the updateInventoryParts mutation."""
+input UpdateInventoryPartsInput {
+  inputList: [UpdateInventoryPartInput!] @deprecated(reason: "Use inventoryParts instead")
+
+  """Inventory parts (item types) to update."""
+  inventoryParts: [UpdateInventoryPartInput!]
+}
+
+"""Result of the updateInventoryParts mutation."""
+type UpdateInventoryPartsPayload {
+  """Identifiers of the updated inventory parts."""
+  partIds: [String]
+}
+
+"""Result of the updateInventory mutation."""
+type UpdateInventoryPayload {
+  """The updated inventory items."""
+  inventory: [Inventory!]!
+}
+
+"""Definition of a single inventory request to update."""
+input UpdateInventoryRequests {
+  """Updated free-text comment on the request."""
+  comment: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Updated identifier of the delivery location."""
+  deliveryLocationId: String
+
+  """Updated epoch-millisecond timestamp of the estimated delivery date."""
+  estimatedDeliveryDate: AWSTimestamp
+
+  """Unique identifier of the inventory request to update."""
+  id: String!
+
+  """Whether the request is archived."""
+  isArchived: Boolean
+
+  """Updated line items for the request."""
+  requestEntries: [InventoryRequestEntryInput]
+
+  """Updated status detail for the request."""
+  statusDetail: StatusDetailInput
+}
+
+"""Input for the updateInventoryRequests mutation."""
+input UpdateInventoryRequestsInput {
+  """Inventory requests to update."""
+  inputList: [UpdateInventoryRequests!]!
+}
+
+"""Input for updating a single part entry of an inventory transfer order."""
+input UpdateInventoryTransferOrderEntryInput {
+  """Inventory items to add to the entry."""
+  addInventory: [CreateInventoryTransferOrderItemInput!]
+
+  """Identifier of the part type or SKU for the entry to update."""
+  partId: String!
+
+  """Inventory items to remove from the entry."""
+  removeInventory: [CreateInventoryTransferOrderItemInput!]
+
+  """Updated total quantity for the part in the transfer order."""
+  totalQuantity: Int
+}
+
+"""
+Input for updating an inventory transfer order's locations, tracker, parts, and custom properties.
+"""
+input UpdateInventoryTransferOrderInput {
+  """New part entries to add to the transfer order."""
+  addParts: [CreateInventoryTransferOrderEntryInput!]
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Identifier of the inventory transfer order to update."""
+  id: String!
+
+  """Identifiers of part entries to remove from the transfer order."""
+  removePartIds: [String!]
+
+  """Updated serial of the tracker attached to the transfer order."""
+  trackerSerial: String
+
+  """Updated identifier of the source location."""
+  transferFromId: String
+
+  """Updated identifier of the destination location."""
+  transferToId: String
+
+  """Existing part entries to update in the transfer order."""
+  updateParts: [UpdateInventoryTransferOrderEntryInput!]
+}
+
+"""Result of the updateInventoryTransferOrder mutation."""
+type UpdateInventoryTransferOrderPayload {
+  """The updated inventory transfer order."""
+  inventoryTransferOrder: InventoryTransferOrder
+}
+
+"""A single location update as part of the updateLocations mutation."""
+input UpdateLocationInput {
+  """Unique identifier of the location to update."""
+  id: String!
+
+  """Fields to update on the location."""
+  updates: LocationUpdates!
+}
+
+"""Input for the updateLocations mutation."""
+input UpdateLocationsInput {
+  """Locations to update."""
+  locations: [UpdateLocationInput!]!
+}
+
+"""Result of the updateLocations mutation."""
+type UpdateLocationsPayload {
+  """Updated locations with their new properties."""
+  locations: [LocationV2!]!
+}
+
+"""A single package to update, identified by its ID."""
+input UpdatePackageInput {
+  """Unique identifier of the package to update."""
+  id: String!
+
+  """Fields to update on the package."""
+  updates: PackageUpdates
+}
+
+"""
+Input for updating a package transfer order's locations, tracker, packages, and custom properties.
+"""
+input UpdatePackageTransferOrderInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Identifier of the package transfer order to update."""
+  id: String!
+
+  """Identifiers of packages to remove from the transfer order."""
+  packageIdsToRemove: [String!]
+
+  """Packages to add to the transfer order."""
+  packagesToAdd: [PackageInput!]
+
+  """Updated total quantity of packages in the transfer order."""
+  totalQuantity: Int
+
+  """Updated serial of the tracker attached to the transfer order."""
+  trackerSerial: String
+
+  """Updated identifier of the source location."""
+  transferFromId: String
+
+  """Updated identifier of the destination location."""
+  transferToId: String
+}
+
+"""Result of the updatePackageTransferOrder mutation."""
+type UpdatePackageTransferOrderPayload {
+  """The updated package transfer order."""
+  packageTransferOrder: PackageTransferOrder
+}
+
+"""Input for the updatePackages mutation."""
+input UpdatePackagesInput {
+  """Packages to update."""
+  packages: [UpdatePackageInput!]!
+}
+
+"""Result of the updatePackages mutation."""
+type UpdatePackagesPayload {
+  """The updated packages."""
+  packages: [Package!]!
+}
+
+"""Input for updating an input part on a work order."""
+input UpdateWorkOrderInputPartInput {
+  """Category the input part is classified under."""
+  category: String
+
+  """Display name of the input part."""
+  partName: String
+
+  """Part number of the input part."""
+  partNumber: String!
+
+  """Part type name of the input part."""
+  partTypeName: String
+
+  """Part type number of the input part."""
+  partTypeNumber: String!
+
+  """Identifier of the location the input part should ship to."""
+  shipToLocationId: String
+
+  """Serial of the tracker to associate with the input part."""
+  trackerSerial: String
+
+  """Number of the work order to update."""
+  workOrderNumber: String!
+}
+
+"""Input for updating one or more work order part types."""
+input UpdateWorkOrderPartTypesInput {
+  inputList: [WorkOrderPartTypesInput!] @deprecated(reason: "Use workOrderPartTypes instead")
+
+  """Work order part types to update."""
+  workOrderPartTypes: [WorkOrderPartTypesInput!]
+}
+
+"""Result of the updateWorkOrderPartTypes mutation."""
+type UpdateWorkOrderPartTypesPayload {
+  """Identifiers of the updated part types."""
+  typeIds: [String]
+}
+
+"""Input describing the properties to update on a single work order."""
+input UpdateWorkOrderPropertiesInput {
+  """Updated comments for the work order."""
+  comments: String
+
+  """
+  Updated expected completion date for the work order, in epoch milliseconds.
+  """
+  completionDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Updated customer for the work order."""
+  customer: String
+
+  """Updated description of the work order."""
+  description: String
+
+  """Updated due date for the work order, in epoch milliseconds."""
+  dueDate: AWSTimestamp
+
+  """Updated purchase order number for the work order."""
+  poNumber: String
+
+  """Updated priority level of the work order."""
+  priority: Int
+
+  """Updated expected start date for the work order, in epoch milliseconds."""
+  startDate: AWSTimestamp
+
+  """Updated state of the work order."""
+  state: String
+
+  """Updated status of the work order."""
+  status: Status
+
+  """Number of the work order to update."""
+  workOrderNumber: String!
+}
+
+"""Options controlling work order property updates."""
+input UpdateWorkOrderPropertiesOptions {
+  """
+  Whether the request may partially succeed instead of failing as a whole.
+  """
+  enablePartialSuccess: Boolean
+}
+
+"""A single asset update entry, pairing an asset id with its updates."""
+input UpdatedAsset {
+  comments: String @deprecated(reason: "Include the comments value in the updates field")
+  customProperties: AWSJSON @deprecated(reason: "Include the customProperties value in the updates field")
+  description: String @deprecated(reason: "Include the description value in the updates field")
+  dueDate: AWSTimestamp @deprecated(reason: "Include the dueDate value in the updates field")
+
+  """Unique identifier of the asset to update."""
+  id: String!
+  images: [String] @deprecated(reason: "Include images typeId value in the updates field")
+  locationId: String @deprecated(reason: "Include the locationId value in the updates field")
+  name: String @deprecated(reason: "Include the name value in the updates field")
+  reuseTrackerSerial: Boolean @deprecated(reason: "Include the reuseTrackerSerial value in the updates field")
+  trackerSerial: String @deprecated(reason: "Include the trackerSerial value in the updates field")
+  typeId: String @deprecated(reason: "Include the typeId value in the updates field")
+
+  """Updates to apply to the asset."""
+  updates: AssetUpdates
+}
+
+"""Definition of a single inventory item to update."""
+input UpdatedInventory {
+  """Unique identifier of the item to update."""
+  id: String!
+
+  """Updates to apply to the item."""
+  updates: InventoryUpdates!
+}
+
+"""A work order (job) tracked through the production process."""
+type WorkOrder {
+  """Free-text comments on the work order."""
+  comments: String
+
+  """Epoch-millisecond timestamp when the work order was completed."""
+  completionDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the work order was created."""
+  creationDate: AWSTimestamp
+
+  """Status of the work order's currently active operation."""
+  currentOperation: CurrentOperation
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Customer associated with the work order."""
+  customer: String
+
+  """Free-text description of the work order."""
+  description: String
+
+  """Epoch-millisecond timestamp for the work order's due date."""
+  dueDate: AWSTimestamp
+  epc: String @deprecated(reason: "epc field is deprecated. Use trackerSerial instead.")
+  id: ID @deprecated(reason: "Use number instead")
+  inputParts: [Part] @deprecated(reason: "Use inputs instead")
+
+  """Input parts consumed by the work order."""
+  inputs: [WorkOrderInput]
+
+  """Whether the work order is currently active."""
+  isActive: Boolean
+
+  """Location where the work order was last detected."""
+  lastDetectedAtLocation: LocationV2
+
+  """
+  Epoch-millisecond timestamp when the work order entered its last detected location.
+  """
+  lastDetectedAtLocationEntryDate: AWSTimestamp
+
+  """Epoch-millisecond timestamp when the work order was last detected."""
+  lastDetectionDate: AWSTimestamp
+  lastKnownLocation: Location @deprecated(reason: "Use lastDetectedAtLocation")
+
+  """Epoch-millisecond timestamp when the work order was last updated."""
+  lastUpdatedDate: AWSTimestamp
+  lastUpdatedTime: AWSTimestamp @deprecated(reason: "Use lastUpdatedDate")
+
+  """Location the work order is currently associated with."""
+  location: LocationV2
+
+  """Work order number."""
+  number: String
+
+  """Operations making up the work order's process."""
+  operations: [Operation!]
+  outputParts: [Part] @deprecated(reason: "Use outputs instead")
+
+  """Output parts produced by the work order."""
+  outputs: [WorkOrderOutput]
+
+  """Purchase order number associated with the work order."""
+  poNumber: String
+
+  """Priority level of the work order."""
+  priority: Int
+
+  """Recent legs of the work order's travel route, optionally limited."""
+  routeHistory(limit: Int): [TravelRoute]
+
+  """Epoch-millisecond timestamp for the work order's expected start."""
+  startDate: AWSTimestamp
+
+  """Current state of the work order."""
+  state: String
+
+  """Current status of the work order."""
+  status: Status
+
+  """Status flags currently applied to the work order."""
+  statusFlags: [String!]
+
+  """Serial number of the RFID tracker attached to the work order."""
+  trackerSerial: String
+
+  """
+  Epoch-millisecond timestamp when the tracker was attached to the work order.
+  """
+  trackerSerialAttachDate: AWSTimestamp
+
+  """Trackers attached to the work order."""
+  trackers: [Tracker]
+}
+
+"""Filter and paging criteria for querying work order activity records."""
+input WorkOrderActivityInput {
+  """Restrict results to these activity action types."""
+  actions: [String!]
+
+  """Epoch-millisecond timestamp marking the end of the query window."""
+  endDate: AWSTimestamp
+
+  """Restrict results to these work order identifiers."""
+  ids: [String!]
+
+  """Restrict results to events at these location identifiers."""
+  locationIds: [String!]
+
+  """
+  Opaque pagination token returned by a previous query, used to fetch the next page.
+  """
+  nextToken: String
+
+  """Restrict results to work orders involving these part identifiers."""
+  partIds: [String!]
+
+  """Epoch-millisecond timestamp marking the start of the query window."""
+  startDate: AWSTimestamp
+
+  """Restrict results to events involving these tracker serials."""
+  trackerSerials: [String!]
+
+  """Restrict results to work order parts of these type identifiers."""
+  typeIds: [String!]
+}
+
+"""
+A page of work order activity records together with the queried window and pagination token.
+"""
+type WorkOrderActivityPayload {
+  """The work order activity records in this page."""
+  activity: [WorkOrderActivityRecord!]
+
+  """Epoch-millisecond timestamp marking the end of the returned window."""
+  endDate: AWSTimestamp
+
+  """
+  Opaque pagination token to fetch the next page, or null if no more results.
+  """
+  nextToken: String
+
+  """Epoch-millisecond timestamp marking the start of the returned window."""
+  startDate: AWSTimestamp
+}
+
+"""
+A single historical work order event (e.g. a move, detection, or status change) at a point in time.
+"""
+type WorkOrderActivityRecord {
+  """Action that this event represents."""
+  action: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Detector that observed this event, if any."""
+  detector: ActivityDetector
+
+  """Epoch-millisecond timestamp when the event occurred."""
+  eventDate: AWSTimestamp!
+
+  """
+  Ordinal index disambiguating events that share the same event timestamp.
+  """
+  eventIndex: Int!
+
+  """Location associated with this event."""
+  location: ActivityLocation
+
+  """Work order part involved in this event, if any."""
+  part: ActivityWorkOrderPart
+
+  """Users tracked at the location during this event."""
+  trackedUsers: [ActivityTrackedUser!]
+
+  """Tracker attached to the affected item at the time of the event."""
+  tracker: ActivityTracker
+
+  """Type of the involved work order part."""
+  type: ActivityWorkOrderPartType
+
+  """User who performed or is associated with this event."""
+  user: ActivityUser
+
+  """Work order affected by this event."""
+  workOrder: ActivityWorkOrder
+
+  """Workflow that produced this event, if any."""
+  workflow: ActivityWorkflow
+}
+
+"""An input part consumed by a work order."""
+type WorkOrderInput {
+  """Category the input part is classified under."""
+  category: String
+
+  """Number of the container holding the input part, if any."""
+  containerNumber: String
+
+  """Unique identifier of the input part."""
+  id: String
+
+  """Whether the input part is currently active."""
+  isActive: Boolean
+
+  """Display name of the input part."""
+  name: String
+  part: WorkOrderPart @deprecated(reason: "use type for the input part type")
+
+  """Quantity of the input part."""
+  quantity: Int
+
+  """Latest shipment state of the input part."""
+  shipmentState: String
+  shipmentStatus: [String] @deprecated(reason: "use shipmentState for the latest status")
+
+  """Serial of the tracker attached to the input part."""
+  trackerSerial: String
+
+  """Part type of the input part."""
+  type: WorkOrderPartType
+}
+
+"""
+Input describing a single operation in a work order set creation request.
+"""
+input WorkOrderOperation {
+  """Epoch-millisecond timestamp for the operation's due date."""
+  due_date: AWSTimestamp
+
+  """Display name of the operation."""
+  name: String!
+
+  """Position of this operation within the work order's sequence."""
+  sequence_number: Int
+
+  """Epoch-millisecond timestamp for the operation's expected start."""
+  start_date: AWSTimestamp
+}
+
+"""An output part produced by a work order."""
+type WorkOrderOutput {
+  """Category the output part is classified under."""
+  category: String
+
+  """Number of the container holding the output part, if any."""
+  containerNumber: String
+
+  """Unique identifier of the output part."""
+  id: String
+
+  """Whether the output part is currently active."""
+  isActive: Boolean
+
+  """Display name of the output part."""
+  name: String
+  part: WorkOrderPart @deprecated(reason: "use type for the output part type")
+
+  """Quantity of the output part."""
+  quantity: Int
+
+  """Latest shipment state of the output part."""
+  shipmentState: String
+  shipmentStatus: [String] @deprecated(reason: "use shipmentState for the latest status")
+
+  """Serial of the tracker attached to the output part."""
+  trackerSerial: String
+
+  """Part type of the output part."""
+  type: WorkOrderPartType
+}
+
+"""A work order part. Deprecated; use WorkOrderPartType instead."""
+type WorkOrderPart {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the part."""
+  description: String
+
+  """Unique identifier of the part."""
+  id: String
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image paths associated with the part."""
+  images: [String!]
+
+  """Display name of the part."""
+  name: String
+
+  """Part number."""
+  number: String
+
+  """Quantity of the part."""
+  quantity: Int
+
+  """Unit of measure for the part."""
+  unit: String
+}
+
+"""A single leg of a work order part's travel route across locations."""
+type WorkOrderPartRoute {
+  """Time spent at the location, in milliseconds."""
+  duration: AWSTimestamp
+
+  """Epoch-millisecond timestamp of last detection at the location."""
+  endDate: AWSTimestamp
+
+  """Location visited during this leg of the route."""
+  location: LocationV2
+
+  """Epoch-millisecond timestamp of first detection at the location."""
+  startDate: AWSTimestamp
+
+  """State of the part at the location."""
+  state: String
+}
+
+"""Input for retrieving a work order part's travel route."""
+input WorkOrderPartRouteInput {
+  """End of the route window, in epoch milliseconds."""
+  endDate: AWSTimestamp
+
+  """Unique identifier of the work order part."""
+  id: String!
+
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Start of the route window, in epoch milliseconds."""
+  startDate: AWSTimestamp
+}
+
+"""Result of the workOrderPartRoute query."""
+type WorkOrderPartRoutePayload {
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Legs of the work order part's travel route."""
+  route: [WorkOrderPartRoute!]
+}
+
+"""A single shipment event in a work order part's history."""
+type WorkOrderPartShipmentHistory {
+  """Optional comment recorded with the event."""
+  comment: String
+
+  """Location associated with the shipment event."""
+  location: LocationV2
+
+  """Epoch-millisecond timestamp when the event occurred."""
+  shipmentDate: AWSTimestamp
+
+  """Shipment state of the part at the event."""
+  state: WorkOrderPartShipmentState
+
+  """Status label for the event."""
+  status: String
+}
+
+"""Input for retrieving a work order part's shipment history."""
+input WorkOrderPartShipmentHistoryInput {
+  """End of the history window, in epoch milliseconds."""
+  endDate: AWSTimestamp
+
+  """Unique identifier of the work order part."""
+  id: String!
+
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Start of the history window, in epoch milliseconds."""
+  startDate: AWSTimestamp
+}
+
+"""Result of the workOrderPartShipmentHistory query."""
+type WorkOrderPartShipmentHistoryPayload {
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Shipment events for the work order part."""
+  shipmentHistory: [WorkOrderPartShipmentHistory!]
+}
+
+"""Shipment state of a work order part."""
+enum WorkOrderPartShipmentState {
+  """Part shipment has been cancelled."""
+  CANCELLED
+
+  """Part has no shipment activity."""
+  NONE
+
+  """Part has been received."""
+  RECEIVED
+
+  """Part has been shipped."""
+  SHIPPED
+
+  """Part has been staged for shipment."""
+  STAGED
+}
+
+"""A part type used for work order input and output parts."""
+type WorkOrderPartType {
+  """Epoch-millisecond timestamp when the part type was created."""
+  creationDate: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the part type."""
+  description: String
+
+  """Unique identifier of the part type."""
+  id: String
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image paths associated with the part type."""
+  images: [String!]
+
+  """Epoch-millisecond timestamp when the part type was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Display name of the part type."""
+  name: String
+
+  """Part type number."""
+  number: String
+
+  """Default quantity for the part type."""
+  quantity: Int
+
+  """Unit of measure for the part type."""
+  unit: String
+}
+
+"""Input describing a single work order part type to create or update."""
+input WorkOrderPartTypesInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the part type."""
+  description: String
+
+  """Unique identifier of the part type."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image paths associated with the part type."""
+  images: [String!]
+
+  """Display name of the part type."""
+  name: String
+
+  """Part type number."""
+  number: String
+
+  """Default quantity for the part type."""
+  quantity: Int
+
+  """Unit of measure for the part type."""
+  unit: String
+}
+
+"""A single leg of a work order's process route across locations."""
+type WorkOrderProcessRoute {
+  """Time spent at the location, in milliseconds."""
+  duration: AWSTimestamp
+
+  """Epoch-millisecond timestamp of last detection at the location."""
+  endDate: AWSTimestamp
+
+  """Location visited during this leg of the route."""
+  location: LocationV2
+
+  """Operation status updates recorded during this leg."""
+  operationUpdates: [OperationUpdate!]
+
+  """Epoch-millisecond timestamp of first detection at the location."""
+  startDate: AWSTimestamp
+
+  """State of the work order at the location."""
+  state: String
+
+  """Work order status updates recorded during this leg."""
+  workOrderUpdates: [WorkOrderUpdate!]
+}
+
+"""Input for retrieving a work order's process route."""
+input WorkOrderProcessRouteInput {
+  """End of the route window, in epoch milliseconds."""
+  endDate: AWSTimestamp
+
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Number of the work order to retrieve the process route for."""
+  number: String!
+
+  """Start of the route window, in epoch milliseconds."""
+  startDate: AWSTimestamp
+}
+
+"""Result of the workOrderProcessRoute query."""
+type WorkOrderProcessRoutePayload {
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Legs of the work order's process route."""
+  route: [WorkOrderProcessRoute!]
+}
+
+"""Options controlling work order processing behavior."""
+input WorkOrderProcessingOptions {
+  """
+  Whether to detach a tracker from its previous work order. Defaults to false.
+  """
+  detachTracker: Boolean
+
+  """
+  Whether the request may partially succeed instead of failing as a whole.
+  """
+  enablePartialSuccess: Boolean
+
+  """Whether an existing tracker may be reused. Defaults to false."""
+  reuseTracker: Boolean
+}
+
+"""A single leg of a work order's travel route across locations."""
+type WorkOrderRoute {
+  """Time spent at the location, in milliseconds."""
+  duration: AWSTimestamp
+
+  """Epoch-millisecond timestamp of last detection at the location."""
+  endDate: AWSTimestamp
+
+  """Location visited during this leg of the route."""
+  location: LocationV2
+
+  """Operation status updates recorded during this leg."""
+  operationUpdates: [OperationUpdate!]
+
+  """Epoch-millisecond timestamp of first detection at the location."""
+  startDate: AWSTimestamp
+
+  """State of the work order at the location."""
+  state: String
+
+  """Work order status updates recorded during this leg."""
+  workOrderUpdates: [WorkOrderUpdate!]
+}
+
+"""Input for retrieving a work order's travel route."""
+input WorkOrderRouteInput {
+  """End of the route window, in epoch milliseconds."""
+  endDate: AWSTimestamp
+
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Number of the work order to retrieve the route for."""
+  number: String!
+
+  """Start of the route window, in epoch milliseconds."""
+  startDate: AWSTimestamp
+}
+
+"""Result of the workOrderRoute query."""
+type WorkOrderRoutePayload {
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Legs of the work order's travel route."""
+  route: [WorkOrderRoute!]
+}
+
+"""Result of the createWorkOrderSet mutation."""
+type WorkOrderSet {
+  """Numbers of the work orders that were created."""
+  work_order_numbers: [String]
+}
+
+"""Input describing a single work order to create as part of a set."""
+input WorkOrderSetInput {
+  """Free-text comments on the work order."""
+  comments: String
+
+  """Expected completion date for the work order, in epoch milliseconds."""
+  completion_date: AWSTimestamp
+
+  """Additional custom properties as a JSON object."""
+  custom_properties: AWSJSON
+
+  """Customer associated with the work order."""
+  customer: String
+
+  """Free-text description of the work order."""
+  description: String
+
+  """Expected completion date for the work order, in epoch milliseconds."""
+  due_date: AWSTimestamp
+
+  """Input parts consumed by the work order."""
+  input_parts: [WorkOrderSetPart]
+
+  """
+  Xemelgo-verified location identifier the work order should be onboarded to.
+  """
+  onboarding_location: String
+
+  """Operations making up the work order's process."""
+  operations: [WorkOrderOperation!]
+
+  """Work order (job) number."""
+  order_number: String!
+
+  """Output parts produced by the work order."""
+  output_parts: [WorkOrderSetPart]
+
+  """Purchase order number associated with the work order."""
+  po_number: String
+
+  """Priority level of the work order."""
+  priority: Int
+
+  """Whether an existing tracker serial may be reused for this work order."""
+  reuse_tracker_serial: Boolean
+
+  """Expected start date for the work order, in epoch milliseconds."""
+  start_date: AWSTimestamp
+
+  """Initial state of the work order."""
+  state: String
+
+  """Initial status of the work order."""
+  status: String
+
+  """Serial number of the RFID tag associated with the work order."""
+  tracker_serial: String
+}
+
+"""Input describing a single part in a work order set creation request."""
+input WorkOrderSetPart {
+  """Category the part is classified under."""
+  category: String
+
+  """Unique identifier of the part."""
+  id: ID
+
+  """Part number of the part."""
+  part_number: String
+
+  """Product number of the part type."""
+  product_number: String
+
+  """Quantity of the part."""
+  quantity: Int
+
+  """Identifier of the location the part should ship to."""
+  ship_to_location: String
+
+  """Serial of the tracker to associate with the part."""
+  tracker_serial: String
+}
+
+"""A status update applied to a work order at a point in time."""
+type WorkOrderUpdate {
+  """Priority level at the time of the update."""
+  priority: Int
+
+  """Status of the work order at the time of the update."""
+  status: Status
+
+  """Status flags applied at the time of the update."""
+  statusFlags: [String!]
+
+  """Epoch-millisecond timestamp of the update."""
+  updateDate: AWSTimestamp
+}
+
+"""Input for listing work orders, with optional filtering and pagination."""
+input WorkOrdersInput {
+  """Filter expression for work order properties."""
+  filter: String
+
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+}
+
+"""Result of the workOrders query."""
+type WorkOrdersPayload {
+  """Pagination token for retrieving the next page of results."""
+  nextToken: String
+
+  """Page of work orders matching the query."""
+  workOrders: [WorkOrder!]!
+}
