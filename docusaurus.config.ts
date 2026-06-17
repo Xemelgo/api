@@ -26,22 +26,8 @@ const config: Config = {
           sidebarPath: require.resolve("./sidebars.ts"),
         },
         blog: false,
-      },
-    ],
-    [
-      "redocusaurus",
-      {
-        // Renders the webhook OpenAPI spec (generated in Xemelgo/server, synced
-        // here to static/specs/) as an interactive reference page.
-        specs: [
-          {
-            id: "webhooks",
-            spec: "static/specs/webhooks.openapi.json",
-            route: "/webhooks-api",
-          },
-        ],
         theme: {
-          primaryColor: "#0D8CFF",
+          customCss: require.resolve("./src/css/custom.css"),
         },
       },
     ],
@@ -54,9 +40,6 @@ const config: Config = {
         autoCollapseCategories: true,
       },
     },
-    theme: {
-      customCss: require.resolve("./src/css/custom.css"),
-    },
 
     navbar: {
       title: "Xemelgo API Docs",
@@ -64,7 +47,9 @@ const config: Config = {
         alt: "Xemelgo Logo",
         src: "img/Xemelgo-Logomark.webp",
       },
-      items: [{ to: "/webhooks-api", label: "Webhooks API", position: "left" }],
+      // No top tabs: the left sidebar is the single source of navigation. Adding tabs
+      // here would duplicate sidebar sections and risk drifting out of sync.
+      items: [],
     },
 
     footer: {
