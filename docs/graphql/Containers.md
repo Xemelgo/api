@@ -332,7 +332,7 @@ mutation CreateContainer($input: CreateContainerInput!) {
         ],
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": "E28011700000020ABC12345",
+        "reuseTrackerSerial": false,
         "trackerSerial": "E28011700000020ABC12345",
         "typeId": "type-001"
       }
@@ -365,7 +365,7 @@ mutation CreateContainer($input: CreateContainerInput!) {
         "name": "Forklift 7",
         "partId": "part-001",
         "quantity": 1,
-        "reuseTrackerSerial": "E28011700000020ABC12345",
+        "reuseTrackerSerial": false,
         "trackerSerial": "E28011700000020ABC12345"
       }
     ],
@@ -382,11 +382,11 @@ mutation CreateContainer($input: CreateContainerInput!) {
         "id": "containerpackage-001",
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": "E28011700000020ABC12345",
+        "reuseTrackerSerial": false,
         "trackerSerial": "E28011700000020ABC12345"
       }
     ],
-    "reuseTrackerSerial": "E28011700000020ABC12345",
+    "reuseTrackerSerial": false,
     "trackerSerial": "E28011700000020ABC12345",
     "typeId": "type-001"
   }
@@ -812,7 +812,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
           ],
           "locationId": "location-001",
           "name": "Forklift 7",
-          "reuseTrackerSerial": "E28011700000020ABC12345",
+          "reuseTrackerSerial": false,
           "trackerSerial": "E28011700000020ABC12345",
           "typeId": "type-001"
         }
@@ -838,7 +838,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
           "name": "Forklift 7",
           "partId": "part-001",
           "quantity": 1,
-          "reuseTrackerSerial": "E28011700000020ABC12345",
+          "reuseTrackerSerial": false,
           "trackerSerial": "E28011700000020ABC12345"
         }
       ],
@@ -853,7 +853,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
           "id": "containerpackage-001",
           "locationId": "location-001",
           "name": "Forklift 7",
-          "reuseTrackerSerial": "E28011700000020ABC12345",
+          "reuseTrackerSerial": false,
           "trackerSerial": "E28011700000020ABC12345"
         }
       ],
@@ -878,7 +878,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
       "removePackageIds": [
         "example"
       ],
-      "reuseTrackerSerial": "E28011700000020ABC12345",
+      "reuseTrackerSerial": false,
       "trackerSerial": "E28011700000020ABC12345",
       "typeId": "type-001"
     }

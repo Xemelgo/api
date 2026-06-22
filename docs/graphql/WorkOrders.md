@@ -1698,7 +1698,7 @@ mutation CreateWorkOrderSet($input: [WorkOrderSetInput!]!, $options: CreateWorkO
       ],
       "po_number": "example",
       "priority": 10,
-      "reuse_tracker_serial": "E28011700000020ABC12345",
+      "reuse_tracker_serial": false,
       "start_date": 1719792000000,
       "state": "ACTIVE",
       "status": "ACTIVE",

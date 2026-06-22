@@ -1343,7 +1343,7 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
         "id": "package-001",
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": "E28011700000020ABC12345",
+        "reuseTrackerSerial": false,
         "trackerSerial": "E28011700000020ABC12345"
       }
     ],
@@ -2389,7 +2389,7 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
         "id": "package-001",
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": "E28011700000020ABC12345",
+        "reuseTrackerSerial": false,
         "trackerSerial": "E28011700000020ABC12345"
       }
     ],
