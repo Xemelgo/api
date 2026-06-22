@@ -150,7 +150,7 @@ mutation CreatePackages($input: CreatePackagesInput!) {
         "id": "package-001",
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": "E28011700000020ABC12345",
+        "reuseTrackerSerial": false,
         "trackerSerial": "E28011700000020ABC12345"
       }
     ]
@@ -345,7 +345,7 @@ mutation UpdatePackages($input: UpdatePackagesInput!) {
           "removeTrackerSerials": [
             "E28011700000020ABC12345"
           ],
-          "reuseTrackerSerial": "E28011700000020ABC12345"
+          "reuseTrackerSerial": false
         }
       }
     ]

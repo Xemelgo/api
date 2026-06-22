@@ -19,6 +19,7 @@
       "name": "Work Order"
     }
   ],
+  "paths": {},
   "webhooks": {
     "asset.bulk_update": {
       "post": {
@@ -4903,10 +4904,7 @@
                         }
                       },
                       "number": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": "string"
                       },
                       "outputs": {
                         "type": "array",
@@ -5464,10 +5462,7 @@
                         }
                       },
                       "number": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": "string"
                       },
                       "outputs": {
                         "type": "array",

@@ -388,7 +388,7 @@ mutation CreateAssets($input: CreateAssetsInput!) {
         ],
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": "E28011700000020ABC12345",
+        "reuseTrackerSerial": false,
         "trackerSerial": "E28011700000020ABC12345",
         "typeId": "type-001"
       }
@@ -712,7 +712,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "removeTrackerSerials": [
             "E28011700000020ABC12345"
           ],
-          "reuseTrackerSerial": "E28011700000020ABC12345",
+          "reuseTrackerSerial": false,
           "state": "ACTIVE",
           "typeId": "type-001"
         }

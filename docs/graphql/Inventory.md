@@ -714,7 +714,7 @@ mutation CreateInventory($input: CreateInventoryInput!) {
         "name": "Forklift 7",
         "partId": "part-001",
         "quantity": 1,
-        "reuseTrackerSerial": "E28011700000020ABC12345",
+        "reuseTrackerSerial": false,
         "trackerSerial": "E28011700000020ABC12345"
       }
     ]
@@ -1138,7 +1138,7 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
           "removeTrackerSerials": [
             "E28011700000020ABC12345"
           ],
-          "reuseTrackerSerial": "E28011700000020ABC12345",
+          "reuseTrackerSerial": false,
           "state": "ACTIVE"
         }
       }
