@@ -37,6 +37,7 @@ query Containers($input: ContainersInput) {
       trackerSerial
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -112,6 +113,7 @@ query Containers($input: ContainersInput) {
           "trackerSerial": "E28011700000020ABC12345",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
+          "uuid": "uu-001",
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -185,6 +187,7 @@ query ContainerTypes($input: ContainerTypesInput) {
       number
       quantity
       unit
+      uuid
     }
   }
 }
@@ -227,7 +230,8 @@ query ContainerTypes($input: ContainerTypesInput) {
           "name": "Forklift 7",
           "number": "AST-1024",
           "quantity": 10,
-          "unit": "EA"
+          "unit": "EA",
+          "uuid": "uu-001"
         }
       ]
     }
@@ -290,6 +294,7 @@ mutation CreateContainer($input: CreateContainerInput!) {
       trackerSerial
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -433,6 +438,7 @@ mutation CreateContainer($input: CreateContainerInput!) {
         "trackerSerial": "E28011700000020ABC12345",
         "transferOrderId": "transferorder-001",
         "transferStatus": "example",
+        "uuid": "uu-001",
         "lastDetectedAtLocation": {
           "id": "location-001",
           "name": "Forklift 7"
@@ -619,6 +625,7 @@ mutation DeleteContainer($input: DeleteContainerInput!) {
       trackerSerial
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -691,6 +698,7 @@ mutation DeleteContainer($input: DeleteContainerInput!) {
         "trackerSerial": "E28011700000020ABC12345",
         "transferOrderId": "transferorder-001",
         "transferStatus": "example",
+        "uuid": "uu-001",
         "lastDetectedAtLocation": {
           "id": "location-001",
           "name": "Forklift 7"
@@ -768,6 +776,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
       trackerSerial
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -926,6 +935,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
         "trackerSerial": "E28011700000020ABC12345",
         "transferOrderId": "transferorder-001",
         "transferStatus": "example",
+        "uuid": "uu-001",
         "lastDetectedAtLocation": {
           "id": "location-001",
           "name": "Forklift 7"
@@ -1129,6 +1139,7 @@ A container that holds assets, inventory items, packages, or nested child contai
 | `transferOrderId` | `String` | Identifier of the transfer order this container belongs to, if any. |
 | `transferStatus` | `String` | Status of the container within its transfer order, if any. |
 | `type` | [`ContainerType`](#type-containertype) | The container type this container is classified under. |
+| `uuid` | `String` | Globally unique identifier of the container. |
 
 #### ContainerAssetInput {#type-containerassetinput}
 
@@ -1199,6 +1210,7 @@ A container type: the classification template (e.g. Bin, Pallet, Tote) that desc
 | `number` | `String` | Container type number or SKU. |
 | `quantity` | `Int` | Expected quantity for this container type. |
 | `unit` | `String` | Unit of measure for the container type. |
+| `uuid` | `String` | Globally unique identifier of the container type. |
 
 #### LocationV2 {#type-locationv2}
 

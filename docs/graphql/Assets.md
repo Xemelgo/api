@@ -139,6 +139,7 @@ query Assets($input: AssetsInput) {
       state
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -203,6 +204,7 @@ query Assets($input: AssetsInput) {
           "state": "ACTIVE",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
+          "uuid": "uu-001",
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -276,6 +278,7 @@ query AssetTypes($input: AssetTypesInput) {
       number
       quantity
       unit
+      uuid
     }
   }
 }
@@ -318,7 +321,8 @@ query AssetTypes($input: AssetTypesInput) {
           "name": "Forklift 7",
           "number": "AST-1024",
           "quantity": 10,
-          "unit": "EA"
+          "unit": "EA",
+          "uuid": "uu-001"
         }
       ]
     }
@@ -662,6 +666,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
       state
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -752,6 +757,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "state": "ACTIVE",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
+          "uuid": "uu-001",
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -957,6 +963,7 @@ A tracked asset.
 | `transferOrderId` | `String` | Identifier of the transfer order this asset belongs to, if any. |
 | `transferStatus` | `String` | Current transfer status of the asset, if part of a transfer order. |
 | `type` | [`AssetType`](#type-assettype) | Asset type of the asset. |
+| `uuid` | `String` | Globally unique identifier of the asset. |
 
 #### AssetType {#type-assettype}
 
@@ -974,6 +981,7 @@ A type (template) describing a class of assets.
 | `number` | `String` | Asset type number. |
 | `quantity` | `Int` | Expected quantity of the asset type. |
 | `unit` | `String` | Unit of measure of the asset type. |
+| `uuid` | `String` | Globally unique identifier of the asset type. |
 
 #### LocationV2 {#type-locationv2}
 

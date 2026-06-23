@@ -38,6 +38,7 @@ query Inventory($input: InventoryInput) {
       state
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -106,6 +107,7 @@ query Inventory($input: InventoryInput) {
           "state": "ACTIVE",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
+          "uuid": "uu-001",
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -416,6 +418,7 @@ query InventoryParts($input: InventoryPartsInput) {
       number
       quantity
       unit
+      uuid
       customerPartNumbers {
         customerId
         customerPartNumber
@@ -463,6 +466,7 @@ query InventoryParts($input: InventoryPartsInput) {
           "number": "AST-1024",
           "quantity": 10,
           "unit": "EA",
+          "uuid": "uu-001",
           "customerPartNumbers": [
             {
               "customerId": "customer-001",
@@ -1084,6 +1088,7 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
       state
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -1181,6 +1186,7 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
           "state": "ACTIVE",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
+          "uuid": "uu-001",
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -1486,6 +1492,7 @@ A tracked inventory item.
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to this inventory item. |
 | `transferOrderId` | `String` | Identifier of the transfer order this item is part of, if any. |
 | `transferStatus` | `String` | Transfer status of the inventory item. |
+| `uuid` | `String` | Globally unique identifier of the inventory item. |
 
 #### InventoryPart {#type-inventorypart}
 
@@ -1504,6 +1511,7 @@ An inventory part (item type) describing a class of inventory items.
 | `number` | `String` | Part number. |
 | `quantity` | `Int` | Expected quantity represented by the part. |
 | `unit` | `String` | Unit of measure for the part. |
+| `uuid` | `String` | Globally unique identifier of the inventory part. |
 
 #### LocationV2 {#type-locationv2}
 
