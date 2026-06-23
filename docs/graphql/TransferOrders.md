@@ -30,6 +30,7 @@ query AssetTransferOrder($input: AssetTransferOrderInput) {
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -94,6 +95,7 @@ query AssetTransferOrder($input: AssetTransferOrderInput) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
           {
@@ -176,6 +178,7 @@ query AssetTransferOrders($input: AssetTransferOrdersInput) {
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -243,6 +246,7 @@ query AssetTransferOrders($input: AssetTransferOrdersInput) {
           "startDate": 1719792000000,
           "status": "CANCELLED",
           "trackerSerial": "E28011700000020ABC12345",
+          "uuid": "uu-001",
           "verifiedDate": 1719792000000,
           "entries": [
             {
@@ -327,6 +331,7 @@ query InventoryTransferOrder($input: InventoryTransferOrderInput) {
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -391,6 +396,7 @@ query InventoryTransferOrder($input: InventoryTransferOrderInput) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
           {
@@ -473,6 +479,7 @@ query InventoryTransferOrders($input: InventoryTransferOrdersInput) {
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -540,6 +547,7 @@ query InventoryTransferOrders($input: InventoryTransferOrdersInput) {
           "startDate": 1719792000000,
           "status": "CANCELLED",
           "trackerSerial": "E28011700000020ABC12345",
+          "uuid": "uu-001",
           "verifiedDate": 1719792000000,
           "entries": [
             {
@@ -628,6 +636,7 @@ query PackageTransferOrder($input: PackageTransferOrderInput!) {
       status
       totalQuantity
       trackerSerial
+      uuid
       verifiedDate
       verifiedQuantity
       lastDetectedAtLocation {
@@ -697,6 +706,7 @@ query PackageTransferOrder($input: PackageTransferOrderInput!) {
         "status": "CANCELLED",
         "totalQuantity": 10,
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "verifiedQuantity": 10,
         "lastDetectedAtLocation": {
@@ -784,6 +794,7 @@ query PackageTransferOrders($input: PackageTransferOrdersInput!) {
       status
       totalQuantity
       trackerSerial
+      uuid
       verifiedDate
       verifiedQuantity
       lastDetectedAtLocation {
@@ -856,6 +867,7 @@ query PackageTransferOrders($input: PackageTransferOrdersInput!) {
           "status": "CANCELLED",
           "totalQuantity": 10,
           "trackerSerial": "E28011700000020ABC12345",
+          "uuid": "uu-001",
           "verifiedDate": 1719792000000,
           "verifiedQuantity": 10,
           "lastDetectedAtLocation": {
@@ -941,6 +953,7 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -1028,6 +1041,7 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
           {
@@ -1114,6 +1128,7 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -1201,6 +1216,7 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
           {
@@ -1291,6 +1307,7 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
       status
       totalQuantity
       trackerSerial
+      uuid
       verifiedDate
       verifiedQuantity
       lastDetectedAtLocation {
@@ -1383,6 +1400,7 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
         "status": "CANCELLED",
         "totalQuantity": 10,
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "verifiedQuantity": 10,
         "lastDetectedAtLocation": {
@@ -1471,6 +1489,7 @@ mutation DeleteAssetTransferOrder($input: DeleteAssetTransferOrderInput) {
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -1535,6 +1554,7 @@ mutation DeleteAssetTransferOrder($input: DeleteAssetTransferOrderInput) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
           {
@@ -1616,6 +1636,7 @@ mutation DeleteInventoryTransferOrder($input: DeleteInventoryTransferOrderInput)
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -1680,6 +1701,7 @@ mutation DeleteInventoryTransferOrder($input: DeleteInventoryTransferOrderInput)
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
           {
@@ -1765,6 +1787,7 @@ mutation DeletePackageTransferOrder($input: DeletePackageTransferOrderInput!) {
       status
       totalQuantity
       trackerSerial
+      uuid
       verifiedDate
       verifiedQuantity
       lastDetectedAtLocation {
@@ -1834,6 +1857,7 @@ mutation DeletePackageTransferOrder($input: DeletePackageTransferOrderInput!) {
         "status": "CANCELLED",
         "totalQuantity": 10,
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "verifiedQuantity": 10,
         "lastDetectedAtLocation": {
@@ -1916,6 +1940,7 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -2024,6 +2049,7 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
           {
@@ -2123,6 +2149,7 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
       startDate
       status
       trackerSerial
+      uuid
       verifiedDate
       entries {
         lastUpdatedDate
@@ -2231,6 +2258,7 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
           {
@@ -2334,6 +2362,7 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
       status
       totalQuantity
       trackerSerial
+      uuid
       verifiedDate
       verifiedQuantity
       lastDetectedAtLocation {
@@ -2429,6 +2458,7 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
         "status": "CANCELLED",
         "totalQuantity": 10,
         "trackerSerial": "E28011700000020ABC12345",
+        "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "verifiedQuantity": 10,
         "lastDetectedAtLocation": {
@@ -2525,6 +2555,7 @@ A tracked asset.
 | `transferOrderId` | `String` | Identifier of the transfer order this asset belongs to, if any. |
 | `transferStatus` | `String` | Current transfer status of the asset, if part of a transfer order. |
 | `type` | [`AssetType`](#type-assettype) | Asset type of the asset. |
+| `uuid` | `String` | Globally unique identifier of the asset. |
 
 #### AssetTransferOrder {#type-assettransferorder}
 
@@ -2550,6 +2581,7 @@ A transfer order moving assets between locations.
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to the transfer order. |
 | `transferFrom` | [`LocationV2`](#type-locationv2) | Source location the assets are transferred from. |
 | `transferTo` | [`LocationV2`](#type-locationv2) | Destination location the assets are transferred to. |
+| `uuid` | `String` | Globally unique identifier of the asset transfer order. |
 | `verifiedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was verified. |
 
 #### AssetTransferOrderEntry {#type-assettransferorderentry}
@@ -2585,6 +2617,7 @@ A type (template) describing a class of assets.
 | `number` | `String` | Asset type number. |
 | `quantity` | `Int` | Expected quantity of the asset type. |
 | `unit` | `String` | Unit of measure of the asset type. |
+| `uuid` | `String` | Globally unique identifier of the asset type. |
 
 #### CreateAssetTransferOrderEntryInput {#type-createassettransferorderentryinput}
 
@@ -2666,6 +2699,7 @@ A tracked inventory item.
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to this inventory item. |
 | `transferOrderId` | `String` | Identifier of the transfer order this item is part of, if any. |
 | `transferStatus` | `String` | Transfer status of the inventory item. |
+| `uuid` | `String` | Globally unique identifier of the inventory item. |
 
 #### InventoryPart {#type-inventorypart}
 
@@ -2684,6 +2718,7 @@ An inventory part (item type) describing a class of inventory items.
 | `number` | `String` | Part number. |
 | `quantity` | `Int` | Expected quantity represented by the part. |
 | `unit` | `String` | Unit of measure for the part. |
+| `uuid` | `String` | Globally unique identifier of the inventory part. |
 
 #### InventoryTransferOrder {#type-inventorytransferorder}
 
@@ -2709,6 +2744,7 @@ A transfer order moving inventory parts between locations.
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to the transfer order. |
 | `transferFrom` | [`LocationV2`](#type-locationv2) | Source location the inventory is transferred from. |
 | `transferTo` | [`LocationV2`](#type-locationv2) | Destination location the inventory is transferred to. |
+| `uuid` | `String` | Globally unique identifier of the inventory transfer order. |
 | `verifiedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was verified. |
 
 #### InventoryTransferOrderEntry {#type-inventorytransferorderentry}
@@ -2765,6 +2801,7 @@ A tracked package, identified by its package ID and optional tracker.
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers currently attached to the package. |
 | `transferOrderId` | `String` | Identifier of the transfer order this package belongs to, if any. |
 | `transferStatus` | `String` | Current transfer status of the package. |
+| `uuid` | `String` | Globally unique identifier of the package. |
 
 #### PackageInput {#type-packageinput}
 
@@ -2809,6 +2846,7 @@ A transfer order moving packages between locations.
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to the transfer order. |
 | `transferFrom` | [`LocationV2`](#type-locationv2) | Source location the packages are transferred from. |
 | `transferTo` | [`LocationV2`](#type-locationv2) | Destination location the packages are transferred to. |
+| `uuid` | `String` | Globally unique identifier of the package transfer order. |
 | `verifiedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was verified. |
 | `verifiedQuantity` | `Int` | Quantity of packages that have been verified. |
 

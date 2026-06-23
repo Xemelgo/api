@@ -304,6 +304,7 @@ mutation UpdatePackages($input: UpdatePackagesInput!) {
       state
       transferOrderId
       transferStatus
+      uuid
       lastDetectedAtLocation {
         id
         name
@@ -378,6 +379,7 @@ mutation UpdatePackages($input: UpdatePackagesInput!) {
           "state": "ACTIVE",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
+          "uuid": "uu-001",
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -461,6 +463,7 @@ A tracked package, identified by its package ID and optional tracker.
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers currently attached to the package. |
 | `transferOrderId` | `String` | Identifier of the transfer order this package belongs to, if any. |
 | `transferStatus` | `String` | Current transfer status of the package. |
+| `uuid` | `String` | Globally unique identifier of the package. |
 
 ##### Tracker {#type-tracker}
 

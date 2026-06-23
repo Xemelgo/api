@@ -63,6 +63,9 @@ type Asset {
 
   """Asset type of the asset."""
   type: AssetType
+
+  """Globally unique identifier of the asset."""
+  uuid: String
 }
 
 """A single segment of an asset's location route."""
@@ -163,6 +166,9 @@ type AssetTransferOrder {
 
   """Destination location the assets are transferred to."""
   transferTo: LocationV2
+
+  """Globally unique identifier of the asset transfer order."""
+  uuid: String
 
   """Epoch-millisecond timestamp when the transfer order was verified."""
   verifiedDate: AWSTimestamp
@@ -268,6 +274,9 @@ type AssetType {
 
   """Unit of measure of the asset type."""
   unit: String
+
+  """Globally unique identifier of the asset type."""
+  uuid: String
 }
 
 """Input for the assetTypes query, supporting filtering and pagination."""
@@ -466,6 +475,9 @@ type Container {
 
   """The container type this container is classified under."""
   type: ContainerType
+
+  """Globally unique identifier of the container."""
+  uuid: String
 }
 
 """
@@ -613,6 +625,9 @@ type ContainerType {
 
   """Unit of measure for the container type."""
   unit: String
+
+  """Globally unique identifier of the container type."""
+  uuid: String
 }
 
 """
@@ -1437,6 +1452,9 @@ type Inventory {
 
   """Transfer status of the inventory item."""
   transferStatus: String
+
+  """Globally unique identifier of the inventory item."""
+  uuid: String
 }
 
 """Input for the inventory query."""
@@ -1485,6 +1503,9 @@ type InventoryPart {
 
   """Unit of measure for the part."""
   unit: String
+
+  """Globally unique identifier of the inventory part."""
+  uuid: String
 }
 
 """Aggregated inventory metrics for a single part at a single location."""
@@ -1711,6 +1732,9 @@ type InventoryTransferOrder {
 
   """Destination location the inventory is transferred to."""
   transferTo: LocationV2
+
+  """Globally unique identifier of the inventory transfer order."""
+  uuid: String
 
   """Epoch-millisecond timestamp when the transfer order was verified."""
   verifiedDate: AWSTimestamp
@@ -2285,6 +2309,9 @@ type Package {
 
   """Current transfer status of the package."""
   transferStatus: String
+
+  """Globally unique identifier of the package."""
+  uuid: String
 }
 
 """A single package to create."""
@@ -2426,6 +2453,9 @@ type PackageTransferOrder {
 
   """Destination location the packages are transferred to."""
   transferTo: LocationV2
+
+  """Globally unique identifier of the package transfer order."""
+  uuid: String
 
   """Epoch-millisecond timestamp when the transfer order was verified."""
   verifiedDate: AWSTimestamp
@@ -3335,6 +3365,9 @@ type WorkOrder {
 
   """Trackers attached to the work order."""
   trackers: [Tracker]
+
+  """Globally unique identifier of the work order."""
+  uuid: String
 }
 
 """An input part consumed by a work order."""
@@ -3367,6 +3400,9 @@ type WorkOrderInput {
 
   """Part type of the input part."""
   type: WorkOrderPartType
+
+  """Globally unique identifier of the input part."""
+  uuid: String
 }
 
 """
@@ -3416,6 +3452,9 @@ type WorkOrderOutput {
 
   """Part type of the output part."""
   type: WorkOrderPartType
+
+  """Globally unique identifier of the output part."""
+  uuid: String
 }
 
 """A work order part. Deprecated; use WorkOrderPartType instead."""
@@ -3580,6 +3619,9 @@ type WorkOrderPartType {
 
   """Unit of measure for the part type."""
   unit: String
+
+  """Globally unique identifier of the part type."""
+  uuid: String
 }
 
 """Input describing a single work order part type to create or update."""
