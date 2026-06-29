@@ -377,6 +377,18 @@ input AttachWorkOrderTrackerInput {
   workOrderNumber: String!
 }
 
+"""Identifies a single report run to cancel."""
+input CancelReportInput {
+  """Identifier of the report run"""
+  id: String!
+}
+
+"""Result of cancelling a report run."""
+type CancelReportResult {
+  """The cancelled run"""
+  reportRun: ReportRun!
+}
+
 """Input for completing one or more work orders."""
 input CompleteWorkOrdersInput {
   """Whether to mark the work orders' input parts as complete."""
@@ -1174,6 +1186,32 @@ type CreatePackagesPayload {
   packageIds: [String!]!
 }
 
+"""Input for creating a scheduled report."""
+input CreateScheduledReportInput {
+  """Email delivery settings applied to each run"""
+  emailDelivery: EmailDeliveryInput
+
+  """Epoch-millisecond timestamp the schedule stops firing"""
+  endDate: AWSTimestamp
+
+  """Display name for the schedule"""
+  name: String
+
+  """The recurrence rule"""
+  recurrence: ScheduledRecurrenceInput!
+
+  """Parameters applied to each run the schedule produces"""
+  reportParameters: ReportParametersInput
+
+  """Type of report to schedule; must be a schedulable type"""
+  reportType: ReportType!
+
+  """
+  Epoch-millisecond timestamp the schedule becomes active; required and must be in the future for ONCE schedules
+  """
+  startDate: AWSTimestamp
+}
+
 """Input for creating one or more work order part types."""
 input CreateWorkOrderPartTypesInput {
   inputList: [WorkOrderPartTypesInput!] @deprecated(reason: "Use workOrderPartTypes instead")
@@ -1379,6 +1417,48 @@ input DeletePackagesInput {
 type DeletePackagesPayload {
   """Identifiers of the deleted packages."""
   packageIds: [String!]!
+}
+
+"""Identifies a single report run to delete."""
+input DeleteReportInput {
+  """Identifier of the report run"""
+  id: String!
+}
+
+"""Result of deleting a report run."""
+type DeleteReportResult {
+  """Identifier of the deleted run"""
+  id: String!
+}
+
+"""Identifies a single scheduled report to delete."""
+input DeleteScheduledReportInput {
+  """Identifier of the schedule"""
+  id: String!
+}
+
+"""Result of deleting a scheduled report."""
+type DeleteScheduledReportResult {
+  """Identifier of the deleted schedule"""
+  id: String!
+}
+
+"""Email delivery settings for a report or schedule."""
+type EmailDeliveryConfig {
+  """Whether email delivery is enabled"""
+  enabled: Boolean!
+
+  """Email addresses the report is sent to"""
+  recipients: [String!]
+}
+
+"""Email delivery settings for a report or schedule."""
+input EmailDeliveryInput {
+  """Whether to enable email delivery"""
+  enabled: Boolean!
+
+  """Email addresses to send the report to"""
+  recipients: [String!]
 }
 
 """A tracked inventory item."""
@@ -2042,6 +2122,11 @@ type Mutation {
   """
   attachWorkOrderTracker(input: [AttachWorkOrderTrackerInput!]!, options: WorkOrderProcessingOptions): [WorkOrder]
 
+  """
+  Cancels a report run that is still PENDING or RUNNING. Completed, failed, or already-cancelled runs cannot be cancelled.
+  """
+  cancelReport(input: CancelReportInput!): CancelReportResult
+
   """Completes the given work orders and returns the updated work orders."""
   completeWorkOrders(input: CompleteWorkOrdersInput!): [WorkOrder]
 
@@ -2092,6 +2177,11 @@ type Mutation {
   """Creates one or more packages and returns their identifiers."""
   createPackages(input: CreatePackagesInput!): CreatePackagesPayload
 
+  """
+  Creates a scheduled report that automatically produces runs on a recurrence. The report type must be schedulable.
+  """
+  createScheduledReport(input: CreateScheduledReportInput!): ScheduledReportResult
+
   """Creates work order part types and returns their identifiers."""
   createWorkOrderPartTypes(input: CreateWorkOrderPartTypesInput!): CreateWorkOrderPartTypesPayload
 
@@ -2123,6 +2213,26 @@ type Mutation {
 
   """Deletes one or more packages and returns their identifiers."""
   deletePackages(input: DeletePackagesInput!): DeletePackagesPayload
+
+  """
+  Deletes a report run's record and download pointer. The generated output file in storage is not removed.
+  """
+  deleteReport(input: DeleteReportInput!): DeleteReportResult
+
+  """
+  Deletes a scheduled report definition. Runs it has already produced are unaffected.
+  """
+  deleteScheduledReport(input: DeleteScheduledReportInput!): DeleteScheduledReportResult
+
+  """
+  Re-runs a previous report run with the same parameters and returns the new run in PENDING status. Only runs originally created through runReport can be re-run.
+  """
+  reRunReport(input: ReRunReportInput!): ReRunReportResult
+
+  """
+  Triggers a report run for a runnable report type and returns the run in PENDING status, or schedules it for later when a future run time is given. Generation happens asynchronously; poll the report query to track progress and obtain the download URL once it completes.
+  """
+  runReport(input: RunReportInput!): RunReportResult
 
   """Updates an asset transfer order and returns the updated order."""
   updateAssetTransferOrder(input: UpdateAssetTransferOrderInput): UpdateAssetTransferOrderPayload
@@ -2158,6 +2268,11 @@ type Mutation {
 
   """Updates one or more packages and returns the updated records."""
   updatePackages(input: UpdatePackagesInput!): UpdatePackagesPayload
+
+  """
+  Updates a scheduled report. Omitted fields are left unchanged and explicit null clears a field, except recurrence which may not be null.
+  """
+  updateScheduledReport(input: UpdateScheduledReportInput!): ScheduledReportResult
 
   """
   Updates an input part on a work order and returns the updated work order.
@@ -2260,6 +2375,18 @@ type OperationUpdate {
 
   """Epoch-millisecond timestamp of the update."""
   updateDate: AWSTimestamp
+}
+
+"""File format of a generated report output."""
+enum OutputFormat {
+  """Comma-separated values."""
+  CSV
+
+  """JSON."""
+  JSON
+
+  """Excel workbook."""
+  XLSX
 }
 
 """A tracked package, identified by its package ID and optional tracker."""
@@ -2650,6 +2777,29 @@ type Query {
   """Lists package transfer orders with their statuses."""
   packageTransferOrders(input: PackageTransferOrdersInput!): PackageTransferOrdersPayload
 
+  """
+  Fetches a single report run by id, including a presigned download URL when the run has completed and live progress while it is generating.
+  """
+  report(input: ReportInput!): ReportRunResult
+
+  """
+  Returns the catalog of report categories and the report types available within each, along with their capabilities and default parameters, filtered by what the customer has enabled.
+  """
+  reportCategories(input: ReportCategoriesInput): ReportCategoriesResult
+
+  """
+  Lists report runs, filtered by type, category, status, creator, time range, or location, with cursor pagination. Download URLs are not included in list results; fetch a single run with the report query to obtain one.
+  """
+  reports(input: ReportsInput!): ReportsResult
+
+  """
+  Fetches a single scheduled report by id, optionally enriched with recent runs and upcoming fire dates.
+  """
+  scheduledReport(input: ScheduledReportInput!): ScheduledReportResult
+
+  """Lists scheduled report definitions with cursor pagination."""
+  scheduledReports(input: ScheduledReportsInput!): ScheduledReportsResult
+
   """Retrieves a single work order by its number."""
   workOrder(number: String): WorkOrder
 
@@ -2676,6 +2826,894 @@ type QueryAssetTypesPayload {
 
   """Pagination token to retrieve the next page of results."""
   nextToken: String
+}
+
+"""Input for re-running a previous report run with the same parameters."""
+input ReRunReportInput {
+  """Display name for the new run; defaults to the original run's name"""
+  name: String
+
+  """
+  Identifier of the run to re-run; must be a run created through runReport
+  """
+  reportRunId: String!
+}
+
+"""Result of re-running a previous report run."""
+type ReRunReportResult {
+  """The newly created run in PENDING status"""
+  reportRun: ReportRun!
+
+  """Identifier of the newly created run"""
+  reportRunId: String!
+
+  """Resulting status of the new run"""
+  status: String!
+}
+
+"""How often a scheduled report fires."""
+enum RecurrenceType {
+  """Fires every day at the configured time."""
+  DAILY
+
+  """Fires once a month at the configured time."""
+  MONTHLY
+
+  """Fires a single time at the schedule's start date, then never again."""
+  ONCE
+
+  """Fires on selected days of the week, optionally every N weeks."""
+  WEEKLY
+}
+
+"""Filters for the report categories catalog."""
+input ReportCategoriesInput {
+  """Restrict the catalog to a single category"""
+  reportCategory: ReportCategory
+
+  """Restrict the catalog to categories containing this report type"""
+  reportType: ReportType
+}
+
+"""
+The catalog of report categories and the report types within each, filtered by what the customer has enabled.
+"""
+type ReportCategoriesResult {
+  """Available report categories"""
+  categories: [ReportCategoryDefinition!]!
+}
+
+"""
+Business domain a report belongs to. A single report type may be available under more than one category.
+"""
+enum ReportCategory {
+  """Asset tracking reports."""
+  ASSET
+
+  """Container reports."""
+  CONTAINER
+
+  """Inventory reports."""
+  INVENTORY
+
+  """Package reports."""
+  PACKAGE
+
+  """Transfer order reports."""
+  TRANSFER_ORDER
+
+  """Work order reports."""
+  WORK_ORDER
+}
+
+"""A category and the report types available within it."""
+type ReportCategoryDefinition {
+  """The category"""
+  category: ReportCategory!
+
+  """Human-readable name of the category"""
+  displayName: String!
+
+  """Report types available under this category"""
+  reportTypes: [ReportTypeDefinition!]!
+}
+
+"""
+A single column in a report view, describing the source property and how to render it.
+"""
+type ReportField {
+  """Data type used to format the value"""
+  dataType: ReportFieldDataType
+
+  """Fallback value used when the source property is empty"""
+  default: String
+
+  """Delimiter used when joining multiple values into one cell"""
+  delimiter: String
+
+  """
+  Property path on the source node to read the value from (for example "location.id")
+  """
+  field: String!
+
+  """
+  Nested sub-columns, supported only for the "users" field with type "NONE"
+  """
+  fields: [ReportField!]
+
+  """
+  Format string applied to the value, such as a date pattern for DATE fields
+  """
+  format: String
+
+  """Column header label shown in the output"""
+  header: String
+
+  """Value-to-label remapping as a JSON object"""
+  mapping: AWSJSON
+
+  """IANA timezone used when formatting DATE values"""
+  timezone: String
+
+  """
+  Source node type the value is read from (for example "Inventory"), or "NONE" for synthetic columns
+  """
+  type: String!
+}
+
+"""
+Data type of a report column, controlling how its value is formatted in the output.
+"""
+enum ReportFieldDataType {
+  """Boolean value."""
+  BOOLEAN
+
+  """Date or timestamp, formatted using the field's format and timezone."""
+  DATE
+
+  """Elapsed duration."""
+  DURATION
+
+  """Numeric value."""
+  NUMBER
+
+  """Plain text."""
+  STRING
+}
+
+"""Input describing a single report column. Mirrors ReportField."""
+input ReportFieldInput {
+  """Data type used to format the value"""
+  dataType: ReportFieldDataType
+
+  """Fallback value used when the source property is empty"""
+  default: String
+
+  """Delimiter used when joining multiple values into one cell"""
+  delimiter: String
+
+  """
+  Property path on the source node to read the value from (for example "location.id")
+  """
+  field: String!
+
+  """
+  Nested sub-columns, supported only for the "users" field with type "NONE"
+  """
+  fields: [ReportFieldInput!]
+
+  """
+  Format string applied to the value, such as a date pattern for DATE fields
+  """
+  format: String
+
+  """Column header label shown in the output"""
+  header: String
+
+  """Value-to-label remapping as a JSON object"""
+  mapping: AWSJSON
+
+  """IANA timezone used when formatting DATE values"""
+  timezone: String
+
+  """
+  Source node type the value is read from (for example "Inventory"), or "NONE" for synthetic columns
+  """
+  type: String!
+}
+
+"""Identifies a single report run to fetch."""
+input ReportInput {
+  """Identifier of the report run"""
+  id: String!
+}
+
+"""The resolved parameters a report run was generated with."""
+type ReportParameters {
+  """Report-specific tuning flags as a JSON object"""
+  customProperties: AWSJSON
+
+  """Absolute end of the report window, as an epoch-millisecond timestamp"""
+  endDate: AWSTimestamp
+
+  """
+  Relative end of the report window as a millisecond offset from the run time
+  """
+  endDateOffset: AWSTimestamp
+
+  """Whether VMI customer-facing report variants were generated"""
+  generateCustomerReports: Boolean
+
+  """Business location identifiers the report was scoped to"""
+  locationIds: [String!]
+
+  """Prefix prepended to the generated output file name"""
+  reportFileNamePrefix: String
+
+  """Template used to build the generated output file name"""
+  reportFileNameTemplate: String
+
+  """Whether the output was delivered to a customer SFTP destination"""
+  sftp: Boolean
+
+  """Path template under the SFTP bucket the output was delivered to"""
+  sftpPath: String
+
+  """Absolute start of the report window, as an epoch-millisecond timestamp"""
+  startDate: AWSTimestamp
+
+  """
+  Relative start of the report window as a millisecond offset from the run time
+  """
+  startDateOffset: AWSTimestamp
+
+  """Views that were generated for this run"""
+  views: [ReportParametersView!]
+}
+
+"""
+Parameters controlling what a report run contains and how it is delivered.
+"""
+input ReportParametersInput {
+  """Report-specific tuning flags as a JSON object"""
+  customProperties: AWSJSON
+
+  """Absolute end of the report window, as an epoch-millisecond timestamp"""
+  endDate: AWSTimestamp
+
+  """
+  Relative end of the report window as a millisecond offset from the run time
+  """
+  endDateOffset: AWSTimestamp
+
+  """Whether to generate VMI customer-facing report variants"""
+  generateCustomerReports: Boolean
+
+  """Business location identifiers to scope the report to"""
+  locationIds: [String!]
+
+  """Prefix to prepend to the generated output file name"""
+  reportFileNamePrefix: String
+
+  """Template used to build the generated output file name"""
+  reportFileNameTemplate: String
+
+  """
+  Whether to deliver the output to a configured customer SFTP destination
+  """
+  sftp: Boolean
+
+  """Path template under the SFTP bucket to deliver the output to"""
+  sftpPath: String
+
+  """Absolute start of the report window, as an epoch-millisecond timestamp"""
+  startDate: AWSTimestamp
+
+  """
+  Relative start of the report window as a millisecond offset from the run time
+  """
+  startDateOffset: AWSTimestamp
+
+  """Views to generate; the report type's default view is used when omitted"""
+  views: [ReportViewInput!]
+}
+
+"""
+A view that was generated for a report run, with its resolved columns and format.
+"""
+type ReportParametersView {
+  """Columns produced for this view"""
+  fields: [ReportField!]
+
+  """Output file format produced for this view"""
+  outputFormat: OutputFormat
+
+  """Name of the generated view"""
+  view: String!
+}
+
+"""Live progress of a report run while it is generating."""
+type ReportProgress {
+  """Human-readable status message for the current step"""
+  message: String
+
+  """Percentage complete, from 0 to 100"""
+  percentComplete: Int
+
+  """Current step index"""
+  step: Int
+
+  """Total number of steps"""
+  totalSteps: Int
+}
+
+"""
+A single execution instance of a report, carrying its status, parameters, and (once complete) its download link.
+"""
+type ReportRun {
+  """Epoch-millisecond timestamp when the run finished"""
+  completionDate: AWSTimestamp
+
+  """User who created the run"""
+  createdBy: ReportUser
+
+  """Epoch-millisecond timestamp when the run was created"""
+  creationDate: AWSTimestamp
+
+  """Customer identifier the run belongs to"""
+  customerId: String
+
+  """
+  Presigned download URL for the output file; populated only by the single report query for COMPLETED runs, and always null in list results
+  """
+  downloadUrl: String
+
+  """Epoch-millisecond timestamp when the presigned download URL expires"""
+  downloadUrlExpiresAt: AWSTimestamp
+
+  """Size of the generated output file in bytes"""
+  fileSizeBytes: Int
+
+  """Unique identifier of the report run"""
+  id: String!
+
+  """Business location identifiers the run was scoped to"""
+  locationIds: [String!]
+
+  """Display name of the run"""
+  name: String
+
+  """Top-level output format for the run, taken from the first view"""
+  outputFormat: OutputFormat
+
+  """Live progress while the run is in progress"""
+  progress: ReportProgress
+
+  """Category the report was run under"""
+  reportCategory: ReportCategory
+
+  """Parameters the run was generated with"""
+  reportParameters: ReportParameters
+
+  """Type of report that was run"""
+  reportType: ReportType!
+
+  """Identifier of the schedule that produced this run, if any"""
+  scheduledReportId: String
+
+  """
+  Identifier of the source record this run was derived from, when applicable
+  """
+  sourceId: String
+
+  """Current lifecycle status of the run"""
+  status: ReportStatus!
+
+  """Top-level view name for the run, taken from the first view"""
+  view: String
+}
+
+"""A single report run wrapped for the report query."""
+type ReportRunResult {
+  """The requested report run"""
+  reportRun: ReportRun!
+}
+
+"""
+Lifecycle status of a single report run as it moves from creation to a terminal state.
+"""
+enum ReportStatus {
+  """The run was explicitly cancelled before it completed."""
+  CANCELLED
+
+  """
+  The report finished successfully and its output file is available for download.
+  """
+  COMPLETED
+
+  """The report failed during generation."""
+  FAILED
+
+  """The run has been created but generation has not started yet."""
+  PENDING
+
+  """The report is currently being generated."""
+  RUNNING
+}
+
+"""
+Absolute time range bounding a report query, as epoch-millisecond timestamps.
+"""
+input ReportTimeRangeInput {
+  """Start of the range, as an epoch-millisecond timestamp"""
+  from: AWSTimestamp!
+
+  """End of the range, as an epoch-millisecond timestamp"""
+  to: AWSTimestamp!
+}
+
+"""
+The kind of report to generate. Some types can be run on demand and scheduled through this API; others are read-only and created through Xemelgo apps rather than this API (for example audits and cycle counts).
+"""
+enum ReportType {
+  """Read-only asset cycle count report."""
+  ASSET_CYCLE_COUNT_REPORT
+
+  """Read-only audit report."""
+  AUDIT_REPORT
+
+  """Stock burned down over a time window."""
+  BURN_STOCK_REPORT
+
+  """Work orders completed over the window."""
+  COMPLETION_REPORT
+
+  """Quantities consumed over a time window."""
+  CONSUMPTION_REPORT
+
+  """Items delivered over the window."""
+  DELIVERED_REPORT
+
+  """Read-only delivery report."""
+  DELIVERY_REPORT
+
+  """Items near or past their expiration date."""
+  EXPIRATION_REPORT
+
+  """Read-only expired-audit report."""
+  EXPIRED_AUDIT_REPORT
+
+  """Read-only goods receipt report."""
+  GOODS_RECEIPT_REPORT
+
+  """Items with no detected activity over the window."""
+  INACTIVE_REPORT
+
+  """Read-only inventory cycle count report."""
+  INVENTORY_CYCLE_COUNT_REPORT
+
+  """Read-only item creation report."""
+  ITEM_CREATION_REPORT
+
+  """Route history for items over the window."""
+  ITEM_ROUTE_REPORT
+
+  """Read-only item update report."""
+  ITEM_UPDATE_REPORT
+
+  """Items onboarded over the window."""
+  ONBOARDED_REPORT
+
+  """Snapshot of on-hand quantities at a point in time."""
+  ON_HAND_REPORT
+
+  """Items past their due or expected completion date."""
+  OVERDUE_REPORT
+
+  """Items removed over the window."""
+  REMOVED_ACTIVITY_REPORT
+
+  """Read-only removed-items report."""
+  REMOVED_REPORT
+
+  """Read-only reorder report."""
+  REORDER_REPORT
+
+  """Items needing replenishment against reorder thresholds."""
+  REPLENISHMENT_REPORT
+
+  """Read-only transaction report."""
+  TRANSACTION_REPORT
+
+  """Transfer order activity over the window."""
+  TRANSFER_ORDER_ACTIVITY_REPORT
+
+  """Read-only transfer order fulfillment report."""
+  TRANSFER_ORDER_FULFILLMENT_REPORT
+
+  """Transfer order submissions over the window."""
+  TRANSFER_ORDER_SUBMISSIONS_REPORT
+
+  """Items expected but not detected during the window."""
+  UNDETECTED_REPORT
+
+  """Items written off over the window."""
+  WRITE_OFF_REPORT
+}
+
+"""
+Default parameters for a report type, used to prefill a run or schedule.
+"""
+type ReportTypeDefaultParameters {
+  """Name of the default view to use when none is specified"""
+  defaultView: String
+
+  """
+  Default relative end of the window as a millisecond offset from the run time
+  """
+  endDateOffset: AWSTimestamp
+
+  """Default prefix for the generated output file name"""
+  reportFileNamePrefix: String
+
+  """Default template for the generated output file name"""
+  reportFileNameTemplate: String
+
+  """
+  Default relative start of the window as a millisecond offset from the run time
+  """
+  startDateOffset: AWSTimestamp
+
+  """Preset column templates that can be applied to views"""
+  viewTemplates: [ReportViewTemplate!]
+
+  """Available views and their default columns"""
+  views: [ReportViewDefaultFields!]!
+}
+
+"""
+Definition of a report type, describing what it supports and its default parameters.
+"""
+type ReportTypeDefinition {
+  """Category the report type belongs to under this definition"""
+  category: ReportCategory!
+
+  """Default parameters for prefilling a run or schedule of this type"""
+  defaultReportParameters: ReportTypeDefaultParameters!
+
+  """Description of what the report contains"""
+  description: String
+
+  """Human-readable name of the report type"""
+  displayName: String!
+
+  """Maximum allowed report window for this type, in milliseconds"""
+  maxTimeRange: AWSTimestamp
+
+  """Whether the report type can be run on demand through runReport"""
+  runnable: Boolean!
+
+  """Whether the report type can be put on a recurring schedule"""
+  schedulable: Boolean!
+
+  """
+  Whether the report type supports generating VMI customer-facing report variants
+  """
+  supportsCustomerReports: Boolean!
+
+  """Whether the report type supports delivery to an SFTP destination"""
+  supportsSftp: Boolean!
+
+  """Whether the report type accepts a time range or date offsets"""
+  supportsTimeRange: Boolean!
+
+  """The report type"""
+  type: ReportType!
+}
+
+"""Minimal identity of the user who created a report or schedule."""
+type ReportUser {
+  """User first name"""
+  firstName: String
+
+  """User identifier"""
+  id: String
+
+  """User last name"""
+  lastName: String
+}
+
+"""The default columns for a report view."""
+type ReportViewDefaultFields {
+  """Default columns for the view"""
+  fields: [ReportField!]!
+
+  """Name of the view"""
+  view: String!
+}
+
+"""
+Input selecting a view and the columns and output format to produce for it.
+"""
+input ReportViewInput {
+  """
+  Columns to include in this view; defaults to the view's default fields when omitted
+  """
+  fields: [ReportFieldInput!]
+
+  """Output file format for this view"""
+  outputFormat: OutputFormat
+
+  """
+  Name of the view (logical dataset) to generate, valid for the report type
+  """
+  view: String!
+}
+
+"""A named, preset column selection for a report view."""
+type ReportViewTemplate {
+  """Display name of the template"""
+  displayName: String!
+
+  """View and columns the template applies"""
+  view: ReportViewDefaultFields!
+}
+
+"""Filters and pagination for listing report runs."""
+input ReportsInput {
+  """Restrict results to runs created by this user"""
+  createdById: String
+
+  """Maximum number of runs to return; defaults to 20 and is capped at 100"""
+  limit: Int
+
+  """
+  Restrict results to runs scoped to any of these business locations; returns a single truncated page with no cursor
+  """
+  locationIds: [String!]
+
+  """Opaque cursor from a previous page"""
+  nextToken: String
+
+  """Restrict results to a single category"""
+  reportCategory: ReportCategory
+
+  """Restrict results to a single report type"""
+  reportType: ReportType
+
+  """
+  Sort order by creation date, "ASC" or "DESC"; defaults to "DESC"
+  """
+  sortDirection: String
+
+  """Restrict results to runs in any of these statuses"""
+  status: [ReportStatus!]
+
+  """Restrict results to runs created within this time range"""
+  timeRange: ReportTimeRangeInput
+}
+
+"""A page of report runs with a pagination cursor."""
+type ReportsResult {
+  """
+  Opaque cursor to fetch the next page, or null if there are no more results
+  """
+  nextToken: String
+
+  """Report runs in this page"""
+  runs: [ReportRun!]!
+}
+
+"""
+Input for triggering a report run, optionally deferred to a future time.
+"""
+input RunReportInput {
+  """Email delivery settings for the run"""
+  emailDelivery: EmailDeliveryInput
+
+  """Display name for the run"""
+  name: String
+
+  """Parameters controlling the report contents and delivery"""
+  reportParameters: ReportParametersInput
+
+  """Type of report to run; must be a runnable type"""
+  reportType: ReportType!
+
+  """
+  Future epoch-millisecond timestamp to defer the run to; when set, the run is scheduled rather than run immediately
+  """
+  runAt: AWSTimestamp
+}
+
+"""
+Result of triggering a report run, whether it starts immediately or is deferred via a schedule.
+"""
+type RunReportResult {
+  """
+  The created run in PENDING status, or null when the run was deferred to a future time
+  """
+  reportRun: ReportRun
+
+  """
+  Identifier of the created run, or null when the run was deferred to a future time
+  """
+  reportRunId: String
+
+  """
+  Identifier of the schedule created to defer the run, when a future run time was given
+  """
+  scheduledReportId: String
+
+  """
+  Resulting status: "PENDING" for an immediate run or "SCHEDULED" for a deferred run
+  """
+  status: String!
+}
+
+"""The recurrence rule of a scheduled report."""
+type ScheduledRecurrence {
+  """
+  For WEEKLY schedules, the days to fire on, where 0 is Sunday through 6 is Saturday
+  """
+  daysOfWeek: [Int!]
+
+  """Epoch-millisecond dates to skip firing on"""
+  excludeDates: [AWSTimestamp!]
+
+  """Hour of day to fire, from 0 to 23, in the schedule's timezone"""
+  hour: Int
+
+  """For WEEKLY schedules, fire every N weeks"""
+  intervalWeeks: Int
+
+  """Minute of the hour to fire, from 0 to 59"""
+  minute: Int
+
+  """IANA timezone the fire time is interpreted in"""
+  timezone: String
+
+  """How often the schedule fires"""
+  type: RecurrenceType!
+}
+
+"""Recurrence rule for creating or updating a scheduled report."""
+input ScheduledRecurrenceInput {
+  """
+  For WEEKLY schedules, the days to fire on, where 0 is Sunday through 6 is Saturday
+  """
+  daysOfWeek: [Int!]
+
+  """Epoch-millisecond dates to skip firing on"""
+  excludeDates: [AWSTimestamp!]
+
+  """
+  Hour of day to fire, from 0 to 23, in the schedule's timezone; required for recurring types
+  """
+  hour: Int
+
+  """For WEEKLY schedules, fire every N weeks"""
+  intervalWeeks: Int
+
+  """Minute of the hour to fire, from 0 to 59"""
+  minute: Int
+
+  """IANA timezone the fire time is interpreted in; defaults to UTC"""
+  timezone: String
+
+  """How often the schedule fires"""
+  type: RecurrenceType!
+}
+
+"""
+A recurring or one-shot definition that automatically creates report runs on a schedule.
+"""
+type ScheduledReport {
+  """User who created the schedule"""
+  createdBy: ReportUser
+
+  """Epoch-millisecond timestamp when the schedule was created"""
+  creationDate: AWSTimestamp
+
+  """Email delivery settings applied to each run"""
+  emailDelivery: EmailDeliveryConfig
+
+  """Whether the schedule is active; disabled schedules do not fire"""
+  enabled: Boolean!
+
+  """Epoch-millisecond timestamp the schedule stops firing"""
+  endDate: AWSTimestamp
+
+  """Unique identifier of the schedule"""
+  id: String!
+
+  """Epoch-millisecond timestamp of the most recent fire"""
+  lastRunDate: AWSTimestamp
+
+  """Identifier of the run produced by the most recent fire"""
+  lastRunReportId: String
+
+  """User who last updated the schedule"""
+  lastUpdatedBy: ReportUser
+
+  """Epoch-millisecond timestamp when the schedule was last updated"""
+  lastUpdatedDate: AWSTimestamp
+
+  """Display name of the schedule"""
+  name: String
+
+  """
+  Epoch-millisecond timestamp of the next scheduled fire, or null when disabled or finished
+  """
+  nextRunDate: AWSTimestamp
+
+  """
+  Most recent runs produced by this schedule, populated only on the single scheduledReport query
+  """
+  recentRuns: [ReportRun!]
+
+  """The recurrence rule"""
+  recurrence: ScheduledRecurrence
+
+  """Parameters applied to each run the schedule produces"""
+  reportParameters: ReportParameters
+
+  """Type of report the schedule produces"""
+  reportType: ReportType!
+
+  """Epoch-millisecond timestamp the schedule becomes active"""
+  startDate: AWSTimestamp
+
+  """
+  Upcoming fire dates computed from the recurrence, populated only on the single scheduledReport query
+  """
+  upcomingRunDates: [AWSTimestamp!]
+}
+
+"""
+Identifies a single scheduled report to fetch, with optional enrichment.
+"""
+input ScheduledReportInput {
+  """Identifier of the schedule"""
+  id: String!
+
+  """Number of recent runs to attach; defaults to 0"""
+  includeRecentRunsCount: Int
+
+  """Number of upcoming fire dates to compute; defaults to 0"""
+  includeUpcomingCount: Int
+}
+
+"""A single scheduled report wrapped for the scheduledReport query."""
+type ScheduledReportResult {
+  """The requested scheduled report"""
+  scheduledReport: ScheduledReport!
+}
+
+"""Filters and pagination for listing scheduled reports."""
+input ScheduledReportsInput {
+  """Maximum number of schedules to return; defaults to 20"""
+  limit: Int
+
+  """Opaque cursor from a previous page"""
+  nextToken: String
+
+  """Restrict results to a single category"""
+  reportCategory: ReportCategory
+
+  """Restrict results to a single report type"""
+  reportType: ReportType
+}
+
+"""A page of scheduled reports with a pagination cursor."""
+type ScheduledReportsResult {
+  """
+  Opaque cursor to fetch the next page, or null if there are no more results
+  """
+  nextToken: String
+
+  """Scheduled reports in this page"""
+  schedules: [ScheduledReport!]!
 }
 
 """A single status event in an item's shipment history."""
@@ -3116,6 +4154,39 @@ input UpdatePackagesInput {
 type UpdatePackagesPayload {
   """The updated packages."""
   packages: [Package!]!
+}
+
+"""
+Input for updating a scheduled report. Omitting a field leaves it unchanged; passing null clears it, except recurrence which may not be null.
+"""
+input UpdateScheduledReportInput {
+  """New email delivery settings; omit to leave unchanged, null to clear"""
+  emailDelivery: EmailDeliveryInput
+
+  """
+  Whether the schedule is active; enabling recomputes the next fire, disabling stops it
+  """
+  enabled: Boolean
+
+  """New stop timestamp; omit to leave unchanged, null to clear"""
+  endDate: AWSTimestamp
+
+  """Identifier of the schedule to update"""
+  id: String!
+
+  """New display name; omit to leave unchanged, null to clear"""
+  name: String
+
+  """
+  New recurrence rule, merged onto the existing one; may be omitted but not set to null
+  """
+  recurrence: ScheduledRecurrenceInput
+
+  """New run parameters; omit to leave unchanged, null to clear"""
+  reportParameters: ReportParametersInput
+
+  """New active-from timestamp; omit to leave unchanged, null to clear"""
+  startDate: AWSTimestamp
 }
 
 """Input for updating an input part on a work order."""
