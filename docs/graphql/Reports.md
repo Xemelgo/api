@@ -550,7 +550,7 @@ query ScheduledReport($input: ScheduledReportInput!) {
         ],
         "recurrence": {
           "daysOfWeek": [
-            1
+            "FRIDAY"
           ],
           "excludeDates": [
             1719792000000
@@ -697,7 +697,7 @@ query ScheduledReports($input: ScheduledReportsInput!) {
           ],
           "recurrence": {
             "daysOfWeek": [
-              1
+              "FRIDAY"
             ],
             "excludeDates": [
               1719792000000
@@ -936,7 +936,7 @@ mutation CreateScheduledReport($input: CreateScheduledReportInput!) {
     "name": "Forklift 7",
     "recurrence": {
       "daysOfWeek": [
-        1
+        "FRIDAY"
       ],
       "excludeDates": [
         1719792000000
@@ -1039,7 +1039,7 @@ mutation CreateScheduledReport($input: CreateScheduledReportInput!) {
         ],
         "recurrence": {
           "daysOfWeek": [
-            1
+            "FRIDAY"
           ],
           "excludeDates": [
             1719792000000
@@ -1598,7 +1598,7 @@ mutation UpdateScheduledReport($input: UpdateScheduledReportInput!) {
     "name": "Forklift 7",
     "recurrence": {
       "daysOfWeek": [
-        1
+        "FRIDAY"
       ],
       "excludeDates": [
         1719792000000
@@ -1700,7 +1700,7 @@ mutation UpdateScheduledReport($input: UpdateScheduledReportInput!) {
         ],
         "recurrence": {
           "daysOfWeek": [
-            1
+            "FRIDAY"
           ],
           "excludeDates": [
             1719792000000
@@ -1746,6 +1746,20 @@ Input for updating a scheduled report. Omitting a field leaves it unchanged; pas
 ## <span style={{ color: '#0D8CFF' }}>Shared types</span>
 
 Entity types used across multiple operations on this page. Type names throughout link here.
+
+#### DayOfWeek {#type-dayofweek}
+
+Day of the week for weekly recurrence schedules.
+
+| Value | Description |
+|---|---|
+| `FRIDAY` | Friday |
+| `MONDAY` | Monday |
+| `SATURDAY` | Saturday |
+| `SUNDAY` | Sunday |
+| `THURSDAY` | Thursday |
+| `TUESDAY` | Tuesday |
+| `WEDNESDAY` | Wednesday |
 
 #### EmailDeliveryConfig {#type-emaildeliveryconfig}
 
@@ -2003,7 +2017,7 @@ The recurrence rule of a scheduled report.
 
 | Field | Type | Description |
 |---|---|---|
-| `daysOfWeek` | `[Int!]` | For WEEKLY schedules, the days to fire on, where 0 is Sunday through 6 is Saturday |
+| `daysOfWeek` | [`[DayOfWeek!]`](#type-dayofweek) | For WEEKLY schedules, the days to fire on |
 | `excludeDates` | `[AWSTimestamp!]` | Epoch-millisecond dates to skip firing on |
 | `hour` | `Int` | Hour of day to fire, from 0 to 23, in the schedule's timezone |
 | `intervalWeeks` | `Int` | For WEEKLY schedules, fire every N weeks |
@@ -2017,7 +2031,7 @@ Recurrence rule for creating or updating a scheduled report.
 
 | Field | Type | Description |
 |---|---|---|
-| `daysOfWeek` | `[Int!]` | For WEEKLY schedules, the days to fire on, where 0 is Sunday through 6 is Saturday |
+| `daysOfWeek` | [`[DayOfWeek!]`](#type-dayofweek) | For WEEKLY schedules, the days to fire on |
 | `excludeDates` | `[AWSTimestamp!]` | Epoch-millisecond dates to skip firing on |
 | `hour` | `Int` | Hour of day to fire, from 0 to 23, in the schedule's timezone; required for recurring types |
 | `intervalWeeks` | `Int` | For WEEKLY schedules, fire every N weeks |

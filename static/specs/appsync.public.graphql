@@ -1323,6 +1323,30 @@ input CustomerPartNumberInput {
   customerPartNumber: String!
 }
 
+"""Day of the week for weekly recurrence schedules."""
+enum DayOfWeek {
+  """Friday"""
+  FRIDAY
+
+  """Monday"""
+  MONDAY
+
+  """Saturday"""
+  SATURDAY
+
+  """Sunday"""
+  SUNDAY
+
+  """Thursday"""
+  THURSDAY
+
+  """Tuesday"""
+  TUESDAY
+
+  """Wednesday"""
+  WEDNESDAY
+}
+
 """Input identifying the asset transfer order to delete."""
 input DeleteAssetTransferOrderInput {
   """Identifier of the asset transfer order to delete."""
@@ -3553,10 +3577,8 @@ type RunReportResult {
 
 """The recurrence rule of a scheduled report."""
 type ScheduledRecurrence {
-  """
-  For WEEKLY schedules, the days to fire on, where 0 is Sunday through 6 is Saturday
-  """
-  daysOfWeek: [Int!]
+  """For WEEKLY schedules, the days to fire on"""
+  daysOfWeek: [DayOfWeek!]
 
   """Epoch-millisecond dates to skip firing on"""
   excludeDates: [AWSTimestamp!]
@@ -3579,10 +3601,8 @@ type ScheduledRecurrence {
 
 """Recurrence rule for creating or updating a scheduled report."""
 input ScheduledRecurrenceInput {
-  """
-  For WEEKLY schedules, the days to fire on, where 0 is Sunday through 6 is Saturday
-  """
-  daysOfWeek: [Int!]
+  """For WEEKLY schedules, the days to fire on"""
+  daysOfWeek: [DayOfWeek!]
 
   """Epoch-millisecond dates to skip firing on"""
   excludeDates: [AWSTimestamp!]
