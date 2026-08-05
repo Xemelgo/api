@@ -6,98 +6,36 @@ pagination_prev: null
 
 <h1 style={{ color: '#0D8CFF' }}>Webhooks</h1>
 
-Webhooks allow you to build integrations that subscribe to events in your Xemelgo account. When an event occurs—like a new cycle count being created or inventory being updated—Xemelgo sends an HTTP POST request to your configured endpoint with event details.
+Webhooks let your integration receive asynchronous notifications about events in your Xemelgo account. When an event occurs, such as a cycle count being created or inventory being updated, Xemelgo sends an HTTP `POST` request to your configured endpoint.
 
 > See [**Webhook Events**](./Events.md) for the complete list of event topics and their payloads.
 
 ## <span style={{ color: '#0D8CFF' }}>How Webhooks Work</span>
 
 1. **Register a webhook** with your endpoint URL, signing secret, and event topics you want to subscribe to
-2. **Xemelgo sends events** to your endpoint as they happen in real-time
+2. **Xemelgo sends events** to your endpoint asynchronously
 3. **Your endpoint receives** the POST request, verifies the signature, and processes the event
-4. **Respond with 200 OK** to acknowledge receipt
+4. **Respond with a `2xx` status** to acknowledge receipt
 
-This event-driven approach eliminates the need to poll the API for changes, reducing latency and server load.
+This event-driven approach reduces the need to poll the API for changes, lowering latency and server load.
 
 ## <span style={{ color: '#0D8CFF' }}>When to Use Webhooks</span>
 
 Webhooks are ideal for:
 
-- **Real-time notifications** - Trigger workflows immediately when inventory changes
-- **Audit logging** - Track all events in your own database
+- **Near-real-time notifications** - Trigger workflows shortly after inventory changes
+- **Downstream event processing** - Record and react to Xemelgo activity in your own systems
 - **Integration automation** - Sync data with external systems
 - **User notifications** - Alert users about important events
+
+> Webhooks are asynchronous notifications, not a guaranteed audit log. If missing an event would leave your integration inconsistent, periodically reconcile your data with the Xemelgo API.
 
 ---
 
 ## <span style={{ color: '#0D8CFF' }}>Managing Webhooks</span>
 
-Use the provided GraphQL APIs to manage your webhook subscriptions:
-
-### Registering Webhooks
-
-To set up webhooks for your account, call the `registerWebhook` AppSync API with the topics you want to subscribe to, the endpoint where events should be sent, and a secret key.
-
-The secret key must be a string greater than 24 characters and will be used to verify the authenticity of incoming webhook requests.
-
-**Example:**
-
-```graphql
-mutation MyMutation {
-  registerWebhook(
-    input: {
-      topics: ["inventory.cycle_count"]
-      secret: "your-secret-key-must-be-longer-than-24-characters"
-      endpoint: "https://ab1d316d1bbe.ngrok-free.app"
-    }
-  ) {
-    webhook {
-      id
-      topics
-      endpoint
-      creationDate
-    }
-  }
-}
-```
-
-### Listing Webhooks
-
-Use the `webhooks` query to view all your active webhook subscriptions:
-
-```graphql
-query {
-  webhooks {
-    webhooks {
-      id
-      endpoint
-      topics
-      creationDate
-    }
-  }
-}
-```
-
-### Unregistering Webhooks
-
-A webhook can be deleted by using the `unregisterWebhook` API with the webhook subscription ID:
-
-```graphql
-mutation {
-  unregisterWebhook(input: { id: "webhook-12345" }) {
-    webhook {
-      id
-      topics
-      endpoint
-      creationDate
-    }
-  }
-}
-```
-
-### Managing Multiple Topics
-
-Each webhook subscription can listen to multiple event topics. Update your subscriptions by unregistering and re-registering with new configurations.
+Use the GraphQL API to create, list, update, test, and remove webhook subscriptions. See the
+[Webhook Management API reference](../graphql/WebhookManagement.md) for every operation, input, and response.
 
 ---
 
@@ -110,8 +48,10 @@ Webhooks notify your application when events happen in your Xemelgo account. Xem
 Create an endpoint on your server that can:
 
 - Accept POST requests with a JSON payload
-- Return a 2xx status code quickly (within 5 seconds)
-- Be available over HTTPS (required for production)
+- Return a `2xx` status quickly (five seconds or less is recommended)
+- Be available through a publicly resolvable HTTPS domain
+
+Webhook endpoints cannot use raw IP addresses, `localhost`, or domains that resolve to private or reserved IP addresses.
 
 ### Request Format
 
@@ -135,11 +75,11 @@ Create an endpoint on your server that can:
 }
 ```
 
-The `topic` field indicates the event type, while `data` contains the relevant event data.
+The `topic` field identifies the event type, while `data` contains the event-specific payload. The `id` identifies a delivery attempt; do not treat it as a stable event deduplication key.
 
 ### Verify Webhook Signatures
 
-Xemelgo signs webhook requests so you can verify they originated from Xemelgo and not a third party. We strongly recommend verifying signatures before processing webhook events.
+Xemelgo signs webhook requests so you can verify they originated from Xemelgo and were not modified in transit. Verify every signature before processing its event.
 
 #### How It Works
 
@@ -160,9 +100,13 @@ function verifyXemelgoSignature(signature, rawBody, signingSecret) {
   if (!signature?.startsWith("sha256=")) {
     throw new Error("Invalid signature format");
   }
-  const providedSignature = signature.slice(7); // Remove 'sha256=' prefix
+  const providedSignature = signature.slice(7); // Remove the 'sha256=' prefix
 
-  // Compute the HMAC over the raw request body bytes — exactly what Xemelgo signed.
+  if (!/^[0-9a-f]{64}$/i.test(providedSignature)) {
+    throw new Error("Invalid signature format");
+  }
+
+  // Compute the HMAC over the exact raw request body bytes that Xemelgo signed.
   // Do not parse then re-stringify the body: re-serializing can change the bytes
   // (key order, whitespace, unicode) and break the comparison.
   const hmac = crypto.createHmac("sha256", signingSecret);
@@ -170,10 +114,9 @@ function verifyXemelgoSignature(signature, rawBody, signingSecret) {
   const computedSignature = hmac.digest("hex");
 
   // Use timing-safe comparison
-  const isValid = crypto.timingSafeEqual(
-    Buffer.from(providedSignature, "hex"),
-    Buffer.from(computedSignature, "hex")
-  );
+  const provided = Buffer.from(providedSignature, "hex");
+  const computed = Buffer.from(computedSignature, "hex");
+  const isValid = provided.length === computed.length && crypto.timingSafeEqual(provided, computed);
 
   if (!isValid) {
     throw new Error("Signature verification failed");
@@ -181,11 +124,7 @@ function verifyXemelgoSignature(signature, rawBody, signingSecret) {
 }
 ```
 
-Use the signing secret you provided when registering the webhook.
-
-### OAuth 2.0 Authorization
-
-In addition to signature verification, you may secure your webhook endpoint using OAuth 2.0. This is optional and must be manually configured on both your application and your Xemelgo account.
+Generate a random, high-entropy signing secret and store it in a secrets manager or equivalent secure store. Do not hardcode it, commit it to source control, or write it to logs. You can rotate the secret with the `updateWebhook` mutation. The replacement is used for deliveries created after the update; a delivery already queued can still use the previous secret.
 
 ### Handle Webhook Events
 
@@ -198,7 +137,7 @@ const app = express();
 
 // Capture the raw body for the webhook route so the signature is verified against the
 // exact bytes Xemelgo sent. express.json() would parse the body, and re-serializing it
-// can change the bytes — breaking the HMAC comparison.
+// can change the bytes and break the HMAC comparison.
 app.use("/webhooks", express.raw({ type: "application/json" }));
 
 const WEBHOOK_SECRET = process.env.XEMELGO_WEBHOOK_SECRET;
@@ -208,6 +147,9 @@ function verifyXemelgoSignature(signature, rawBody, secret) {
     throw new Error("Invalid signature format");
   }
   const expectedSignature = signature.slice(7);
+  if (!/^[0-9a-f]{64}$/i.test(expectedSignature)) {
+    throw new Error("Invalid signature format");
+  }
   const hmac = crypto.createHmac("sha256", secret);
   hmac.update(rawBody);
   const computedSignature = hmac.digest("hex");
@@ -222,7 +164,7 @@ function verifyXemelgoSignature(signature, rawBody, secret) {
   }
 }
 
-app.post("/webhooks", (req, res) => {
+app.post("/webhooks", async (req, res) => {
   const signature = req.headers["xemelgo-signature"];
 
   try {
@@ -232,18 +174,17 @@ app.post("/webhooks", (req, res) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  const { topic, data } = JSON.parse(req.body); // parse only after verifying
-  console.log(`Received webhook: ${topic}`, data);
+  const event = JSON.parse(req.body); // Parse only after verifying
 
-  switch (topic) {
-    case "inventory.cycle_count":
-      // Handle inventory cycle count event
-      break;
-    default:
-      console.log(`Unhandled event: ${topic}`);
+  try {
+    // Persist the event or place it on a durable queue before acknowledging it.
+    await enqueueWebhookEvent(event);
+  } catch (err) {
+    console.error("Failed to queue webhook:", err.message);
+    return res.status(500).json({ error: "Unable to queue webhook" });
   }
 
-  res.json({ received: true });
+  return res.status(200).json({ received: true });
 });
 
 app.listen(3000, () => {
@@ -253,71 +194,30 @@ app.listen(3000, () => {
 
 ---
 
-## <span style={{ color: '#0D8CFF' }}>Best Practices</span>
+## <span style={{ color: '#0D8CFF' }}>Delivery Behavior</span>
 
-### Respond Quickly
+### Successful Delivery and Timeouts
 
-Return a 2xx status code after receiving the webhook. If you need to perform long-running operations, acknowledge the webhook immediately and process the event asynchronously:
+Any `2xx` response acknowledges a successful delivery. Aim to verify and durably queue or persist the event within five seconds. Xemelgo stops waiting after 15 seconds and treats the attempt as a timeout.
 
-```javascript
-app.post("/webhooks", async (req, res) => {
-  // Verify signature first (req.body is the raw Buffer)
-  try {
-    verifyXemelgoSignature(
-      req.headers["xemelgo-signature"],
-      req.body,
-      WEBHOOK_SECRET
-    );
-  } catch (err) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
+### Retries
 
-  // Acknowledge immediately
-  res.status(200).json({ received: true });
+Xemelgo makes up to five delivery attempts for network errors, timeouts, `429` responses, and `5xx` responses. Other `4xx` responses are not retried. A retry can result in your endpoint receiving the same underlying event more than once.
 
-  // Process asynchronously
-  processWebhookEvent(JSON.parse(req.body)).catch(console.error);
-});
-```
+### Ordering and Idempotency
 
-### Build Idempotent Event Handlers
+Webhook delivery order is not guaranteed. Design handlers so that repeated or out-of-order events do not corrupt data or repeat a business action. The envelope `id` identifies a delivery attempt and is not a stable deduplication key for the underlying event.
 
-Webhook endpoints might occasionally receive the same event more than once. Protect against duplicate processing by making your event handler idempotent. You can use the `id` from the event data to create a unique idempotency key:
-
-```javascript
-const processedEvents = new Set();
-
-app.post("/webhooks", (req, res) => {
-  const { id, topic, data } = JSON.parse(req.body); // parse only after verifying the signature
-
-  // Check if we've already processed this event
-  if (processedEvents.has(id)) {
-    return res.status(200).json({ received: true, duplicate: true });
-  }
-
-  // Process the event
-  processEvent(topic, data);
-
-  // Mark as processed
-  processedEvents.add(id);
-
-  res.status(200).json({ received: true });
-});
-```
-
-> **Note:** The in-memory `Set` above is for illustration only. It resets on every process restart and is not shared across multiple instances, so duplicates would slip through. In production, track processed event `id`s in a persistent, shared store (e.g. Redis or your database).
-
-### Handle Failures Gracefully
-
-If your endpoint returns a non-2xx status code or times out, Xemelgo automatically retries delivery. Ensure your endpoint can handle retries gracefully and avoid processing duplicate events.
+If missing an event would leave your integration inconsistent, periodically reconcile the affected data with the Xemelgo API.
 
 ---
 
-## <span style={{ color: '#0D8CFF' }}>Important Notes</span>
+## <span style={{ color: '#0D8CFF' }}>Production Checklist</span>
 
 - Always verify the signature before processing webhook events
 - Use timing-safe comparison to prevent timing attacks
-- The signature is computed over the raw request body bytes — verify against the raw bytes you receive, don't re-serialize the parsed body
-- Respond with a 2xx status code within 5 seconds to acknowledge receipt
-- Make your event handlers idempotent to handle duplicate deliveries
-- Process long-running operations asynchronously after acknowledging the webhook
+- The signature is computed over the raw request body bytes. Verify against the bytes you receive; do not re-serialize the parsed body
+- Generate and securely store a random, high-entropy signing secret
+- Persist or durably queue each event before returning a `2xx` response
+- Keep handlers safe for duplicate and out-of-order delivery
+- Reconcile with the API when missing an event would leave data inconsistent

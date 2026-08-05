@@ -27,6 +27,7 @@ const sidebars: SidebarsConfig = {
         { type: "doc", id: "graphql/Locations", label: "Locations" },
         { type: "doc", id: "graphql/Packages", label: "Packages" },
         { type: "doc", id: "graphql/TransferOrders", label: "Transfer Orders" },
+        { type: "doc", id: "graphql/WebhookManagement", label: "Webhook Management" },
         { type: "doc", id: "graphql/WorkOrders", label: "Work Orders" },
       ],
     },
@@ -37,11 +38,7 @@ const sidebars: SidebarsConfig = {
       collapsible: true,
       link: { type: "doc", id: "Webhooks/index" },
       items: [
-        {
-          type: "doc",
-          id: "Webhooks/WebhookManagementAPI",
-          label: "Management",
-        },
+        { type: "doc", id: "graphql/WebhookManagement", label: "Management API" },
         {
           type: "doc",
           id: "Webhooks/Events",
