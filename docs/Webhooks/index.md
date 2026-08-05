@@ -28,8 +28,6 @@ Webhooks are ideal for:
 - **Integration automation** - Sync data with external systems
 - **User notifications** - Alert users about important events
 
-> Webhooks are asynchronous notifications, not a guaranteed audit log. If missing an event would leave your integration inconsistent, periodically reconcile your data with the Xemelgo API.
-
 ---
 
 ## <span style={{ color: '#0D8CFF' }}>Managing Webhooks</span>
@@ -208,8 +206,6 @@ Xemelgo makes up to five delivery attempts for network errors, timeouts, `429` r
 
 Webhook delivery order is not guaranteed. Design handlers so that repeated or out-of-order events do not corrupt data or repeat a business action. The envelope `id` identifies a delivery attempt and is not a stable deduplication key for the underlying event.
 
-If missing an event would leave your integration inconsistent, periodically reconcile the affected data with the Xemelgo API.
-
 ---
 
 ## <span style={{ color: '#0D8CFF' }}>Production Checklist</span>
@@ -220,4 +216,3 @@ If missing an event would leave your integration inconsistent, periodically reco
 - Generate and securely store a random, high-entropy signing secret
 - Persist or durably queue each event before returning a `2xx` response
 - Keep handlers safe for duplicate and out-of-order delivery
-- Reconcile with the API when missing an event would leave data inconsistent
