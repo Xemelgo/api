@@ -136,6 +136,7 @@ query Assets($input: AssetsInput) {
       lastUpdatedDate
       name
       quantity
+      requestStatus
       state
       transferOrderId
       transferStatus
@@ -147,6 +148,9 @@ query Assets($input: AssetsInput) {
       location {
         id
         name
+      }
+      owner {
+        id
       }
       trackers {
         serial
@@ -201,6 +205,7 @@ query Assets($input: AssetsInput) {
           "lastUpdatedDate": 1719792000000,
           "name": "Forklift 7",
           "quantity": 1,
+          "requestStatus": "AVAILABLE",
           "state": "ACTIVE",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
@@ -212,6 +217,9 @@ query Assets($input: AssetsInput) {
           "location": {
             "id": "location-001",
             "name": "Forklift 7"
+          },
+          "owner": {
+            "id": "assetowner-001"
           },
           "trackers": [
             {
@@ -279,6 +287,10 @@ query AssetTypes($input: AssetTypesInput) {
       quantity
       unit
       uuid
+      categories {
+        id
+        name
+      }
     }
   }
 }
@@ -322,7 +334,13 @@ query AssetTypes($input: AssetTypesInput) {
           "number": "AST-1024",
           "quantity": 10,
           "unit": "EA",
-          "uuid": "uu-001"
+          "uuid": "uu-001",
+          "categories": [
+            {
+              "id": "assettypecategory-001",
+              "name": "Forklift 7"
+            }
+          ]
         }
       ]
     }
@@ -663,6 +681,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
       lastUpdatedDate
       name
       quantity
+      requestStatus
       state
       transferOrderId
       transferStatus
@@ -674,6 +693,9 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
       location {
         id
         name
+      }
+      owner {
+        id
       }
       trackers {
         serial
@@ -754,6 +776,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "lastUpdatedDate": 1719792000000,
           "name": "Forklift 7",
           "quantity": 1,
+          "requestStatus": "AVAILABLE",
           "state": "ACTIVE",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
@@ -765,6 +788,9 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "location": {
             "id": "location-001",
             "name": "Forklift 7"
+          },
+          "owner": {
+            "id": "assetowner-001"
           },
           "trackers": [
             {
@@ -859,19 +885,22 @@ mutation UpdateAssetTypes($input: UpdateAssetTypesInput!) {
   "input": {
     "assetTypes": [
       {
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
-        "description": "Electric counterbalance forklift",
         "id": "updateassettype-001",
-        "images": [
-          "https://cdn.example.com/asset-1024.png"
-        ],
-        "name": "Forklift 7",
-        "number": "AST-1024",
-        "quantity": 10,
-        "unit": "EA"
+        "updates": {
+          "customProperties": {
+            "weight": "15kg",
+            "color": "blue"
+          },
+          "description": "Electric counterbalance forklift",
+          "id": "assettype-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
+          "name": "Forklift 7",
+          "number": "AST-1024",
+          "quantity": 10,
+          "unit": "EA"
+        }
       }
     ]
   }
@@ -899,9 +928,9 @@ mutation UpdateAssetTypes($input: UpdateAssetTypesInput!) {
 
 `input` · [`UpdateAssetTypesInput!`](#type-updateassettypesinput)
 
-##### UpdateAssetTypeInput {#type-updateassettypeinput}
+##### AssetTypeUpdates {#type-assettypeupdates}
 
-Updates to apply to a single asset type.
+Asset type updates.
 
 | Field | Type | Description |
 |---|---|---|
@@ -913,6 +942,15 @@ Updates to apply to a single asset type.
 | `number` | `String` | Asset type number. |
 | `quantity` | `Int` | Expected quantity of the asset type. |
 | `unit` | `String` | Unit of measure of the asset type. |
+
+##### UpdateAssetTypeInput {#type-updateassettypeinput}
+
+Updates to apply to a single asset type.
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | `String!` | Unique identifier of the asset type to update. |
+| `updates` | [`AssetTypeUpdates`](#type-assettypeupdates) | Updates to apply to the asset type. |
 
 ##### UpdateAssetTypesInput {#type-updateassettypesinput}
 
@@ -957,7 +995,9 @@ A tracked asset.
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last updated. |
 | `location` | [`LocationV2`](#type-locationv2) | Location where the asset is currently tracked. |
 | `name` | `String` | Display name of the asset. |
+| `owner` | [`AssetOwner`](#type-assetowner) | Current owner of the asset, set via an Owner Change asset request. |
 | `quantity` | `Float` | Quantity represented by this asset record. |
+| `requestStatus` | [`RequestStatus`](#type-requeststatus) | Current asset request status of the asset. |
 | `state` | `String` | Current state of the asset at its location (e.g. onhand, removed). |
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers currently attached to this asset. |
 | `transferOrderId` | `String` | Identifier of the transfer order this asset belongs to, if any. |
@@ -965,12 +1005,25 @@ A tracked asset.
 | `type` | [`AssetType`](#type-assettype) | Asset type of the asset. |
 | `uuid` | `String` | Globally unique identifier of the asset. |
 
+#### AssetOwner {#type-assetowner}
+
+The current owner of a tracked asset, set via an Owner Change asset request.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `firstName` | `String` | First name. |
+| `id` | `String!` | Unique identifier of the owner. |
+| `lastName` | `String` | Last name. |
+| `uuid` | `ID!` | Globally unique identifier of the owner. |
+
 #### AssetType {#type-assettype}
 
 A type (template) describing a class of assets.
 
 | Field | Type | Description |
 |---|---|---|
+| `categories` | [`[AssetTypeCategory]`](#type-assettypecategory) | Categories this asset type belongs to. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset type was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `description` | `String` | Free-text description of the asset type. |
@@ -982,6 +1035,16 @@ A type (template) describing a class of assets.
 | `quantity` | `Int` | Expected quantity of the asset type. |
 | `unit` | `String` | Unit of measure of the asset type. |
 | `uuid` | `String` | Globally unique identifier of the asset type. |
+
+#### AssetTypeCategory {#type-assettypecategory}
+
+A category grouping asset types, resolved through the asset's type.
+
+| Field | Type | Description |
+|---|---|---|
+| `description` | `String` | Free-text description of the category. |
+| `id` | `ID!` | Unique identifier of the category. |
+| `name` | `String` | Display name of the category. |
 
 #### LocationV2 {#type-locationv2}
 
@@ -998,6 +1061,18 @@ A location in the tenant's location hierarchy.
 | `name` | `String` | Display name of the location. |
 | `parentLocationId` | `String` | Identifier of the parent location in the hierarchy, if any. |
 | `roleId` | `String` | Identifier of the location role describing how this location is used. |
+
+#### RequestStatus {#type-requeststatus}
+
+The current status of a tracked asset as driven by the asset-request lifecycle.
+
+| Value | Description |
+|---|---|
+| `AVAILABLE` | Not currently held against any active request. |
+| `CHECKED_OUT` | Checked out and not yet returned. |
+| `ON_HOLD` | Reserved against a pending or approved CheckOut or Loan request. |
+| `ON_LOAN` | Loaned out and not yet returned. |
+| `RETIRED` | Retired via a Scrap request. |
 
 #### Tracker {#type-tracker}
 

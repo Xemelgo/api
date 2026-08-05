@@ -902,7 +902,7 @@ Result of the createInventoryParts mutation.
 
 ---
 
-### createItemSet
+### createItemSet <span style={{ background: '#F97066', color: '#000', borderRadius: '4px', padding: '2px 6px', fontSize: '0.7em', fontWeight: 600, verticalAlign: 'middle', marginLeft: '8px' }}>DEPRECATED</span>
 
 Onboards a set of inventory items as a grouped item set and returns the created set.
 
@@ -1291,19 +1291,22 @@ mutation UpdateInventoryParts($input: UpdateInventoryPartsInput!) {
   "input": {
     "inventoryParts": [
       {
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
-        "description": "Electric counterbalance forklift",
         "id": "updateinventorypart-001",
-        "images": [
-          "https://cdn.example.com/asset-1024.png"
-        ],
-        "name": "Forklift 7",
-        "number": "AST-1024",
-        "quantity": 10,
-        "unit": "EA"
+        "updates": {
+          "customProperties": {
+            "weight": "15kg",
+            "color": "blue"
+          },
+          "description": "Electric counterbalance forklift",
+          "id": "inventorypart-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
+          "name": "Forklift 7",
+          "number": "AST-1024",
+          "quantity": 10,
+          "unit": "EA"
+        }
       }
     ]
   }
@@ -1331,9 +1334,9 @@ mutation UpdateInventoryParts($input: UpdateInventoryPartsInput!) {
 
 `input` · [`UpdateInventoryPartsInput!`](#type-updateinventorypartsinput)
 
-##### UpdateInventoryPartInput {#type-updateinventorypartinput}
+##### InventoryPartUpdates {#type-inventorypartupdates}
 
-Definition of a single inventory part (item type) to update.
+Inventory part updates.
 
 | Field | Type | Description |
 |---|---|---|
@@ -1345,6 +1348,15 @@ Definition of a single inventory part (item type) to update.
 | `number` | `String` | Updated part number. |
 | `quantity` | `Int` | Updated expected quantity represented by the part. |
 | `unit` | `String` | Updated unit of measure for the part. |
+
+##### UpdateInventoryPartInput {#type-updateinventorypartinput}
+
+Definition of a single inventory part (item type) to update.
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | `String!` | Unique identifier of the part (item type) to update. |
+| `updates` | [`InventoryPartUpdates`](#type-inventorypartupdates) | Updates to apply to the inventory part. |
 
 ##### UpdateInventoryPartsInput {#type-updateinventorypartsinput}
 

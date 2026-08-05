@@ -35,7 +35,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -199,7 +199,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -526,7 +526,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -782,7 +782,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -1011,7 +1011,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -1366,7 +1366,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -1655,7 +1655,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -1878,7 +1878,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -2042,7 +2042,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -2458,7 +2458,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -2807,7 +2807,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -3087,7 +3087,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -3316,7 +3316,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -3693,7 +3693,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -4109,7 +4109,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -4345,7 +4345,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -4609,7 +4609,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",
@@ -5158,7 +5158,7 @@
                 "properties": {
                   "id": {
                     "type": "string",
-                    "description": "Unique webhook event id (UUID)."
+                    "description": "Identifier for this delivery attempt. Do not use it as a stable event deduplication key."
                   },
                   "eventTimestamp": {
                     "type": "integer",

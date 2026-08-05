@@ -4,7 +4,7 @@ title: ""
 
 <h1 style={{ color: '#0D8CFF' }}>Webhook Events</h1>
 
-Events Xemelgo delivers to your registered endpoint as an HTTP `POST`. To start receiving them — and to verify signatures — see [Webhooks](./index.md).
+Events Xemelgo delivers to your registered endpoint as an HTTP `POST`. To start receiving them and verify signatures, see [Webhooks](./index.md).
 
 ## <span style={{ color: '#0D8CFF' }}>Event envelope</span>
 
@@ -12,10 +12,10 @@ Every event is delivered as this JSON envelope. The `data` object varies by topi
 
 | Field | Type | Description |
 |---|---|---|
-| `id` | string | Unique webhook event id (UUID). |
+| `id` | string | Identifier for this delivery attempt. Do not use it as a stable event deduplication key. |
 | `eventTimestamp` | integer | Event time as epoch milliseconds. |
 | `topic` | string | The event type (one of the topics below). |
-| `data` | object | Event-specific payload — see the topic. |
+| `data` | object | Event-specific payload; see the topic. |
 
 ## <span style={{ color: '#0D8CFF' }}>Asset</span>
 
