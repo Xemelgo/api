@@ -47,9 +47,7 @@ Create an endpoint on your server that can:
 
 - Accept POST requests with a JSON payload
 - Return a `2xx` status quickly (five seconds or less is recommended)
-- Be available through a publicly resolvable HTTPS domain
-
-Webhook endpoints cannot use raw IP addresses, `localhost`, or domains that resolve to private or reserved IP addresses.
+- Use a publicly accessible HTTPS URL with a domain name. `localhost`, IP addresses, and private network addresses are not supported
 
 ### Request Format
 
@@ -89,39 +87,6 @@ To verify:
 2. Compute the HMAC of the raw request body using your signing secret
 3. Compare both signatures using a constant-time comparison function
 
-#### Example Verification in JavaScript
-
-```javascript
-const crypto = require("crypto");
-
-function verifyXemelgoSignature(signature, rawBody, signingSecret) {
-  if (!signature?.startsWith("sha256=")) {
-    throw new Error("Invalid signature format");
-  }
-  const providedSignature = signature.slice(7); // Remove the 'sha256=' prefix
-
-  if (!/^[0-9a-f]{64}$/i.test(providedSignature)) {
-    throw new Error("Invalid signature format");
-  }
-
-  // Compute the HMAC over the exact raw request body bytes that Xemelgo signed.
-  // Do not parse then re-stringify the body: re-serializing can change the bytes
-  // (key order, whitespace, unicode) and break the comparison.
-  const hmac = crypto.createHmac("sha256", signingSecret);
-  hmac.update(rawBody);
-  const computedSignature = hmac.digest("hex");
-
-  // Use timing-safe comparison
-  const provided = Buffer.from(providedSignature, "hex");
-  const computed = Buffer.from(computedSignature, "hex");
-  const isValid = provided.length === computed.length && crypto.timingSafeEqual(provided, computed);
-
-  if (!isValid) {
-    throw new Error("Signature verification failed");
-  }
-}
-```
-
 Generate a random, high-entropy signing secret and store it in a secrets manager or equivalent secure store. Do not hardcode it, commit it to source control, or write it to logs. You can rotate the secret with the `updateWebhook` mutation. The replacement is used for deliveries created after the update; a delivery already queued can still use the previous secret.
 
 ### Handle Webhook Events
@@ -140,24 +105,28 @@ app.use("/webhooks", express.raw({ type: "application/json" }));
 
 const WEBHOOK_SECRET = process.env.XEMELGO_WEBHOOK_SECRET;
 
-function verifyXemelgoSignature(signature, rawBody, secret) {
+function verifyXemelgoSignature(signature, rawBody, signingSecret) {
   if (!signature?.startsWith("sha256=")) {
     throw new Error("Invalid signature format");
   }
-  const expectedSignature = signature.slice(7);
-  if (!/^[0-9a-f]{64}$/i.test(expectedSignature)) {
+  const providedSignature = signature.slice(7);
+
+  if (!/^[0-9a-f]{64}$/i.test(providedSignature)) {
     throw new Error("Invalid signature format");
   }
-  const hmac = crypto.createHmac("sha256", secret);
+
+  // Compute the HMAC over the exact raw request body bytes that Xemelgo signed.
+  // Do not parse then re-stringify the body: re-serializing can change the bytes
+  // (key order, whitespace, unicode) and break the comparison.
+  const hmac = crypto.createHmac("sha256", signingSecret);
   hmac.update(rawBody);
   const computedSignature = hmac.digest("hex");
 
-  if (
-    !crypto.timingSafeEqual(
-      Buffer.from(expectedSignature, "hex"),
-      Buffer.from(computedSignature, "hex")
-    )
-  ) {
+  const provided = Buffer.from(providedSignature, "hex");
+  const computed = Buffer.from(computedSignature, "hex");
+  const isValid = provided.length === computed.length && crypto.timingSafeEqual(provided, computed);
+
+  if (!isValid) {
     throw new Error("Signature verification failed");
   }
 }
@@ -175,11 +144,11 @@ app.post("/webhooks", async (req, res) => {
   const event = JSON.parse(req.body); // Parse only after verifying
 
   try {
-    // Persist the event or place it on a durable queue before acknowledging it.
-    await enqueueWebhookEvent(event);
+    // Replace this with your application's event handling.
+    await handleWebhookEvent(event);
   } catch (err) {
-    console.error("Failed to queue webhook:", err.message);
-    return res.status(500).json({ error: "Unable to queue webhook" });
+    console.error("Failed to process webhook:", err.message);
+    return res.status(500).json({ error: "Unable to process webhook" });
   }
 
   return res.status(200).json({ received: true });
@@ -196,7 +165,7 @@ app.listen(3000, () => {
 
 ### Successful Delivery and Timeouts
 
-Any `2xx` response acknowledges a successful delivery. Aim to verify and durably queue or persist the event within five seconds. Xemelgo stops waiting after 15 seconds and treats the attempt as a timeout.
+Any `2xx` response acknowledges a successful delivery. Return it only after your application has accepted the event. Keep processing brief; for longer-running work, save the event and process it asynchronously. Xemelgo stops waiting after 15 seconds and treats the attempt as a timeout.
 
 ### Retries
 
@@ -210,9 +179,7 @@ Webhook delivery order is not guaranteed. Design handlers so that repeated or ou
 
 ## <span style={{ color: '#0D8CFF' }}>Production Checklist</span>
 
-- Always verify the signature before processing webhook events
-- Use timing-safe comparison to prevent timing attacks
-- The signature is computed over the raw request body bytes. Verify against the bytes you receive; do not re-serialize the parsed body
+- Verify each signature against the exact raw request body using a constant-time comparison
 - Generate and securely store a random, high-entropy signing secret
-- Persist or durably queue each event before returning a `2xx` response
+- Return a `2xx` response only after accepting the event for processing
 - Keep handlers safe for duplicate and out-of-order delivery
