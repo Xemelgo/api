@@ -1032,19 +1032,22 @@ mutation UpdateContainerTypes($input: UpdateContainerTypesInput!) {
   "input": {
     "containerTypes": [
       {
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
-        "description": "Electric counterbalance forklift",
         "id": "updatecontainertype-001",
-        "images": [
-          "https://cdn.example.com/asset-1024.png"
-        ],
-        "name": "Forklift 7",
-        "number": "AST-1024",
-        "quantity": 10,
-        "unit": "EA"
+        "updates": {
+          "customProperties": {
+            "weight": "15kg",
+            "color": "blue"
+          },
+          "description": "Electric counterbalance forklift",
+          "id": "containertype-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
+          "name": "Forklift 7",
+          "number": "AST-1024",
+          "quantity": 10,
+          "unit": "EA"
+        }
       }
     ]
   }
@@ -1072,9 +1075,9 @@ mutation UpdateContainerTypes($input: UpdateContainerTypesInput!) {
 
 `input` · [`UpdateContainerTypesInput!`](#type-updatecontainertypesinput)
 
-##### UpdateContainerTypeInput {#type-updatecontainertypeinput}
+##### ContainerTypeUpdates {#type-containertypeupdates}
 
-A single container type to update.
+Container type updates.
 
 | Field | Type | Description |
 |---|---|---|
@@ -1086,6 +1089,15 @@ A single container type to update.
 | `number` | `String` | Container type number or SKU. |
 | `quantity` | `Int` | Expected quantity for this container type. |
 | `unit` | `String` | Unit of measure for the container type. |
+
+##### UpdateContainerTypeInput {#type-updatecontainertypeinput}
+
+A single container type to update.
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | `String!` | Identifier of the container type to update. |
+| `updates` | [`ContainerTypeUpdates`](#type-containertypeupdates) | Updates to apply to the container type. |
 
 ##### UpdateContainerTypesInput {#type-updatecontainertypesinput}
 

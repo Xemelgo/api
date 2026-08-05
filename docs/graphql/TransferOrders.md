@@ -22,6 +22,7 @@ query AssetTransferOrder($input: AssetTransferOrderInput) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -87,6 +88,9 @@ query AssetTransferOrder($input: AssetTransferOrderInput) {
           "color": "blue"
         },
         "id": "assettransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -170,6 +174,7 @@ query AssetTransferOrders($input: AssetTransferOrdersInput) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -238,6 +243,9 @@ query AssetTransferOrders($input: AssetTransferOrdersInput) {
             "color": "blue"
           },
           "id": "assettransferorder-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "receivedDate": 1719792000000,
@@ -323,6 +331,7 @@ query InventoryTransferOrder($input: InventoryTransferOrderInput) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -388,6 +397,9 @@ query InventoryTransferOrder($input: InventoryTransferOrderInput) {
           "color": "blue"
         },
         "id": "inventorytransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -471,6 +483,7 @@ query InventoryTransferOrders($input: InventoryTransferOrdersInput) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -539,6 +552,9 @@ query InventoryTransferOrders($input: InventoryTransferOrdersInput) {
             "color": "blue"
           },
           "id": "inventorytransferorder-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "receivedDate": 1719792000000,
@@ -624,6 +640,7 @@ query PackageTransferOrder($input: PackageTransferOrderInput!) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -694,6 +711,9 @@ query PackageTransferOrder($input: PackageTransferOrderInput!) {
           "color": "blue"
         },
         "id": "packagetransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -782,6 +802,7 @@ query PackageTransferOrders($input: PackageTransferOrdersInput!) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -855,6 +876,9 @@ query PackageTransferOrders($input: PackageTransferOrdersInput!) {
             "color": "blue"
           },
           "id": "packagetransferorder-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "receivedDate": 1719792000000,
@@ -945,6 +969,7 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -1010,6 +1035,9 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
       }
     ],
     "id": "createassettransferorder-001",
+    "images": [
+      "https://cdn.example.com/asset-1024.png"
+    ],
     "trackerSerial": "E28011700000020ABC12345",
     "transferFromId": "transferfrom-001",
     "transferToId": "transferto-001"
@@ -1033,6 +1061,9 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
           "color": "blue"
         },
         "id": "assettransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -1090,6 +1121,7 @@ Input for creating an asset transfer order and its entries.
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `entries` | [`[CreateAssetTransferOrderEntryInput!]!`](#type-createassettransferorderentryinput) | Asset entries (asset types and quantities) included in the transfer order. |
 | `id` | `String!` | Identifier (transfer order number) to assign to the new asset transfer order. |
+| `images` | `[String!]` | Image keys associated with the transfer order. |
 | `trackerSerial` | `String` | Serial of the tracker to attach to the transfer order, if any. |
 | `transferFromId` | `String` | Identifier of the source location to transfer from. |
 | `transferToId` | `String` | Identifier of the destination location to transfer to. |
@@ -1120,6 +1152,7 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -1185,6 +1218,9 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
       }
     ],
     "id": "createinventorytransferorder-001",
+    "images": [
+      "https://cdn.example.com/asset-1024.png"
+    ],
     "trackerSerial": "E28011700000020ABC12345",
     "transferFromId": "transferfrom-001",
     "transferToId": "transferto-001"
@@ -1208,6 +1244,9 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
           "color": "blue"
         },
         "id": "inventorytransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -1265,6 +1304,7 @@ Input for creating an inventory transfer order and its part entries.
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `entries` | [`[CreateInventoryTransferOrderEntryInput!]!`](#type-createinventorytransferorderentryinput) | Part entries (SKUs and quantities) included in the transfer order. |
 | `id` | `String!` | Identifier (transfer order number) to assign to the new inventory transfer order. |
+| `images` | `[String!]` | Image keys associated with the transfer order. |
 | `trackerSerial` | `String` | Serial of the tracker to attach to the transfer order, if any. |
 | `transferFromId` | `String` | Identifier of the source location to transfer from. |
 | `transferToId` | `String` | Identifier of the destination location to transfer to. |
@@ -1295,6 +1335,7 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -1349,6 +1390,9 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
       "color": "blue"
     },
     "id": "createpackagetransferorder-001",
+    "images": [
+      "https://cdn.example.com/asset-1024.png"
+    ],
     "packages": [
       {
         "comments": "Inspected and approved",
@@ -1388,6 +1432,9 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
           "color": "blue"
         },
         "id": "packagetransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -1449,6 +1496,7 @@ Input for creating a package transfer order and its packages.
 |---|---|---|
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `id` | `String!` | Identifier (transfer order number) to assign to the new package transfer order. |
+| `images` | `[String!]` | Image keys associated with the transfer order. |
 | `packages` | [`[PackageInput!]`](#type-packageinput) | Packages included in the transfer order. |
 | `totalQuantity` | `Int` | Total quantity of packages in the transfer order. |
 | `trackerSerial` | `String` | Serial of the tracker to attach to the transfer order, if any. |
@@ -1481,6 +1529,7 @@ mutation DeleteAssetTransferOrder($input: DeleteAssetTransferOrderInput) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -1546,6 +1595,9 @@ mutation DeleteAssetTransferOrder($input: DeleteAssetTransferOrderInput) {
           "color": "blue"
         },
         "id": "assettransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -1628,6 +1680,7 @@ mutation DeleteInventoryTransferOrder($input: DeleteInventoryTransferOrderInput)
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -1693,6 +1746,9 @@ mutation DeleteInventoryTransferOrder($input: DeleteInventoryTransferOrderInput)
           "color": "blue"
         },
         "id": "inventorytransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -1775,6 +1831,7 @@ mutation DeletePackageTransferOrder($input: DeletePackageTransferOrderInput!) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -1845,6 +1902,9 @@ mutation DeletePackageTransferOrder($input: DeletePackageTransferOrderInput!) {
           "color": "blue"
         },
         "id": "packagetransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -1932,6 +1992,7 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -1997,6 +2058,9 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
       "color": "blue"
     },
     "id": "updateassettransferorder-001",
+    "images": [
+      "https://cdn.example.com/asset-1024.png"
+    ],
     "removeTypeIds": [
       "example"
     ],
@@ -2041,6 +2105,9 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
           "color": "blue"
         },
         "id": "assettransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -2109,6 +2176,7 @@ Input for updating an asset transfer order's locations, tracker, asset types, an
 | `addTypes` | [`[CreateAssetTransferOrderEntryInput!]`](#type-createassettransferorderentryinput) | New asset type entries to add to the transfer order. |
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `id` | `String!` | Identifier of the asset transfer order to update. |
+| `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `removeTypeIds` | `[String!]` | Identifiers of asset type entries to remove from the transfer order. |
 | `trackerSerial` | `String` | Updated serial of the tracker attached to the transfer order. |
 | `transferFromId` | `String` | Updated identifier of the source location. |
@@ -2141,6 +2209,7 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -2206,6 +2275,9 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
       "color": "blue"
     },
     "id": "updateinventorytransferorder-001",
+    "images": [
+      "https://cdn.example.com/asset-1024.png"
+    ],
     "removePartIds": [
       "example"
     ],
@@ -2250,6 +2322,9 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
           "color": "blue"
         },
         "id": "inventorytransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -2318,6 +2393,7 @@ Input for updating an inventory transfer order's locations, tracker, parts, and 
 | `addParts` | [`[CreateInventoryTransferOrderEntryInput!]`](#type-createinventorytransferorderentryinput) | New part entries to add to the transfer order. |
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `id` | `String!` | Identifier of the inventory transfer order to update. |
+| `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `removePartIds` | `[String!]` | Identifiers of part entries to remove from the transfer order. |
 | `trackerSerial` | `String` | Updated serial of the tracker attached to the transfer order. |
 | `transferFromId` | `String` | Updated identifier of the source location. |
@@ -2350,6 +2426,7 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
       creationDate
       customProperties
       id
+      images
       lastDetectionDate
       lastUpdatedDate
       receivedDate
@@ -2404,6 +2481,9 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
       "color": "blue"
     },
     "id": "updatepackagetransferorder-001",
+    "images": [
+      "https://cdn.example.com/asset-1024.png"
+    ],
     "packageIdsToRemove": [
       "example"
     ],
@@ -2446,6 +2526,9 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
           "color": "blue"
         },
         "id": "packagetransferorder-001",
+        "images": [
+          "https://cdn.example.com/asset-1024.png"
+        ],
         "lastDetectionDate": 1719792000000,
         "lastUpdatedDate": 1719792000000,
         "receivedDate": 1719792000000,
@@ -2507,6 +2590,7 @@ Input for updating a package transfer order's locations, tracker, packages, and 
 |---|---|---|
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `id` | `String!` | Identifier of the package transfer order to update. |
+| `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `packageIdsToRemove` | `[String!]` | Identifiers of packages to remove from the transfer order. |
 | `packagesToAdd` | [`[PackageInput!]`](#type-packageinput) | Packages to add to the transfer order. |
 | `totalQuantity` | `Int` | Updated total quantity of packages in the transfer order. |
@@ -2549,13 +2633,27 @@ A tracked asset.
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last updated. |
 | `location` | [`LocationV2`](#type-locationv2) | Location where the asset is currently tracked. |
 | `name` | `String` | Display name of the asset. |
+| `owner` | [`AssetOwner`](#type-assetowner) | Current owner of the asset, set via an Owner Change asset request. |
 | `quantity` | `Float` | Quantity represented by this asset record. |
+| `requestStatus` | [`RequestStatus`](#type-requeststatus) | Current asset request status of the asset. |
 | `state` | `String` | Current state of the asset at its location (e.g. onhand, removed). |
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers currently attached to this asset. |
 | `transferOrderId` | `String` | Identifier of the transfer order this asset belongs to, if any. |
 | `transferStatus` | `String` | Current transfer status of the asset, if part of a transfer order. |
 | `type` | [`AssetType`](#type-assettype) | Asset type of the asset. |
 | `uuid` | `String` | Globally unique identifier of the asset. |
+
+#### AssetOwner {#type-assetowner}
+
+The current owner of a tracked asset, set via an Owner Change asset request.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `firstName` | `String` | First name. |
+| `id` | `String!` | Unique identifier of the owner. |
+| `lastName` | `String` | Last name. |
+| `uuid` | `ID!` | Globally unique identifier of the owner. |
 
 #### AssetTransferOrder {#type-assettransferorder}
 
@@ -2568,6 +2666,7 @@ A transfer order moving assets between locations.
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `entries` | [`[AssetTransferOrderEntry!]!`](#type-assettransferorderentry) | Asset entries included in the transfer order. |
 | `id` | `String` | Unique identifier of the asset transfer order. |
+| `images` | `[String]` | Image keys associated with the transfer order. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the transfer order was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was last updated. |
@@ -2607,6 +2706,7 @@ A type (template) describing a class of assets.
 
 | Field | Type | Description |
 |---|---|---|
+| `categories` | [`[AssetTypeCategory]`](#type-assettypecategory) | Categories this asset type belongs to. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset type was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `description` | `String` | Free-text description of the asset type. |
@@ -2618,6 +2718,16 @@ A type (template) describing a class of assets.
 | `quantity` | `Int` | Expected quantity of the asset type. |
 | `unit` | `String` | Unit of measure of the asset type. |
 | `uuid` | `String` | Globally unique identifier of the asset type. |
+
+#### AssetTypeCategory {#type-assettypecategory}
+
+A category grouping asset types, resolved through the asset's type.
+
+| Field | Type | Description |
+|---|---|---|
+| `description` | `String` | Free-text description of the category. |
+| `id` | `ID!` | Unique identifier of the category. |
+| `name` | `String` | Display name of the category. |
 
 #### CreateAssetTransferOrderEntryInput {#type-createassettransferorderentryinput}
 
@@ -2731,6 +2841,7 @@ A transfer order moving inventory parts between locations.
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `entries` | [`[InventoryTransferOrderEntry!]!`](#type-inventorytransferorderentry) | Part entries included in the transfer order. |
 | `id` | `String` | Unique identifier of the inventory transfer order. |
+| `images` | `[String]` | Image keys associated with the transfer order. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the transfer order was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was last updated. |
@@ -2828,6 +2939,7 @@ A transfer order moving packages between locations.
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
 | `id` | `String!` | Unique identifier of the package transfer order. |
+| `images` | `[String]` | Image keys associated with the transfer order. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the transfer order was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was last updated. |
@@ -2849,6 +2961,18 @@ A transfer order moving packages between locations.
 | `uuid` | `String` | Globally unique identifier of the package transfer order. |
 | `verifiedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was verified. |
 | `verifiedQuantity` | `Int` | Quantity of packages that have been verified. |
+
+#### RequestStatus {#type-requeststatus}
+
+The current status of a tracked asset as driven by the asset-request lifecycle.
+
+| Value | Description |
+|---|---|
+| `AVAILABLE` | Not currently held against any active request. |
+| `CHECKED_OUT` | Checked out and not yet returned. |
+| `ON_HOLD` | Reserved against a pending or approved CheckOut or Loan request. |
+| `ON_LOAN` | Loaned out and not yet returned. |
+| `RETIRED` | Retired via a Scrap request. |
 
 #### Tracker {#type-tracker}
 

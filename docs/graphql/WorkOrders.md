@@ -2151,19 +2151,22 @@ mutation UpdateWorkOrderPartTypes($input: UpdateWorkOrderPartTypesInput!) {
   "input": {
     "workOrderPartTypes": [
       {
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
-        "description": "Electric counterbalance forklift",
-        "id": "workorderparttypes-001",
-        "images": [
-          "https://cdn.example.com/asset-1024.png"
-        ],
-        "name": "Forklift 7",
-        "number": "AST-1024",
-        "quantity": 10,
-        "unit": "EA"
+        "id": "updateworkorderparttype-001",
+        "updates": {
+          "customProperties": {
+            "weight": "15kg",
+            "color": "blue"
+          },
+          "description": "Electric counterbalance forklift",
+          "id": "workorderparttypes-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
+          "name": "Forklift 7",
+          "number": "AST-1024",
+          "quantity": 10,
+          "unit": "EA"
+        }
       }
     ]
   }
@@ -2191,13 +2194,22 @@ mutation UpdateWorkOrderPartTypes($input: UpdateWorkOrderPartTypesInput!) {
 
 `input` · [`UpdateWorkOrderPartTypesInput!`](#type-updateworkorderparttypesinput)
 
+##### UpdateWorkOrderPartTypeInput {#type-updateworkorderparttypeinput}
+
+Input describing a single work order part type entry for an update operation.
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | `String!` | Unique identifier of the part type to update. |
+| `updates` | [`WorkOrderPartTypesInput`](#type-workorderparttypesinput) | Updates to apply to the part type. |
+
 ##### UpdateWorkOrderPartTypesInput {#type-updateworkorderparttypesinput}
 
 Input for updating one or more work order part types.
 
 | Field | Type | Description |
 |---|---|---|
-| `workOrderPartTypes` | [`[WorkOrderPartTypesInput!]`](#type-workorderparttypesinput) | Work order part types to update. |
+| `workOrderPartTypes` | [`[UpdateWorkOrderPartTypeInput!]`](#type-updateworkorderparttypeinput) | Work order part types to update. |
 
 #### Returns
 
@@ -2763,7 +2775,7 @@ A part type used for work order input and output parts.
 
 #### WorkOrderPartTypesInput {#type-workorderparttypesinput}
 
-Input describing a single work order part type to create or update.
+Input describing a single work order part type to create.
 
 | Field | Type | Description |
 |---|---|---|

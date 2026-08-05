@@ -45,8 +45,14 @@ type Asset {
   """Display name of the asset."""
   name: String
 
+  """Current owner of the asset, set via an Owner Change asset request."""
+  owner: AssetOwner
+
   """Quantity represented by this asset record."""
   quantity: Float
+
+  """Current asset request status of the asset."""
+  requestStatus: RequestStatus
 
   """Current state of the asset at its location (e.g. onhand, removed)."""
   state: String
@@ -66,6 +72,26 @@ type Asset {
 
   """Globally unique identifier of the asset."""
   uuid: String
+}
+
+"""
+The current owner of a tracked asset, set via an Owner Change asset request.
+"""
+type AssetOwner {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """First name."""
+  firstName: String
+
+  """Unique identifier of the owner."""
+  id: String!
+
+  """Last name."""
+  lastName: String
+
+  """Globally unique identifier of the owner."""
+  uuid: ID!
 }
 
 """A single segment of an asset's location route."""
@@ -126,6 +152,9 @@ type AssetTransferOrder {
 
   """Unique identifier of the asset transfer order."""
   id: String
+
+  """Image keys associated with the transfer order."""
+  images: [String]
   inTransitDate: AWSTimestamp @deprecated(reason: "use shippedDate")
 
   """Location where the transfer order was last detected."""
@@ -242,6 +271,9 @@ type AssetTransferOrdersPayload {
 
 """A type (template) describing a class of assets."""
 type AssetType {
+  """Categories this asset type belongs to."""
+  categories: [AssetTypeCategory]
+
   """Epoch-millisecond timestamp when the asset type was created."""
   creationDate: AWSTimestamp
 
@@ -277,6 +309,46 @@ type AssetType {
 
   """Globally unique identifier of the asset type."""
   uuid: String
+}
+
+"""A category grouping asset types, resolved through the asset's type."""
+type AssetTypeCategory {
+  """Free-text description of the category."""
+  description: String
+
+  """Unique identifier of the category."""
+  id: ID!
+
+  """Display name of the category."""
+  name: String
+}
+
+"""Asset type updates."""
+input AssetTypeUpdates {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the asset type."""
+  description: String
+
+  """Unique identifier of the asset type to update."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Public image URLs for the asset type."""
+  images: [String!]
+
+  """Display name of the asset type."""
+  name: String
+
+  """Asset type number."""
+  number: String
+
+  """Expected quantity of the asset type."""
+  quantity: Int
+
+  """Unit of measure of the asset type."""
+  unit: String
 }
 
 """Input for the assetTypes query, supporting filtering and pagination."""
@@ -642,6 +714,34 @@ type ContainerType {
   uuid: String
 }
 
+"""Container type updates."""
+input ContainerTypeUpdates {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the container type."""
+  description: String
+
+  """Identifier of the container type to update."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image URLs associated with the container type."""
+  images: [String!]
+
+  """Display name of the container type."""
+  name: String
+
+  """Container type number or SKU."""
+  number: String
+
+  """Expected quantity for this container type."""
+  quantity: Int
+
+  """Unit of measure for the container type."""
+  unit: String
+}
+
 """
 Input for listing container types, with optional filtering and pagination.
 """
@@ -808,6 +908,9 @@ input CreateAssetTransferOrderInput {
   Identifier (transfer order number) to assign to the new asset transfer order.
   """
   id: String!
+
+  """Image keys associated with the transfer order."""
+  images: [String!]
 
   """Serial of the tracker to attach to the transfer order, if any."""
   trackerSerial: String
@@ -1074,6 +1177,9 @@ input CreateInventoryTransferOrderInput {
   """
   id: String!
 
+  """Image keys associated with the transfer order."""
+  images: [String!]
+
   """Serial of the tracker to attach to the transfer order, if any."""
   trackerSerial: String
 
@@ -1151,6 +1257,9 @@ input CreatePackageTransferOrderInput {
   Identifier (transfer order number) to assign to the new package transfer order.
   """
   id: String!
+
+  """Image keys associated with the transfer order."""
+  images: [String!]
 
   """Packages included in the transfer order."""
   packages: [PackageInput!]
@@ -1321,6 +1430,30 @@ input CustomerPartNumberInput {
 
   """The customer's part number for this part."""
   customerPartNumber: String!
+}
+
+"""Day of the week for weekly recurrence schedules."""
+enum DayOfWeek {
+  """Friday"""
+  FRIDAY
+
+  """Monday"""
+  MONDAY
+
+  """Saturday"""
+  SATURDAY
+
+  """Sunday"""
+  SUNDAY
+
+  """Thursday"""
+  THURSDAY
+
+  """Tuesday"""
+  TUESDAY
+
+  """Wednesday"""
+  WEDNESDAY
 }
 
 """Input identifying the asset transfer order to delete."""
@@ -1687,6 +1820,36 @@ type InventoryPartMetricsPayload {
   nextToken: String
 }
 
+"""Inventory part updates."""
+input InventoryPartUpdates {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Updated free-text description of the part."""
+  description: String
+
+  """Unique identifier of the part (item type) to update."""
+  id: String!
+
+  """Updated image path for the part."""
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Updated image URLs for the part."""
+  images: [String!]
+
+  """Updated display name of the part."""
+  name: String
+
+  """Updated part number."""
+  number: String
+
+  """Updated expected quantity represented by the part."""
+  quantity: Int
+
+  """Updated unit of measure for the part."""
+  unit: String
+}
+
 """Input for the inventoryParts query."""
 input InventoryPartsInput {
   """Filter expression on inventory part properties."""
@@ -1772,6 +1935,9 @@ type InventoryTransferOrder {
 
   """Unique identifier of the inventory transfer order."""
   id: String
+
+  """Image keys associated with the transfer order."""
+  images: [String]
   inTransitDate: AWSTimestamp @deprecated(reason: "use shippedDate")
 
   """Location where the transfer order was last detected."""
@@ -2166,7 +2332,7 @@ type Mutation {
   """
   Onboards a set of inventory items as a grouped item set and returns the created set.
   """
-  createItemSet(input: [ItemSetInput!]!): ItemSet
+  createItemSet(input: [ItemSetInput!]!): ItemSet @deprecated(reason: "Use createInventory instead")
 
   """Create one or more locations and build the location hierarchy."""
   createLocations(input: CreateLocationsInput!): CreateLocationsPayload
@@ -2230,9 +2396,24 @@ type Mutation {
   reRunReport(input: ReRunReportInput!): ReRunReportResult
 
   """
+  Registers an HTTPS endpoint to receive one or more webhook event topics. The signing secret is stored securely and is not returned.
+  """
+  registerWebhook(input: RegisterWebhookInput!): RegisterWebhookPayload!
+
+  """
   Triggers a report run for a runnable report type and returns the run in PENDING status, or schedules it for later when a future run time is given. Generation happens asynchronously; poll the report query to track progress and obtain the download URL once it completes.
   """
   runReport(input: RunReportInput!): RunReportResult
+
+  """
+  Queues a representative example event for delivery. An accepted request does not confirm that the endpoint received it.
+  """
+  triggerWebhookTestEvent(input: TriggerWebhookTestEventInput!): TriggerWebhookTestEventPayload!
+
+  """
+  Removes a webhook subscription and prevents new deliveries from being queued. Deliveries already queued can still arrive.
+  """
+  unregisterWebhook(input: UnregisterWebhookInput!): UnregisterWebhookPayload!
 
   """Updates an asset transfer order and returns the updated order."""
   updateAssetTransferOrder(input: UpdateAssetTransferOrderInput): UpdateAssetTransferOrderPayload
@@ -2273,6 +2454,11 @@ type Mutation {
   Updates a scheduled report. Omitted fields are left unchanged and explicit null clears a field, except recurrence which may not be null.
   """
   updateScheduledReport(input: UpdateScheduledReportInput!): ScheduledReportResult
+
+  """
+  Updates one or more webhook settings for newly created deliveries. Supplying topics replaces the subscription's complete topic set.
+  """
+  updateWebhook(input: UpdateWebhookInput!): UpdateWebhookPayload!
 
   """
   Updates an input part on a work order and returns the updated work order.
@@ -2526,6 +2712,9 @@ type PackageTransferOrder {
 
   """Unique identifier of the package transfer order."""
   id: String!
+
+  """Image keys associated with the transfer order."""
+  images: [String]
 
   """Location where the transfer order was last detected."""
   lastDetectedAtLocation: LocationV2
@@ -2800,6 +2989,9 @@ type Query {
   """Lists scheduled report definitions with cursor pagination."""
   scheduledReports(input: ScheduledReportsInput!): ScheduledReportsResult
 
+  """Lists all webhook subscriptions registered for your account."""
+  webhooks: WebhooksPayload!
+
   """Retrieves a single work order by its number."""
   workOrder(number: String): WorkOrder
 
@@ -2864,6 +3056,28 @@ enum RecurrenceType {
 
   """Fires on selected days of the week, optionally every N weeks."""
   WEEKLY
+}
+
+"""Input for registering a webhook subscription."""
+input RegisterWebhookInput {
+  """
+  Publicly resolvable HTTPS endpoint that will receive webhook deliveries. IP addresses and private or reserved destinations are not accepted.
+  """
+  endpoint: String!
+
+  """
+  Random, high-entropy secret used to sign deliveries. Must contain 20 to 256 characters and should be stored securely.
+  """
+  secret: String!
+
+  """One or more valid webhook event topic identifiers to subscribe to."""
+  topics: [String!]!
+}
+
+"""Result of registering a webhook subscription."""
+type RegisterWebhookPayload {
+  """The newly registered webhook subscription."""
+  webhook: WebhookSubscription!
 }
 
 """Filters for the report categories catalog."""
@@ -3505,6 +3719,26 @@ type ReportsResult {
 }
 
 """
+The current status of a tracked asset as driven by the asset-request lifecycle.
+"""
+enum RequestStatus {
+  """Not currently held against any active request."""
+  AVAILABLE
+
+  """Checked out and not yet returned."""
+  CHECKED_OUT
+
+  """Reserved against a pending or approved CheckOut or Loan request."""
+  ON_HOLD
+
+  """Loaned out and not yet returned."""
+  ON_LOAN
+
+  """Retired via a Scrap request."""
+  RETIRED
+}
+
+"""
 Input for triggering a report run, optionally deferred to a future time.
 """
 input RunReportInput {
@@ -3553,10 +3787,8 @@ type RunReportResult {
 
 """The recurrence rule of a scheduled report."""
 type ScheduledRecurrence {
-  """
-  For WEEKLY schedules, the days to fire on, where 0 is Sunday through 6 is Saturday
-  """
-  daysOfWeek: [Int!]
+  """For WEEKLY schedules, the days to fire on"""
+  daysOfWeek: [DayOfWeek!]
 
   """Epoch-millisecond dates to skip firing on"""
   excludeDates: [AWSTimestamp!]
@@ -3579,10 +3811,8 @@ type ScheduledRecurrence {
 
 """Recurrence rule for creating or updating a scheduled report."""
 input ScheduledRecurrenceInput {
-  """
-  For WEEKLY schedules, the days to fire on, where 0 is Sunday through 6 is Saturday
-  """
-  daysOfWeek: [Int!]
+  """For WEEKLY schedules, the days to fire on"""
+  daysOfWeek: [DayOfWeek!]
 
   """Epoch-millisecond dates to skip firing on"""
   excludeDates: [AWSTimestamp!]
@@ -3813,6 +4043,45 @@ type TravelRoute {
   location: Location
 }
 
+"""
+Input for queuing a representative test event for a webhook subscription.
+"""
+input TriggerWebhookTestEventInput {
+  """
+  Enabled event topic that belongs to the webhook subscription and has an example payload.
+  """
+  topicId: String!
+
+  """Unique identifier of the webhook subscription to test."""
+  webhookId: ID!
+}
+
+"""Result of queuing a webhook test event for delivery."""
+type TriggerWebhookTestEventPayload {
+  """
+  Whether the test event was accepted for asynchronous delivery. Acceptance does not confirm successful delivery.
+  """
+  accepted: Boolean!
+
+  """Event topic used for the test delivery."""
+  topicId: String!
+
+  """Unique identifier of the webhook subscription being tested."""
+  webhookId: ID!
+}
+
+"""Input for unregistering a webhook subscription."""
+input UnregisterWebhookInput {
+  """Unique identifier of the webhook subscription to remove."""
+  id: ID!
+}
+
+"""Result of unregistering a webhook subscription."""
+type UnregisterWebhookPayload {
+  """The webhook subscription that was removed."""
+  webhook: WebhookSubscription!
+}
+
 """Input for updating a single asset entry of an asset transfer order."""
 input UpdateAssetTransferOrderEntryInput {
   """Assets to add to the entry."""
@@ -3841,6 +4110,9 @@ input UpdateAssetTransferOrderInput {
   """Identifier of the asset transfer order to update."""
   id: String!
 
+  """Updated image keys associated with the transfer order."""
+  images: [String!]
+
   """Identifiers of asset type entries to remove from the transfer order."""
   removeTypeIds: [String!]
 
@@ -3866,29 +4138,32 @@ type UpdateAssetTransferOrderPayload {
 """Updates to apply to a single asset type."""
 input UpdateAssetTypeInput {
   """Additional custom properties as a JSON object."""
-  customProperties: AWSJSON
+  customProperties: AWSJSON @deprecated(reason: "use updates instead")
 
   """Free-text description of the asset type."""
-  description: String
+  description: String @deprecated(reason: "use updates instead")
 
   """Unique identifier of the asset type to update."""
   id: String!
   imagePath: String @deprecated(reason: "use images instead")
 
   """Public image URLs for the asset type."""
-  images: [String!]
+  images: [String!] @deprecated(reason: "use updates instead")
 
   """Display name of the asset type."""
-  name: String
+  name: String @deprecated(reason: "use updates instead")
 
   """Asset type number."""
-  number: String
+  number: String @deprecated(reason: "use updates instead")
 
   """Expected quantity of the asset type."""
-  quantity: Int
+  quantity: Int @deprecated(reason: "use updates instead")
 
   """Unit of measure of the asset type."""
-  unit: String
+  unit: String @deprecated(reason: "use updates instead")
+
+  """Updates to apply to the asset type."""
+  updates: AssetTypeUpdates
 }
 
 """
@@ -3938,29 +4213,32 @@ type UpdateContainerOutput {
 """A single container type to update."""
 input UpdateContainerTypeInput {
   """Additional custom properties as a JSON object."""
-  customProperties: AWSJSON
+  customProperties: AWSJSON @deprecated(reason: "use updates instead")
 
   """Free-text description of the container type."""
-  description: String
+  description: String @deprecated(reason: "use updates instead")
 
   """Identifier of the container type to update."""
   id: String!
   imagePath: String @deprecated(reason: "use images instead")
 
   """Image URLs associated with the container type."""
-  images: [String!]
+  images: [String!] @deprecated(reason: "use updates instead")
 
   """Display name of the container type."""
-  name: String
+  name: String @deprecated(reason: "use updates instead")
 
   """Container type number or SKU."""
-  number: String
+  number: String @deprecated(reason: "use updates instead")
 
   """Expected quantity for this container type."""
-  quantity: Int
+  quantity: Int @deprecated(reason: "use updates instead")
 
   """Unit of measure for the container type."""
-  unit: String
+  unit: String @deprecated(reason: "use updates instead")
+
+  """Updates to apply to the container type."""
+  updates: ContainerTypeUpdates
 }
 
 """Input for updating one or more container types."""
@@ -3984,29 +4262,34 @@ input UpdateInventoryInput {
 """Definition of a single inventory part (item type) to update."""
 input UpdateInventoryPartInput {
   """Additional custom properties as a JSON object."""
-  customProperties: AWSJSON
+  customProperties: AWSJSON @deprecated(reason: "use updates instead")
 
   """Updated free-text description of the part."""
-  description: String
+  description: String @deprecated(reason: "use updates instead")
 
   """Unique identifier of the part (item type) to update."""
   id: String!
-  imagePath: String @deprecated(reason: "use images instead")
+
+  """Updated image path for the part."""
+  imagePath: String @deprecated(reason: "use updates instead")
 
   """Updated image URLs for the part."""
-  images: [String!]
+  images: [String!] @deprecated(reason: "use updates instead")
 
   """Updated display name of the part."""
-  name: String
+  name: String @deprecated(reason: "use updates instead")
 
   """Updated part number."""
-  number: String
+  number: String @deprecated(reason: "use updates instead")
 
   """Updated expected quantity represented by the part."""
-  quantity: Int
+  quantity: Int @deprecated(reason: "use updates instead")
 
   """Updated unit of measure for the part."""
-  unit: String
+  unit: String @deprecated(reason: "use updates instead")
+
+  """Updates to apply to the inventory part."""
+  updates: InventoryPartUpdates
 }
 
 """Input for the updateInventoryParts mutation."""
@@ -4056,6 +4339,9 @@ input UpdateInventoryTransferOrderInput {
 
   """Identifier of the inventory transfer order to update."""
   id: String!
+
+  """Updated image keys associated with the transfer order."""
+  images: [String!]
 
   """Identifiers of part entries to remove from the transfer order."""
   removePartIds: [String!]
@@ -4118,6 +4404,9 @@ input UpdatePackageTransferOrderInput {
 
   """Identifier of the package transfer order to update."""
   id: String!
+
+  """Updated image keys associated with the transfer order."""
+  images: [String!]
 
   """Identifiers of packages to remove from the transfer order."""
   packageIdsToRemove: [String!]
@@ -4189,6 +4478,33 @@ input UpdateScheduledReportInput {
   startDate: AWSTimestamp
 }
 
+"""
+Input for updating a webhook subscription. Provide at least one of endpoint, topics, or secret.
+"""
+input UpdateWebhookInput {
+  """Replacement publicly resolvable HTTPS delivery endpoint."""
+  endpoint: String
+
+  """Unique identifier of the webhook subscription to update."""
+  id: ID!
+
+  """
+  Replacement signing secret for deliveries created after the update. Deliveries already queued can still use the previous secret. Must contain 20 to 256 characters.
+  """
+  secret: String
+
+  """
+  Complete replacement set of valid webhook event topic identifiers. At least one topic is required.
+  """
+  topics: [String!]
+}
+
+"""Result of updating a webhook subscription."""
+type UpdateWebhookPayload {
+  """The updated webhook subscription."""
+  webhook: WebhookSubscription!
+}
+
 """Input for updating an input part on a work order."""
 input UpdateWorkOrderInputPartInput {
   """Category the input part is classified under."""
@@ -4216,12 +4532,45 @@ input UpdateWorkOrderInputPartInput {
   workOrderNumber: String!
 }
 
+"""
+Input describing a single work order part type entry for an update operation.
+"""
+input UpdateWorkOrderPartTypeInput {
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON @deprecated(reason: "use updates instead")
+
+  """Free-text description of the part type."""
+  description: String @deprecated(reason: "use updates instead")
+
+  """Unique identifier of the part type to update."""
+  id: String!
+  imagePath: String @deprecated(reason: "use images instead")
+
+  """Image paths associated with the part type."""
+  images: [String!] @deprecated(reason: "use updates instead")
+
+  """Display name of the part type."""
+  name: String @deprecated(reason: "use updates instead")
+
+  """Part type number."""
+  number: String @deprecated(reason: "use updates instead")
+
+  """Default quantity for the part type."""
+  quantity: Int @deprecated(reason: "use updates instead")
+
+  """Unit of measure for the part type."""
+  unit: String @deprecated(reason: "use updates instead")
+
+  """Updates to apply to the part type."""
+  updates: WorkOrderPartTypesInput
+}
+
 """Input for updating one or more work order part types."""
 input UpdateWorkOrderPartTypesInput {
   inputList: [WorkOrderPartTypesInput!] @deprecated(reason: "Use workOrderPartTypes instead")
 
   """Work order part types to update."""
-  workOrderPartTypes: [WorkOrderPartTypesInput!]
+  workOrderPartTypes: [UpdateWorkOrderPartTypeInput!]
 }
 
 """Result of the updateWorkOrderPartTypes mutation."""
@@ -4339,6 +4688,32 @@ enum UploadDataType {
 
   """Stock threshold data."""
   STOCK_THRESHOLD
+}
+
+"""
+A webhook subscription that delivers selected Xemelgo events to an HTTPS endpoint.
+"""
+type WebhookSubscription {
+  """Epoch-millisecond timestamp when the subscription was created."""
+  creationDate: AWSTimestamp!
+
+  """HTTPS endpoint that receives webhook event deliveries."""
+  endpoint: String!
+
+  """Unique identifier of the webhook subscription."""
+  id: String!
+
+  """Epoch-millisecond timestamp when the subscription was last updated."""
+  lastUpdatedDate: AWSTimestamp
+
+  """Event topics delivered to this endpoint."""
+  topics: [String!]!
+}
+
+"""Webhook subscriptions registered for your Xemelgo account."""
+type WebhooksPayload {
+  """All webhook subscriptions registered for your account."""
+  webhooks: [WebhookSubscription!]!
 }
 
 """A work order (job) tracked through the production process."""
@@ -4695,7 +5070,7 @@ type WorkOrderPartType {
   uuid: String
 }
 
-"""Input describing a single work order part type to create or update."""
+"""Input describing a single work order part type to create."""
 input WorkOrderPartTypesInput {
   """Additional custom properties as a JSON object."""
   customProperties: AWSJSON
