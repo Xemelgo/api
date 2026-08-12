@@ -438,13 +438,13 @@ query CycleCounts($input: CycleCountsInput) {
 {
   "input": {
     "filter": {
-      "assigneeId": "assignee-001",
+      "assigneeId": "person-001",
       "domains": [
-        "ASSET"
+        "INVENTORY"
       ],
-      "id": "cyclecountfilter-001",
+      "id": "cycle-count-001",
       "status": [
-        "CANCELLED"
+        "CREATED"
       ]
     },
     "limit": 10,
@@ -1025,8 +1025,8 @@ mutation CancelCycleCount($input: CancelCycleCountInput!) {
 ```json
 {
   "input": {
-    "id": "cancelcyclecount-001",
-    "reason": "example"
+    "id": "cycle-count-001",
+    "reason": "Count no longer required"
   }
 }
 ```
@@ -1686,7 +1686,7 @@ mutation UpdateInventoryCycleCount($input: UpdateInventoryCycleCountInput!) {
         "cancelledAt": 1719792000000,
         "completedAt": 1719792000000,
         "createdAt": 1719792000000,
-        "domain": "ASSET",
+        "domain": "INVENTORY",
         "dueDate": 1719792000000,
         "expectationCount": 10,
         "id": "inventorycyclecount-001",
