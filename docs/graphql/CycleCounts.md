@@ -10,7 +10,7 @@ title: ""
 
 :::caution Beta
 
-Operations marked with the **BETA** pill are still under active development and may change without notice. They are not yet covered by our backward-compatibility guarantees.
+Operations marked with the **BETA** pill are under active development. Their names, inputs, outputs, and behavior may change before general availability.
 
 :::
 
