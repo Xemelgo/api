@@ -2,6 +2,39 @@ scalar AWSJSON
 
 scalar AWSTimestamp
 
+"""A business address."""
+type Address {
+  """Up to 4 street address lines."""
+  address: [String!]
+
+  """State or administrative area."""
+  adminArea: String
+
+  """Name of the contact person at this address."""
+  contactName: String
+
+  """ISO 3166-1 alpha-2 country code (e.g. US)."""
+  countryCode: String
+
+  """Full country name (e.g. United States)."""
+  countryName: String
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Email address for this contact."""
+  email: String
+
+  """City or locality."""
+  locality: String
+
+  """Phone number for this address."""
+  phoneNumber: String
+
+  """Postal or zip code."""
+  postalCode: String
+}
+
 """A tracked asset."""
 type Asset {
   """Any comments or remarks for the asset."""
@@ -13,7 +46,7 @@ type Asset {
   """Epoch-millisecond timestamp when the asset was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the asset."""
@@ -78,7 +111,7 @@ type Asset {
 The current owner of a tracked asset, set via an Owner Change asset request.
 """
 type AssetOwner {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """First name."""
@@ -96,6 +129,9 @@ type AssetOwner {
 
 """A single segment of an asset's location route."""
 type AssetRoute {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
   """Time spent at this location, in milliseconds."""
   duration: AWSTimestamp
 
@@ -144,7 +180,7 @@ type AssetTransferOrder {
   """Epoch-millisecond timestamp when the transfer order was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Asset entries included in the transfer order."""
@@ -277,7 +313,7 @@ type AssetType {
   """Epoch-millisecond timestamp when the asset type was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the asset type."""
@@ -325,7 +361,7 @@ type AssetTypeCategory {
 
 """Asset type updates."""
 input AssetTypeUpdates {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the asset type."""
@@ -362,13 +398,15 @@ input AssetTypesInput {
 
 """Updates to apply to a single asset."""
 input AssetUpdates {
-  """Tracker serials to attach to the asset."""
-  addTrackerSerials: [String!]
+  addTrackerSerials: [String!] @deprecated(reason: "use addTrackers instead")
+
+  """Trackers to attach to the asset."""
+  addTrackers: [TrackerInput!]
 
   """Any comments or remarks for the asset."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the asset."""
@@ -393,11 +431,7 @@ input AssetUpdates {
 
   """Tracker serials to detach from the asset."""
   removeTrackerSerials: [String!]
-
-  """
-  Whether to reuse an existing tracker serial if it is already in the system.
-  """
-  reuseTrackerSerial: Boolean
+  reuseTrackerSerial: Boolean @deprecated(reason: "use addTrackers instead")
 
   """Current state of the asset at its location (e.g. onhand, removed)."""
   state: String
@@ -504,7 +538,7 @@ type Container {
   """Epoch-millisecond timestamp when the container was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the container."""
@@ -544,9 +578,7 @@ type Container {
 
   """Current lifecycle state of the container."""
   state: String
-
-  """Serial of the tracker (such as an RFID tag) attached to the container."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
   """Trackers attached to the container."""
   trackers: [Tracker]
@@ -571,7 +603,7 @@ input ContainerAssetInput {
   """Comments or remarks recorded for the asset."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the asset."""
@@ -591,12 +623,11 @@ input ContainerAssetInput {
 
   """Display name of the asset."""
   name: String
+  reuseTrackerSerial: Boolean @deprecated(reason: "use trackers instead")
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
-  """Whether to reuse the tracker serial if it already exists."""
-  reuseTrackerSerial: Boolean
-
-  """Serial of the tracker to attach to the asset."""
-  trackerSerial: String
+  """Trackers to attach to the asset."""
+  trackers: [TrackerInput!]
 
   """Identifier of the asset type to associate with the asset."""
   typeId: String
@@ -609,7 +640,7 @@ input ContainerInventoryInput {
   """Comments or remarks recorded for the inventory item."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the inventory item."""
@@ -638,12 +669,11 @@ input ContainerInventoryInput {
 
   """Quantity of the inventory item."""
   quantity: Float
+  reuseTrackerSerial: Boolean @deprecated(reason: "use trackers instead")
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
-  """Whether to reuse the tracker serial if it already exists."""
-  reuseTrackerSerial: Boolean
-
-  """Serial of the tracker to attach to the inventory item."""
-  trackerSerial: String
+  """Trackers to attach to the inventory item."""
+  trackers: [TrackerInput!]
 }
 
 """
@@ -653,7 +683,7 @@ input ContainerPackageInput {
   """Comments or remarks recorded for the package."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the package."""
@@ -667,12 +697,11 @@ input ContainerPackageInput {
 
   """Display name of the package."""
   name: String
+  reuseTrackerSerial: Boolean @deprecated(reason: "use trackers instead")
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
-  """Whether to reuse the tracker serial if it already exists."""
-  reuseTrackerSerial: Boolean
-
-  """Serial of the tracker to attach to the package."""
-  trackerSerial: String
+  """Trackers to attach to the package."""
+  trackers: [TrackerInput!]
 }
 
 """
@@ -682,7 +711,7 @@ type ContainerType {
   """Epoch-millisecond timestamp when the container type was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the container type."""
@@ -716,7 +745,7 @@ type ContainerType {
 
 """Container type updates."""
 input ContainerTypeUpdates {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the container type."""
@@ -776,10 +805,13 @@ input ContainerUpdates {
   """Packages to add to the container."""
   addPackages: [ContainerPackageInput!]
 
+  """Trackers to attach to the container."""
+  addTrackers: [TrackerInput!]
+
   """New comments or remarks for the container."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """New description for the container."""
@@ -805,12 +837,8 @@ input ContainerUpdates {
 
   """Identifiers of packages to remove from the container."""
   removePackageIds: [String!]
-
-  """Whether to reuse the tracker serial if it already exists."""
-  reuseTrackerSerial: Boolean
-
-  """New tracker serial to attach to the container."""
-  trackerSerial: String
+  reuseTrackerSerial: Boolean @deprecated(reason: "use addTrackers instead")
+  trackerSerial: String @deprecated(reason: "use addTrackers instead")
 
   """New container type identifier."""
   typeId: String
@@ -839,8 +867,11 @@ input CreateAssetInput {
   """Any comments or remarks for the asset."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
+
+  """Optional asset type identifier used by your customer."""
+  customerAssetTypeId: String
 
   """Free-text description of the asset."""
   description: String
@@ -861,14 +892,11 @@ input CreateAssetInput {
 
   """Display name of the asset."""
   name: String
+  reuseTrackerSerial: Boolean @deprecated(reason: "use trackers instead")
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
-  """
-  Whether to reuse an existing tracker serial if it is already in the system.
-  """
-  reuseTrackerSerial: Boolean
-
-  """Serial of the RFID tracker to attach to the asset for tracking."""
-  trackerSerial: String
+  """Trackers to attach to the asset."""
+  trackers: [TrackerInput!]
 
   """Identifier of the asset type this asset is associated with."""
   typeId: String!
@@ -896,7 +924,7 @@ input CreateAssetTransferOrderEntryInput {
 
 """Input for creating an asset transfer order and its entries."""
 input CreateAssetTransferOrderInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """
@@ -939,7 +967,7 @@ type CreateAssetTransferOrderPayload {
 
 """Definition of a single asset type to create."""
 input CreateAssetTypeInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Customer-specific asset type identifiers mapped to this asset type."""
@@ -1008,7 +1036,7 @@ input CreateContainerInput {
   """Comments or remarks recorded for the container."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the container."""
@@ -1028,12 +1056,11 @@ input CreateContainerInput {
 
   """Packages to place inside the container."""
   packages: [ContainerPackageInput!]
+  reuseTrackerSerial: Boolean @deprecated(reason: "use trackers instead")
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
-  """Whether to reuse the tracker serial if it already exists."""
-  reuseTrackerSerial: Boolean
-
-  """Serial of the tracker to attach to the container."""
-  trackerSerial: String
+  """Trackers to attach to the container."""
+  trackers: [TrackerInput!]
 
   """Identifier of the container type to associate with the container."""
   typeId: String
@@ -1047,7 +1074,7 @@ type CreateContainerOutput {
 
 """A single container type to create."""
 input CreateContainerTypeInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the container type."""
@@ -1093,7 +1120,7 @@ input CreateInventoryInput {
 
 """Definition of a single inventory part (item type) to create."""
 input CreateInventoryPartInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Per-customer part numbers mapped to this part."""
@@ -1119,6 +1146,9 @@ input CreateInventoryPartInput {
 
   """Expected quantity represented by the part."""
   quantity: Int
+
+  """Supplier id"""
+  supplierId: String
 
   """Unit of measure for the part."""
   unit: String
@@ -1166,7 +1196,7 @@ input CreateInventoryTransferOrderEntryInput {
 
 """Input for creating an inventory transfer order and its part entries."""
 input CreateInventoryTransferOrderInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Part entries (SKUs and quantities) included in the transfer order."""
@@ -1214,7 +1244,7 @@ input CreateLocationInput {
   """
   categoryId: String!
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Identifier of the customer assigned to the location, if any."""
@@ -1250,7 +1280,7 @@ type CreateLocationsPayload {
 
 """Input for creating a package transfer order and its packages."""
 input CreatePackageTransferOrderInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """
@@ -1351,8 +1381,11 @@ input CreatedInventory {
   """Free-text comments on the item."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
+
+  """Optional part number used by your customer."""
+  customerPartNumber: String
 
   """Free-text description of the item."""
   description: String
@@ -1380,14 +1413,16 @@ input CreatedInventory {
   """Identifier of the part (item type) this item is an instance of."""
   partId: String!
 
+  """Supplier id"""
+  partSupplierId: String
+
   """Quantity represented by this item."""
   quantity: Float
+  reuseTrackerSerial: Boolean @deprecated(reason: "use trackers instead")
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
-  """Whether to reuse a tracker serial already attached to another item."""
-  reuseTrackerSerial: Boolean
-
-  """Serial of the tracker (e.g. RFID tag) to attach to the item."""
-  trackerSerial: String
+  """Trackers to attach to the item."""
+  trackers: [TrackerInput!]
 }
 
 """Status summary of the work order's currently active operation."""
@@ -1430,6 +1465,26 @@ input CustomerPartNumberInput {
 
   """The customer's part number for this part."""
   customerPartNumber: String!
+}
+
+"""
+A customer, supplier, or other external organization associated with tracked items.
+"""
+type CustomerV2 {
+  """Business addresses of this organization."""
+  addresses: [Address!]
+
+  """Additional custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """Free-text description of the organization."""
+  description: String
+
+  """Unique identifier of the organization."""
+  id: String
+
+  """Display name of the organization."""
+  name: String
 }
 
 """Day of the week for weekly recurrence schedules."""
@@ -1608,7 +1663,7 @@ type Inventory {
   """Epoch-millisecond timestamp when the item was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Customer-specific part number for this item, if any."""
@@ -1684,7 +1739,7 @@ type InventoryPart {
   """Epoch-millisecond timestamp when the part was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Per-customer part numbers mapped to this part."""
@@ -1714,6 +1769,9 @@ type InventoryPart {
   """Expected quantity represented by the part."""
   quantity: Int
 
+  """Supplier for this inventory part, if one is attached."""
+  supplier: CustomerV2
+
   """Unit of measure for the part."""
   unit: String
 
@@ -1723,7 +1781,7 @@ type InventoryPart {
 
 """Aggregated inventory metrics for a single part at a single location."""
 type InventoryPartLocationMetrics {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Number of units on hand attributed to the customer."""
@@ -1766,7 +1824,7 @@ type InventoryPartLocationMetricsPayload {
 
 """Aggregated inventory metrics for a single part (item type)."""
 type InventoryPartMetrics {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Number of units on hand attributed to the customer."""
@@ -1822,7 +1880,7 @@ type InventoryPartMetricsPayload {
 
 """Inventory part updates."""
 input InventoryPartUpdates {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Updated free-text description of the part."""
@@ -1845,6 +1903,9 @@ input InventoryPartUpdates {
 
   """Updated expected quantity represented by the part."""
   quantity: Int
+
+  """Supplier id"""
+  supplierId: String
 
   """Updated unit of measure for the part."""
   unit: String
@@ -1879,6 +1940,9 @@ type InventoryPayload {
 
 """A single segment of an inventory item's movement history."""
 type InventoryRoute {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
   """Duration spent at the location for this segment."""
   duration: AWSTimestamp
 
@@ -1927,7 +1991,7 @@ type InventoryTransferOrder {
   """Epoch-millisecond timestamp when the transfer order was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Part entries included in the transfer order."""
@@ -2055,13 +2119,15 @@ type InventoryTransferOrdersPayload {
 
 """Fields that can be updated on an inventory item."""
 input InventoryUpdates {
-  """Tracker serials to attach to the item."""
-  addTrackerSerials: [String!]
+  addTrackerSerials: [String!] @deprecated(reason: "use addTrackers instead")
+
+  """Trackers to attach to the item."""
+  addTrackers: [TrackerInput!]
 
   """Updated free-text comments on the item."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Updated customer-specific part number for this item."""
@@ -2098,13 +2164,11 @@ input InventoryUpdates {
 
   """Tracker serials to detach from the item."""
   removeTrackerSerials: [String!]
-
-  """Whether to reuse a tracker serial already attached to another item."""
-  reuseTrackerSerial: Boolean
+  reuseTrackerSerial: Boolean @deprecated(reason: "use addTrackers instead")
 
   """Updated state of the item."""
   state: String
-  trackerSerial: String @deprecated(reason: "use addTrackerSerials and removeTrackerSerials instead")
+  trackerSerial: String @deprecated(reason: "use addTrackers instead")
 }
 
 """A set of trackers grouped together when onboarding inventory."""
@@ -2142,8 +2206,16 @@ input ItemSetInput {
   """Identifier of the location where the item is being onboarded."""
   onboarding_location: String
 
-  """Additional custom properties as a JSON object."""
+  """
+  Supplier identifier; attaches an existing supplier or auto-creates one as the item type supplier.
+  """
+  supplier_id: String
+
+  """Additional custom properties, serialized as a JSON string."""
   tenant_properties: AWSJSON
+
+  """RFID tag encoding format to assign to the sensor profile on creation."""
+  tracker_encoding_format: String
 
   """Serial of the RFID tracker to attach to the item."""
   tracker_serial: String!
@@ -2208,7 +2280,7 @@ type LocationRolesPayload {
 
 """Fields to update on an existing location."""
 input LocationUpdates {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Identifier of the customer this location belongs to."""
@@ -2238,7 +2310,7 @@ type LocationV2 {
   """Identifiers of locations nested directly beneath this one."""
   childLocationIds: [String!]
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Identifier of the customer this location belongs to, if any."""
@@ -2586,7 +2658,7 @@ type Package {
   """Epoch-millisecond timestamp when the package was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the package."""
@@ -2632,7 +2704,7 @@ input PackageInput {
   """Any comments or remarks recorded for the package."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the package."""
@@ -2646,17 +2718,16 @@ input PackageInput {
 
   """Display name of the package."""
   name: String
+  reuseTrackerSerial: Boolean @deprecated(reason: "use trackers instead")
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
-  """Whether to reuse an existing tracker serial."""
-  reuseTrackerSerial: Boolean
-
-  """RFID tag associated with the package for tracking."""
-  trackerSerial: String
+  """Trackers to attach to the package."""
+  trackers: [TrackerInput!]
 }
 
 """A single stop in a package's location route history."""
 type PackageRoute {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Duration the package spent at this stop."""
@@ -2707,7 +2778,7 @@ type PackageTransferOrder {
   """Epoch-millisecond timestamp when the transfer order was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Unique identifier of the package transfer order."""
@@ -2814,13 +2885,15 @@ type PackageTransferOrdersPayload {
 
 """Updatable fields for a package."""
 input PackageUpdates {
-  """Tracker serials to attach to the package."""
-  addTrackerSerials: [String!]
+  addTrackerSerials: [String!] @deprecated(reason: "use addTrackers instead")
+
+  """Trackers to attach to the package."""
+  addTrackers: [TrackerInput!]
 
   """Any comments or remarks recorded for the package."""
   comments: String
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the package."""
@@ -2837,9 +2910,7 @@ input PackageUpdates {
 
   """Tracker serials to detach from the package."""
   removeTrackerSerials: [String!]
-
-  """Whether to reuse an existing tracker serial."""
-  reuseTrackerSerial: Boolean
+  reuseTrackerSerial: Boolean @deprecated(reason: "use addTrackers instead")
   trackerSerial: String @deprecated(reason: "use addTrackerSerials and removeTrackerSerials instead")
 }
 
@@ -3163,7 +3234,7 @@ type ReportField {
   """Column header label shown in the output"""
   header: String
 
-  """Value-to-label remapping as a JSON object"""
+  """Value-to-label remapping, serialized as a JSON string"""
   mapping: AWSJSON
 
   """IANA timezone used when formatting DATE values"""
@@ -3224,7 +3295,7 @@ input ReportFieldInput {
   """Column header label shown in the output"""
   header: String
 
-  """Value-to-label remapping as a JSON object"""
+  """Value-to-label remapping, serialized as a JSON string"""
   mapping: AWSJSON
 
   """IANA timezone used when formatting DATE values"""
@@ -3244,7 +3315,7 @@ input ReportInput {
 
 """The resolved parameters a report run was generated with."""
 type ReportParameters {
-  """Report-specific tuning flags as a JSON object"""
+  """Report-specific tuning flags, serialized as a JSON string"""
   customProperties: AWSJSON
 
   """Absolute end of the report window, as an epoch-millisecond timestamp"""
@@ -3289,7 +3360,7 @@ type ReportParameters {
 Parameters controlling what a report run contains and how it is delivered.
 """
 input ReportParametersInput {
-  """Report-specific tuning flags as a JSON object"""
+  """Report-specific tuning flags, serialized as a JSON string"""
   customProperties: AWSJSON
 
   """Absolute end of the report window, as an epoch-millisecond timestamp"""
@@ -3986,8 +4057,32 @@ type Tracker {
   """Epoch-millisecond timestamp when the tracker was attached to the item."""
   attachDate: AWSTimestamp
 
+  """Tenant-specific sensor profile custom properties."""
+  customProperties: AWSJSON
+
+  """RFID tag encoding format for this tracker."""
+  encodingFormat: String
+
   """EPC or tracker serial identifying this tracker."""
   serial: String
+}
+
+"""
+Input for specifying a tracker to attach when creating or updating an item.
+Replaces the per-field trackerSerial / reuseTrackerSerial pattern.
+"""
+input TrackerInput {
+  """Tracker-level custom properties as a JSON object."""
+  customProperties: AWSJSON
+
+  """RFID tag encoding format for this tracker."""
+  encodingFormat: String
+
+  """Whether to reuse a tracker serial already attached to another item."""
+  reuseTrackerSerial: Boolean
+
+  """EPC or tracker serial to attach."""
+  serial: String!
 }
 
 """
@@ -4104,7 +4199,7 @@ input UpdateAssetTransferOrderInput {
   """New asset type entries to add to the transfer order."""
   addTypes: [CreateAssetTransferOrderEntryInput!]
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Identifier of the asset transfer order to update."""
@@ -4137,7 +4232,7 @@ type UpdateAssetTransferOrderPayload {
 
 """Updates to apply to a single asset type."""
 input UpdateAssetTypeInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON @deprecated(reason: "use updates instead")
 
   """Free-text description of the asset type."""
@@ -4212,7 +4307,7 @@ type UpdateContainerOutput {
 
 """A single container type to update."""
 input UpdateContainerTypeInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON @deprecated(reason: "use updates instead")
 
   """Free-text description of the container type."""
@@ -4261,7 +4356,7 @@ input UpdateInventoryInput {
 
 """Definition of a single inventory part (item type) to update."""
 input UpdateInventoryPartInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON @deprecated(reason: "use updates instead")
 
   """Updated free-text description of the part."""
@@ -4334,7 +4429,7 @@ input UpdateInventoryTransferOrderInput {
   """New part entries to add to the transfer order."""
   addParts: [CreateInventoryTransferOrderEntryInput!]
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Identifier of the inventory transfer order to update."""
@@ -4399,7 +4494,7 @@ input UpdatePackageInput {
 Input for updating a package transfer order's locations, tracker, packages, and custom properties.
 """
 input UpdatePackageTransferOrderInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Identifier of the package transfer order to update."""
@@ -4536,7 +4631,7 @@ input UpdateWorkOrderInputPartInput {
 Input describing a single work order part type entry for an update operation.
 """
 input UpdateWorkOrderPartTypeInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON @deprecated(reason: "use updates instead")
 
   """Free-text description of the part type."""
@@ -4589,7 +4684,7 @@ input UpdateWorkOrderPropertiesInput {
   """
   completionDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Updated customer for the work order."""
@@ -4730,7 +4825,7 @@ type WorkOrder {
   """Status of the work order's currently active operation."""
   currentOperation: CurrentOperation
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Customer associated with the work order."""
@@ -4905,7 +5000,7 @@ type WorkOrderOutput {
 
 """A work order part. Deprecated; use WorkOrderPartType instead."""
 type WorkOrderPart {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the part."""
@@ -4933,6 +5028,9 @@ type WorkOrderPart {
 
 """A single leg of a work order part's travel route across locations."""
 type WorkOrderPartRoute {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
   """Time spent at the location, in milliseconds."""
   duration: AWSTimestamp
 
@@ -5038,7 +5136,7 @@ type WorkOrderPartType {
   """Epoch-millisecond timestamp when the part type was created."""
   creationDate: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the part type."""
@@ -5072,7 +5170,7 @@ type WorkOrderPartType {
 
 """Input describing a single work order part type to create."""
 input WorkOrderPartTypesInput {
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
   """Free-text description of the part type."""
@@ -5100,6 +5198,9 @@ input WorkOrderPartTypesInput {
 
 """A single leg of a work order's process route across locations."""
 type WorkOrderProcessRoute {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
   """Time spent at the location, in milliseconds."""
   duration: AWSTimestamp
 
@@ -5164,6 +5265,9 @@ input WorkOrderProcessingOptions {
 
 """A single leg of a work order's travel route across locations."""
 type WorkOrderRoute {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
   """Time spent at the location, in milliseconds."""
   duration: AWSTimestamp
 
@@ -5224,7 +5328,7 @@ input WorkOrderSetInput {
   """Expected completion date for the work order, in epoch milliseconds."""
   completion_date: AWSTimestamp
 
-  """Additional custom properties as a JSON object."""
+  """Additional custom properties, serialized as a JSON string."""
   custom_properties: AWSJSON
 
   """Customer associated with the work order."""

@@ -83,10 +83,7 @@ query AssetTransferOrder($input: AssetTransferOrderInput) {
       "assetTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "assettransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -238,10 +235,7 @@ query AssetTransferOrders($input: AssetTransferOrdersInput) {
         {
           "cancelledDate": 1719792000000,
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "id": "assettransferorder-001",
           "images": [
             "https://cdn.example.com/asset-1024.png"
@@ -392,10 +386,7 @@ query InventoryTransferOrder($input: InventoryTransferOrderInput) {
       "inventoryTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "inventorytransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -547,10 +538,7 @@ query InventoryTransferOrders($input: InventoryTransferOrdersInput) {
         {
           "cancelledDate": 1719792000000,
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "id": "inventorytransferorder-001",
           "images": [
             "https://cdn.example.com/asset-1024.png"
@@ -706,10 +694,7 @@ query PackageTransferOrder($input: PackageTransferOrderInput!) {
       "packageTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "packagetransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -871,10 +856,7 @@ query PackageTransferOrders($input: PackageTransferOrdersInput!) {
         {
           "cancelledDate": 1719792000000,
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "id": "packagetransferorder-001",
           "images": [
             "https://cdn.example.com/asset-1024.png"
@@ -1014,10 +996,7 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
 ```json
 {
   "input": {
-    "customProperties": {
-      "weight": "15kg",
-      "color": "blue"
-    },
+    "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
     "entries": [
       {
         "assets": [
@@ -1056,10 +1035,7 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
       "assetTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "assettransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -1118,7 +1094,7 @@ Input for creating an asset transfer order and its entries.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `entries` | [`[CreateAssetTransferOrderEntryInput!]!`](#type-createassettransferorderentryinput) | Asset entries (asset types and quantities) included in the transfer order. |
 | `id` | `String!` | Identifier (transfer order number) to assign to the new asset transfer order. |
 | `images` | `[String!]` | Image keys associated with the transfer order. |
@@ -1197,10 +1173,7 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
 ```json
 {
   "input": {
-    "customProperties": {
-      "weight": "15kg",
-      "color": "blue"
-    },
+    "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
     "entries": [
       {
         "inventory": [
@@ -1239,10 +1212,7 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
       "inventoryTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "inventorytransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -1301,7 +1271,7 @@ Input for creating an inventory transfer order and its part entries.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `entries` | [`[CreateInventoryTransferOrderEntryInput!]!`](#type-createinventorytransferorderentryinput) | Part entries (SKUs and quantities) included in the transfer order. |
 | `id` | `String!` | Identifier (transfer order number) to assign to the new inventory transfer order. |
 | `images` | `[String!]` | Image keys associated with the transfer order. |
@@ -1385,10 +1355,7 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
 ```json
 {
   "input": {
-    "customProperties": {
-      "weight": "15kg",
-      "color": "blue"
-    },
+    "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
     "id": "createpackagetransferorder-001",
     "images": [
       "https://cdn.example.com/asset-1024.png"
@@ -1396,16 +1363,19 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
     "packages": [
       {
         "comments": "Inspected and approved",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "package-001",
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": false,
-        "trackerSerial": "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
+        ]
       }
     ],
     "totalQuantity": 10,
@@ -1427,10 +1397,7 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
       "packageTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "packagetransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -1494,7 +1461,7 @@ Input for creating a package transfer order and its packages.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `id` | `String!` | Identifier (transfer order number) to assign to the new package transfer order. |
 | `images` | `[String!]` | Image keys associated with the transfer order. |
 | `packages` | [`[PackageInput!]`](#type-packageinput) | Packages included in the transfer order. |
@@ -1590,10 +1557,7 @@ mutation DeleteAssetTransferOrder($input: DeleteAssetTransferOrderInput) {
       "assetTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "assettransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -1741,10 +1705,7 @@ mutation DeleteInventoryTransferOrder($input: DeleteInventoryTransferOrderInput)
       "inventoryTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "inventorytransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -1897,10 +1858,7 @@ mutation DeletePackageTransferOrder($input: DeletePackageTransferOrderInput!) {
       "packageTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "packagetransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -2053,10 +2011,7 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
         "unit": "EA"
       }
     ],
-    "customProperties": {
-      "weight": "15kg",
-      "color": "blue"
-    },
+    "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
     "id": "updateassettransferorder-001",
     "images": [
       "https://cdn.example.com/asset-1024.png"
@@ -2100,10 +2055,7 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
       "assetTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "assettransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -2174,7 +2126,7 @@ Input for updating an asset transfer order's locations, tracker, asset types, an
 | Field | Type | Description |
 |---|---|---|
 | `addTypes` | [`[CreateAssetTransferOrderEntryInput!]`](#type-createassettransferorderentryinput) | New asset type entries to add to the transfer order. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `id` | `String!` | Identifier of the asset transfer order to update. |
 | `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `removeTypeIds` | `[String!]` | Identifiers of asset type entries to remove from the transfer order. |
@@ -2270,10 +2222,7 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
         "unit": "EA"
       }
     ],
-    "customProperties": {
-      "weight": "15kg",
-      "color": "blue"
-    },
+    "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
     "id": "updateinventorytransferorder-001",
     "images": [
       "https://cdn.example.com/asset-1024.png"
@@ -2317,10 +2266,7 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
       "inventoryTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "inventorytransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -2391,7 +2337,7 @@ Input for updating an inventory transfer order's locations, tracker, parts, and 
 | Field | Type | Description |
 |---|---|---|
 | `addParts` | [`[CreateInventoryTransferOrderEntryInput!]`](#type-createinventorytransferorderentryinput) | New part entries to add to the transfer order. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `id` | `String!` | Identifier of the inventory transfer order to update. |
 | `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `removePartIds` | `[String!]` | Identifiers of part entries to remove from the transfer order. |
@@ -2476,10 +2422,7 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
 ```json
 {
   "input": {
-    "customProperties": {
-      "weight": "15kg",
-      "color": "blue"
-    },
+    "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
     "id": "updatepackagetransferorder-001",
     "images": [
       "https://cdn.example.com/asset-1024.png"
@@ -2490,16 +2433,19 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
     "packagesToAdd": [
       {
         "comments": "Inspected and approved",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "package-001",
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": false,
-        "trackerSerial": "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
+        ]
       }
     ],
     "totalQuantity": 10,
@@ -2521,10 +2467,7 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
       "packageTransferOrder": {
         "cancelledDate": 1719792000000,
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "id": "packagetransferorder-001",
         "images": [
           "https://cdn.example.com/asset-1024.png"
@@ -2588,7 +2531,7 @@ Input for updating a package transfer order's locations, tracker, packages, and 
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `id` | `String!` | Identifier of the package transfer order to update. |
 | `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `packageIdsToRemove` | `[String!]` | Identifiers of packages to remove from the transfer order. |
@@ -2614,6 +2557,23 @@ Result of the updatePackageTransferOrder mutation.
 
 Entity types used across multiple operations on this page. Type names throughout link here.
 
+#### Address {#type-address}
+
+A business address.
+
+| Field | Type | Description |
+|---|---|---|
+| `address` | `[String!]` | Up to 4 street address lines. |
+| `adminArea` | `String` | State or administrative area. |
+| `contactName` | `String` | Name of the contact person at this address. |
+| `countryCode` | `String` | ISO 3166-1 alpha-2 country code (e.g. US). |
+| `countryName` | `String` | Full country name (e.g. United States). |
+| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `email` | `String` | Email address for this contact. |
+| `locality` | `String` | City or locality. |
+| `phoneNumber` | `String` | Phone number for this address. |
+| `postalCode` | `String` | Postal or zip code. |
+
 #### Asset {#type-asset}
 
 A tracked asset.
@@ -2623,7 +2583,7 @@ A tracked asset.
 | `comments` | `String` | Any comments or remarks for the asset. |
 | `containerId` | `String` | Identifier of the container holding this asset, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the asset. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
 | `id` | `String` | Unique identifier of the asset, usually the asset number. |
@@ -2649,7 +2609,7 @@ The current owner of a tracked asset, set via an Owner Change asset request.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `firstName` | `String` | First name. |
 | `id` | `String!` | Unique identifier of the owner. |
 | `lastName` | `String` | Last name. |
@@ -2663,7 +2623,7 @@ A transfer order moving assets between locations.
 |---|---|---|
 | `cancelledDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was cancelled. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `entries` | [`[AssetTransferOrderEntry!]!`](#type-assettransferorderentry) | Asset entries included in the transfer order. |
 | `id` | `String` | Unique identifier of the asset transfer order. |
 | `images` | `[String]` | Image keys associated with the transfer order. |
@@ -2708,7 +2668,7 @@ A type (template) describing a class of assets.
 |---|---|---|
 | `categories` | [`[AssetTypeCategory]`](#type-assettypecategory) | Categories this asset type belongs to. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset type was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the asset type. |
 | `id` | `String` | Unique identifier of the asset type, usually the asset type number or SKU. |
 | `images` | `[String!]` | Public image URLs for the asset type. |
@@ -2780,6 +2740,18 @@ A customer-specific part number mapped to an inventory part.
 | `customerId` | `String!` | Unique identifier of the customer. |
 | `customerPartNumber` | `String!` | The customer's part number for this part. |
 
+#### CustomerV2 {#type-customerv2}
+
+A customer, supplier, or other external organization associated with tracked items.
+
+| Field | Type | Description |
+|---|---|---|
+| `addresses` | [`[Address!]`](#type-address) | Business addresses of this organization. |
+| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `description` | `String` | Free-text description of the organization. |
+| `id` | `String` | Unique identifier of the organization. |
+| `name` | `String` | Display name of the organization. |
+
 #### Inventory {#type-inventory}
 
 A tracked inventory item.
@@ -2790,7 +2762,7 @@ A tracked inventory item.
 | `consumedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was consumed. |
 | `containerId` | `String` | Identifier of the container holding this item, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumber` | `String` | Customer-specific part number for this item, if any. |
 | `description` | `String` | Free-text description of the inventory item. |
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item expires. |
@@ -2818,7 +2790,7 @@ An inventory part (item type) describing a class of inventory items.
 | Field | Type | Description |
 |---|---|---|
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the part was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumbers` | [`[CustomerPartNumber!]`](#type-customerpartnumber) | Per-customer part numbers mapped to this part. |
 | `description` | `String` | Free-text description of the part. |
 | `id` | `String` | Unique identifier of the inventory part (item type), usually the item or SKU number. |
@@ -2827,6 +2799,7 @@ An inventory part (item type) describing a class of inventory items.
 | `name` | `String` | Display name of the part. |
 | `number` | `String` | Part number. |
 | `quantity` | `Int` | Expected quantity represented by the part. |
+| `supplier` | [`CustomerV2`](#type-customerv2) | Supplier for this inventory part, if one is attached. |
 | `unit` | `String` | Unit of measure for the part. |
 | `uuid` | `String` | Globally unique identifier of the inventory part. |
 
@@ -2838,7 +2811,7 @@ A transfer order moving inventory parts between locations.
 |---|---|---|
 | `cancelledDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was cancelled. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `entries` | [`[InventoryTransferOrderEntry!]!`](#type-inventorytransferorderentry) | Part entries included in the transfer order. |
 | `id` | `String` | Unique identifier of the inventory transfer order. |
 | `images` | `[String]` | Image keys associated with the transfer order. |
@@ -2883,7 +2856,7 @@ A location in the tenant's location hierarchy.
 |---|---|---|
 | `categoryId` | `String` | Identifier of the location category this location is classified under. |
 | `childLocationIds` | `[String!]` | Identifiers of locations nested directly beneath this one. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer this location belongs to, if any. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String` | Unique identifier of the location. |
@@ -2900,7 +2873,7 @@ A tracked package, identified by its package ID and optional tracker.
 | `comments` | `String` | Any comments or remarks recorded for the package. |
 | `containerId` | `String` | Identifier of the container holding this package, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the package. |
 | `id` | `String!` | Unique identifier of the package. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the package was last detected. |
@@ -2921,13 +2894,12 @@ A single package to create.
 | Field | Type | Description |
 |---|---|---|
 | `comments` | `String` | Any comments or remarks recorded for the package. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the package. |
 | `id` | `String!` | Serial or unique identifier for the package. |
 | `locationId` | `String` | Identifier of the location the package is at. |
 | `name` | `String` | Display name of the package. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse an existing tracker serial. |
-| `trackerSerial` | `String` | RFID tag associated with the package for tracking. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the package. |
 
 #### PackageTransferOrder {#type-packagetransferorder}
 
@@ -2937,7 +2909,7 @@ A transfer order moving packages between locations.
 |---|---|---|
 | `cancelledDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was cancelled. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `id` | `String!` | Unique identifier of the package transfer order. |
 | `images` | `[String]` | Image keys associated with the transfer order. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the transfer order was last detected. |
@@ -2981,7 +2953,20 @@ An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
 | Field | Type | Description |
 |---|---|---|
 | `attachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the item. |
+| `customProperties` | `AWSJSON` | Tenant-specific sensor profile custom properties. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
 | `serial` | `String` | EPC or tracker serial identifying this tracker. |
+
+#### TrackerInput {#type-trackerinput}
+
+Input for specifying a tracker to attach when creating or updating an item. Replaces the per-field trackerSerial / reuseTrackerSerial pattern.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Tracker-level custom properties as a JSON object. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
+| `reuseTrackerSerial` | `Boolean` | Whether to reuse a tracker serial already attached to another item. |
+| `serial` | `String!` | EPC or tracker serial to attach. |
 
 #### TransferOrderStatus {#type-transferorderstatus}
 

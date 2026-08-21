@@ -58,10 +58,7 @@ query PackageRoute($input: PackageRouteInput) {
       "nextToken": "eyJpZCI6IjEwMjQifQ==",
       "route": [
         {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "duration": 1719792000000,
           "endDate": 1719792000000,
           "startDate": 1719792000000,
@@ -103,7 +100,7 @@ A single stop in a package's location route history.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `duration` | `AWSTimestamp` | Duration the package spent at this stop. |
 | `endDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package left this stop. |
 | `location` | [`LocationV2`](#type-locationv2) | Location of this route stop. |
@@ -142,16 +139,19 @@ mutation CreatePackages($input: CreatePackagesInput!) {
     "packages": [
       {
         "comments": "Inspected and approved",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "package-001",
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": false,
-        "trackerSerial": "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
+        ]
       }
     ]
   }
@@ -194,13 +194,12 @@ A single package to create.
 | Field | Type | Description |
 |---|---|---|
 | `comments` | `String` | Any comments or remarks recorded for the package. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the package. |
 | `id` | `String!` | Serial or unique identifier for the package. |
 | `locationId` | `String` | Identifier of the location the package is at. |
 | `name` | `String` | Display name of the package. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse an existing tracker serial. |
-| `trackerSerial` | `String` | RFID tag associated with the package for tracking. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the package. |
 
 #### Returns
 
@@ -331,22 +330,23 @@ mutation UpdatePackages($input: UpdatePackagesInput!) {
       {
         "id": "updatepackage-001",
         "updates": {
-          "addTrackerSerials": [
-            "E28011700000020ABC12345"
+          "addTrackers": [
+            {
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "encodingFormat": "example",
+              "reuseTrackerSerial": false,
+              "serial": "E28011700000020ABC12345"
+            }
           ],
           "comments": "Inspected and approved",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "package-001",
           "locationId": "location-001",
           "name": "Forklift 7",
           "removeTrackerSerials": [
             "E28011700000020ABC12345"
-          ],
-          "reuseTrackerSerial": false
+          ]
         }
       }
     ]
@@ -367,10 +367,7 @@ mutation UpdatePackages($input: UpdatePackagesInput!) {
           "comments": "Inspected and approved",
           "containerId": "container-001",
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "package-001",
           "lastDetectionDate": 1719792000000,
@@ -411,15 +408,14 @@ Updatable fields for a package.
 
 | Field | Type | Description |
 |---|---|---|
-| `addTrackerSerials` | `[String!]` | Tracker serials to attach to the package. |
+| `addTrackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the package. |
 | `comments` | `String` | Any comments or remarks recorded for the package. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the package. |
 | `id` | `String` | Unique identifier of the package. |
 | `locationId` | `String` | Identifier of the location the package is at. |
 | `name` | `String` | Display name of the package. |
 | `removeTrackerSerials` | `[String!]` | Tracker serials to detach from the package. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse an existing tracker serial. |
 
 ##### UpdatePackageInput {#type-updatepackageinput}
 
@@ -451,7 +447,7 @@ A tracked package, identified by its package ID and optional tracker.
 | `comments` | `String` | Any comments or remarks recorded for the package. |
 | `containerId` | `String` | Identifier of the container holding this package, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the package. |
 | `id` | `String!` | Unique identifier of the package. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the package was last detected. |
@@ -472,6 +468,8 @@ An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
 | Field | Type | Description |
 |---|---|---|
 | `attachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the item. |
+| `customProperties` | `AWSJSON` | Tenant-specific sensor profile custom properties. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
 | `serial` | `String` | EPC or tracker serial identifying this tracker. |
 
 ##### UpdatePackagesPayload {#type-updatepackagespayload}
@@ -494,10 +492,21 @@ A location in the tenant's location hierarchy.
 |---|---|---|
 | `categoryId` | `String` | Identifier of the location category this location is classified under. |
 | `childLocationIds` | `[String!]` | Identifiers of locations nested directly beneath this one. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer this location belongs to, if any. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String` | Unique identifier of the location. |
 | `name` | `String` | Display name of the location. |
 | `parentLocationId` | `String` | Identifier of the parent location in the hierarchy, if any. |
 | `roleId` | `String` | Identifier of the location role describing how this location is used. |
+
+#### TrackerInput {#type-trackerinput}
+
+Input for specifying a tracker to attach when creating or updating an item. Replaces the per-field trackerSerial / reuseTrackerSerial pattern.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Tracker-level custom properties as a JSON object. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
+| `reuseTrackerSerial` | `Boolean` | Whether to reuse a tracker serial already attached to another item. |
+| `serial` | `String!` | EPC or tracker serial to attach. |

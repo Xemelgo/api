@@ -10,7 +10,7 @@ title: ""
 
 :::caution Beta
 
-Operations marked with the **BETA** pill are under active development. Their names, inputs, outputs, and behavior may change before general availability.
+Operations marked with the **BETA** pill are still under active development and may change without notice. They are not yet covered by our backward-compatibility guarantees.
 
 :::
 
@@ -102,10 +102,7 @@ query Report($input: ReportInput!) {
           "percentComplete": 10
         },
         "reportParameters": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "endDate": 1719792000000
         }
       }
@@ -389,10 +386,7 @@ query Reports($input: ReportsInput!) {
             "percentComplete": 10
           },
           "reportParameters": {
-            "customProperties": {
-              "weight": "15kg",
-              "color": "blue"
-            },
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
             "endDate": 1719792000000
           }
         }
@@ -557,10 +551,7 @@ query ScheduledReport($input: ScheduledReportInput!) {
           ]
         },
         "reportParameters": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "endDate": 1719792000000
         }
       }
@@ -704,10 +695,7 @@ query ScheduledReports($input: ScheduledReportsInput!) {
             ]
           },
           "reportParameters": {
-            "customProperties": {
-              "weight": "15kg",
-              "color": "blue"
-            },
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
             "endDate": 1719792000000
           }
         }
@@ -834,10 +822,7 @@ mutation CancelReport($input: CancelReportInput!) {
           "percentComplete": 10
         },
         "reportParameters": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "endDate": 1719792000000
         }
       }
@@ -948,10 +933,7 @@ mutation CreateScheduledReport($input: CreateScheduledReportInput!) {
       "type": "DAILY"
     },
     "reportParameters": {
-      "customProperties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
       "endDate": 1719792000000,
       "endDateOffset": 1719792000000,
       "generateCustomerReports": true,
@@ -977,10 +959,7 @@ mutation CreateScheduledReport($input: CreateScheduledReportInput!) {
               ],
               "format": "example",
               "header": "example",
-              "mapping": {
-                "weight": "15kg",
-                "color": "blue"
-              },
+              "mapping": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
               "timezone": "example",
               "type": "example"
             }
@@ -1046,10 +1025,7 @@ mutation CreateScheduledReport($input: CreateScheduledReportInput!) {
           ]
         },
         "reportParameters": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "endDate": 1719792000000
         }
       }
@@ -1302,10 +1278,7 @@ mutation ReRunReport($input: ReRunReportInput!) {
           "percentComplete": 10
         },
         "reportParameters": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "endDate": 1719792000000
         }
       }
@@ -1401,10 +1374,7 @@ mutation RunReport($input: RunReportInput!) {
     },
     "name": "Forklift 7",
     "reportParameters": {
-      "customProperties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
       "endDate": 1719792000000,
       "endDateOffset": 1719792000000,
       "generateCustomerReports": true,
@@ -1430,10 +1400,7 @@ mutation RunReport($input: RunReportInput!) {
               ],
               "format": "example",
               "header": "example",
-              "mapping": {
-                "weight": "15kg",
-                "color": "blue"
-              },
+              "mapping": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
               "timezone": "example",
               "type": "example"
             }
@@ -1487,10 +1454,7 @@ mutation RunReport($input: RunReportInput!) {
           "percentComplete": 10
         },
         "reportParameters": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "endDate": 1719792000000
         }
       }
@@ -1610,10 +1574,7 @@ mutation UpdateScheduledReport($input: UpdateScheduledReportInput!) {
       "type": "DAILY"
     },
     "reportParameters": {
-      "customProperties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
       "endDate": 1719792000000,
       "endDateOffset": 1719792000000,
       "generateCustomerReports": true,
@@ -1639,10 +1600,7 @@ mutation UpdateScheduledReport($input: UpdateScheduledReportInput!) {
               ],
               "format": "example",
               "header": "example",
-              "mapping": {
-                "weight": "15kg",
-                "color": "blue"
-              },
+              "mapping": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
               "timezone": "example",
               "type": "example"
             }
@@ -1707,10 +1665,7 @@ mutation UpdateScheduledReport($input: UpdateScheduledReportInput!) {
           ]
         },
         "reportParameters": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "endDate": 1719792000000
         }
       }
@@ -1826,7 +1781,7 @@ A single column in a report view, describing the source property and how to rend
 | `fields` | [`[ReportField!]`](#type-reportfield) | Nested sub-columns, supported only for the "users" field with type "NONE" |
 | `format` | `String` | Format string applied to the value, such as a date pattern for DATE fields |
 | `header` | `String` | Column header label shown in the output |
-| `mapping` | `AWSJSON` | Value-to-label remapping as a JSON object |
+| `mapping` | `AWSJSON` | Value-to-label remapping, serialized as a JSON string |
 | `timezone` | `String` | IANA timezone used when formatting DATE values |
 | `type` | `String!` | Source node type the value is read from (for example "Inventory"), or "NONE" for synthetic columns |
 
@@ -1855,7 +1810,7 @@ Input describing a single report column. Mirrors ReportField.
 | `fields` | [`[ReportFieldInput!]`](#type-reportfieldinput) | Nested sub-columns, supported only for the "users" field with type "NONE" |
 | `format` | `String` | Format string applied to the value, such as a date pattern for DATE fields |
 | `header` | `String` | Column header label shown in the output |
-| `mapping` | `AWSJSON` | Value-to-label remapping as a JSON object |
+| `mapping` | `AWSJSON` | Value-to-label remapping, serialized as a JSON string |
 | `timezone` | `String` | IANA timezone used when formatting DATE values |
 | `type` | `String!` | Source node type the value is read from (for example "Inventory"), or "NONE" for synthetic columns |
 
@@ -1865,7 +1820,7 @@ The resolved parameters a report run was generated with.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Report-specific tuning flags as a JSON object |
+| `customProperties` | `AWSJSON` | Report-specific tuning flags, serialized as a JSON string |
 | `endDate` | `AWSTimestamp` | Absolute end of the report window, as an epoch-millisecond timestamp |
 | `endDateOffset` | `AWSTimestamp` | Relative end of the report window as a millisecond offset from the run time |
 | `generateCustomerReports` | `Boolean` | Whether VMI customer-facing report variants were generated |
@@ -1884,7 +1839,7 @@ Parameters controlling what a report run contains and how it is delivered.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Report-specific tuning flags as a JSON object |
+| `customProperties` | `AWSJSON` | Report-specific tuning flags, serialized as a JSON string |
 | `endDate` | `AWSTimestamp` | Absolute end of the report window, as an epoch-millisecond timestamp |
 | `endDateOffset` | `AWSTimestamp` | Relative end of the report window as a millisecond offset from the run time |
 | `generateCustomerReports` | `Boolean` | Whether to generate VMI customer-facing report variants |
