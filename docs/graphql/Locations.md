@@ -270,10 +270,7 @@ query Locations($input: LocationsInput) {
             "example"
           ],
           "customerId": "customer-001",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
           "name": "Forklift 7",
@@ -336,10 +333,7 @@ mutation CreateLocations($input: CreateLocationsInput!) {
     "locations": [
       {
         "categoryId": "category-001",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "customerId": "customer-001",
         "description": "Electric counterbalance forklift",
         "id": "createlocation-001",
@@ -380,7 +374,7 @@ A single location to create as part of the createLocations mutation.
 | Field | Type | Description |
 |---|---|---|
 | `categoryId` | `String!` | Identifier of the predefined category that determines the location's level in the hierarchy. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer assigned to the location, if any. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String!` | Unique identifier of the location, used for all future transactions. |
@@ -510,10 +504,7 @@ mutation UpdateLocations($input: UpdateLocationsInput!) {
       {
         "id": "updatelocation-001",
         "updates": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "customerId": "customer-001",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
@@ -542,10 +533,7 @@ mutation UpdateLocations($input: UpdateLocationsInput!) {
             "example"
           ],
           "customerId": "customer-001",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
           "name": "Forklift 7",
@@ -569,7 +557,7 @@ Fields to update on an existing location.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer this location belongs to. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String` | Unique identifier of the location. |
@@ -618,7 +606,7 @@ A location in the tenant's location hierarchy.
 |---|---|---|
 | `categoryId` | `String` | Identifier of the location category this location is classified under. |
 | `childLocationIds` | `[String!]` | Identifiers of locations nested directly beneath this one. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer this location belongs to, if any. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String` | Unique identifier of the location. |

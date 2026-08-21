@@ -34,7 +34,6 @@ query Containers($input: ContainersInput) {
       packageIds
       parentContainerId
       state
-      trackerSerial
       transferOrderId
       transferStatus
       uuid
@@ -90,10 +89,7 @@ query Containers($input: ContainersInput) {
           ],
           "comments": "Inspected and approved",
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "container-001",
           "images": [
@@ -110,7 +106,6 @@ query Containers($input: ContainersInput) {
           ],
           "parentContainerId": "parentcontainer-001",
           "state": "ACTIVE",
-          "trackerSerial": "E28011700000020ABC12345",
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
           "uuid": "uu-001",
@@ -217,10 +212,7 @@ query ContainerTypes($input: ContainerTypesInput) {
       "containerTypes": [
         {
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "containertype-001",
           "images": [
@@ -291,7 +283,6 @@ mutation CreateContainer($input: CreateContainerInput!) {
       packageIds
       parentContainerId
       state
-      trackerSerial
       transferOrderId
       transferStatus
       uuid
@@ -325,10 +316,7 @@ mutation CreateContainer($input: CreateContainerInput!) {
     "assets": [
       {
         "comments": "Inspected and approved",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "dueDate": 1719792000000,
         "id": "containerasset-001",
@@ -337,8 +325,14 @@ mutation CreateContainer($input: CreateContainerInput!) {
         ],
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": false,
-        "trackerSerial": "E28011700000020ABC12345",
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
+        ],
         "typeId": "type-001"
       }
     ],
@@ -346,19 +340,13 @@ mutation CreateContainer($input: CreateContainerInput!) {
       "example"
     ],
     "comments": "Inspected and approved",
-    "customProperties": {
-      "weight": "15kg",
-      "color": "blue"
-    },
+    "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
     "description": "Electric counterbalance forklift",
     "id": "createcontainer-001",
     "inventory": [
       {
         "comments": "Inspected and approved",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "expirationDate": 1719792000000,
         "id": "containerinventory-001",
@@ -370,8 +358,14 @@ mutation CreateContainer($input: CreateContainerInput!) {
         "name": "Forklift 7",
         "partId": "part-001",
         "quantity": 1,
-        "reuseTrackerSerial": false,
-        "trackerSerial": "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
+        ]
       }
     ],
     "locationId": "location-001",
@@ -379,20 +373,29 @@ mutation CreateContainer($input: CreateContainerInput!) {
     "packages": [
       {
         "comments": "Inspected and approved",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "containerpackage-001",
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": false,
-        "trackerSerial": "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
+        ]
       }
     ],
-    "reuseTrackerSerial": false,
-    "trackerSerial": "E28011700000020ABC12345",
+    "trackers": [
+      {
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "encodingFormat": "example",
+        "reuseTrackerSerial": false,
+        "serial": "E28011700000020ABC12345"
+      }
+    ],
     "typeId": "type-001"
   }
 }
@@ -415,10 +418,7 @@ mutation CreateContainer($input: CreateContainerInput!) {
         ],
         "comments": "Inspected and approved",
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "container-001",
         "images": [
@@ -435,7 +435,6 @@ mutation CreateContainer($input: CreateContainerInput!) {
         ],
         "parentContainerId": "parentcontainer-001",
         "state": "ACTIVE",
-        "trackerSerial": "E28011700000020ABC12345",
         "transferOrderId": "transferorder-001",
         "transferStatus": "example",
         "uuid": "uu-001",
@@ -477,15 +476,14 @@ Input for creating a container, optionally with its initial contents.
 | `assets` | [`[ContainerAssetInput!]`](#type-containerassetinput) | Assets to place inside the container. |
 | `childContainerIds` | `[String!]` | Identifiers of existing containers to nest inside this container. |
 | `comments` | `String` | Comments or remarks recorded for the container. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the container. |
 | `id` | `String!` | Unique identifier for the new container. |
 | `inventory` | [`[ContainerInventoryInput!]`](#type-containerinventoryinput) | Inventory items to place inside the container. |
 | `locationId` | `String` | Identifier of the location to associate with the container. |
 | `name` | `String` | Display name of the container. |
 | `packages` | [`[ContainerPackageInput!]`](#type-containerpackageinput) | Packages to place inside the container. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse the tracker serial if it already exists. |
-| `trackerSerial` | `String` | Serial of the tracker to attach to the container. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the container. |
 | `typeId` | `String` | Identifier of the container type to associate with the container. |
 
 #### Returns
@@ -522,10 +520,7 @@ mutation CreateContainerTypes($input: CreateContainerTypesInput!) {
   "input": {
     "containerTypes": [
       {
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "createcontainertype-001",
         "images": [
@@ -568,7 +563,7 @@ A single container type to create.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the container type. |
 | `id` | `String!` | Unique identifier for the new container type. |
 | `images` | `[String!]` | Image URLs associated with the container type. |
@@ -622,7 +617,6 @@ mutation DeleteContainer($input: DeleteContainerInput!) {
       packageIds
       parentContainerId
       state
-      trackerSerial
       transferOrderId
       transferStatus
       uuid
@@ -675,10 +669,7 @@ mutation DeleteContainer($input: DeleteContainerInput!) {
         ],
         "comments": "Inspected and approved",
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "container-001",
         "images": [
@@ -695,7 +686,6 @@ mutation DeleteContainer($input: DeleteContainerInput!) {
         ],
         "parentContainerId": "parentcontainer-001",
         "state": "ACTIVE",
-        "trackerSerial": "E28011700000020ABC12345",
         "transferOrderId": "transferorder-001",
         "transferStatus": "example",
         "uuid": "uu-001",
@@ -773,7 +763,6 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
       packageIds
       parentContainerId
       state
-      trackerSerial
       transferOrderId
       transferStatus
       uuid
@@ -809,10 +798,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
       "addAssets": [
         {
           "comments": "Inspected and approved",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "dueDate": 1719792000000,
           "id": "containerasset-001",
@@ -821,8 +807,14 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
           ],
           "locationId": "location-001",
           "name": "Forklift 7",
-          "reuseTrackerSerial": false,
-          "trackerSerial": "E28011700000020ABC12345",
+          "trackers": [
+            {
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "encodingFormat": "example",
+              "reuseTrackerSerial": false,
+              "serial": "E28011700000020ABC12345"
+            }
+          ],
           "typeId": "type-001"
         }
       ],
@@ -832,10 +824,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
       "addInventory": [
         {
           "comments": "Inspected and approved",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "expirationDate": 1719792000000,
           "id": "containerinventory-001",
@@ -847,30 +836,44 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
           "name": "Forklift 7",
           "partId": "part-001",
           "quantity": 1,
-          "reuseTrackerSerial": false,
-          "trackerSerial": "E28011700000020ABC12345"
+          "trackers": [
+            {
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "encodingFormat": "example",
+              "reuseTrackerSerial": false,
+              "serial": "E28011700000020ABC12345"
+            }
+          ]
         }
       ],
       "addPackages": [
         {
           "comments": "Inspected and approved",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "containerpackage-001",
           "locationId": "location-001",
           "name": "Forklift 7",
+          "trackers": [
+            {
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "encodingFormat": "example",
+              "reuseTrackerSerial": false,
+              "serial": "E28011700000020ABC12345"
+            }
+          ]
+        }
+      ],
+      "addTrackers": [
+        {
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "encodingFormat": "example",
           "reuseTrackerSerial": false,
-          "trackerSerial": "E28011700000020ABC12345"
+          "serial": "E28011700000020ABC12345"
         }
       ],
       "comments": "Inspected and approved",
-      "customProperties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
       "description": "Electric counterbalance forklift",
       "id": "container-001",
       "locationId": "location-001",
@@ -887,8 +890,6 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
       "removePackageIds": [
         "example"
       ],
-      "reuseTrackerSerial": false,
-      "trackerSerial": "E28011700000020ABC12345",
       "typeId": "type-001"
     }
   }
@@ -912,10 +913,7 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
         ],
         "comments": "Inspected and approved",
         "creationDate": 1719792000000,
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "container-001",
         "images": [
@@ -932,7 +930,6 @@ mutation UpdateContainer($input: UpdateContainerInput!) {
         ],
         "parentContainerId": "parentcontainer-001",
         "state": "ACTIVE",
-        "trackerSerial": "E28011700000020ABC12345",
         "transferOrderId": "transferorder-001",
         "transferStatus": "example",
         "uuid": "uu-001",
@@ -975,8 +972,9 @@ Fields to update on a container, including contents to add or remove.
 | `addChildContainerIds` | `[String!]` | Identifiers of containers to nest inside this container. |
 | `addInventory` | [`[ContainerInventoryInput!]`](#type-containerinventoryinput) | Inventory items to add to the container. |
 | `addPackages` | [`[ContainerPackageInput!]`](#type-containerpackageinput) | Packages to add to the container. |
+| `addTrackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the container. |
 | `comments` | `String` | New comments or remarks for the container. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | New description for the container. |
 | `id` | `String` | New identifier for the container (rename). |
 | `locationId` | `String` | New location to associate with the container. |
@@ -985,8 +983,6 @@ Fields to update on a container, including contents to add or remove.
 | `removeChildContainerIds` | `[String!]` | Identifiers of child containers to remove from this container. |
 | `removeInventoryIds` | `[String!]` | Identifiers of inventory items to remove from the container. |
 | `removePackageIds` | `[String!]` | Identifiers of packages to remove from the container. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse the tracker serial if it already exists. |
-| `trackerSerial` | `String` | New tracker serial to attach to the container. |
 | `typeId` | `String` | New container type identifier. |
 
 ##### UpdateContainerInput {#type-updatecontainerinput}
@@ -1034,10 +1030,7 @@ mutation UpdateContainerTypes($input: UpdateContainerTypesInput!) {
       {
         "id": "updatecontainertype-001",
         "updates": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "containertype-001",
           "images": [
@@ -1081,7 +1074,7 @@ Container type updates.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the container type. |
 | `id` | `String!` | Identifier of the container type to update. |
 | `images` | `[String!]` | Image URLs associated with the container type. |
@@ -1133,7 +1126,7 @@ A container that holds assets, inventory items, packages, or nested child contai
 | `childContainerIds` | `[String!]!` | Identifiers of child containers nested inside this container. |
 | `comments` | `String` | Comments or remarks recorded for the container. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the container was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the container. |
 | `id` | `String!` | Unique identifier of the container. |
 | `images` | `[String]` | Image URLs associated with the container. |
@@ -1146,7 +1139,6 @@ A container that holds assets, inventory items, packages, or nested child contai
 | `packageIds` | `[String!]!` | Identifiers of packages held inside the container. |
 | `parentContainerId` | `String` | Identifier of the parent container, if this container is nested. |
 | `state` | `String` | Current lifecycle state of the container. |
-| `trackerSerial` | `String` | Serial of the tracker (such as an RFID tag) attached to the container. |
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to the container. |
 | `transferOrderId` | `String` | Identifier of the transfer order this container belongs to, if any. |
 | `transferStatus` | `String` | Status of the container within its transfer order, if any. |
@@ -1160,15 +1152,14 @@ An asset to place inside a container, either by referencing an existing asset or
 | Field | Type | Description |
 |---|---|---|
 | `comments` | `String` | Comments or remarks recorded for the asset. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the asset. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp for the asset's due date. |
 | `id` | `String!` | Identifier of the existing asset to add to the container. |
 | `images` | `[String]` | Image URLs associated with the asset. |
 | `locationId` | `String` | Identifier of the location to associate with the asset. |
 | `name` | `String` | Display name of the asset. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse the tracker serial if it already exists. |
-| `trackerSerial` | `String` | Serial of the tracker to attach to the asset. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the asset. |
 | `typeId` | `String` | Identifier of the asset type to associate with the asset. |
 
 #### ContainerInventoryInput {#type-containerinventoryinput}
@@ -1178,7 +1169,7 @@ An inventory item to place inside a container, either by referencing an existing
 | Field | Type | Description |
 |---|---|---|
 | `comments` | `String` | Comments or remarks recorded for the inventory item. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the inventory item. |
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp for the inventory item's expiration date. |
 | `id` | `String!` | Identifier of the existing inventory item to add to the container. |
@@ -1188,8 +1179,7 @@ An inventory item to place inside a container, either by referencing an existing
 | `name` | `String` | Display name of the inventory item. |
 | `partId` | `String` | Identifier of the part associated with the inventory item. |
 | `quantity` | `Float` | Quantity of the inventory item. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse the tracker serial if it already exists. |
-| `trackerSerial` | `String` | Serial of the tracker to attach to the inventory item. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the inventory item. |
 
 #### ContainerPackageInput {#type-containerpackageinput}
 
@@ -1198,13 +1188,12 @@ A package to place inside a container, either by referencing an existing package
 | Field | Type | Description |
 |---|---|---|
 | `comments` | `String` | Comments or remarks recorded for the package. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the package. |
 | `id` | `String!` | Identifier of the existing package to add to the container. |
 | `locationId` | `String` | Identifier of the location to associate with the package. |
 | `name` | `String` | Display name of the package. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse the tracker serial if it already exists. |
-| `trackerSerial` | `String` | Serial of the tracker to attach to the package. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the package. |
 
 #### ContainerType {#type-containertype}
 
@@ -1213,7 +1202,7 @@ A container type: the classification template (e.g. Bin, Pallet, Tote) that desc
 | Field | Type | Description |
 |---|---|---|
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the container type was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the container type. |
 | `id` | `String!` | Unique identifier of the container type. |
 | `images` | `[String!]` | Image URLs associated with the container type. |
@@ -1232,7 +1221,7 @@ A location in the tenant's location hierarchy.
 |---|---|---|
 | `categoryId` | `String` | Identifier of the location category this location is classified under. |
 | `childLocationIds` | `[String!]` | Identifiers of locations nested directly beneath this one. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer this location belongs to, if any. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String` | Unique identifier of the location. |
@@ -1247,4 +1236,17 @@ An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
 | Field | Type | Description |
 |---|---|---|
 | `attachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the item. |
+| `customProperties` | `AWSJSON` | Tenant-specific sensor profile custom properties. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
 | `serial` | `String` | EPC or tracker serial identifying this tracker. |
+
+#### TrackerInput {#type-trackerinput}
+
+Input for specifying a tracker to attach when creating or updating an item. Replaces the per-field trackerSerial / reuseTrackerSerial pattern.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Tracker-level custom properties as a JSON object. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
+| `reuseTrackerSerial` | `Boolean` | Whether to reuse a tracker serial already attached to another item. |
+| `serial` | `String!` | EPC or tracker serial to attach. |

@@ -88,10 +88,7 @@ query Inventory($input: InventoryInput) {
           "containerId": "container-001",
           "creationDate": 1719792000000,
           "customerPartNumber": "example",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "expirationDate": 1719792000000,
           "id": "inventory-001",
@@ -209,10 +206,7 @@ query InventoryPartLocationMetrics($input: InventoryPartLocationMetricsInput) {
       "inventoryParts": [
         {
           "customerOnHandCount": 10,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "lowStockCount": 10,
           "outOfStockCount": 10,
           "totalCount": 10,
@@ -251,7 +245,7 @@ Aggregated inventory metrics for a single part at a single location.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerOnHandCount` | `Int` | Number of units on hand attributed to the customer. |
 | `location` | [`LocationV2`](#type-locationv2) | Location these metrics are scoped to. |
 | `lowStockCount` | `Int` | Number of parts below their low-stock threshold at this location. |
@@ -325,10 +319,7 @@ query InventoryPartMetrics($input: InventoryPartMetricsInput) {
       "inventoryParts": [
         {
           "customerOnHandCount": 10,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "expiredCount": 10,
           "expiringSoonCount": 10,
           "incomingCount": 10,
@@ -376,7 +367,7 @@ Aggregated inventory metrics for a single part (item type).
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerOnHandCount` | `Int` | Number of units on hand attributed to the customer. |
 | `expiredCount` | `Int` | Number of units past their expiry date. |
 | `expiringSoonCount` | `Int` | Number of units expiring soon. |
@@ -423,6 +414,10 @@ query InventoryParts($input: InventoryPartsInput) {
         customerId
         customerPartNumber
       }
+      supplier {
+        id
+        name
+      }
     }
   }
 }
@@ -452,10 +447,7 @@ query InventoryParts($input: InventoryPartsInput) {
       "inventoryParts": [
         {
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "inventorypart-001",
           "images": [
@@ -472,7 +464,11 @@ query InventoryParts($input: InventoryPartsInput) {
               "customerId": "customer-001",
               "customerPartNumber": "example"
             }
-          ]
+          ],
+          "supplier": {
+            "id": "customer-001",
+            "name": "Forklift 7"
+          }
         }
       ]
     }
@@ -518,6 +514,7 @@ query InventoryRoute($input: InventoryRouteInput) {
   inventoryRoute(input: $input) {
     nextToken
     route {
+      customProperties
       duration
       endDate
       startDate
@@ -556,6 +553,7 @@ query InventoryRoute($input: InventoryRouteInput) {
       "nextToken": "eyJpZCI6IjEwMjQifQ==",
       "route": [
         {
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "duration": 1719792000000,
           "endDate": 1719792000000,
           "startDate": 1719792000000,
@@ -597,6 +595,7 @@ A single segment of an inventory item's movement history.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `duration` | `AWSTimestamp` | Duration spent at the location for this segment. |
 | `endDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item left the location. |
 | `location` | [`LocationV2`](#type-locationv2) | Location the item was detected at during this segment. |
@@ -703,10 +702,8 @@ mutation CreateInventory($input: CreateInventoryInput!) {
     "inventory": [
       {
         "comments": "Inspected and approved",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "customerPartNumber": "example",
         "description": "Electric counterbalance forklift",
         "expirationDate": 1719792000000,
         "id": "createdinventory-001",
@@ -717,9 +714,16 @@ mutation CreateInventory($input: CreateInventoryInput!) {
         "lotNumber": "example",
         "name": "Forklift 7",
         "partId": "part-001",
+        "partSupplierId": "partsupplier-001",
         "quantity": 1,
-        "reuseTrackerSerial": false,
-        "trackerSerial": "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
+        ]
       }
     ]
   }
@@ -762,7 +766,8 @@ Definition of a single inventory item to create.
 | Field | Type | Description |
 |---|---|---|
 | `comments` | `String` | Free-text comments on the item. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `customerPartNumber` | `String` | Optional part number used by your customer. |
 | `description` | `String` | Free-text description of the item. |
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item expires. |
 | `id` | `String!` | Serial number of the item; may match the tracker serial when items are not serialized. |
@@ -771,9 +776,9 @@ Definition of a single inventory item to create.
 | `lotNumber` | `String` | Lot number of the lot this item belongs to. |
 | `name` | `String` | Display name of the item. |
 | `partId` | `String!` | Identifier of the part (item type) this item is an instance of. |
+| `partSupplierId` | `String` | Supplier id |
 | `quantity` | `Float` | Quantity represented by this item. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse a tracker serial already attached to another item. |
-| `trackerSerial` | `String` | Serial of the tracker (e.g. RFID tag) to attach to the item. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the item. |
 
 #### Returns
 
@@ -809,10 +814,7 @@ mutation CreateInventoryParts($input: CreateInventoryPartsInput!) {
   "input": {
     "inventoryParts": [
       {
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "customerPartNumbers": [
           {
             "customerId": "customer-001",
@@ -827,6 +829,7 @@ mutation CreateInventoryParts($input: CreateInventoryPartsInput!) {
         "name": "Forklift 7",
         "number": "AST-1024",
         "quantity": 10,
+        "supplierId": "supplier-001",
         "unit": "EA"
       }
     ]
@@ -861,7 +864,7 @@ Definition of a single inventory part (item type) to create.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumbers` | [`[CustomerPartNumberInput!]`](#type-customerpartnumberinput) | Per-customer part numbers mapped to this part. |
 | `description` | `String` | Free-text description of the part. |
 | `id` | `String!` | Unique identifier of the part, usually the item or SKU number; when that number is not unique, combine properties to form a unique value. |
@@ -869,6 +872,7 @@ Definition of a single inventory part (item type) to create.
 | `name` | `String` | Display name of the part. |
 | `number` | `String` | Part number. |
 | `quantity` | `Int` | Expected quantity represented by the part. |
+| `supplierId` | `String` | Supplier id |
 | `unit` | `String` | Unit of measure for the part. |
 
 ##### CreateInventoryPartsInput {#type-createinventorypartsinput}
@@ -930,10 +934,9 @@ mutation CreateItemSet($input: [ItemSetInput!]!) {
       "lot_number": "example",
       "name": "Forklift 7",
       "onboarding_location": "example",
-      "tenant_properties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "supplier_id": "supplier_-001",
+      "tenant_properties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+      "tracker_encoding_format": "example",
       "tracker_serial": "E28011700000020ABC12345"
     }
   ]
@@ -976,7 +979,9 @@ Definition of a single item to onboard as part of an item set.
 | `lot_number` | `String` | Lot number the item belongs to. |
 | `name` | `String` | Display name of the item. |
 | `onboarding_location` | `String` | Identifier of the location where the item is being onboarded. |
-| `tenant_properties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `supplier_id` | `String` | Supplier identifier; attaches an existing supplier or auto-creates one as the item type supplier. |
+| `tenant_properties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `tracker_encoding_format` | `String` | RFID tag encoding format to assign to the sensor profile on creation. |
 | `tracker_serial` | `String!` | Serial of the RFID tracker to attach to the item. |
 
 #### Returns
@@ -1120,14 +1125,16 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
       {
         "id": "updatedinventory-001",
         "updates": {
-          "addTrackerSerials": [
-            "E28011700000020ABC12345"
+          "addTrackers": [
+            {
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "encodingFormat": "example",
+              "reuseTrackerSerial": false,
+              "serial": "E28011700000020ABC12345"
+            }
           ],
           "comments": "Inspected and approved",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "customerPartNumber": "example",
           "description": "Electric counterbalance forklift",
           "expirationDate": 1719792000000,
@@ -1143,7 +1150,6 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
           "removeTrackerSerials": [
             "E28011700000020ABC12345"
           ],
-          "reuseTrackerSerial": false,
           "state": "ACTIVE"
         }
       }
@@ -1167,10 +1173,7 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
           "containerId": "container-001",
           "creationDate": 1719792000000,
           "customerPartNumber": "example",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "expirationDate": 1719792000000,
           "id": "inventory-001",
@@ -1223,9 +1226,9 @@ Fields that can be updated on an inventory item.
 
 | Field | Type | Description |
 |---|---|---|
-| `addTrackerSerials` | `[String!]` | Tracker serials to attach to the item. |
+| `addTrackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the item. |
 | `comments` | `String` | Updated free-text comments on the item. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumber` | `String` | Updated customer-specific part number for this item. |
 | `description` | `String` | Updated free-text description of the item. |
 | `expirationDate` | `AWSTimestamp` | Updated epoch-millisecond timestamp when the item expires. |
@@ -1237,7 +1240,6 @@ Fields that can be updated on an inventory item.
 | `partId` | `String` | Updated identifier of the part (item type) this item is an instance of. |
 | `quantity` | `Float` | Updated quantity represented by this item. |
 | `removeTrackerSerials` | `[String!]` | Tracker serials to detach from the item. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse a tracker serial already attached to another item. |
 | `state` | `String` | Updated state of the item. |
 
 ##### UpdateInventoryInput {#type-updateinventoryinput}
@@ -1293,10 +1295,7 @@ mutation UpdateInventoryParts($input: UpdateInventoryPartsInput!) {
       {
         "id": "updateinventorypart-001",
         "updates": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "inventorypart-001",
           "images": [
@@ -1305,6 +1304,7 @@ mutation UpdateInventoryParts($input: UpdateInventoryPartsInput!) {
           "name": "Forklift 7",
           "number": "AST-1024",
           "quantity": 10,
+          "supplierId": "supplier-001",
           "unit": "EA"
         }
       }
@@ -1340,13 +1340,14 @@ Inventory part updates.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Updated free-text description of the part. |
 | `id` | `String!` | Unique identifier of the part (item type) to update. |
 | `images` | `[String!]` | Updated image URLs for the part. |
 | `name` | `String` | Updated display name of the part. |
 | `number` | `String` | Updated part number. |
 | `quantity` | `Int` | Updated expected quantity represented by the part. |
+| `supplierId` | `String` | Supplier id |
 | `unit` | `String` | Updated unit of measure for the part. |
 
 ##### UpdateInventoryPartInput {#type-updateinventorypartinput}
@@ -1466,6 +1467,23 @@ Result of the uploadCSV mutation.
 
 Entity types used across multiple operations on this page. Type names throughout link here.
 
+#### Address {#type-address}
+
+A business address.
+
+| Field | Type | Description |
+|---|---|---|
+| `address` | `[String!]` | Up to 4 street address lines. |
+| `adminArea` | `String` | State or administrative area. |
+| `contactName` | `String` | Name of the contact person at this address. |
+| `countryCode` | `String` | ISO 3166-1 alpha-2 country code (e.g. US). |
+| `countryName` | `String` | Full country name (e.g. United States). |
+| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `email` | `String` | Email address for this contact. |
+| `locality` | `String` | City or locality. |
+| `phoneNumber` | `String` | Phone number for this address. |
+| `postalCode` | `String` | Postal or zip code. |
+
 #### CustomerPartNumber {#type-customerpartnumber}
 
 A customer-specific part number mapped to an inventory part.
@@ -1474,6 +1492,18 @@ A customer-specific part number mapped to an inventory part.
 |---|---|---|
 | `customerId` | `String!` | Unique identifier of the customer. |
 | `customerPartNumber` | `String!` | The customer's part number for this part. |
+
+#### CustomerV2 {#type-customerv2}
+
+A customer, supplier, or other external organization associated with tracked items.
+
+| Field | Type | Description |
+|---|---|---|
+| `addresses` | [`[Address!]`](#type-address) | Business addresses of this organization. |
+| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `description` | `String` | Free-text description of the organization. |
+| `id` | `String` | Unique identifier of the organization. |
+| `name` | `String` | Display name of the organization. |
 
 #### Inventory {#type-inventory}
 
@@ -1485,7 +1515,7 @@ A tracked inventory item.
 | `consumedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was consumed. |
 | `containerId` | `String` | Identifier of the container holding this item, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumber` | `String` | Customer-specific part number for this item, if any. |
 | `description` | `String` | Free-text description of the inventory item. |
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item expires. |
@@ -1513,7 +1543,7 @@ An inventory part (item type) describing a class of inventory items.
 | Field | Type | Description |
 |---|---|---|
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the part was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumbers` | [`[CustomerPartNumber!]`](#type-customerpartnumber) | Per-customer part numbers mapped to this part. |
 | `description` | `String` | Free-text description of the part. |
 | `id` | `String` | Unique identifier of the inventory part (item type), usually the item or SKU number. |
@@ -1522,6 +1552,7 @@ An inventory part (item type) describing a class of inventory items.
 | `name` | `String` | Display name of the part. |
 | `number` | `String` | Part number. |
 | `quantity` | `Int` | Expected quantity represented by the part. |
+| `supplier` | [`CustomerV2`](#type-customerv2) | Supplier for this inventory part, if one is attached. |
 | `unit` | `String` | Unit of measure for the part. |
 | `uuid` | `String` | Globally unique identifier of the inventory part. |
 
@@ -1533,7 +1564,7 @@ A location in the tenant's location hierarchy.
 |---|---|---|
 | `categoryId` | `String` | Identifier of the location category this location is classified under. |
 | `childLocationIds` | `[String!]` | Identifiers of locations nested directly beneath this one. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer this location belongs to, if any. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String` | Unique identifier of the location. |
@@ -1548,4 +1579,17 @@ An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
 | Field | Type | Description |
 |---|---|---|
 | `attachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the item. |
+| `customProperties` | `AWSJSON` | Tenant-specific sensor profile custom properties. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
 | `serial` | `String` | EPC or tracker serial identifying this tracker. |
+
+#### TrackerInput {#type-trackerinput}
+
+Input for specifying a tracker to attach when creating or updating an item. Replaces the per-field trackerSerial / reuseTrackerSerial pattern.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Tracker-level custom properties as a JSON object. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
+| `reuseTrackerSerial` | `Boolean` | Whether to reuse a tracker serial already attached to another item. |
+| `serial` | `String!` | EPC or tracker serial to attach. |
