@@ -120,6 +120,8 @@ query WorkOrder($number: String) {
     }
     trackers {
       attachDate
+      customProperties
+      encodingFormat
       serial
     }
   }
@@ -147,10 +149,7 @@ query WorkOrder($number: String) {
       "completionDate": 1719792000000,
       "creationDate": 1719792000000,
       "customer": "example",
-      "customProperties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
       "description": "Electric counterbalance forklift",
       "dueDate": 1719792000000,
       "isActive": true,
@@ -199,10 +198,7 @@ query WorkOrder($number: String) {
           "example"
         ],
         "customerId": "customer-001",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "location-001",
         "name": "Forklift 7",
@@ -215,10 +211,7 @@ query WorkOrder($number: String) {
           "example"
         ],
         "customerId": "customer-001",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "location-001",
         "name": "Forklift 7",
@@ -270,6 +263,8 @@ query WorkOrder($number: String) {
       "trackers": [
         {
           "attachDate": 1719792000000,
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "encodingFormat": "example",
           "serial": "E28011700000020ABC12345"
         }
       ]
@@ -298,6 +293,7 @@ query WorkOrderPartRoute($input: WorkOrderPartRouteInput) {
   workOrderPartRoute(input: $input) {
     nextToken
     route {
+      customProperties
       duration
       endDate
       startDate
@@ -336,6 +332,7 @@ query WorkOrderPartRoute($input: WorkOrderPartRouteInput) {
       "nextToken": "eyJpZCI6IjEwMjQifQ==",
       "route": [
         {
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "duration": 1719792000000,
           "endDate": 1719792000000,
           "startDate": 1719792000000,
@@ -377,6 +374,7 @@ A single leg of a work order part's travel route across locations.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `duration` | `AWSTimestamp` | Time spent at the location, in milliseconds. |
 | `endDate` | `AWSTimestamp` | Epoch-millisecond timestamp of last detection at the location. |
 | `location` | [`LocationV2`](#type-locationv2) | Location visited during this leg of the route. |
@@ -520,6 +518,7 @@ query WorkOrderProcessRoute($input: WorkOrderProcessRouteInput) {
   workOrderProcessRoute(input: $input) {
     nextToken
     route {
+      customProperties
       duration
       endDate
       startDate
@@ -566,6 +565,7 @@ query WorkOrderProcessRoute($input: WorkOrderProcessRouteInput) {
       "nextToken": "eyJpZCI6IjEwMjQifQ==",
       "route": [
         {
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "duration": 1719792000000,
           "endDate": 1719792000000,
           "startDate": 1719792000000,
@@ -619,6 +619,7 @@ A single leg of a work order's process route across locations.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `duration` | `AWSTimestamp` | Time spent at the location, in milliseconds. |
 | `endDate` | `AWSTimestamp` | Epoch-millisecond timestamp of last detection at the location. |
 | `location` | [`LocationV2`](#type-locationv2) | Location visited during this leg of the route. |
@@ -647,6 +648,7 @@ query WorkOrderRoute($input: WorkOrderRouteInput) {
   workOrderRoute(input: $input) {
     nextToken
     route {
+      customProperties
       duration
       endDate
       startDate
@@ -693,6 +695,7 @@ query WorkOrderRoute($input: WorkOrderRouteInput) {
       "nextToken": "eyJpZCI6IjEwMjQifQ==",
       "route": [
         {
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "duration": 1719792000000,
           "endDate": 1719792000000,
           "startDate": 1719792000000,
@@ -746,6 +749,7 @@ A single leg of a work order's travel route across locations.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `duration` | `AWSTimestamp` | Time spent at the location, in milliseconds. |
 | `endDate` | `AWSTimestamp` | Epoch-millisecond timestamp of last detection at the location. |
 | `location` | [`LocationV2`](#type-locationv2) | Location visited during this leg of the route. |
@@ -858,10 +862,7 @@ query WorkOrders($input: WorkOrdersInput) {
           "completionDate": 1719792000000,
           "creationDate": 1719792000000,
           "customer": "example",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "dueDate": 1719792000000,
           "isActive": true,
@@ -1067,6 +1068,8 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
     }
     trackers {
       attachDate
+      customProperties
+      encodingFormat
       serial
     }
   }
@@ -1108,10 +1111,7 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
         "completionDate": 1719792000000,
         "creationDate": 1719792000000,
         "customer": "example",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "dueDate": 1719792000000,
         "isActive": true,
@@ -1160,10 +1160,7 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
             "example"
           ],
           "customerId": "customer-001",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
           "name": "Forklift 7",
@@ -1176,10 +1173,7 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
             "example"
           ],
           "customerId": "customer-001",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
           "name": "Forklift 7",
@@ -1231,6 +1225,8 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
         "trackers": [
           {
             "attachDate": 1719792000000,
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
             "serial": "E28011700000020ABC12345"
           }
         ]
@@ -1385,6 +1381,8 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
     }
     trackers {
       attachDate
+      customProperties
+      encodingFormat
       serial
     }
   }
@@ -1420,10 +1418,7 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
         "completionDate": 1719792000000,
         "creationDate": 1719792000000,
         "customer": "example",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "dueDate": 1719792000000,
         "isActive": true,
@@ -1472,10 +1467,7 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
             "example"
           ],
           "customerId": "customer-001",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
           "name": "Forklift 7",
@@ -1488,10 +1480,7 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
             "example"
           ],
           "customerId": "customer-001",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
           "name": "Forklift 7",
@@ -1543,6 +1532,8 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
         "trackers": [
           {
             "attachDate": 1719792000000,
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
             "serial": "E28011700000020ABC12345"
           }
         ]
@@ -1594,10 +1585,7 @@ mutation CreateWorkOrderPartTypes($input: CreateWorkOrderPartTypesInput!) {
   "input": {
     "workOrderPartTypes": [
       {
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "workorderparttypes-001",
         "images": [
@@ -1677,10 +1665,7 @@ mutation CreateWorkOrderSet($input: [WorkOrderSetInput!]!, $options: CreateWorkO
     {
       "comments": "Inspected and approved",
       "completion_date": 1719792000000,
-      "custom_properties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "custom_properties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
       "customer": "example",
       "description": "Electric counterbalance forklift",
       "due_date": 1719792000000,
@@ -1783,7 +1768,7 @@ Input describing a single work order to create as part of a set.
 |---|---|---|
 | `comments` | `String` | Free-text comments on the work order. |
 | `completion_date` | `AWSTimestamp` | Expected completion date for the work order, in epoch milliseconds. |
-| `custom_properties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `custom_properties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customer` | `String` | Customer associated with the work order. |
 | `description` | `String` | Free-text description of the work order. |
 | `due_date` | `AWSTimestamp` | Expected completion date for the work order, in epoch milliseconds. |
@@ -1938,6 +1923,8 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
     }
     trackers {
       attachDate
+      customProperties
+      encodingFormat
       serial
     }
   }
@@ -1974,10 +1961,7 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
       "completionDate": 1719792000000,
       "creationDate": 1719792000000,
       "customer": "example",
-      "customProperties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
       "description": "Electric counterbalance forklift",
       "dueDate": 1719792000000,
       "isActive": true,
@@ -2026,10 +2010,7 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
           "example"
         ],
         "customerId": "customer-001",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "location-001",
         "name": "Forklift 7",
@@ -2042,10 +2023,7 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
           "example"
         ],
         "customerId": "customer-001",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "id": "location-001",
         "name": "Forklift 7",
@@ -2097,6 +2075,8 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
       "trackers": [
         {
           "attachDate": 1719792000000,
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "encodingFormat": "example",
           "serial": "E28011700000020ABC12345"
         }
       ]
@@ -2153,10 +2133,7 @@ mutation UpdateWorkOrderPartTypes($input: UpdateWorkOrderPartTypesInput!) {
       {
         "id": "updateworkorderparttype-001",
         "updates": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "workorderparttypes-001",
           "images": [
@@ -2335,6 +2312,8 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
     }
     trackers {
       attachDate
+      customProperties
+      encodingFormat
       serial
     }
   }
@@ -2350,10 +2329,7 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
     {
       "comments": "Inspected and approved",
       "completionDate": 1719792000000,
-      "customProperties": {
-        "weight": "15kg",
-        "color": "blue"
-      },
+      "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
       "customer": "example",
       "description": "Electric counterbalance forklift",
       "dueDate": 1719792000000,
@@ -2384,10 +2360,7 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
         "completionDate": 1719792000000,
         "creationDate": 1719792000000,
         "customer": "example",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "description": "Electric counterbalance forklift",
         "dueDate": 1719792000000,
         "isActive": true,
@@ -2436,10 +2409,7 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
             "example"
           ],
           "customerId": "customer-001",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
           "name": "Forklift 7",
@@ -2452,10 +2422,7 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
             "example"
           ],
           "customerId": "customer-001",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "location-001",
           "name": "Forklift 7",
@@ -2507,6 +2474,8 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
         "trackers": [
           {
             "attachDate": 1719792000000,
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
             "serial": "E28011700000020ABC12345"
           }
         ]
@@ -2531,7 +2500,7 @@ Input describing the properties to update on a single work order.
 |---|---|---|
 | `comments` | `String` | Updated comments for the work order. |
 | `completionDate` | `AWSTimestamp` | Updated expected completion date for the work order, in epoch milliseconds. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customer` | `String` | Updated customer for the work order. |
 | `description` | `String` | Updated description of the work order. |
 | `dueDate` | `AWSTimestamp` | Updated due date for the work order, in epoch milliseconds. |
@@ -2588,7 +2557,7 @@ A location in the tenant's location hierarchy.
 |---|---|---|
 | `categoryId` | `String` | Identifier of the location category this location is classified under. |
 | `childLocationIds` | `[String!]` | Identifiers of locations nested directly beneath this one. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer this location belongs to, if any. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String` | Unique identifier of the location. |
@@ -2672,6 +2641,8 @@ An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
 | Field | Type | Description |
 |---|---|---|
 | `attachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the item. |
+| `customProperties` | `AWSJSON` | Tenant-specific sensor profile custom properties. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
 | `serial` | `String` | EPC or tracker serial identifying this tracker. |
 
 #### TravelRoute {#type-travelroute}
@@ -2695,7 +2666,7 @@ A work order (job) tracked through the production process.
 | `completionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the work order was completed. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the work order was created. |
 | `currentOperation` | [`CurrentOperation`](#type-currentoperation) | Status of the work order's currently active operation. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customer` | `String` | Customer associated with the work order. |
 | `description` | `String` | Free-text description of the work order. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp for the work order's due date. |
@@ -2762,7 +2733,7 @@ A part type used for work order input and output parts.
 | Field | Type | Description |
 |---|---|---|
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the part type was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the part type. |
 | `id` | `String` | Unique identifier of the part type. |
 | `images` | `[String!]` | Image paths associated with the part type. |
@@ -2779,7 +2750,7 @@ Input describing a single work order part type to create.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the part type. |
 | `id` | `String!` | Unique identifier of the part type. |
 | `images` | `[String!]` | Image paths associated with the part type. |

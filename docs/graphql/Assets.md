@@ -19,6 +19,7 @@ query AssetRoute($input: AssetRouteInput) {
   assetRoute(input: $input) {
     nextToken
     route {
+      customProperties
       duration
       endDate
       startDate
@@ -57,6 +58,7 @@ query AssetRoute($input: AssetRouteInput) {
       "nextToken": "eyJpZCI6IjEwMjQifQ==",
       "route": [
         {
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "duration": 1719792000000,
           "endDate": 1719792000000,
           "startDate": 1719792000000,
@@ -98,6 +100,7 @@ A single segment of an asset's location route.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `duration` | `AWSTimestamp` | Time spent at this location, in milliseconds. |
 | `endDate` | `AWSTimestamp` | Epoch-millisecond timestamp of last detection at this location. |
 | `location` | [`LocationV2`](#type-locationv2) | Location for this route segment. |
@@ -191,10 +194,7 @@ query Assets($input: AssetsInput) {
           "comments": "Inspected and approved",
           "containerId": "container-001",
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "dueDate": 1719792000000,
           "id": "asset-001",
@@ -320,10 +320,7 @@ query AssetTypes($input: AssetTypesInput) {
       "assetTypes": [
         {
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "assettype-001",
           "images": [
@@ -398,10 +395,8 @@ mutation CreateAssets($input: CreateAssetsInput!) {
     "assets": [
       {
         "comments": "Inspected and approved",
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "customerAssetTypeId": "customerassettype-001",
         "description": "Electric counterbalance forklift",
         "dueDate": 1719792000000,
         "id": "createasset-001",
@@ -410,8 +405,14 @@ mutation CreateAssets($input: CreateAssetsInput!) {
         ],
         "locationId": "location-001",
         "name": "Forklift 7",
-        "reuseTrackerSerial": false,
-        "trackerSerial": "E28011700000020ABC12345",
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
+        ],
         "typeId": "type-001"
       }
     ]
@@ -447,15 +448,15 @@ Definition of a single asset to create.
 | Field | Type | Description |
 |---|---|---|
 | `comments` | `String` | Any comments or remarks for the asset. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `customerAssetTypeId` | `String` | Optional asset type identifier used by your customer. |
 | `description` | `String` | Free-text description of the asset. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
 | `id` | `String!` | Serial or unique identifier for the asset. |
 | `images` | `[String]` | Public image URLs for the asset. |
 | `locationId` | `String` | Identifier of the location of the asset. |
 | `name` | `String` | Display name of the asset. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse an existing tracker serial if it is already in the system. |
-| `trackerSerial` | `String` | Serial of the RFID tracker to attach to the asset for tracking. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the asset. |
 | `typeId` | `String!` | Identifier of the asset type this asset is associated with. |
 
 ##### CreateAssetsInput {#type-createassetsinput}
@@ -500,10 +501,7 @@ mutation CreateAssetTypes($input: CreateAssetTypesInput!) {
   "input": {
     "assetTypes": [
       {
-        "customProperties": {
-          "weight": "15kg",
-          "color": "blue"
-        },
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "customerAssetTypes": [
           {
             "customerAssetTypeId": "customerassettype-001",
@@ -552,7 +550,7 @@ Definition of a single asset type to create.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerAssetTypes` | [`[CustomerAssetTypeInput!]`](#type-customerassettypeinput) | Customer-specific asset type identifiers mapped to this asset type. |
 | `description` | `String` | Free-text description of the asset type. |
 | `id` | `String!` | Unique identifier of the asset type, usually the asset type number or SKU. |
@@ -720,14 +718,16 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
       {
         "id": "updatedasset-001",
         "updates": {
-          "addTrackerSerials": [
-            "E28011700000020ABC12345"
+          "addTrackers": [
+            {
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "encodingFormat": "example",
+              "reuseTrackerSerial": false,
+              "serial": "E28011700000020ABC12345"
+            }
           ],
           "comments": "Inspected and approved",
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "dueDate": 1719792000000,
           "id": "asset-001",
@@ -739,7 +739,6 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "removeTrackerSerials": [
             "E28011700000020ABC12345"
           ],
-          "reuseTrackerSerial": false,
           "state": "ACTIVE",
           "typeId": "type-001"
         }
@@ -762,10 +761,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "comments": "Inspected and approved",
           "containerId": "container-001",
           "creationDate": 1719792000000,
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "dueDate": 1719792000000,
           "id": "asset-001",
@@ -820,9 +816,9 @@ Updates to apply to a single asset.
 
 | Field | Type | Description |
 |---|---|---|
-| `addTrackerSerials` | `[String!]` | Tracker serials to attach to the asset. |
+| `addTrackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the asset. |
 | `comments` | `String` | Any comments or remarks for the asset. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the asset. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
 | `id` | `String` | Unique identifier of the asset to update. |
@@ -830,7 +826,6 @@ Updates to apply to a single asset.
 | `locationId` | `String` | Identifier of the location to move the asset to. |
 | `name` | `String` | Display name of the asset. |
 | `removeTrackerSerials` | `[String!]` | Tracker serials to detach from the asset. |
-| `reuseTrackerSerial` | `Boolean` | Whether to reuse an existing tracker serial if it is already in the system. |
 | `state` | `String` | Current state of the asset at its location (e.g. onhand, removed). |
 | `typeId` | `String` | Identifier of the asset type this asset is associated with. |
 
@@ -887,10 +882,7 @@ mutation UpdateAssetTypes($input: UpdateAssetTypesInput!) {
       {
         "id": "updateassettype-001",
         "updates": {
-          "customProperties": {
-            "weight": "15kg",
-            "color": "blue"
-          },
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "id": "assettype-001",
           "images": [
@@ -934,7 +926,7 @@ Asset type updates.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the asset type. |
 | `id` | `String!` | Unique identifier of the asset type to update. |
 | `images` | `[String!]` | Public image URLs for the asset type. |
@@ -985,7 +977,7 @@ A tracked asset.
 | `comments` | `String` | Any comments or remarks for the asset. |
 | `containerId` | `String` | Identifier of the container holding this asset, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the asset. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
 | `id` | `String` | Unique identifier of the asset, usually the asset number. |
@@ -1011,7 +1003,7 @@ The current owner of a tracked asset, set via an Owner Change asset request.
 
 | Field | Type | Description |
 |---|---|---|
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `firstName` | `String` | First name. |
 | `id` | `String!` | Unique identifier of the owner. |
 | `lastName` | `String` | Last name. |
@@ -1025,7 +1017,7 @@ A type (template) describing a class of assets.
 |---|---|---|
 | `categories` | [`[AssetTypeCategory]`](#type-assettypecategory) | Categories this asset type belongs to. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset type was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the asset type. |
 | `id` | `String` | Unique identifier of the asset type, usually the asset type number or SKU. |
 | `images` | `[String!]` | Public image URLs for the asset type. |
@@ -1054,7 +1046,7 @@ A location in the tenant's location hierarchy.
 |---|---|---|
 | `categoryId` | `String` | Identifier of the location category this location is classified under. |
 | `childLocationIds` | `[String!]` | Identifiers of locations nested directly beneath this one. |
-| `customProperties` | `AWSJSON` | Additional custom properties as a JSON object. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String` | Identifier of the customer this location belongs to, if any. |
 | `description` | `String` | Free-text description of the location. |
 | `id` | `String` | Unique identifier of the location. |
@@ -1081,4 +1073,17 @@ An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
 | Field | Type | Description |
 |---|---|---|
 | `attachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the item. |
+| `customProperties` | `AWSJSON` | Tenant-specific sensor profile custom properties. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
 | `serial` | `String` | EPC or tracker serial identifying this tracker. |
+
+#### TrackerInput {#type-trackerinput}
+
+Input for specifying a tracker to attach when creating or updating an item. Replaces the per-field trackerSerial / reuseTrackerSerial pattern.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Tracker-level custom properties as a JSON object. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
+| `reuseTrackerSerial` | `Boolean` | Whether to reuse a tracker serial already attached to another item. |
+| `serial` | `String!` | EPC or tracker serial to attach. |
