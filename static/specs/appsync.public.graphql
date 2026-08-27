@@ -107,6 +107,142 @@ type Asset {
   uuid: String
 }
 
+"""A request to count assets."""
+type AssetCycleCount implements CycleCount {
+  """People eligible to work on the Cycle Count. Empty when unassigned."""
+  assignees: [Person!]!
+
+  """
+  Whether counting clients should hide expected information from the counter.
+  """
+  blind: Boolean!
+
+  """Reason the Cycle Count was cancelled."""
+  cancellationReason: String
+
+  """
+  Time when the Cycle Count was cancelled, as an epoch timestamp in milliseconds.
+  """
+  cancelledAt: AWSTimestamp
+
+  """
+  Time when the Cycle Count completed, as an epoch timestamp in milliseconds.
+  """
+  completedAt: AWSTimestamp
+
+  """
+  People recorded as participating in the completed Cycle Count. Empty before completion.
+  """
+  countedBy: [Person!]!
+
+  """
+  Time when the Cycle Count was created, as an epoch timestamp in milliseconds.
+  """
+  createdAt: AWSTimestamp!
+
+  """
+  Person who created the Cycle Count. Null when created by an integration.
+  """
+  createdBy: Person
+
+  """The kind of records included in the Cycle Count."""
+  domain: CycleCountDomain!
+
+  """
+  Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds.
+  """
+  dueDate: AWSTimestamp
+
+  """
+  Current number of location-and-type expectation groups. For scope-based Cycle Counts, available on single-count responses and omitted from list results.
+  """
+  expectationCount: Int
+
+  """Customer-facing identifier for the Cycle Count. Up to 256 UTF-8 bytes."""
+  id: String!
+
+  """
+  Optional destination for moved Asset results. When omitted, each result's count location is used.
+  """
+  moveLocationId: String
+
+  """Name shown to people working with the Cycle Count."""
+  name: String!
+
+  """The locations, asset types, and states included in the Cycle Count."""
+  scope: AssetCycleCountScope!
+
+  """Current status of the Cycle Count."""
+  status: CycleCountStatus!
+
+  """ID used to monitor submission processing. Null before submission."""
+  submissionId: ID
+
+  """
+  Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds.
+  """
+  submittedAt: AWSTimestamp
+
+  """
+  Time when the Cycle Count was last updated, as an epoch timestamp in milliseconds.
+  """
+  updatedAt: AWSTimestamp!
+}
+
+"""
+The locations, asset types, and states included in an Asset Cycle Count.
+"""
+type AssetCycleCountScope {
+  """
+  Asset type identifiers included in the Cycle Count. An empty list includes all asset types.
+  """
+  assetTypeIds: [String!]!
+
+  """
+  Item-type category identifiers included in the Cycle Count. Category members are evaluated when expectations are queried.
+  """
+  categoryIds: [String!]!
+
+  """Asset type identifiers excluded from the Cycle Count."""
+  excludedAssetTypeIds: [String!]!
+
+  """Locations excluded from the Cycle Count."""
+  excludedLocations: [CycleCountLocationScope!]!
+
+  """Asset states included in the Cycle Count."""
+  expectedStates: [String!]!
+
+  """Locations included in the Cycle Count."""
+  locations: [CycleCountLocationScope!]!
+}
+
+"""
+The locations, asset types, and states to include in an Asset Cycle Count.
+"""
+input AssetCycleCountScopeInput {
+  """Asset type identifiers to include. Omit to include all asset types."""
+  assetTypeIds: [String!] = []
+
+  """
+  Item-type category identifiers to include. Members are combined with assetTypeIds and evaluated when expectations are queried.
+  """
+  categoryIds: [String!] = []
+
+  """Asset type identifiers to exclude."""
+  excludedAssetTypeIds: [String!] = []
+
+  """Locations to exclude."""
+  excludedLocations: [CycleCountLocationScopeInput!] = []
+
+  """
+  Asset states to include. Omit or leave empty to use the standard countable states.
+  """
+  expectedStates: [String!] = []
+
+  """Locations to include. At least one location is required."""
+  locations: [CycleCountLocationScopeInput!]!
+}
+
 """
 The current owner of a tracked asset, set via an Owner Change asset request.
 """
@@ -481,6 +617,21 @@ input AttachWorkOrderTrackerInput {
 
   """Number of the work order to attach the tracker to."""
   workOrderNumber: String!
+}
+
+"""Fields for cancelling a Cycle Count."""
+input CancelCycleCountInput {
+  """ID of the Cycle Count to cancel."""
+  id: String!
+
+  """Reason for cancelling the Cycle Count."""
+  reason: String!
+}
+
+"""Result of cancelling a Cycle Count."""
+type CancelCycleCountResult {
+  """The cancelled Cycle Count."""
+  cycleCount: CycleCount!
 }
 
 """Identifies a single report run to cancel."""
@@ -862,6 +1013,51 @@ type ContainersOutput {
   nextToken: String
 }
 
+"""Fields for creating an Asset Cycle Count."""
+input CreateAssetCycleCountInput {
+  """
+  Email addresses of people eligible to work on the Cycle Count. Each email must identify one active user in the tenant.
+  """
+  assigneeEmails: [String!] = []
+
+  """
+  IDs of the people eligible to work on the Cycle Count. Omit to create an unassigned Cycle Count.
+  """
+  assigneeIds: [String!] = []
+
+  """
+  Whether counting clients should hide expected information from the counter.
+  """
+  blind: Boolean = false
+
+  """
+  Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds.
+  """
+  dueDate: AWSTimestamp
+
+  """
+  Caller-generated, tenant-unique identifier for the Cycle Count. Reuse it when retrying creation. Up to 256 UTF-8 bytes.
+  """
+  id: String!
+
+  """
+  Optional destination for moved Asset results. When omitted, each result's count location is used.
+  """
+  moveLocationId: String
+
+  """Name shown to people working with the Cycle Count."""
+  name: String!
+
+  """The locations, asset types, and states to include."""
+  scope: AssetCycleCountScopeInput!
+}
+
+"""Result of creating an Asset Cycle Count."""
+type CreateAssetCycleCountResult {
+  """The created Asset Cycle Count."""
+  assetCycleCount: AssetCycleCount!
+}
+
 """Definition of a single asset to create."""
 input CreateAssetInput {
   """Any comments or remarks for the asset."""
@@ -1110,6 +1306,58 @@ input CreateContainerTypesInput {
 type CreateContainerTypesPayload {
   """Identifiers of the created container types."""
   containerTypeIds: [String]
+}
+
+"""Fields for creating an Inventory Cycle Count."""
+input CreateInventoryCycleCountInput {
+  """
+  Email addresses of people eligible to work on the Cycle Count. Each email must identify one active user in the tenant.
+  """
+  assigneeEmails: [String!] = []
+
+  """
+  IDs of the people eligible to work on the Cycle Count. Omit to create an unassigned Cycle Count.
+  """
+  assigneeIds: [String!] = []
+
+  """
+  Whether counting clients should hide expected information from the counter.
+  """
+  blind: Boolean = false
+
+  """
+  Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds.
+  """
+  dueDate: AWSTimestamp
+
+  """
+  Expected quantities supplied by the caller, with one entry for each part and location. Use this when expected inventory is managed outside Xemelgo. Supply exactly one of expectations or scope. These expectations cannot be changed after creation and require id to be supplied.
+  """
+  expectations: [InventoryCycleCountExpectationInput!]
+
+  """
+  Caller-generated, tenant-unique identifier for the Cycle Count. Reuse it when retrying creation. Up to 256 UTF-8 bytes.
+  """
+  id: String!
+
+  """
+  Optional destination for moved Inventory results. When omitted, each result's count location is used.
+  """
+  moveLocationId: String
+
+  """Name shown to people working with the Cycle Count."""
+  name: String!
+
+  """
+  Selects the Inventory to count. Xemelgo calculates expected quantities from Inventory matching these locations, parts, and states. Supply exactly one of scope or expectations.
+  """
+  scope: InventoryCycleCountScopeInput
+}
+
+"""Result of creating an Inventory Cycle Count."""
+type CreateInventoryCycleCountResult {
+  """The created Inventory Cycle Count."""
+  inventoryCycleCount: InventoryCycleCount!
 }
 
 """Input for the createInventory mutation."""
@@ -1487,6 +1735,175 @@ type CustomerV2 {
   name: String
 }
 
+"""Fields shared by Inventory and Asset Cycle Counts."""
+interface CycleCount {
+  """People eligible to work on the Cycle Count. Empty when unassigned."""
+  assignees: [Person!]!
+
+  """
+  Whether counting clients should hide expected information from the counter.
+  """
+  blind: Boolean!
+
+  """Reason the Cycle Count was cancelled."""
+  cancellationReason: String
+
+  """
+  Time when the Cycle Count was cancelled, as an epoch timestamp in milliseconds.
+  """
+  cancelledAt: AWSTimestamp
+
+  """
+  Time when the Cycle Count completed, as an epoch timestamp in milliseconds.
+  """
+  completedAt: AWSTimestamp
+
+  """
+  People recorded as participating in the completed Cycle Count. Empty before completion.
+  """
+  countedBy: [Person!]!
+
+  """
+  Time when the Cycle Count was created, as an epoch timestamp in milliseconds.
+  """
+  createdAt: AWSTimestamp!
+
+  """
+  Person who created the Cycle Count. Null when it was created by an integration.
+  """
+  createdBy: Person
+
+  """The kind of records included in the Cycle Count."""
+  domain: CycleCountDomain!
+
+  """
+  Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds.
+  """
+  dueDate: AWSTimestamp
+
+  """
+  Current number of location-and-type expectation groups. For scope-based Cycle Counts, available on single-count responses and omitted from list results.
+  """
+  expectationCount: Int
+
+  """Customer-facing identifier for the Cycle Count. Up to 256 UTF-8 bytes."""
+  id: String!
+
+  """
+  Optional destination for results marked as moved. When omitted, each result's count location is used.
+  """
+  moveLocationId: String
+
+  """Name shown to people working with the Cycle Count."""
+  name: String!
+
+  """Current status of the Cycle Count."""
+  status: CycleCountStatus!
+
+  """ID used to monitor submission processing. Null before submission."""
+  submissionId: ID
+
+  """
+  Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds.
+  """
+  submittedAt: AWSTimestamp
+
+  """
+  Time when the Cycle Count was last updated, as an epoch timestamp in milliseconds.
+  """
+  updatedAt: AWSTimestamp!
+}
+
+"""The kind of records included in a Cycle Count."""
+enum CycleCountDomain {
+  """Assets."""
+  ASSET
+
+  """Inventory records."""
+  INVENTORY
+}
+
+"""Filters for the counts query."""
+input CycleCountFilterInput {
+  """
+  Return Cycle Counts assigned to the active tenant user with this email address.
+  """
+  assigneeEmail: String
+
+  """Return Cycle Counts assigned to this person ID."""
+  assigneeId: String
+
+  """
+  Domains to return. Omit to return both Inventory and Asset Cycle Counts.
+  """
+  domains: [CycleCountDomain!]
+
+  """Return the Cycle Count with this ID."""
+  id: String
+
+  """Return Cycle Counts with any of these statuses."""
+  status: [CycleCountStatus!]
+}
+
+"""A location included in or excluded from a Cycle Count."""
+type CycleCountLocationScope {
+  """Whether locations below this location are also included."""
+  includeDescendants: Boolean!
+
+  """Location identifier."""
+  locationId: String!
+}
+
+"""A location to include in or exclude from a Cycle Count."""
+input CycleCountLocationScopeInput {
+  """
+  Whether locations below this location are also included. Defaults to true.
+  """
+  includeDescendants: Boolean = true
+
+  """Location identifier."""
+  locationId: String!
+}
+
+"""The status of a Cycle Count."""
+enum CycleCountStatus {
+  """Cancelled."""
+  CANCELLED
+
+  """Submitted and processed successfully."""
+  COUNTED
+
+  """Not yet completed or cancelled."""
+  CREATED
+}
+
+"""Options for listing Cycle Counts."""
+input CycleCountsInput {
+  """Filters to apply."""
+  filter: CycleCountFilterInput
+
+  """
+  Maximum Cycle Counts to return. Defaults to 10 and must be between 1 and 10.
+  """
+  limit: Int
+
+  """Token returned by a previous counts query."""
+  nextToken: String
+}
+
+"""A page of Cycle Counts."""
+type CycleCountsResult {
+  """
+  Inventory and Asset Cycle Counts in this page, ordered from newest to oldest.
+  """
+  cycleCounts: [CycleCount!]!
+
+  """
+  Token for retrieving the next page. Null when there are no more results.
+  """
+  nextToken: String
+}
+
 """Day of the week for weekly recurrence schedules."""
 enum DayOfWeek {
   """Friday"""
@@ -1723,6 +2140,162 @@ type Inventory {
 
   """Globally unique identifier of the inventory item."""
   uuid: String
+}
+
+"""A request to count inventory."""
+type InventoryCycleCount implements CycleCount {
+  """People eligible to work on the Cycle Count. Empty when unassigned."""
+  assignees: [Person!]!
+
+  """
+  Whether counting clients should hide expected information from the counter.
+  """
+  blind: Boolean!
+
+  """Reason the Cycle Count was cancelled."""
+  cancellationReason: String
+
+  """
+  Time when the Cycle Count was cancelled, as an epoch timestamp in milliseconds.
+  """
+  cancelledAt: AWSTimestamp
+
+  """
+  Time when the Cycle Count completed, as an epoch timestamp in milliseconds.
+  """
+  completedAt: AWSTimestamp
+
+  """
+  People recorded as participating in the completed Cycle Count. Empty before completion.
+  """
+  countedBy: [Person!]!
+
+  """
+  Time when the Cycle Count was created, as an epoch timestamp in milliseconds.
+  """
+  createdAt: AWSTimestamp!
+
+  """
+  Person who created the Cycle Count. Null when created by an integration.
+  """
+  createdBy: Person
+
+  """The kind of records included in the Cycle Count."""
+  domain: CycleCountDomain!
+
+  """
+  Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds.
+  """
+  dueDate: AWSTimestamp
+
+  """
+  Current number of location-and-type expectation groups. For scope-based Cycle Counts, available on single-count responses and omitted from list results.
+  """
+  expectationCount: Int
+
+  """Customer-facing identifier for the Cycle Count. Up to 256 UTF-8 bytes."""
+  id: String!
+
+  """
+  Optional destination for moved Inventory results. When omitted, each result's count location is used.
+  """
+  moveLocationId: String
+
+  """Name shown to people working with the Cycle Count."""
+  name: String!
+
+  """The locations, parts, and states included in the Cycle Count."""
+  scope: InventoryCycleCountScope
+
+  """Current status of the Cycle Count."""
+  status: CycleCountStatus!
+
+  """ID used to monitor submission processing. Null before submission."""
+  submissionId: ID
+
+  """
+  Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds.
+  """
+  submittedAt: AWSTimestamp
+
+  """
+  Time when the Cycle Count was last updated, as an epoch timestamp in milliseconds.
+  """
+  updatedAt: AWSTimestamp!
+}
+
+"""An explicitly supplied inventory expectation."""
+input InventoryCycleCountExpectationInput {
+  """Customer-specific information associated with this expectation."""
+  customProperties: AWSJSON
+
+  """Quantity expected at the location."""
+  expectedQuantity: Float!
+
+  """Identifier for this expectation. A value is generated when omitted."""
+  id: String
+
+  """
+  Customer-facing location identifier. The location does not need to be onboarded.
+  """
+  locationId: String!
+
+  """
+  Customer-facing inventory part identifier. The part does not need to be onboarded.
+  """
+  partId: String!
+}
+
+"""The locations, parts, and states included in an Inventory Cycle Count."""
+type InventoryCycleCountScope {
+  """
+  Item-type category identifiers included in the Cycle Count. Category members are evaluated when expectations are queried.
+  """
+  categoryIds: [String!]!
+
+  """Locations excluded from the Cycle Count."""
+  excludedLocations: [CycleCountLocationScope!]!
+
+  """Inventory part identifiers excluded from the Cycle Count."""
+  excludedPartIds: [String!]!
+
+  """Inventory states included in the Cycle Count."""
+  expectedStates: [String!]!
+
+  """Locations included in the Cycle Count."""
+  locations: [CycleCountLocationScope!]!
+
+  """
+  Inventory part identifiers included in the Cycle Count. An empty list includes all parts.
+  """
+  partIds: [String!]!
+}
+
+"""
+The locations, parts, and states to include in an Inventory Cycle Count.
+"""
+input InventoryCycleCountScopeInput {
+  """
+  Item-type category identifiers to include. Members are combined with partIds and evaluated when expectations are queried.
+  """
+  categoryIds: [String!] = []
+
+  """Locations to exclude."""
+  excludedLocations: [CycleCountLocationScopeInput!] = []
+
+  """Inventory part identifiers to exclude."""
+  excludedPartIds: [String!] = []
+
+  """
+  Inventory states to include. Omit or leave empty to use the standard countable states.
+  """
+  expectedStates: [String!] = []
+
+  """Locations to include. At least one location is required."""
+  locations: [CycleCountLocationScopeInput!]!
+
+  """Inventory part identifiers to include. Omit to include all parts."""
+  partIds: [String!] = []
 }
 
 """Input for the inventory query."""
@@ -2360,6 +2933,9 @@ type Mutation {
   """
   attachWorkOrderTracker(input: [AttachWorkOrderTrackerInput!]!, options: WorkOrderProcessingOptions): [WorkOrder]
 
+  """Cancels a Cycle Count that has not been submitted."""
+  cancelCycleCount(input: CancelCycleCountInput!): CancelCycleCountResult!
+
   """
   Cancels a report run that is still PENDING or RUNNING. Completed, failed, or already-cancelled runs cannot be cancelled.
   """
@@ -2372,6 +2948,9 @@ type Mutation {
   Mark one or more inventory items as consumed and return their identifiers.
   """
   consumeInventory(input: ConsumeInventoryInput!): ConsumeInventoryPayload
+
+  """Creates an Asset Cycle Count."""
+  createAssetCycleCount(input: CreateAssetCycleCountInput!): CreateAssetCycleCountResult!
 
   """Creates an asset transfer order and returns the created order."""
   createAssetTransferOrder(input: CreateAssetTransferOrderInput): CreateAssetTransferOrderPayload
@@ -2392,6 +2971,9 @@ type Mutation {
 
   """Create one or more inventory items and return their identifiers."""
   createInventory(input: CreateInventoryInput!): CreateInventoryPayload
+
+  """Creates an Inventory Cycle Count."""
+  createInventoryCycleCount(input: CreateInventoryCycleCountInput!): CreateInventoryCycleCountResult!
 
   """
   Create one or more inventory parts (item types) and return their identifiers.
@@ -2487,6 +3069,9 @@ type Mutation {
   """
   unregisterWebhook(input: UnregisterWebhookInput!): UnregisterWebhookPayload!
 
+  """Updates an Asset Cycle Count that has not been submitted."""
+  updateAssetCycleCount(input: UpdateAssetCycleCountInput!): UpdateAssetCycleCountResult!
+
   """Updates an asset transfer order and returns the updated order."""
   updateAssetTransferOrder(input: UpdateAssetTransferOrderInput): UpdateAssetTransferOrderPayload
 
@@ -2504,6 +3089,9 @@ type Mutation {
 
   """Update one or more inventory items and return the updated items."""
   updateInventory(input: UpdateInventoryInput!): UpdateInventoryPayload
+
+  """Updates an Inventory Cycle Count that has not been submitted."""
+  updateInventoryCycleCount(input: UpdateInventoryCycleCountInput!): UpdateInventoryCycleCountResult!
 
   """
   Update one or more inventory parts (item types) and return their identifiers.
@@ -2969,6 +3557,24 @@ type PartType {
   partTypeNumber: String
 }
 
+"""A person participating in an operational workflow."""
+type Person {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
+  """First name."""
+  firstName: String
+
+  """Customer-facing identifier of the person."""
+  id: String!
+
+  """Last name."""
+  lastName: String
+
+  """Globally unique identifier of the person."""
+  uuid: ID!
+}
+
 type Query {
   """Returns the location route history for an asset over a time window."""
   assetRoute(input: AssetRouteInput): AssetRoutePayload
@@ -2992,6 +3598,16 @@ type Query {
   Lists containers and their contents, with optional filtering and pagination.
   """
   containers(input: ContainersInput): ContainersOutput
+
+  """
+  Returns a Cycle Count by its tenant-wide ID. Use domain or __typename to distinguish Inventory and Asset Cycle Counts.
+  """
+  cycleCount(id: String!): CycleCount
+
+  """
+  Returns a page containing Inventory and Asset Cycle Counts. Use filter.domains to limit the page to specific domains.
+  """
+  cycleCounts(input: CycleCountsInput): CycleCountsResult!
 
   """Retrieve a paginated list of inventory items, optionally filtered."""
   inventory(input: InventoryInput): InventoryPayload
@@ -4188,6 +4804,49 @@ type UnregisterWebhookPayload {
   webhook: WebhookSubscription!
 }
 
+"""Fields for updating an Asset Cycle Count."""
+input UpdateAssetCycleCountInput {
+  """
+  Email addresses of eligible people. If assigneeIds or assigneeEmails is supplied, their combined set replaces all assignments.
+  """
+  assigneeEmails: [String!]
+
+  """
+  IDs of the people eligible to work on the Cycle Count. Use an empty list to remove all assignments.
+  """
+  assigneeIds: [String!]
+
+  """
+  Whether counting clients should hide expected information from the counter.
+  """
+  blind: Boolean
+
+  """
+  New due date as an epoch timestamp in milliseconds. Set to null to remove it.
+  """
+  dueDate: AWSTimestamp
+
+  """ID of the Asset Cycle Count to update."""
+  id: String!
+
+  """
+  New destination for moved Asset results. Set to null to use each result's count location.
+  """
+  moveLocationId: String
+
+  """New name for the Cycle Count."""
+  name: String
+
+  """New Asset Cycle Count scope. Omit to keep the current scope."""
+  scope: AssetCycleCountScopeInput
+}
+
+"""Result of updating an Asset Cycle Count."""
+type UpdateAssetCycleCountResult {
+  """The updated Asset Cycle Count."""
+  assetCycleCount: AssetCycleCount!
+}
+
 """Input for updating a single asset entry of an asset transfer order."""
 input UpdateAssetTransferOrderEntryInput {
   """Assets to add to the entry."""
@@ -4357,6 +5016,49 @@ input UpdateContainerTypesInput {
 type UpdateContainerTypesPayload {
   """Identifiers of the updated container types."""
   containerTypeIds: [String]
+}
+
+"""Fields for updating an Inventory Cycle Count."""
+input UpdateInventoryCycleCountInput {
+  """
+  Email addresses of eligible people. If assigneeIds or assigneeEmails is supplied, their combined set replaces all assignments.
+  """
+  assigneeEmails: [String!]
+
+  """
+  IDs of the people eligible to work on the Cycle Count. Use an empty list to remove all assignments.
+  """
+  assigneeIds: [String!]
+
+  """
+  Whether counting clients should hide expected information from the counter.
+  """
+  blind: Boolean
+
+  """
+  New due date as an epoch timestamp in milliseconds. Set to null to remove it.
+  """
+  dueDate: AWSTimestamp
+
+  """ID of the Inventory Cycle Count to update."""
+  id: String!
+
+  """
+  New destination for moved Inventory results. Set to null to use each result's count location.
+  """
+  moveLocationId: String
+
+  """New name for the Cycle Count."""
+  name: String
+
+  """New Inventory Cycle Count scope. Omit to keep the current scope."""
+  scope: InventoryCycleCountScopeInput
+}
+
+"""Result of updating an Inventory Cycle Count."""
+type UpdateInventoryCycleCountResult {
+  """The updated Inventory Cycle Count."""
+  inventoryCycleCount: InventoryCycleCount!
 }
 
 """Input for the updateInventory mutation."""
