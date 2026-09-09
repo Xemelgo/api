@@ -357,7 +357,7 @@ type AssetTransferOrder {
   status: TransferOrderStatus
 
   """Serial of the tracker attached to the transfer order."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
   """Trackers attached to the transfer order."""
   trackers: [Tracker]
@@ -1109,7 +1109,10 @@ input CreateAssetTransferOrderEntryInput {
   totalQuantity: Int!
 
   """EPCs or tracker serial numbers of the assets in this entry."""
-  trackerSerials: [String!]
+  trackerSerials: [String!] @deprecated(reason: "use trackers instead")
+
+  """Trackers identifying the assets in this entry."""
+  trackers: [TrackerInput!]
 
   """Identifier of the asset type for this entry."""
   typeId: String!
@@ -1137,7 +1140,10 @@ input CreateAssetTransferOrderInput {
   images: [String!]
 
   """Serial of the tracker to attach to the transfer order, if any."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
+
+  """Trackers to attach to the transfer order."""
+  trackers: [TrackerInput!]
 
   """Identifier of the source location to transfer from."""
   transferFromId: String
@@ -1152,7 +1158,10 @@ input CreateAssetTransferOrderItemInput {
   id: String
 
   """EPC or tracker serial number identifying the asset."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
+
+  """Trackers identifying the asset."""
+  trackers: [TrackerInput!]
 }
 
 """Result of the createAssetTransferOrder mutation."""
@@ -1436,7 +1445,10 @@ input CreateInventoryTransferOrderEntryInput {
   totalQuantity: Int!
 
   """EPCs or tracker serial numbers of the inventory items in this entry."""
-  trackerSerials: [String!]
+  trackerSerials: [String!] @deprecated(reason: "use trackers instead")
+
+  """Trackers identifying the inventory items in this entry."""
+  trackers: [TrackerInput!]
 
   """Unit of measure for the quantity, if applicable."""
   unit: String
@@ -1459,7 +1471,10 @@ input CreateInventoryTransferOrderInput {
   images: [String!]
 
   """Serial of the tracker to attach to the transfer order, if any."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
+
+  """Trackers to attach to the transfer order."""
+  trackers: [TrackerInput!]
 
   """Identifier of the source location to transfer from."""
   transferFromId: String
@@ -1476,7 +1491,10 @@ input CreateInventoryTransferOrderItemInput {
   id: String
 
   """EPC or tracker serial number identifying the inventory item."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
+
+  """Trackers identifying the inventory item."""
+  trackers: [TrackerInput!]
 }
 
 """Result of the createInventoryTransferOrder mutation."""
@@ -1546,7 +1564,10 @@ input CreatePackageTransferOrderInput {
   totalQuantity: Int
 
   """Serial of the tracker to attach to the transfer order, if any."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
+
+  """Trackers to attach to the transfer order."""
+  trackers: [TrackerInput!]
 
   """Identifier of the source location to transfer from."""
   transferFromId: String
@@ -2605,7 +2626,7 @@ type InventoryTransferOrder {
   status: TransferOrderStatus
 
   """Serial of the tracker attached to the transfer order."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
   """Trackers attached to the transfer order."""
   trackers: [Tracker]
@@ -3418,7 +3439,7 @@ type PackageTransferOrder {
   totalQuantity: Int
 
   """Serial of the tracker attached to the transfer order."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use trackers instead")
 
   """Trackers attached to the transfer order."""
   trackers: [Tracker]
@@ -4866,6 +4887,9 @@ input UpdateAssetTransferOrderEntryInput {
 Input for updating an asset transfer order's locations, tracker, asset types, and custom properties.
 """
 input UpdateAssetTransferOrderInput {
+  """Trackers to add to the transfer order."""
+  addTrackers: [TrackerInput!]
+
   """New asset type entries to add to the transfer order."""
   addTypes: [CreateAssetTransferOrderEntryInput!]
 
@@ -4881,8 +4905,11 @@ input UpdateAssetTransferOrderInput {
   """Identifiers of asset type entries to remove from the transfer order."""
   removeTypeIds: [String!]
 
+  """Tracker serials to remove from the transfer order."""
+  removedTrackerSerials: [String!]
+
   """Updated serial of the tracker attached to the transfer order."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use addTrackers instead")
 
   """Updated identifier of the source location."""
   transferFromId: String
@@ -5142,6 +5169,9 @@ input UpdateInventoryTransferOrderInput {
   """New part entries to add to the transfer order."""
   addParts: [CreateInventoryTransferOrderEntryInput!]
 
+  """Trackers to add to the transfer order."""
+  addTrackers: [TrackerInput!]
+
   """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
@@ -5154,8 +5184,11 @@ input UpdateInventoryTransferOrderInput {
   """Identifiers of part entries to remove from the transfer order."""
   removePartIds: [String!]
 
+  """Tracker serials to remove from the transfer order."""
+  removedTrackerSerials: [String!]
+
   """Updated serial of the tracker attached to the transfer order."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use addTrackers instead")
 
   """Updated identifier of the source location."""
   transferFromId: String
@@ -5207,6 +5240,9 @@ input UpdatePackageInput {
 Input for updating a package transfer order's locations, tracker, packages, and custom properties.
 """
 input UpdatePackageTransferOrderInput {
+  """Trackers to add to the transfer order."""
+  addTrackers: [TrackerInput!]
+
   """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
@@ -5222,11 +5258,14 @@ input UpdatePackageTransferOrderInput {
   """Packages to add to the transfer order."""
   packagesToAdd: [PackageInput!]
 
+  """Tracker serials to remove from the transfer order."""
+  removedTrackerSerials: [String!]
+
   """Updated total quantity of packages in the transfer order."""
   totalQuantity: Int
 
   """Updated serial of the tracker attached to the transfer order."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "use addTrackers instead")
 
   """Updated identifier of the source location."""
   transferFromId: String
@@ -5332,9 +5371,10 @@ input UpdateWorkOrderInputPartInput {
 
   """Identifier of the location the input part should ship to."""
   shipToLocationId: String
+  trackerSerial: String @deprecated(reason: "Use trackers")
 
-  """Serial of the tracker to associate with the input part."""
-  trackerSerial: String
+  """Trackers to associate with the input part."""
+  trackers: [TrackerInput!]
 
   """Number of the work order to update."""
   workOrderNumber: String!
@@ -5610,7 +5650,7 @@ type WorkOrder {
   statusFlags: [String!]
 
   """Serial number of the RFID tracker attached to the work order."""
-  trackerSerial: String
+  trackerSerial: String @deprecated(reason: "Use trackers")
 
   """
   Epoch-millisecond timestamp when the tracker was attached to the work order.
@@ -5648,9 +5688,10 @@ type WorkOrderInput {
   """Latest shipment state of the input part."""
   shipmentState: String
   shipmentStatus: [String] @deprecated(reason: "use shipmentState for the latest status")
+  trackerSerial: String @deprecated(reason: "Use trackers")
 
-  """Serial of the tracker attached to the input part."""
-  trackerSerial: String
+  """Trackers attached to the input part."""
+  trackers: [Tracker!]
 
   """Part type of the input part."""
   type: WorkOrderPartType
@@ -5700,9 +5741,10 @@ type WorkOrderOutput {
   """Latest shipment state of the output part."""
   shipmentState: String
   shipmentStatus: [String] @deprecated(reason: "use shipmentState for the latest status")
+  trackerSerial: String @deprecated(reason: "Use trackers")
 
-  """Serial of the tracker attached to the output part."""
-  trackerSerial: String
+  """Trackers attached to the output part."""
+  trackers: [Tracker!]
 
   """Part type of the output part."""
   type: WorkOrderPartType
@@ -6075,9 +6117,7 @@ input WorkOrderSetInput {
 
   """Priority level of the work order."""
   priority: Int
-
-  """Whether an existing tracker serial may be reused for this work order."""
-  reuse_tracker_serial: Boolean
+  reuse_tracker_serial: Boolean @deprecated(reason: "Use trackers")
 
   """Expected start date for the work order, in epoch milliseconds."""
   start_date: AWSTimestamp
@@ -6087,9 +6127,10 @@ input WorkOrderSetInput {
 
   """Initial status of the work order."""
   status: String
+  tracker_serial: String @deprecated(reason: "Use trackers")
 
-  """Serial number of the RFID tag associated with the work order."""
-  tracker_serial: String
+  """Trackers to associate with the work order."""
+  trackers: [TrackerInput!]
 }
 
 """Input describing a single part in a work order set creation request."""
@@ -6111,9 +6152,10 @@ input WorkOrderSetPart {
 
   """Identifier of the location the part should ship to."""
   ship_to_location: String
+  tracker_serial: String @deprecated(reason: "Use trackers")
 
-  """Serial of the tracker to associate with the part."""
-  tracker_serial: String
+  """Trackers to associate with the part."""
+  trackers: [TrackerInput!]
 }
 
 """A status update applied to a work order at a point in time."""
