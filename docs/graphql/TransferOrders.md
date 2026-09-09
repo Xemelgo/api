@@ -30,7 +30,6 @@ query AssetTransferOrder($input: AssetTransferOrderInput) {
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -95,7 +94,6 @@ query AssetTransferOrder($input: AssetTransferOrderInput) {
         "stagedDate": 1719792000000,
         "startDate": 1719792000000,
         "status": "CANCELLED",
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
@@ -179,7 +177,6 @@ query AssetTransferOrders($input: AssetTransferOrdersInput) {
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -247,7 +244,6 @@ query AssetTransferOrders($input: AssetTransferOrdersInput) {
           "stagedDate": 1719792000000,
           "startDate": 1719792000000,
           "status": "CANCELLED",
-          "trackerSerial": "E28011700000020ABC12345",
           "uuid": "uu-001",
           "verifiedDate": 1719792000000,
           "entries": [
@@ -333,7 +329,6 @@ query InventoryTransferOrder($input: InventoryTransferOrderInput) {
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -398,7 +393,6 @@ query InventoryTransferOrder($input: InventoryTransferOrderInput) {
         "stagedDate": 1719792000000,
         "startDate": 1719792000000,
         "status": "CANCELLED",
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
@@ -482,7 +476,6 @@ query InventoryTransferOrders($input: InventoryTransferOrdersInput) {
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -550,7 +543,6 @@ query InventoryTransferOrders($input: InventoryTransferOrdersInput) {
           "stagedDate": 1719792000000,
           "startDate": 1719792000000,
           "status": "CANCELLED",
-          "trackerSerial": "E28011700000020ABC12345",
           "uuid": "uu-001",
           "verifiedDate": 1719792000000,
           "entries": [
@@ -640,7 +632,6 @@ query PackageTransferOrder($input: PackageTransferOrderInput!) {
       startDate
       status
       totalQuantity
-      trackerSerial
       uuid
       verifiedDate
       verifiedQuantity
@@ -710,7 +701,6 @@ query PackageTransferOrder($input: PackageTransferOrderInput!) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "totalQuantity": 10,
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "verifiedQuantity": 10,
@@ -799,7 +789,6 @@ query PackageTransferOrders($input: PackageTransferOrdersInput!) {
       startDate
       status
       totalQuantity
-      trackerSerial
       uuid
       verifiedDate
       verifiedQuantity
@@ -872,7 +861,6 @@ query PackageTransferOrders($input: PackageTransferOrdersInput!) {
           "startDate": 1719792000000,
           "status": "CANCELLED",
           "totalQuantity": 10,
-          "trackerSerial": "E28011700000020ABC12345",
           "uuid": "uu-001",
           "verifiedDate": 1719792000000,
           "verifiedQuantity": 10,
@@ -959,7 +947,6 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -1002,12 +989,24 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
         "assets": [
           {
             "id": "createassettransferorderitem-001",
-            "trackerSerial": "E28011700000020ABC12345"
+            "trackers": [
+              {
+                "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+                "encodingFormat": "example",
+                "reuseTrackerSerial": false,
+                "serial": "E28011700000020ABC12345"
+              }
+            ]
           }
         ],
         "totalQuantity": 10,
-        "trackerSerials": [
-          "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
         ],
         "typeId": "type-001",
         "unit": "EA"
@@ -1017,7 +1016,14 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
     "images": [
       "https://cdn.example.com/asset-1024.png"
     ],
-    "trackerSerial": "E28011700000020ABC12345",
+    "trackers": [
+      {
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "encodingFormat": "example",
+        "reuseTrackerSerial": false,
+        "serial": "E28011700000020ABC12345"
+      }
+    ],
     "transferFromId": "transferfrom-001",
     "transferToId": "transferto-001"
   }
@@ -1047,7 +1053,6 @@ mutation CreateAssetTransferOrder($input: CreateAssetTransferOrderInput) {
         "stagedDate": 1719792000000,
         "startDate": 1719792000000,
         "status": "CANCELLED",
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
@@ -1098,7 +1103,7 @@ Input for creating an asset transfer order and its entries.
 | `entries` | [`[CreateAssetTransferOrderEntryInput!]!`](#type-createassettransferorderentryinput) | Asset entries (asset types and quantities) included in the transfer order. |
 | `id` | `String!` | Identifier (transfer order number) to assign to the new asset transfer order. |
 | `images` | `[String!]` | Image keys associated with the transfer order. |
-| `trackerSerial` | `String` | Serial of the tracker to attach to the transfer order, if any. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the transfer order. |
 | `transferFromId` | `String` | Identifier of the source location to transfer from. |
 | `transferToId` | `String` | Identifier of the destination location to transfer to. |
 
@@ -1136,7 +1141,6 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -1179,13 +1183,25 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
         "inventory": [
           {
             "id": "createinventorytransferorderitem-001",
-            "trackerSerial": "E28011700000020ABC12345"
+            "trackers": [
+              {
+                "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+                "encodingFormat": "example",
+                "reuseTrackerSerial": false,
+                "serial": "E28011700000020ABC12345"
+              }
+            ]
           }
         ],
         "partId": "part-001",
         "totalQuantity": 10,
-        "trackerSerials": [
-          "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
         ],
         "unit": "EA"
       }
@@ -1194,7 +1210,14 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
     "images": [
       "https://cdn.example.com/asset-1024.png"
     ],
-    "trackerSerial": "E28011700000020ABC12345",
+    "trackers": [
+      {
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "encodingFormat": "example",
+        "reuseTrackerSerial": false,
+        "serial": "E28011700000020ABC12345"
+      }
+    ],
     "transferFromId": "transferfrom-001",
     "transferToId": "transferto-001"
   }
@@ -1224,7 +1247,6 @@ mutation CreateInventoryTransferOrder($input: CreateInventoryTransferOrderInput)
         "stagedDate": 1719792000000,
         "startDate": 1719792000000,
         "status": "CANCELLED",
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
@@ -1275,7 +1297,7 @@ Input for creating an inventory transfer order and its part entries.
 | `entries` | [`[CreateInventoryTransferOrderEntryInput!]!`](#type-createinventorytransferorderentryinput) | Part entries (SKUs and quantities) included in the transfer order. |
 | `id` | `String!` | Identifier (transfer order number) to assign to the new inventory transfer order. |
 | `images` | `[String!]` | Image keys associated with the transfer order. |
-| `trackerSerial` | `String` | Serial of the tracker to attach to the transfer order, if any. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the transfer order. |
 | `transferFromId` | `String` | Identifier of the source location to transfer from. |
 | `transferToId` | `String` | Identifier of the destination location to transfer to. |
 
@@ -1317,7 +1339,6 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
       startDate
       status
       totalQuantity
-      trackerSerial
       uuid
       verifiedDate
       verifiedQuantity
@@ -1379,7 +1400,14 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
       }
     ],
     "totalQuantity": 10,
-    "trackerSerial": "E28011700000020ABC12345",
+    "trackers": [
+      {
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "encodingFormat": "example",
+        "reuseTrackerSerial": false,
+        "serial": "E28011700000020ABC12345"
+      }
+    ],
     "transferFromId": "transferfrom-001",
     "transferToId": "transferto-001"
   }
@@ -1413,7 +1441,6 @@ mutation CreatePackageTransferOrder($input: CreatePackageTransferOrderInput!) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "totalQuantity": 10,
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "verifiedQuantity": 10,
@@ -1466,7 +1493,7 @@ Input for creating a package transfer order and its packages.
 | `images` | `[String!]` | Image keys associated with the transfer order. |
 | `packages` | [`[PackageInput!]`](#type-packageinput) | Packages included in the transfer order. |
 | `totalQuantity` | `Int` | Total quantity of packages in the transfer order. |
-| `trackerSerial` | `String` | Serial of the tracker to attach to the transfer order, if any. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to attach to the transfer order. |
 | `transferFromId` | `String` | Identifier of the source location to transfer from. |
 | `transferToId` | `String` | Identifier of the destination location to transfer to. |
 
@@ -1504,7 +1531,6 @@ mutation DeleteAssetTransferOrder($input: DeleteAssetTransferOrderInput) {
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -1569,7 +1595,6 @@ mutation DeleteAssetTransferOrder($input: DeleteAssetTransferOrderInput) {
         "stagedDate": 1719792000000,
         "startDate": 1719792000000,
         "status": "CANCELLED",
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
@@ -1652,7 +1677,6 @@ mutation DeleteInventoryTransferOrder($input: DeleteInventoryTransferOrderInput)
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -1717,7 +1741,6 @@ mutation DeleteInventoryTransferOrder($input: DeleteInventoryTransferOrderInput)
         "stagedDate": 1719792000000,
         "startDate": 1719792000000,
         "status": "CANCELLED",
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
@@ -1804,7 +1827,6 @@ mutation DeletePackageTransferOrder($input: DeletePackageTransferOrderInput!) {
       startDate
       status
       totalQuantity
-      trackerSerial
       uuid
       verifiedDate
       verifiedQuantity
@@ -1874,7 +1896,6 @@ mutation DeletePackageTransferOrder($input: DeletePackageTransferOrderInput!) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "totalQuantity": 10,
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "verifiedQuantity": 10,
@@ -1958,7 +1979,6 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -1995,17 +2015,37 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
 ```json
 {
   "input": {
+    "addTrackers": [
+      {
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "encodingFormat": "example",
+        "reuseTrackerSerial": false,
+        "serial": "E28011700000020ABC12345"
+      }
+    ],
     "addTypes": [
       {
         "assets": [
           {
             "id": "createassettransferorderitem-001",
-            "trackerSerial": "E28011700000020ABC12345"
+            "trackers": [
+              {
+                "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+                "encodingFormat": "example",
+                "reuseTrackerSerial": false,
+                "serial": "E28011700000020ABC12345"
+              }
+            ]
           }
         ],
         "totalQuantity": 10,
-        "trackerSerials": [
-          "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
         ],
         "typeId": "type-001",
         "unit": "EA"
@@ -2019,7 +2059,9 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
     "removeTypeIds": [
       "example"
     ],
-    "trackerSerial": "E28011700000020ABC12345",
+    "removedTrackerSerials": [
+      "E28011700000020ABC12345"
+    ],
     "transferFromId": "transferfrom-001",
     "transferToId": "transferto-001",
     "updateTypes": [
@@ -2027,13 +2069,27 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
         "addAssets": [
           {
             "id": "createassettransferorderitem-001",
-            "trackerSerial": "E28011700000020ABC12345"
+            "trackers": [
+              {
+                "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+                "encodingFormat": "example",
+                "reuseTrackerSerial": false,
+                "serial": "E28011700000020ABC12345"
+              }
+            ]
           }
         ],
         "removeAssets": [
           {
             "id": "createassettransferorderitem-001",
-            "trackerSerial": "E28011700000020ABC12345"
+            "trackers": [
+              {
+                "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+                "encodingFormat": "example",
+                "reuseTrackerSerial": false,
+                "serial": "E28011700000020ABC12345"
+              }
+            ]
           }
         ],
         "totalQuantity": 10,
@@ -2067,7 +2123,6 @@ mutation UpdateAssetTransferOrder($input: UpdateAssetTransferOrderInput) {
         "stagedDate": 1719792000000,
         "startDate": 1719792000000,
         "status": "CANCELLED",
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
@@ -2125,12 +2180,13 @@ Input for updating an asset transfer order's locations, tracker, asset types, an
 
 | Field | Type | Description |
 |---|---|---|
+| `addTrackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to add to the transfer order. |
 | `addTypes` | [`[CreateAssetTransferOrderEntryInput!]`](#type-createassettransferorderentryinput) | New asset type entries to add to the transfer order. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `id` | `String!` | Identifier of the asset transfer order to update. |
 | `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `removeTypeIds` | `[String!]` | Identifiers of asset type entries to remove from the transfer order. |
-| `trackerSerial` | `String` | Updated serial of the tracker attached to the transfer order. |
+| `removedTrackerSerials` | `[String!]` | Tracker serials to remove from the transfer order. |
 | `transferFromId` | `String` | Updated identifier of the source location. |
 | `transferToId` | `String` | Updated identifier of the destination location. |
 | `updateTypes` | [`[UpdateAssetTransferOrderEntryInput!]`](#type-updateassettransferorderentryinput) | Existing asset type entries to update in the transfer order. |
@@ -2169,7 +2225,6 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
       stagedDate
       startDate
       status
-      trackerSerial
       uuid
       verifiedDate
       entries {
@@ -2211,15 +2266,35 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
         "inventory": [
           {
             "id": "createinventorytransferorderitem-001",
-            "trackerSerial": "E28011700000020ABC12345"
+            "trackers": [
+              {
+                "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+                "encodingFormat": "example",
+                "reuseTrackerSerial": false,
+                "serial": "E28011700000020ABC12345"
+              }
+            ]
           }
         ],
         "partId": "part-001",
         "totalQuantity": 10,
-        "trackerSerials": [
-          "E28011700000020ABC12345"
+        "trackers": [
+          {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+            "encodingFormat": "example",
+            "reuseTrackerSerial": false,
+            "serial": "E28011700000020ABC12345"
+          }
         ],
         "unit": "EA"
+      }
+    ],
+    "addTrackers": [
+      {
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "encodingFormat": "example",
+        "reuseTrackerSerial": false,
+        "serial": "E28011700000020ABC12345"
       }
     ],
     "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
@@ -2230,7 +2305,9 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
     "removePartIds": [
       "example"
     ],
-    "trackerSerial": "E28011700000020ABC12345",
+    "removedTrackerSerials": [
+      "E28011700000020ABC12345"
+    ],
     "transferFromId": "transferfrom-001",
     "transferToId": "transferto-001",
     "updateParts": [
@@ -2238,14 +2315,28 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
         "addInventory": [
           {
             "id": "createinventorytransferorderitem-001",
-            "trackerSerial": "E28011700000020ABC12345"
+            "trackers": [
+              {
+                "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+                "encodingFormat": "example",
+                "reuseTrackerSerial": false,
+                "serial": "E28011700000020ABC12345"
+              }
+            ]
           }
         ],
         "partId": "part-001",
         "removeInventory": [
           {
             "id": "createinventorytransferorderitem-001",
-            "trackerSerial": "E28011700000020ABC12345"
+            "trackers": [
+              {
+                "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+                "encodingFormat": "example",
+                "reuseTrackerSerial": false,
+                "serial": "E28011700000020ABC12345"
+              }
+            ]
           }
         ],
         "totalQuantity": 10
@@ -2278,7 +2369,6 @@ mutation UpdateInventoryTransferOrder($input: UpdateInventoryTransferOrderInput)
         "stagedDate": 1719792000000,
         "startDate": 1719792000000,
         "status": "CANCELLED",
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "entries": [
@@ -2337,11 +2427,12 @@ Input for updating an inventory transfer order's locations, tracker, parts, and 
 | Field | Type | Description |
 |---|---|---|
 | `addParts` | [`[CreateInventoryTransferOrderEntryInput!]`](#type-createinventorytransferorderentryinput) | New part entries to add to the transfer order. |
+| `addTrackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to add to the transfer order. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `id` | `String!` | Identifier of the inventory transfer order to update. |
 | `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `removePartIds` | `[String!]` | Identifiers of part entries to remove from the transfer order. |
-| `trackerSerial` | `String` | Updated serial of the tracker attached to the transfer order. |
+| `removedTrackerSerials` | `[String!]` | Tracker serials to remove from the transfer order. |
 | `transferFromId` | `String` | Updated identifier of the source location. |
 | `transferToId` | `String` | Updated identifier of the destination location. |
 | `updateParts` | [`[UpdateInventoryTransferOrderEntryInput!]`](#type-updateinventorytransferorderentryinput) | Existing part entries to update in the transfer order. |
@@ -2384,7 +2475,6 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
       startDate
       status
       totalQuantity
-      trackerSerial
       uuid
       verifiedDate
       verifiedQuantity
@@ -2422,6 +2512,14 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
 ```json
 {
   "input": {
+    "addTrackers": [
+      {
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "encodingFormat": "example",
+        "reuseTrackerSerial": false,
+        "serial": "E28011700000020ABC12345"
+      }
+    ],
     "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
     "id": "updatepackagetransferorder-001",
     "images": [
@@ -2448,8 +2546,10 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
         ]
       }
     ],
+    "removedTrackerSerials": [
+      "E28011700000020ABC12345"
+    ],
     "totalQuantity": 10,
-    "trackerSerial": "E28011700000020ABC12345",
     "transferFromId": "transferfrom-001",
     "transferToId": "transferto-001"
   }
@@ -2483,7 +2583,6 @@ mutation UpdatePackageTransferOrder($input: UpdatePackageTransferOrderInput!) {
         "startDate": 1719792000000,
         "status": "CANCELLED",
         "totalQuantity": 10,
-        "trackerSerial": "E28011700000020ABC12345",
         "uuid": "uu-001",
         "verifiedDate": 1719792000000,
         "verifiedQuantity": 10,
@@ -2531,13 +2630,14 @@ Input for updating a package transfer order's locations, tracker, packages, and 
 
 | Field | Type | Description |
 |---|---|---|
+| `addTrackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to add to the transfer order. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `id` | `String!` | Identifier of the package transfer order to update. |
 | `images` | `[String!]` | Updated image keys associated with the transfer order. |
 | `packageIdsToRemove` | `[String!]` | Identifiers of packages to remove from the transfer order. |
 | `packagesToAdd` | [`[PackageInput!]`](#type-packageinput) | Packages to add to the transfer order. |
+| `removedTrackerSerials` | `[String!]` | Tracker serials to remove from the transfer order. |
 | `totalQuantity` | `Int` | Updated total quantity of packages in the transfer order. |
-| `trackerSerial` | `String` | Updated serial of the tracker attached to the transfer order. |
 | `transferFromId` | `String` | Updated identifier of the source location. |
 | `transferToId` | `String` | Updated identifier of the destination location. |
 
@@ -2636,7 +2736,6 @@ A transfer order moving assets between locations.
 | `stagedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was staged. |
 | `startDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was started. |
 | `status` | [`TransferOrderStatus`](#type-transferorderstatus) | Current lifecycle status of the transfer order. |
-| `trackerSerial` | `String` | Serial of the tracker attached to the transfer order. |
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to the transfer order. |
 | `transferFrom` | [`LocationV2`](#type-locationv2) | Source location the assets are transferred from. |
 | `transferTo` | [`LocationV2`](#type-locationv2) | Destination location the assets are transferred to. |
@@ -2697,7 +2796,7 @@ Input describing a single asset entry (asset type and quantity) of an asset tran
 |---|---|---|
 | `assets` | [`[CreateAssetTransferOrderItemInput!]`](#type-createassettransferorderiteminput) | Detailed assets associated with this entry. |
 | `totalQuantity` | `Int!` | Quantity of the asset type to transfer. |
-| `trackerSerials` | `[String!]` | EPCs or tracker serial numbers of the assets in this entry. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers identifying the assets in this entry. |
 | `typeId` | `String!` | Identifier of the asset type for this entry. |
 | `unit` | `String` | Unit of measure for the quantity, if applicable. |
 
@@ -2708,7 +2807,7 @@ Input identifying a single asset to include in a transfer order entry.
 | Field | Type | Description |
 |---|---|---|
 | `id` | `String` | Unique identifier of the asset. |
-| `trackerSerial` | `String` | EPC or tracker serial number identifying the asset. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers identifying the asset. |
 
 #### CreateInventoryTransferOrderEntryInput {#type-createinventorytransferorderentryinput}
 
@@ -2719,7 +2818,7 @@ Input describing a single part entry (SKU and quantity) of an inventory transfer
 | `inventory` | [`[CreateInventoryTransferOrderItemInput!]`](#type-createinventorytransferorderiteminput) | Detailed inventory items associated with the part. |
 | `partId` | `String!` | Identifier of the part type or SKU for this entry. |
 | `totalQuantity` | `Int!` | Quantity of the part type or SKU to transfer. |
-| `trackerSerials` | `[String!]` | EPCs or tracker serial numbers of the inventory items in this entry. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers identifying the inventory items in this entry. |
 | `unit` | `String` | Unit of measure for the quantity, if applicable. |
 
 #### CreateInventoryTransferOrderItemInput {#type-createinventorytransferorderiteminput}
@@ -2729,7 +2828,7 @@ Input identifying a single inventory item to include in a transfer order entry.
 | Field | Type | Description |
 |---|---|---|
 | `id` | `String` | Unique identifier of the inventory item. |
-| `trackerSerial` | `String` | EPC or tracker serial number identifying the inventory item. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers identifying the inventory item. |
 
 #### CustomerPartNumber {#type-customerpartnumber}
 
@@ -2824,7 +2923,6 @@ A transfer order moving inventory parts between locations.
 | `stagedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was staged. |
 | `startDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was started. |
 | `status` | [`TransferOrderStatus`](#type-transferorderstatus) | Current lifecycle status of the transfer order. |
-| `trackerSerial` | `String` | Serial of the tracker attached to the transfer order. |
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to the transfer order. |
 | `transferFrom` | [`LocationV2`](#type-locationv2) | Source location the inventory is transferred from. |
 | `transferTo` | [`LocationV2`](#type-locationv2) | Destination location the inventory is transferred to. |
@@ -2926,7 +3024,6 @@ A transfer order moving packages between locations.
 | `startDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was started. |
 | `status` | [`TransferOrderStatus`](#type-transferorderstatus) | Current lifecycle status of the transfer order. |
 | `totalQuantity` | `Int` | Total quantity of packages in the transfer order. |
-| `trackerSerial` | `String` | Serial of the tracker attached to the transfer order. |
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to the transfer order. |
 | `transferFrom` | [`LocationV2`](#type-locationv2) | Source location the packages are transferred from. |
 | `transferTo` | [`LocationV2`](#type-locationv2) | Destination location the packages are transferred to. |
