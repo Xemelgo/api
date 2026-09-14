@@ -35,7 +35,6 @@ query WorkOrder($number: String) {
     state
     status
     statusFlags
-    trackerSerial
     trackerSerialAttachDate
     uuid
     currentOperation {
@@ -52,8 +51,10 @@ query WorkOrder($number: String) {
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -101,8 +102,10 @@ query WorkOrder($number: String) {
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -165,7 +168,6 @@ query WorkOrder($number: String) {
       "statusFlags": [
         "example"
       ],
-      "trackerSerial": "E28011700000020ABC12345",
       "trackerSerialAttachDate": 1719792000000,
       "uuid": "uu-001",
       "currentOperation": {
@@ -183,8 +185,12 @@ query WorkOrder($number: String) {
           "name": "Forklift 7",
           "quantity": 10,
           "shipmentState": "example",
-          "trackerSerial": "E28011700000020ABC12345",
           "uuid": "uu-001",
+          "trackers": [
+            {
+              "serial": "E28011700000020ABC12345"
+            }
+          ],
           "type": {
             "id": "workorderparttype-001",
             "name": "Forklift 7",
@@ -240,8 +246,12 @@ query WorkOrder($number: String) {
           "name": "Forklift 7",
           "quantity": 10,
           "shipmentState": "example",
-          "trackerSerial": "E28011700000020ABC12345",
           "uuid": "uu-001",
+          "trackers": [
+            {
+              "serial": "E28011700000020ABC12345"
+            }
+          ],
           "type": {
             "id": "workorderparttype-001",
             "name": "Forklift 7",
@@ -796,7 +806,6 @@ query WorkOrders($input: WorkOrdersInput) {
       state
       status
       statusFlags
-      trackerSerial
       trackerSerialAttachDate
       uuid
       currentOperation {
@@ -878,7 +887,6 @@ query WorkOrders($input: WorkOrdersInput) {
           "statusFlags": [
             "example"
           ],
-          "trackerSerial": "E28011700000020ABC12345",
           "trackerSerialAttachDate": 1719792000000,
           "uuid": "uu-001",
           "currentOperation": {
@@ -983,7 +991,6 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
     state
     status
     statusFlags
-    trackerSerial
     trackerSerialAttachDate
     uuid
     currentOperation {
@@ -1000,8 +1007,10 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -1049,8 +1058,10 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -1127,7 +1138,6 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
         "statusFlags": [
           "example"
         ],
-        "trackerSerial": "E28011700000020ABC12345",
         "trackerSerialAttachDate": 1719792000000,
         "uuid": "uu-001",
         "currentOperation": {
@@ -1145,8 +1155,12 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
             "name": "Forklift 7",
             "quantity": 10,
             "shipmentState": "example",
-            "trackerSerial": "E28011700000020ABC12345",
             "uuid": "uu-001",
+            "trackers": [
+              {
+                "serial": "E28011700000020ABC12345"
+              }
+            ],
             "type": {
               "id": "workorderparttype-001",
               "name": "Forklift 7",
@@ -1202,8 +1216,12 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
             "name": "Forklift 7",
             "quantity": 10,
             "shipmentState": "example",
-            "trackerSerial": "E28011700000020ABC12345",
             "uuid": "uu-001",
+            "trackers": [
+              {
+                "serial": "E28011700000020ABC12345"
+              }
+            ],
             "type": {
               "id": "workorderparttype-001",
               "name": "Forklift 7",
@@ -1296,7 +1314,6 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
     state
     status
     statusFlags
-    trackerSerial
     trackerSerialAttachDate
     uuid
     currentOperation {
@@ -1313,8 +1330,10 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -1362,8 +1381,10 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -1434,7 +1455,6 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
         "statusFlags": [
           "example"
         ],
-        "trackerSerial": "E28011700000020ABC12345",
         "trackerSerialAttachDate": 1719792000000,
         "uuid": "uu-001",
         "currentOperation": {
@@ -1452,8 +1472,12 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
             "name": "Forklift 7",
             "quantity": 10,
             "shipmentState": "example",
-            "trackerSerial": "E28011700000020ABC12345",
             "uuid": "uu-001",
+            "trackers": [
+              {
+                "serial": "E28011700000020ABC12345"
+              }
+            ],
             "type": {
               "id": "workorderparttype-001",
               "name": "Forklift 7",
@@ -1509,8 +1533,12 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
             "name": "Forklift 7",
             "quantity": 10,
             "shipmentState": "example",
-            "trackerSerial": "E28011700000020ABC12345",
             "uuid": "uu-001",
+            "trackers": [
+              {
+                "serial": "E28011700000020ABC12345"
+              }
+            ],
             "type": {
               "id": "workorderparttype-001",
               "name": "Forklift 7",
@@ -1677,7 +1705,14 @@ mutation CreateWorkOrderSet($input: [WorkOrderSetInput!]!, $options: CreateWorkO
           "product_number": "example",
           "quantity": 10,
           "ship_to_location": "example",
-          "tracker_serial": "E28011700000020ABC12345"
+          "trackers": [
+            {
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "encodingFormat": "example",
+              "reuseTrackerSerial": false,
+              "serial": "E28011700000020ABC12345"
+            }
+          ]
         }
       ],
       "onboarding_location": "example",
@@ -1698,16 +1733,29 @@ mutation CreateWorkOrderSet($input: [WorkOrderSetInput!]!, $options: CreateWorkO
           "product_number": "example",
           "quantity": 10,
           "ship_to_location": "example",
-          "tracker_serial": "E28011700000020ABC12345"
+          "trackers": [
+            {
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "encodingFormat": "example",
+              "reuseTrackerSerial": false,
+              "serial": "E28011700000020ABC12345"
+            }
+          ]
         }
       ],
       "po_number": "example",
       "priority": 10,
-      "reuse_tracker_serial": false,
       "start_date": 1719792000000,
       "state": "ACTIVE",
       "status": "ACTIVE",
-      "tracker_serial": "E28011700000020ABC12345"
+      "trackers": [
+        {
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "encodingFormat": "example",
+          "reuseTrackerSerial": false,
+          "serial": "E28011700000020ABC12345"
+        }
+      ]
     }
   ],
   "options": {
@@ -1779,11 +1827,10 @@ Input describing a single work order to create as part of a set.
 | `output_parts` | [`[WorkOrderSetPart]`](#type-workordersetpart) | Output parts produced by the work order. |
 | `po_number` | `String` | Purchase order number associated with the work order. |
 | `priority` | `Int` | Priority level of the work order. |
-| `reuse_tracker_serial` | `Boolean` | Whether an existing tracker serial may be reused for this work order. |
 | `start_date` | `AWSTimestamp` | Expected start date for the work order, in epoch milliseconds. |
 | `state` | `String` | Initial state of the work order. |
 | `status` | `String` | Initial status of the work order. |
-| `tracker_serial` | `String` | Serial number of the RFID tag associated with the work order. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to associate with the work order. |
 
 ##### WorkOrderSetPart {#type-workordersetpart}
 
@@ -1797,7 +1844,7 @@ Input describing a single part in a work order set creation request.
 | `product_number` | `String` | Product number of the part type. |
 | `quantity` | `Int` | Quantity of the part. |
 | `ship_to_location` | `String` | Identifier of the location the part should ship to. |
-| `tracker_serial` | `String` | Serial of the tracker to associate with the part. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to associate with the part. |
 
 #### Returns
 
@@ -1838,7 +1885,6 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
     state
     status
     statusFlags
-    trackerSerial
     trackerSerialAttachDate
     uuid
     currentOperation {
@@ -1855,8 +1901,10 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -1904,8 +1952,10 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -1943,7 +1993,14 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
     "partTypeName": "example",
     "partTypeNumber": "example",
     "shipToLocationId": "shiptolocation-001",
-    "trackerSerial": "E28011700000020ABC12345",
+    "trackers": [
+      {
+        "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "encodingFormat": "example",
+        "reuseTrackerSerial": false,
+        "serial": "E28011700000020ABC12345"
+      }
+    ],
     "workOrderNumber": "example"
   }
 }
@@ -1977,7 +2034,6 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
       "statusFlags": [
         "example"
       ],
-      "trackerSerial": "E28011700000020ABC12345",
       "trackerSerialAttachDate": 1719792000000,
       "uuid": "uu-001",
       "currentOperation": {
@@ -1995,8 +2051,12 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
           "name": "Forklift 7",
           "quantity": 10,
           "shipmentState": "example",
-          "trackerSerial": "E28011700000020ABC12345",
           "uuid": "uu-001",
+          "trackers": [
+            {
+              "serial": "E28011700000020ABC12345"
+            }
+          ],
           "type": {
             "id": "workorderparttype-001",
             "name": "Forklift 7",
@@ -2052,8 +2112,12 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
           "name": "Forklift 7",
           "quantity": 10,
           "shipmentState": "example",
-          "trackerSerial": "E28011700000020ABC12345",
           "uuid": "uu-001",
+          "trackers": [
+            {
+              "serial": "E28011700000020ABC12345"
+            }
+          ],
           "type": {
             "id": "workorderparttype-001",
             "name": "Forklift 7",
@@ -2102,7 +2166,7 @@ Input for updating an input part on a work order.
 | `partTypeName` | `String` | Part type name of the input part. |
 | `partTypeNumber` | `String!` | Part type number of the input part. |
 | `shipToLocationId` | `String` | Identifier of the location the input part should ship to. |
-| `trackerSerial` | `String` | Serial of the tracker to associate with the input part. |
+| `trackers` | [`[TrackerInput!]`](#type-trackerinput) | Trackers to associate with the input part. |
 | `workOrderNumber` | `String!` | Number of the work order to update. |
 
 #### Returns
@@ -2227,7 +2291,6 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
     state
     status
     statusFlags
-    trackerSerial
     trackerSerialAttachDate
     uuid
     currentOperation {
@@ -2244,8 +2307,10 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -2293,8 +2358,10 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
       name
       quantity
       shipmentState
-      trackerSerial
       uuid
+      trackers {
+        serial
+      }
       type {
         id
         name
@@ -2376,7 +2443,6 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
         "statusFlags": [
           "example"
         ],
-        "trackerSerial": "E28011700000020ABC12345",
         "trackerSerialAttachDate": 1719792000000,
         "uuid": "uu-001",
         "currentOperation": {
@@ -2394,8 +2460,12 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
             "name": "Forklift 7",
             "quantity": 10,
             "shipmentState": "example",
-            "trackerSerial": "E28011700000020ABC12345",
             "uuid": "uu-001",
+            "trackers": [
+              {
+                "serial": "E28011700000020ABC12345"
+              }
+            ],
             "type": {
               "id": "workorderparttype-001",
               "name": "Forklift 7",
@@ -2451,8 +2521,12 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
             "name": "Forklift 7",
             "quantity": 10,
             "shipmentState": "example",
-            "trackerSerial": "E28011700000020ABC12345",
             "uuid": "uu-001",
+            "trackers": [
+              {
+                "serial": "E28011700000020ABC12345"
+              }
+            ],
             "type": {
               "id": "workorderparttype-001",
               "name": "Forklift 7",
@@ -2645,6 +2719,17 @@ An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
 | `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
 | `serial` | `String` | EPC or tracker serial identifying this tracker. |
 
+#### TrackerInput {#type-trackerinput}
+
+Input for specifying a tracker to attach when creating or updating an item. Replaces the per-field trackerSerial / reuseTrackerSerial pattern.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Tracker-level custom properties as a JSON object. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
+| `reuseTrackerSerial` | `Boolean` | Whether to reuse a tracker serial already attached to another item. |
+| `serial` | `String!` | EPC or tracker serial to attach. |
+
 #### TravelRoute {#type-travelroute}
 
 A single leg of a work order's travel through locations.
@@ -2687,7 +2772,6 @@ A work order (job) tracked through the production process.
 | `state` | `String` | Current state of the work order. |
 | `status` | [`Status`](#type-status) | Current status of the work order. |
 | `statusFlags` | `[String!]` | Status flags currently applied to the work order. |
-| `trackerSerial` | `String` | Serial number of the RFID tracker attached to the work order. |
 | `trackerSerialAttachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the work order. |
 | `trackers` | [`[Tracker]`](#type-tracker) | Trackers attached to the work order. |
 | `uuid` | `String` | Globally unique identifier of the work order. |
@@ -2705,7 +2789,7 @@ An input part consumed by a work order.
 | `name` | `String` | Display name of the input part. |
 | `quantity` | `Int` | Quantity of the input part. |
 | `shipmentState` | `String` | Latest shipment state of the input part. |
-| `trackerSerial` | `String` | Serial of the tracker attached to the input part. |
+| `trackers` | [`[Tracker!]`](#type-tracker) | Trackers attached to the input part. |
 | `type` | [`WorkOrderPartType`](#type-workorderparttype) | Part type of the input part. |
 | `uuid` | `String` | Globally unique identifier of the input part. |
 
@@ -2722,7 +2806,7 @@ An output part produced by a work order.
 | `name` | `String` | Display name of the output part. |
 | `quantity` | `Int` | Quantity of the output part. |
 | `shipmentState` | `String` | Latest shipment state of the output part. |
-| `trackerSerial` | `String` | Serial of the tracker attached to the output part. |
+| `trackers` | [`[Tracker!]`](#type-tracker) | Trackers attached to the output part. |
 | `type` | [`WorkOrderPartType`](#type-workorderparttype) | Part type of the output part. |
 | `uuid` | `String` | Globally unique identifier of the output part. |
 

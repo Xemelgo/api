@@ -291,6 +291,10 @@ query AssetTypes($input: AssetTypesInput) {
         id
         name
       }
+      customerAssetTypes {
+        customerAssetTypeId
+        customerId
+      }
     }
   }
 }
@@ -336,6 +340,12 @@ query AssetTypes($input: AssetTypesInput) {
             {
               "id": "assettypecategory-001",
               "name": "Forklift 7"
+            }
+          ],
+          "customerAssetTypes": [
+            {
+              "customerAssetTypeId": "customerassettype-001",
+              "customerId": "customer-001"
             }
           ]
         }
@@ -1018,6 +1028,7 @@ A type (template) describing a class of assets.
 | `categories` | [`[AssetTypeCategory]`](#type-assettypecategory) | Categories this asset type belongs to. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset type was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `customerAssetTypes` | [`[CustomerAssetType!]`](#type-customerassettype) | Per-customer asset types mapped to this asset type. |
 | `description` | `String` | Free-text description of the asset type. |
 | `id` | `String` | Unique identifier of the asset type, usually the asset type number or SKU. |
 | `images` | `[String!]` | Public image URLs for the asset type. |
@@ -1037,6 +1048,15 @@ A category grouping asset types, resolved through the asset's type.
 | `description` | `String` | Free-text description of the category. |
 | `id` | `ID!` | Unique identifier of the category. |
 | `name` | `String` | Display name of the category. |
+
+#### CustomerAssetType {#type-customerassettype}
+
+A customer-specific asset type mapped to an asset type.
+
+| Field | Type | Description |
+|---|---|---|
+| `customerAssetTypeId` | `String!` | The customer's asset type for this asset type. |
+| `customerId` | `String!` | Unique identifier of the customer. |
 
 #### LocationV2 {#type-locationv2}
 

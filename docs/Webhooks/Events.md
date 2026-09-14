@@ -10,9 +10,11 @@ Events Xemelgo delivers to your registered endpoint as an HTTP `POST`. To start 
 
 Every event is delivered as this JSON envelope. The `data` object varies by topic (below).
 
+Every request also includes the `xemelgo-delivery-id` header. It matches the envelope `id` and remains available when a webhook is configured to receive the payload directly.
+
 | Field | Type | Description |
 |---|---|---|
-| `id` | string | Identifier for this delivery attempt. Do not use it as a stable event deduplication key. |
+| `id` | string | Unique delivery identifier. It remains unchanged across retries and can be used for deduplication. |
 | `eventTimestamp` | integer | Event time as epoch milliseconds. |
 | `topic` | string | The event type (one of the topics below). |
 | `data` | object | Event-specific payload; see the topic. |
@@ -434,6 +436,615 @@ Sent when an asset cycle count is submitted. Provides aggregate counts per asset
       "customProperties": {},
       "firstName": "door",
       "lastName": "dash"
+    },
+    "uuid": "11111111-1111-4111-8111-111111111111"
+  }
+}
+```
+</details>
+
+---
+
+### asset.cycle_count.submitted.counts _(beta)_
+
+Sent when an asset Cycle Count result is accepted. Provides submitted evidence and aggregate item counts per asset type; it does not confirm that asset reconciliation has completed.
+
+**Payload** (`data`)
+
+#### INLINE delivery
+
+| Field | Type |
+|---|---|
+| `assetTypes` | object[] |
+| `delivery` | string |
+| `entries` | object[] |
+| `id` | string |
+| `name` | string |
+| `submittedAt` | integer |
+| `submittedBy` | object |
+| `summary` | object |
+
+##### data.assetTypes
+
+| Field | Type |
+|---|---|
+| `addedCount` | integer |
+| `assetType` | object |
+| `detectedCount` | integer |
+| `foundCount` | integer |
+| `location` | object · nullable |
+| `missingCount` | integer |
+| `movedCount` | integer |
+| `noActionCount` | integer |
+| `removedCount` | integer |
+| `totalCount` | integer |
+
+##### data.assetTypes.assetType
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+| `number` | string |
+| `unit` | string |
+
+##### data.assetTypes.location
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+
+##### data.entries
+
+| Field | Type |
+|---|---|
+| `assetType` | object |
+| `countedQuantity` | number · nullable |
+| `customProperties` | object (free-form) |
+| `expectedQuantity` | number |
+| `id` | string |
+| `location` | object |
+| `note` | string |
+| `reportFields` | object (free-form) |
+| `status` | string |
+| `trackerSerial` | string |
+
+##### data.entries.assetType
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+| `number` | string |
+| `unit` | string |
+
+##### data.entries.location
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+
+##### data.submittedBy
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `firstName` | string · nullable |
+| `id` | string |
+| `lastName` | string · nullable |
+
+##### data.summary
+
+| Field | Type |
+|---|---|
+| `countedEntryCount` | integer |
+| `countedExpectedItemCount` | integer |
+| `countedUnexpectedItemCount` | integer |
+| `entryCount` | integer |
+| `expectedItemCount` | integer |
+| `notCountedEntryCount` | integer |
+| `unevaluatedEntryCount` | integer |
+
+#### REPORT delivery
+
+| Field | Type |
+|---|---|
+| `delivery` | string |
+| `id` | string |
+| `name` | string |
+| `reportRun` | object |
+| `submittedAt` | integer |
+| `submittedBy` | object |
+| `summary` | object |
+
+##### data.reportRun
+
+| Field | Type |
+|---|---|
+| `completionDate` | integer |
+| `downloadUrl` | string |
+| `downloadUrlExpiresAt` | integer |
+| `id` | string |
+| `outputFormat` | string |
+| `reportType` | string |
+| `status` | string |
+
+##### data.submittedBy
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `firstName` | string · nullable |
+| `id` | string |
+| `lastName` | string · nullable |
+
+##### data.summary
+
+| Field | Type |
+|---|---|
+| `countedEntryCount` | integer |
+| `countedExpectedItemCount` | integer |
+| `countedUnexpectedItemCount` | integer |
+| `entryCount` | integer |
+| `expectedItemCount` | integer |
+| `notCountedEntryCount` | integer |
+| `unevaluatedEntryCount` | integer |
+
+<details>
+<summary>Example event</summary>
+
+```json
+{
+  "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+  "eventTimestamp": 1765572297000,
+  "topic": "asset.cycle_count.submitted.counts",
+  "data": {
+    "id": "CC-2026-002",
+    "name": "Tool crib count",
+    "submittedAt": 1765572200000,
+    "summary": {
+      "entryCount": 1,
+      "countedEntryCount": 1,
+      "notCountedEntryCount": 0,
+      "unevaluatedEntryCount": 0,
+      "expectedItemCount": 1,
+      "countedExpectedItemCount": 1,
+      "countedUnexpectedItemCount": 0
+    },
+    "delivery": "INLINE",
+    "entries": [
+      {
+        "id": "expectation-002",
+        "location": {
+          "id": "TOOL-CRIB",
+          "name": "Tool Crib"
+        },
+        "assetType": {
+          "id": "TORQUE-WRENCH",
+          "name": "Torque Wrench"
+        },
+        "expectedQuantity": 1,
+        "countedQuantity": 1,
+        "status": "COUNTED"
+      }
+    ],
+    "assetTypes": [
+      {
+        "location": {
+          "id": "TOOL-CRIB",
+          "name": "Tool Crib"
+        },
+        "assetType": {
+          "id": "TORQUE-WRENCH",
+          "name": "Torque Wrench"
+        },
+        "totalCount": 1,
+        "detectedCount": 1,
+        "foundCount": 0,
+        "missingCount": 0,
+        "movedCount": 0,
+        "addedCount": 0,
+        "removedCount": 0,
+        "noActionCount": 0
+      }
+    ]
+  }
+}
+```
+</details>
+
+---
+
+### asset.cycle_count.submitted.items _(beta)_
+
+Sent when an asset Cycle Count result is accepted. Provides submitted evidence, aggregate item counts, and individual item evidence; it does not confirm that asset reconciliation has completed.
+
+**Payload** (`data`)
+
+#### INLINE delivery
+
+| Field | Type |
+|---|---|
+| `assetTypes` | object[] |
+| `assets` | object[] |
+| `delivery` | string |
+| `entries` | object[] |
+| `id` | string |
+| `name` | string |
+| `submittedAt` | integer |
+| `submittedBy` | object |
+| `summary` | object |
+
+##### data.assetTypes
+
+| Field | Type |
+|---|---|
+| `addedCount` | integer |
+| `assetType` | object |
+| `detectedCount` | integer |
+| `foundCount` | integer |
+| `location` | object · nullable |
+| `missingCount` | integer |
+| `movedCount` | integer |
+| `noActionCount` | integer |
+| `removedCount` | integer |
+| `totalCount` | integer |
+
+##### data.assetTypes.assetType
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+| `number` | string |
+| `unit` | string |
+
+##### data.assetTypes.location
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+
+##### data.assets
+
+| Field | Type |
+|---|---|
+| `action` | string |
+| `assetTypeId` | string |
+| `countLocationId` | string |
+| `countedQuantity` | number |
+| `customProperties` | object (free-form) |
+| `errors` | string[] |
+| `expected` | boolean |
+| `id` | string |
+| `note` | string |
+| `outcome` | string |
+| `reportFields` | object (free-form) |
+| `trackerSerial` | string |
+
+##### data.entries
+
+| Field | Type |
+|---|---|
+| `assetType` | object |
+| `countedQuantity` | number · nullable |
+| `customProperties` | object (free-form) |
+| `expectedQuantity` | number |
+| `id` | string |
+| `location` | object |
+| `note` | string |
+| `reportFields` | object (free-form) |
+| `status` | string |
+| `trackerSerial` | string |
+
+##### data.entries.assetType
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+| `number` | string |
+| `unit` | string |
+
+##### data.entries.location
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+
+##### data.submittedBy
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `firstName` | string · nullable |
+| `id` | string |
+| `lastName` | string · nullable |
+
+##### data.summary
+
+| Field | Type |
+|---|---|
+| `countedEntryCount` | integer |
+| `countedExpectedItemCount` | integer |
+| `countedUnexpectedItemCount` | integer |
+| `entryCount` | integer |
+| `expectedItemCount` | integer |
+| `notCountedEntryCount` | integer |
+| `unevaluatedEntryCount` | integer |
+
+#### REPORT delivery
+
+| Field | Type |
+|---|---|
+| `delivery` | string |
+| `id` | string |
+| `name` | string |
+| `reportRun` | object |
+| `submittedAt` | integer |
+| `submittedBy` | object |
+| `summary` | object |
+
+##### data.reportRun
+
+| Field | Type |
+|---|---|
+| `completionDate` | integer |
+| `downloadUrl` | string |
+| `downloadUrlExpiresAt` | integer |
+| `id` | string |
+| `outputFormat` | string |
+| `reportType` | string |
+| `status` | string |
+
+##### data.submittedBy
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `firstName` | string · nullable |
+| `id` | string |
+| `lastName` | string · nullable |
+
+##### data.summary
+
+| Field | Type |
+|---|---|
+| `countedEntryCount` | integer |
+| `countedExpectedItemCount` | integer |
+| `countedUnexpectedItemCount` | integer |
+| `entryCount` | integer |
+| `expectedItemCount` | integer |
+| `notCountedEntryCount` | integer |
+| `unevaluatedEntryCount` | integer |
+
+<details>
+<summary>Example event</summary>
+
+```json
+{
+  "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+  "eventTimestamp": 1765572297000,
+  "topic": "asset.cycle_count.submitted.items",
+  "data": {
+    "id": "CC-2026-002",
+    "name": "Tool crib count",
+    "submittedAt": 1765572200000,
+    "summary": {
+      "entryCount": 1,
+      "countedEntryCount": 1,
+      "notCountedEntryCount": 0,
+      "unevaluatedEntryCount": 0,
+      "expectedItemCount": 1,
+      "countedExpectedItemCount": 1,
+      "countedUnexpectedItemCount": 0
+    },
+    "delivery": "INLINE",
+    "entries": [
+      {
+        "id": "expectation-002",
+        "location": {
+          "id": "TOOL-CRIB",
+          "name": "Tool Crib"
+        },
+        "assetType": {
+          "id": "TORQUE-WRENCH",
+          "name": "Torque Wrench"
+        },
+        "expectedQuantity": 1,
+        "countedQuantity": 1,
+        "status": "COUNTED"
+      }
+    ],
+    "assetTypes": [
+      {
+        "location": {
+          "id": "TOOL-CRIB",
+          "name": "Tool Crib"
+        },
+        "assetType": {
+          "id": "TORQUE-WRENCH",
+          "name": "Torque Wrench"
+        },
+        "totalCount": 1,
+        "detectedCount": 1,
+        "foundCount": 0,
+        "missingCount": 0,
+        "movedCount": 0,
+        "addedCount": 0,
+        "removedCount": 0,
+        "noActionCount": 0
+      }
+    ],
+    "assets": [
+      {
+        "id": "ASSET-1001",
+        "outcome": "ACCEPTED",
+        "action": "DETECTED",
+        "expected": true,
+        "countLocationId": "TOOL-CRIB",
+        "assetTypeId": "TORQUE-WRENCH",
+        "trackerSerial": "E280117000000002",
+        "customProperties": {
+          "calibrationStatus": "CURRENT"
+        }
+      }
+    ]
+  }
+}
+```
+</details>
+
+---
+
+### asset.deleted
+
+Sent when assets are deleted. The payload contains the deleted assets.
+
+**Payload** (`data`)
+
+| Field | Type |
+|---|---|
+| `comments` | string · nullable |
+| `containerId` | string · nullable |
+| `creationDate` | integer |
+| `customProperties` | object (free-form) · nullable |
+| `description` | string · nullable |
+| `dueDate` | integer · nullable |
+| `id` | string |
+| `images` | string[] |
+| `lastDetectedAtLocation` | object · nullable |
+| `lastUpdatedDate` | integer |
+| `location` | object · nullable |
+| `name` | string · nullable |
+| `state` | string |
+| `trackerSerial` | string · nullable |
+| `trackerSerials` | string[] |
+| `type` | object · nullable |
+| `uuid` | string |
+
+#### data.lastDetectedAtLocation
+
+| Field | Type |
+|---|---|
+| `categoryId` | string |
+| `customProperties` | object (free-form) · nullable |
+| `customerId` | string · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `name` | string · nullable |
+| `parentLocationId` | string · nullable |
+| `roleId` | string · nullable |
+
+#### data.location
+
+| Field | Type |
+|---|---|
+| `categoryId` | string |
+| `customProperties` | object (free-form) · nullable |
+| `customerId` | string · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `name` | string · nullable |
+| `parentLocationId` | string · nullable |
+| `roleId` | string · nullable |
+
+#### data.type
+
+| Field | Type |
+|---|---|
+| `creationDate` | integer |
+| `customProperties` | object (free-form) · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `imagePath` | string · nullable |
+| `images` | string[] |
+| `lastUpdatedDate` | integer |
+| `name` | string · nullable |
+| `number` | string · nullable |
+| `quantity` | integer · nullable |
+| `unit` | string · nullable |
+
+<details>
+<summary>Example event</summary>
+
+```json
+{
+  "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+  "eventTimestamp": 1765572297000,
+  "topic": "asset.deleted",
+  "data": {
+    "comments": "Asset 1 Comments",
+    "containerId": null,
+    "creationDate": 1765420060123,
+    "customProperties": {
+      "assetTs": "Asset 12345"
+    },
+    "description": "Asset 1 Description",
+    "dueDate": 1765420060189,
+    "id": "ASSET-1",
+    "images": [
+      "img1.jpg"
+    ],
+    "lastDetectedAtLocation": {
+      "categoryId": "Dock Door",
+      "customProperties": {},
+      "customerId": null,
+      "description": "At dock door 1",
+      "id": "DOCK-1",
+      "name": "Dock Door 1",
+      "parentLocationId": null,
+      "roleId": null
+    },
+    "lastUpdatedDate": 1765420060123,
+    "location": {
+      "categoryId": "Dock Door",
+      "customProperties": {},
+      "customerId": null,
+      "description": "At dock door 1",
+      "id": "DOCK-1",
+      "name": "Dock Door 1",
+      "parentLocationId": null,
+      "roleId": null
+    },
+    "name": "Asset 1",
+    "state": "incoming",
+    "trackerSerial": null,
+    "trackerSerials": [],
+    "type": {
+      "creationDate": 1765420060123,
+      "customProperties": {
+        "assetTypeTs": null
+      },
+      "description": null,
+      "id": "TYPE-1",
+      "imagePath": null,
+      "images": [],
+      "lastUpdatedDate": 1765420060123,
+      "name": null,
+      "number": null,
+      "quantity": null,
+      "unit": null
     },
     "uuid": "11111111-1111-4111-8111-111111111111"
   }
@@ -1462,6 +2073,641 @@ Sent when an inventory cycle count is submitted. Provides aggregate counts per i
 
 ---
 
+### inventory.cycle_count.submitted.counts _(beta)_
+
+Sent when an inventory Cycle Count result is accepted. Provides submitted evidence and aggregate item counts per inventory part; it does not confirm that inventory reconciliation has completed.
+
+**Payload** (`data`)
+
+#### INLINE delivery
+
+| Field | Type |
+|---|---|
+| `delivery` | string |
+| `entries` | object[] |
+| `id` | string |
+| `inventoryParts` | object[] |
+| `name` | string |
+| `submittedAt` | integer |
+| `submittedBy` | object |
+| `summary` | object |
+
+##### data.entries
+
+| Field | Type |
+|---|---|
+| `countedQuantity` | number · nullable |
+| `customProperties` | object (free-form) |
+| `expectedQuantity` | number |
+| `id` | string |
+| `location` | object |
+| `note` | string |
+| `part` | object |
+| `reportFields` | object (free-form) |
+| `status` | string |
+| `trackerSerial` | string |
+
+##### data.entries.location
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+
+##### data.entries.part
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+| `number` | string |
+| `unit` | string |
+
+##### data.inventoryParts
+
+| Field | Type |
+|---|---|
+| `addedCount` | integer |
+| `detectedCount` | integer |
+| `foundCount` | integer |
+| `location` | object · nullable |
+| `missingCount` | integer |
+| `movedCount` | integer |
+| `noActionCount` | integer |
+| `part` | object |
+| `removedCount` | integer |
+| `totalCount` | integer |
+
+##### data.inventoryParts.location
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+
+##### data.inventoryParts.part
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+| `number` | string |
+| `unit` | string |
+
+##### data.submittedBy
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `firstName` | string · nullable |
+| `id` | string |
+| `lastName` | string · nullable |
+
+##### data.summary
+
+| Field | Type |
+|---|---|
+| `countedEntryCount` | integer |
+| `countedExpectedItemCount` | integer |
+| `countedUnexpectedItemCount` | integer |
+| `entryCount` | integer |
+| `expectedItemCount` | integer |
+| `notCountedEntryCount` | integer |
+| `unevaluatedEntryCount` | integer |
+
+#### REPORT delivery
+
+| Field | Type |
+|---|---|
+| `delivery` | string |
+| `id` | string |
+| `name` | string |
+| `reportRun` | object |
+| `submittedAt` | integer |
+| `submittedBy` | object |
+| `summary` | object |
+
+##### data.reportRun
+
+| Field | Type |
+|---|---|
+| `completionDate` | integer |
+| `downloadUrl` | string |
+| `downloadUrlExpiresAt` | integer |
+| `id` | string |
+| `outputFormat` | string |
+| `reportType` | string |
+| `status` | string |
+
+##### data.submittedBy
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `firstName` | string · nullable |
+| `id` | string |
+| `lastName` | string · nullable |
+
+##### data.summary
+
+| Field | Type |
+|---|---|
+| `countedEntryCount` | integer |
+| `countedExpectedItemCount` | integer |
+| `countedUnexpectedItemCount` | integer |
+| `entryCount` | integer |
+| `expectedItemCount` | integer |
+| `notCountedEntryCount` | integer |
+| `unevaluatedEntryCount` | integer |
+
+<details>
+<summary>Example event</summary>
+
+```json
+{
+  "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+  "eventTimestamp": 1765572297000,
+  "topic": "inventory.cycle_count.submitted.counts",
+  "data": {
+    "id": "CC-2026-001",
+    "name": "Warehouse A recount",
+    "submittedAt": 1765572200000,
+    "submittedBy": {
+      "id": "counter@example.com",
+      "firstName": "Casey",
+      "lastName": "Lee"
+    },
+    "summary": {
+      "entryCount": 1,
+      "countedEntryCount": 1,
+      "notCountedEntryCount": 0,
+      "unevaluatedEntryCount": 0,
+      "expectedItemCount": 2,
+      "countedExpectedItemCount": 2,
+      "countedUnexpectedItemCount": 0
+    },
+    "delivery": "INLINE",
+    "entries": [
+      {
+        "id": "expectation-001",
+        "location": {
+          "id": "A-01",
+          "name": "Bin A-01"
+        },
+        "part": {
+          "id": "530533",
+          "name": "Camouflage Face Paint",
+          "unit": "EA"
+        },
+        "expectedQuantity": 2,
+        "countedQuantity": 2,
+        "status": "COUNTED",
+        "customProperties": {
+          "receiptId": "37757394"
+        }
+      }
+    ],
+    "inventoryParts": [
+      {
+        "location": {
+          "id": "A-01",
+          "name": "Bin A-01"
+        },
+        "part": {
+          "id": "530533",
+          "name": "Camouflage Face Paint",
+          "unit": "EA"
+        },
+        "totalCount": 2,
+        "detectedCount": 2,
+        "foundCount": 0,
+        "missingCount": 0,
+        "movedCount": 0,
+        "addedCount": 0,
+        "removedCount": 0,
+        "noActionCount": 0
+      }
+    ]
+  }
+}
+```
+</details>
+
+---
+
+### inventory.cycle_count.submitted.items _(beta)_
+
+Sent when an inventory Cycle Count result is accepted. Provides submitted evidence, aggregate item counts, and individual item evidence; it does not confirm that inventory reconciliation has completed.
+
+**Payload** (`data`)
+
+#### INLINE delivery
+
+| Field | Type |
+|---|---|
+| `delivery` | string |
+| `entries` | object[] |
+| `id` | string |
+| `inventory` | object[] |
+| `inventoryParts` | object[] |
+| `name` | string |
+| `submittedAt` | integer |
+| `submittedBy` | object |
+| `summary` | object |
+
+##### data.entries
+
+| Field | Type |
+|---|---|
+| `countedQuantity` | number · nullable |
+| `customProperties` | object (free-form) |
+| `expectedQuantity` | number |
+| `id` | string |
+| `location` | object |
+| `note` | string |
+| `part` | object |
+| `reportFields` | object (free-form) |
+| `status` | string |
+| `trackerSerial` | string |
+
+##### data.entries.location
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+
+##### data.entries.part
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+| `number` | string |
+| `unit` | string |
+
+##### data.inventory
+
+| Field | Type |
+|---|---|
+| `action` | string |
+| `countLocationId` | string |
+| `countedQuantity` | number |
+| `customProperties` | object (free-form) |
+| `errors` | string[] |
+| `expected` | boolean |
+| `id` | string |
+| `note` | string |
+| `outcome` | string |
+| `partId` | string |
+| `reportFields` | object (free-form) |
+| `trackerSerial` | string |
+
+##### data.inventoryParts
+
+| Field | Type |
+|---|---|
+| `addedCount` | integer |
+| `detectedCount` | integer |
+| `foundCount` | integer |
+| `location` | object · nullable |
+| `missingCount` | integer |
+| `movedCount` | integer |
+| `noActionCount` | integer |
+| `part` | object |
+| `removedCount` | integer |
+| `totalCount` | integer |
+
+##### data.inventoryParts.location
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+
+##### data.inventoryParts.part
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `description` | string |
+| `id` | string |
+| `name` | string |
+| `number` | string |
+| `unit` | string |
+
+##### data.submittedBy
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `firstName` | string · nullable |
+| `id` | string |
+| `lastName` | string · nullable |
+
+##### data.summary
+
+| Field | Type |
+|---|---|
+| `countedEntryCount` | integer |
+| `countedExpectedItemCount` | integer |
+| `countedUnexpectedItemCount` | integer |
+| `entryCount` | integer |
+| `expectedItemCount` | integer |
+| `notCountedEntryCount` | integer |
+| `unevaluatedEntryCount` | integer |
+
+#### REPORT delivery
+
+| Field | Type |
+|---|---|
+| `delivery` | string |
+| `id` | string |
+| `name` | string |
+| `reportRun` | object |
+| `submittedAt` | integer |
+| `submittedBy` | object |
+| `summary` | object |
+
+##### data.reportRun
+
+| Field | Type |
+|---|---|
+| `completionDate` | integer |
+| `downloadUrl` | string |
+| `downloadUrlExpiresAt` | integer |
+| `id` | string |
+| `outputFormat` | string |
+| `reportType` | string |
+| `status` | string |
+
+##### data.submittedBy
+
+| Field | Type |
+|---|---|
+| `customProperties` | object (free-form) |
+| `firstName` | string · nullable |
+| `id` | string |
+| `lastName` | string · nullable |
+
+##### data.summary
+
+| Field | Type |
+|---|---|
+| `countedEntryCount` | integer |
+| `countedExpectedItemCount` | integer |
+| `countedUnexpectedItemCount` | integer |
+| `entryCount` | integer |
+| `expectedItemCount` | integer |
+| `notCountedEntryCount` | integer |
+| `unevaluatedEntryCount` | integer |
+
+<details>
+<summary>Example event</summary>
+
+```json
+{
+  "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+  "eventTimestamp": 1765572297000,
+  "topic": "inventory.cycle_count.submitted.items",
+  "data": {
+    "id": "CC-2026-001",
+    "name": "Warehouse A recount",
+    "submittedAt": 1765572200000,
+    "summary": {
+      "entryCount": 1,
+      "countedEntryCount": 1,
+      "notCountedEntryCount": 0,
+      "unevaluatedEntryCount": 0,
+      "expectedItemCount": 1,
+      "countedExpectedItemCount": 1,
+      "countedUnexpectedItemCount": 0
+    },
+    "delivery": "INLINE",
+    "entries": [
+      {
+        "id": "expectation-001",
+        "location": {
+          "id": "A-01",
+          "name": "Bin A-01"
+        },
+        "part": {
+          "id": "530533",
+          "name": "Camouflage Face Paint",
+          "unit": "EA"
+        },
+        "expectedQuantity": 1,
+        "countedQuantity": 1,
+        "status": "COUNTED",
+        "customProperties": {
+          "receiptId": "37757394"
+        }
+      }
+    ],
+    "inventoryParts": [
+      {
+        "location": {
+          "id": "A-01",
+          "name": "Bin A-01"
+        },
+        "part": {
+          "id": "530533",
+          "name": "Camouflage Face Paint",
+          "unit": "EA"
+        },
+        "totalCount": 1,
+        "detectedCount": 1,
+        "foundCount": 0,
+        "missingCount": 0,
+        "movedCount": 0,
+        "addedCount": 0,
+        "removedCount": 0,
+        "noActionCount": 0
+      }
+    ],
+    "inventory": [
+      {
+        "id": "INV-1001",
+        "outcome": "ACCEPTED",
+        "action": "DETECTED",
+        "expected": true,
+        "countLocationId": "A-01",
+        "partId": "530533",
+        "trackerSerial": "E280117000000001",
+        "customProperties": {
+          "ownerCompanyId": "SAIC"
+        },
+        "reportFields": {
+          "condition": "good"
+        }
+      }
+    ]
+  }
+}
+```
+</details>
+
+---
+
+### inventory.deleted
+
+Sent when inventory items are deleted. The payload contains the deleted inventory items.
+
+**Payload** (`data`)
+
+| Field | Type |
+|---|---|
+| `comments` | string · nullable |
+| `consumedDate` | integer · nullable |
+| `containerId` | string · nullable |
+| `creationDate` | integer |
+| `customProperties` | object (free-form) · nullable |
+| `description` | string · nullable |
+| `expirationDate` | integer · nullable |
+| `id` | string |
+| `images` | string[] |
+| `isConsumed` | boolean · nullable |
+| `lastDetectedAtLocation` | object · nullable |
+| `lastUpdatedDate` | integer |
+| `location` | object · nullable |
+| `lotNumber` | string |
+| `name` | string · nullable |
+| `part` | object |
+| `quantity` | integer · nullable |
+| `state` | string |
+| `trackerSerial` | string · nullable |
+| `trackerSerials` | string[] |
+| `uuid` | string |
+
+#### data.lastDetectedAtLocation
+
+| Field | Type |
+|---|---|
+| `categoryId` | string |
+| `customProperties` | object (free-form) · nullable |
+| `customerId` | string · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `name` | string · nullable |
+| `parentLocationId` | string · nullable |
+| `roleId` | string · nullable |
+
+#### data.location
+
+| Field | Type |
+|---|---|
+| `categoryId` | string |
+| `customProperties` | object (free-form) · nullable |
+| `customerId` | string · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `name` | string · nullable |
+| `parentLocationId` | string · nullable |
+| `roleId` | string · nullable |
+
+#### data.part
+
+| Field | Type |
+|---|---|
+| `creationDate` | integer |
+| `customProperties` | object (free-form) · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `imagePath` | string · nullable |
+| `images` | string[] |
+| `lastUpdatedDate` | integer |
+| `name` | string · nullable |
+| `number` | string · nullable |
+| `quantity` | integer · nullable |
+| `unit` | string · nullable |
+
+<details>
+<summary>Example event</summary>
+
+```json
+{
+  "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+  "eventTimestamp": 1765572297000,
+  "topic": "inventory.deleted",
+  "data": {
+    "comments": "Inventory 1 Comments",
+    "consumedDate": null,
+    "containerId": null,
+    "creationDate": 1765420060123,
+    "customProperties": {
+      "inventoryTs": "Inventory 12345"
+    },
+    "description": "Inventory 1 Description",
+    "expirationDate": 1765420060189,
+    "id": "INVENTORY-1",
+    "images": [
+      "img1.jpg"
+    ],
+    "isConsumed": null,
+    "lastDetectedAtLocation": {
+      "categoryId": "Dock Door",
+      "customProperties": {},
+      "customerId": null,
+      "description": "At dock door 1",
+      "id": "DOCK-1",
+      "name": "Dock Door 1",
+      "parentLocationId": null,
+      "roleId": null
+    },
+    "lastUpdatedDate": 1765420060123,
+    "location": {
+      "categoryId": "Dock Door",
+      "customProperties": {},
+      "customerId": null,
+      "description": "At dock door 1",
+      "id": "DOCK-1",
+      "name": "Dock Door 1",
+      "parentLocationId": null,
+      "roleId": null
+    },
+    "lotNumber": "32",
+    "name": "Inventory 1",
+    "part": {
+      "creationDate": 1765420060123,
+      "customProperties": {
+        "inventoryPartTs": null
+      },
+      "description": null,
+      "id": "TYPE-1",
+      "imagePath": null,
+      "images": [],
+      "lastUpdatedDate": 1765420060123,
+      "name": null,
+      "number": null,
+      "quantity": null,
+      "unit": null
+    },
+    "quantity": 13,
+    "state": "incoming",
+    "trackerSerial": null,
+    "trackerSerials": [],
+    "uuid": "11111111-1111-4111-8111-111111111111"
+  }
+}
+```
+</details>
+
+---
+
 ### inventory.moved
 
 Sent when an inventory item is detected at or moved to a new location. The payload contains the full inventory item, including its current and last-detected locations.
@@ -1865,6 +3111,91 @@ Sent when a new package is created. The payload contains the full package and an
     "trackerSerials": [
       "TRACKER-PKG-CREATE-1"
     ],
+    "uuid": "11111111-1111-4111-8111-111111111111"
+  }
+}
+```
+</details>
+
+---
+
+### package.deleted
+
+Sent when packages are deleted. The payload contains the deleted packages.
+
+**Payload** (`data`)
+
+| Field | Type |
+|---|---|
+| `comments` | string · nullable |
+| `containerId` | string · nullable |
+| `creationDate` | integer |
+| `customProperties` | object (free-form) · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `images` | string[] |
+| `lastDetectedAtLocation` | object · nullable |
+| `lastUpdatedDate` | integer |
+| `location` | object · nullable |
+| `name` | string · nullable |
+| `state` | string |
+| `trackerSerial` | string · nullable |
+| `trackerSerials` | string[] |
+| `uuid` | string |
+
+#### data.lastDetectedAtLocation
+
+| Field | Type |
+|---|---|
+| `categoryId` | string |
+| `customProperties` | object (free-form) |
+| `customerId` | string · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `name` | string · nullable |
+| `parentLocationId` | string · nullable |
+| `roleId` | string · nullable |
+
+#### data.location
+
+| Field | Type |
+|---|---|
+| `categoryId` | string |
+| `customProperties` | object (free-form) |
+| `customerId` | string · nullable |
+| `description` | string · nullable |
+| `id` | string |
+| `name` | string · nullable |
+| `parentLocationId` | string · nullable |
+| `roleId` | string · nullable |
+
+<details>
+<summary>Example event</summary>
+
+```json
+{
+  "id": "c1314cc5-60f7-ddba-7be3-900030a8ee05",
+  "eventTimestamp": 1765572297000,
+  "topic": "package.deleted",
+  "data": {
+    "comments": "Package 1 Comments",
+    "containerId": null,
+    "creationDate": 1765420060123,
+    "customProperties": {
+      "packageTs": "Package 12345"
+    },
+    "description": "Package 1 Description",
+    "id": "PACKAGE-1",
+    "images": [
+      "img1.jpg"
+    ],
+    "lastDetectedAtLocation": null,
+    "lastUpdatedDate": 1765420060123,
+    "location": null,
+    "name": "Package 1",
+    "state": "incoming",
+    "trackerSerial": null,
+    "trackerSerials": [],
     "uuid": "11111111-1111-4111-8111-111111111111"
   }
 }
