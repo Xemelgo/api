@@ -56,6 +56,7 @@ Create an endpoint on your server that can:
 | Header              | Description                                                       |
 | ------------------- | ----------------------------------------------------------------- |
 | `Content-Type`      | Always `application/json`                                         |
+| `xemelgo-delivery-id` | Unique delivery identifier. Matches the envelope `id` and remains available when the payload is sent directly. |
 | `xemelgo-signature` | HMAC signature for verifying the webhook (format: `sha256=<hex>`) |
 
 #### Body
@@ -71,7 +72,7 @@ Create an endpoint on your server that can:
 }
 ```
 
-The `topic` field identifies the event type, while `data` contains the event-specific payload. The `id` identifies a delivery attempt; do not treat it as a stable event deduplication key.
+The `topic` field identifies the event type, while `data` contains the event-specific payload. The `id` uniquely identifies this webhook delivery. It remains unchanged across retries and can be used for deduplication. Separate subscriptions receive separate delivery IDs for the same underlying event.
 
 ### Verify Webhook Signatures
 
@@ -173,7 +174,7 @@ Xemelgo makes up to five delivery attempts for network errors, timeouts, `429` r
 
 ### Ordering and Idempotency
 
-Webhook delivery order is not guaranteed. Design handlers so that repeated or out-of-order events do not corrupt data or repeat a business action. The envelope `id` identifies a delivery attempt and is not a stable deduplication key for the underlying event.
+Webhook delivery order is not guaranteed. Use the envelope `id` as the idempotency key for a delivery. It remains unchanged across retries, so store processed IDs and skip an ID your application has already handled. Separate subscriptions receive separate delivery IDs for the same underlying event.
 
 ---
 
@@ -182,4 +183,5 @@ Webhook delivery order is not guaranteed. Design handlers so that repeated or ou
 - Verify each signature against the exact raw request body using a constant-time comparison
 - Generate and securely store a random, high-entropy signing secret
 - Return a `2xx` response only after accepting the event for processing
+- Deduplicate retries using the delivery `id`
 - Keep handlers safe for duplicate and out-of-order delivery
