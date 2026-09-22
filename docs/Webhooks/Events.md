@@ -10,9 +10,11 @@ Events Xemelgo delivers to your registered endpoint as an HTTP `POST`. To start 
 
 Every event is delivered as this JSON envelope. The `data` object varies by topic (below).
 
+Every request also includes the `xemelgo-delivery-id` header. It matches the envelope `id` and remains available when a webhook is configured to receive the payload directly.
+
 | Field | Type | Description |
 |---|---|---|
-| `id` | string | Identifier for this delivery attempt. Do not use it as a stable event deduplication key. |
+| `id` | string | Unique delivery identifier. It remains unchanged across retries and can be used for deduplication. |
 | `eventTimestamp` | integer | Event time as epoch milliseconds. |
 | `topic` | string | The event type (one of the topics below). |
 | `data` | object | Event-specific payload; see the topic. |
