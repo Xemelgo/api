@@ -6,6 +6,8 @@ title: ""
 
 Events Xemelgo delivers to your registered endpoint as an HTTP `POST`. To start receiving them and verify signatures, see [Webhooks](./index.md).
 
+Item events use `trackers` for tracker details. `trackerSerial` remains as a legacy primary serial. The intermediary `trackerSerials` response field has been removed; use `trackers[].serial` instead. When no tracker is associated, `trackers` is null. Each tracker includes its serial, encoding format, custom properties, and attachment date when available.
+
 ## <span style={{ color: '#0D8CFF' }}>Event envelope</span>
 
 Every event is delivered as this JSON envelope. The `data` object varies by topic (below).
@@ -41,9 +43,9 @@ Sent when an asset bulk-update operation completes. The payload contains the upd
 | Field | Type |
 |---|---|
 | `id` | string |
-| `itemUpdate` | object (free-form) |
+| `itemUpdate` | object (free-form) · nullable |
 | `location` | object · nullable |
-| `previousFieldValues` | object (free-form) |
+| `previousFieldValues` | object (free-form) · nullable |
 | `uom` | string · nullable |
 | `uuid` | string |
 
@@ -113,7 +115,7 @@ Sent when a new asset is created. The payload contains the full asset, including
 | `comments` | string · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `dueDate` | integer · nullable |
 | `id` | string |
@@ -124,7 +126,7 @@ Sent when a new asset is created. The payload contains the full asset, including
 | `name` | string · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `type` | object · nullable |
 | `uuid` | string |
 
@@ -153,6 +155,15 @@ Sent when a new asset is created. The payload contains the full asset, including
 | `name` | string · nullable |
 | `parentLocationId` | string · nullable |
 | `roleId` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 #### data.type
 
@@ -197,9 +208,6 @@ Sent when a new asset is created. The payload contains the full asset, including
     "name": "Asset Create 1",
     "state": "incoming",
     "trackerSerial": "TRACKER-ASSET-CREATE-1",
-    "trackerSerials": [
-      "TRACKER-ASSET-CREATE-1"
-    ],
     "type": {
       "creationDate": 1765420060123,
       "customProperties": {
@@ -215,7 +223,17 @@ Sent when a new asset is created. The payload contains the full asset, including
       "quantity": null,
       "unit": null
     },
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "TRACKER-ASSET-CREATE-1",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -928,7 +946,7 @@ Sent when assets are deleted. The payload contains the deleted assets.
 | `comments` | string · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `dueDate` | integer · nullable |
 | `id` | string |
@@ -939,7 +957,7 @@ Sent when assets are deleted. The payload contains the deleted assets.
 | `name` | string · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `type` | object · nullable |
 | `uuid` | string |
 
@@ -968,6 +986,15 @@ Sent when assets are deleted. The payload contains the deleted assets.
 | `name` | string · nullable |
 | `parentLocationId` | string · nullable |
 | `roleId` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 #### data.type
 
@@ -1030,7 +1057,6 @@ Sent when assets are deleted. The payload contains the deleted assets.
     "name": "Asset 1",
     "state": "incoming",
     "trackerSerial": null,
-    "trackerSerials": [],
     "type": {
       "creationDate": 1765420060123,
       "customProperties": {
@@ -1046,7 +1072,8 @@ Sent when assets are deleted. The payload contains the deleted assets.
       "quantity": null,
       "unit": null
     },
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": null
   }
 }
 ```
@@ -1065,7 +1092,7 @@ Sent when a tracked asset is detected at or moved to a new location. The payload
 | `comments` | string · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `dueDate` | integer · nullable |
 | `id` | string |
@@ -1076,7 +1103,7 @@ Sent when a tracked asset is detected at or moved to a new location. The payload
 | `name` | string · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `type` | object · nullable |
 | `uuid` | string |
 
@@ -1105,6 +1132,15 @@ Sent when a tracked asset is detected at or moved to a new location. The payload
 | `name` | string · nullable |
 | `parentLocationId` | string · nullable |
 | `roleId` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 #### data.type
 
@@ -1171,9 +1207,6 @@ Sent when a tracked asset is detected at or moved to a new location. The payload
     "name": "Asset Move 1",
     "state": "onhand",
     "trackerSerial": "TRACKER-ASSET-MOVE-1",
-    "trackerSerials": [
-      "TRACKER-ASSET-MOVE-1"
-    ],
     "type": {
       "creationDate": 1765420060123,
       "customProperties": {
@@ -1189,7 +1222,17 @@ Sent when a tracked asset is detected at or moved to a new location. The payload
       "quantity": null,
       "unit": null
     },
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "TRACKER-ASSET-MOVE-1",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -1464,9 +1507,9 @@ Sent when an inventory bulk-update operation completes. The payload contains the
 | Field | Type |
 |---|---|
 | `id` | string |
-| `itemUpdate` | object (free-form) |
+| `itemUpdate` | object (free-form) · nullable |
 | `location` | object · nullable |
-| `previousFieldValues` | object (free-form) |
+| `previousFieldValues` | object (free-form) · nullable |
 | `uom` | string · nullable |
 | `uuid` | string |
 
@@ -1538,7 +1581,7 @@ Sent when an inventory item is marked as consumed. The payload contains the full
 | `consumedDate` | integer · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `expirationDate` | integer · nullable |
 | `id` | string |
@@ -1553,7 +1596,7 @@ Sent when an inventory item is marked as consumed. The payload contains the full
 | `quantity` | integer · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.associatedPersons
@@ -1606,6 +1649,15 @@ Sent when an inventory item is marked as consumed. The payload contains the full
 | `number` | string · nullable |
 | `quantity` | integer · nullable |
 | `unit` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -1687,10 +1739,17 @@ Sent when an inventory item is marked as consumed. The payload contains the full
     "quantity": null,
     "state": "onhand",
     "trackerSerial": "INV-TRACKER-001",
-    "trackerSerials": [
-      "INV-TRACKER-001"
-    ],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "INV-TRACKER-001",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -1710,7 +1769,7 @@ Sent when a new inventory item is created. The payload contains the full invento
 | `consumedDate` | integer · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `expirationDate` | integer · nullable |
 | `id` | string |
@@ -1725,7 +1784,7 @@ Sent when a new inventory item is created. The payload contains the full invento
 | `quantity` | integer · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.lastDetectedAtLocation
@@ -1769,6 +1828,15 @@ Sent when a new inventory item is created. The payload contains the full invento
 | `number` | string · nullable |
 | `quantity` | integer · nullable |
 | `unit` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -1816,10 +1884,17 @@ Sent when a new inventory item is created. The payload contains the full invento
     "quantity": 13,
     "state": "incoming",
     "trackerSerial": "TRACKER-INV-CREATE-1",
-    "trackerSerials": [
-      "TRACKER-INV-CREATE-1"
-    ],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "TRACKER-INV-CREATE-1",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -2575,7 +2650,7 @@ Sent when inventory items are deleted. The payload contains the deleted inventor
 | `consumedDate` | integer · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `expirationDate` | integer · nullable |
 | `id` | string |
@@ -2590,7 +2665,7 @@ Sent when inventory items are deleted. The payload contains the deleted inventor
 | `quantity` | integer · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.lastDetectedAtLocation
@@ -2634,6 +2709,15 @@ Sent when inventory items are deleted. The payload contains the deleted inventor
 | `number` | string · nullable |
 | `quantity` | integer · nullable |
 | `unit` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -2699,8 +2783,8 @@ Sent when inventory items are deleted. The payload contains the deleted inventor
     "quantity": 13,
     "state": "incoming",
     "trackerSerial": null,
-    "trackerSerials": [],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": null
   }
 }
 ```
@@ -2720,7 +2804,7 @@ Sent when an inventory item is detected at or moved to a new location. The paylo
 | `consumedDate` | integer · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `expirationDate` | integer · nullable |
 | `id` | string |
@@ -2735,7 +2819,7 @@ Sent when an inventory item is detected at or moved to a new location. The paylo
 | `quantity` | integer · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.lastDetectedAtLocation
@@ -2779,6 +2863,15 @@ Sent when an inventory item is detected at or moved to a new location. The paylo
 | `number` | string · nullable |
 | `quantity` | integer · nullable |
 | `unit` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -2848,10 +2941,17 @@ Sent when an inventory item is detected at or moved to a new location. The paylo
     "quantity": 13,
     "state": "onhand",
     "trackerSerial": "TRACKER-INV-MOVE-1",
-    "trackerSerials": [
-      "TRACKER-INV-MOVE-1"
-    ],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "TRACKER-INV-MOVE-1",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -2872,7 +2972,7 @@ Sent when a previously consumed inventory item is returned to stock. The payload
 | `consumedDate` | integer · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `expirationDate` | integer · nullable |
 | `id` | string |
@@ -2887,7 +2987,7 @@ Sent when a previously consumed inventory item is returned to stock. The payload
 | `quantity` | integer · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.associatedPersons
@@ -2940,6 +3040,15 @@ Sent when a previously consumed inventory item is returned to stock. The payload
 | `number` | string · nullable |
 | `quantity` | integer · nullable |
 | `unit` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -3021,10 +3130,17 @@ Sent when a previously consumed inventory item is returned to stock. The payload
     "quantity": null,
     "state": "onhand",
     "trackerSerial": "INV-TRACKER-001",
-    "trackerSerials": [
-      "INV-TRACKER-001"
-    ],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "INV-TRACKER-001",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -3043,7 +3159,7 @@ Sent when a new package is created. The payload contains the full package and an
 | `comments` | string · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `id` | string |
 | `images` | string[] |
@@ -3053,7 +3169,7 @@ Sent when a new package is created. The payload contains the full package and an
 | `name` | string · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.lastDetectedAtLocation
@@ -3081,6 +3197,15 @@ Sent when a new package is created. The payload contains the full package and an
 | `name` | string · nullable |
 | `parentLocationId` | string · nullable |
 | `roleId` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -3108,10 +3233,17 @@ Sent when a new package is created. The payload contains the full package and an
     "name": "Package Create 1",
     "state": "incoming",
     "trackerSerial": "TRACKER-PKG-CREATE-1",
-    "trackerSerials": [
-      "TRACKER-PKG-CREATE-1"
-    ],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "TRACKER-PKG-CREATE-1",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -3130,7 +3262,7 @@ Sent when packages are deleted. The payload contains the deleted packages.
 | `comments` | string · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `id` | string |
 | `images` | string[] |
@@ -3140,7 +3272,7 @@ Sent when packages are deleted. The payload contains the deleted packages.
 | `name` | string · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.lastDetectedAtLocation
@@ -3168,6 +3300,15 @@ Sent when packages are deleted. The payload contains the deleted packages.
 | `name` | string · nullable |
 | `parentLocationId` | string · nullable |
 | `roleId` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -3195,8 +3336,8 @@ Sent when packages are deleted. The payload contains the deleted packages.
     "name": "Package 1",
     "state": "incoming",
     "trackerSerial": null,
-    "trackerSerials": [],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": null
   }
 }
 ```
@@ -3215,7 +3356,7 @@ Sent when a package is detected at or moved to a new location. The payload conta
 | `comments` | string · nullable |
 | `containerId` | string · nullable |
 | `creationDate` | integer |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `description` | string · nullable |
 | `id` | string |
 | `images` | string[] |
@@ -3225,7 +3366,7 @@ Sent when a package is detected at or moved to a new location. The payload conta
 | `name` | string · nullable |
 | `state` | string |
 | `trackerSerial` | string · nullable |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.lastDetectedAtLocation
@@ -3253,6 +3394,15 @@ Sent when a package is detected at or moved to a new location. The payload conta
 | `name` | string · nullable |
 | `parentLocationId` | string · nullable |
 | `roleId` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -3302,10 +3452,17 @@ Sent when a package is detected at or moved to a new location. The payload conta
     "name": "Package Move 1",
     "state": "onhand",
     "trackerSerial": "TRACKER-PKG-MOVE-1",
-    "trackerSerials": [
-      "TRACKER-PKG-MOVE-1"
-    ],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "TRACKER-PKG-MOVE-1",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -3325,7 +3482,7 @@ Sent when a new work order is created. The payload contains the full work order 
 | `completionDate` | integer · nullable |
 | `creationDate` | integer |
 | `currentOperation` | object · nullable |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `customer` | string · nullable |
 | `description` | string · nullable |
 | `dueDate` | integer · nullable |
@@ -3345,7 +3502,7 @@ Sent when a new work order is created. The payload contains the full work order 
 | `statusFlags` | string[] |
 | `trackerSerial` | string · nullable |
 | `trackerSerialAttachDate` | integer |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.currentOperation
@@ -3439,6 +3596,15 @@ Sent when a new work order is created. The payload contains the full work order 
 | `quantity` | integer · nullable |
 | `unit` | string · nullable |
 
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
+
 <details>
 <summary>Example event</summary>
 
@@ -3499,10 +3665,17 @@ Sent when a new work order is created. The payload contains the full work order 
     ],
     "trackerSerial": "TRACKER-WO-CREATE-1",
     "trackerSerialAttachDate": 1765420060123,
-    "trackerSerials": [
-      "TRACKER-WO-CREATE-1"
-    ],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "TRACKER-WO-CREATE-1",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```
@@ -3522,7 +3695,7 @@ Sent when a work order is detected at or moved to a new location. The payload co
 | `completionDate` | integer · nullable |
 | `creationDate` | integer |
 | `currentOperation` | object · nullable |
-| `customProperties` | object (free-form) · nullable |
+| `customProperties` | object (free-form) |
 | `customer` | string · nullable |
 | `description` | string · nullable |
 | `dueDate` | integer · nullable |
@@ -3542,7 +3715,7 @@ Sent when a work order is detected at or moved to a new location. The payload co
 | `statusFlags` | string[] |
 | `trackerSerial` | string · nullable |
 | `trackerSerialAttachDate` | integer |
-| `trackerSerials` | string[] |
+| `trackers` | object[] · nullable |
 | `uuid` | string |
 
 #### data.currentOperation
@@ -3579,6 +3752,15 @@ Sent when a work order is detected at or moved to a new location. The payload co
 | `name` | string · nullable |
 | `parentLocationId` | string · nullable |
 | `roleId` | string · nullable |
+
+#### data.trackers
+
+| Field | Type |
+|---|---|
+| `attachDate` | integer · nullable |
+| `customProperties` | object (free-form) · nullable |
+| `encodingFormat` | string · nullable |
+| `serial` | string |
 
 <details>
 <summary>Example event</summary>
@@ -3635,10 +3817,17 @@ Sent when a work order is detected at or moved to a new location. The payload co
     "statusFlags": [],
     "trackerSerial": "WO-TRACKER-001",
     "trackerSerialAttachDate": 1765420060123,
-    "trackerSerials": [
-      "WO-TRACKER-001"
-    ],
-    "uuid": "11111111-1111-4111-8111-111111111111"
+    "uuid": "11111111-1111-4111-8111-111111111111",
+    "trackers": [
+      {
+        "serial": "WO-TRACKER-001",
+        "attachDate": 1765420060123,
+        "encodingFormat": "SGTIN-96",
+        "customProperties": {
+          "tagManufacturer": "Example Tag Manufacturer"
+        }
+      }
+    ]
   }
 }
 ```

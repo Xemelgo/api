@@ -120,12 +120,37 @@ Result of the packageRoute query.
 
 ### createPackages
 
-Creates one or more packages and returns their identifiers.
+Creates one or more packages. If creation succeeds but complete package details are unavailable, the response includes the created packages' `id` and `uuid`, along with an error. Do not retry creation for those packages.
 
 ```graphql
 mutation CreatePackages($input: CreatePackagesInput!) {
   createPackages(input: $input) {
-    packageIds
+    packages {
+      comments
+      containerId
+      creationDate
+      customProperties
+      description
+      id
+      lastDetectionDate
+      lastUpdatedDate
+      name
+      state
+      transferOrderId
+      transferStatus
+      uuid
+      lastDetectedAtLocation {
+        id
+        name
+      }
+      location {
+        id
+        name
+      }
+      trackers {
+        serial
+      }
+    }
   }
 }
 ```
@@ -166,8 +191,35 @@ mutation CreatePackages($input: CreatePackagesInput!) {
 {
   "data": {
     "createPackages": {
-      "packageIds": [
-        "example"
+      "packages": [
+        {
+          "comments": "Inspected and approved",
+          "containerId": "container-001",
+          "creationDate": 1719792000000,
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "description": "Electric counterbalance forklift",
+          "id": "package-001",
+          "lastDetectionDate": 1719792000000,
+          "lastUpdatedDate": 1719792000000,
+          "name": "Forklift 7",
+          "state": "ACTIVE",
+          "transferOrderId": "transferorder-001",
+          "transferStatus": "example",
+          "uuid": "uu-001",
+          "lastDetectedAtLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "location": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "trackers": [
+            {
+              "serial": "E28011700000020ABC12345"
+            }
+          ]
+        }
       ]
     }
   }
@@ -211,7 +263,7 @@ Result of the createPackages mutation.
 
 | Field | Type | Description |
 |---|---|---|
-| `packageIds` | `[String!]!` | Identifiers of the created packages. |
+| `packages` | [`[Package!]`](#type-package) | The created packages. |
 
 ---
 
@@ -438,40 +490,6 @@ Input for the updatePackages mutation.
 
 [`UpdatePackagesPayload`](#type-updatepackagespayload)
 
-##### Package {#type-package}
-
-A tracked package, identified by its package ID and optional tracker.
-
-| Field | Type | Description |
-|---|---|---|
-| `comments` | `String` | Any comments or remarks recorded for the package. |
-| `containerId` | `String` | Identifier of the container holding this package, if any. |
-| `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package was created. |
-| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
-| `description` | `String` | Free-text description of the package. |
-| `id` | `String!` | Unique identifier of the package. |
-| `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the package was last detected. |
-| `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package was last detected. |
-| `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package was last updated. |
-| `location` | [`LocationV2`](#type-locationv2) | Current location of the package. |
-| `name` | `String` | Display name of the package. |
-| `state` | `String` | Current state of the package. |
-| `trackers` | [`[Tracker]`](#type-tracker) | Trackers currently attached to the package. |
-| `transferOrderId` | `String` | Identifier of the transfer order this package belongs to, if any. |
-| `transferStatus` | `String` | Current transfer status of the package. |
-| `uuid` | `String` | Globally unique identifier of the package. |
-
-##### Tracker {#type-tracker}
-
-An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
-
-| Field | Type | Description |
-|---|---|---|
-| `attachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the item. |
-| `customProperties` | `AWSJSON` | Tenant-specific sensor profile custom properties. |
-| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
-| `serial` | `String` | EPC or tracker serial identifying this tracker. |
-
 ##### UpdatePackagesPayload {#type-updatepackagespayload}
 
 Result of the updatePackages mutation.
@@ -499,6 +517,40 @@ A location in the tenant's location hierarchy.
 | `name` | `String` | Display name of the location. |
 | `parentLocationId` | `String` | Identifier of the parent location in the hierarchy, if any. |
 | `roleId` | `String` | Identifier of the location role describing how this location is used. |
+
+#### Package {#type-package}
+
+A tracked package, identified by its package ID and optional tracker.
+
+| Field | Type | Description |
+|---|---|---|
+| `comments` | `String` | Any comments or remarks recorded for the package. |
+| `containerId` | `String` | Identifier of the container holding this package, if any. |
+| `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package was created. |
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `description` | `String` | Free-text description of the package. |
+| `id` | `String!` | Unique identifier of the package. |
+| `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the package was last detected. |
+| `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package was last detected. |
+| `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the package was last updated. |
+| `location` | [`LocationV2`](#type-locationv2) | Current location of the package. |
+| `name` | `String` | Display name of the package. |
+| `state` | `String` | Current state of the package. |
+| `trackers` | [`[Tracker]`](#type-tracker) | Trackers currently attached to the package. |
+| `transferOrderId` | `String` | Identifier of the transfer order this package belongs to, if any. |
+| `transferStatus` | `String` | Current transfer status of the package. |
+| `uuid` | `String` | Globally unique identifier of the package. |
+
+#### Tracker {#type-tracker}
+
+An identifier tracker (e.g. RFID tag or barcode) attached to a tracked item.
+
+| Field | Type | Description |
+|---|---|---|
+| `attachDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the tracker was attached to the item. |
+| `customProperties` | `AWSJSON` | Tenant-specific sensor profile custom properties. |
+| `encodingFormat` | `String` | RFID tag encoding format for this tracker. |
+| `serial` | `String` | EPC or tracker serial identifying this tracker. |
 
 #### TrackerInput {#type-trackerinput}
 
