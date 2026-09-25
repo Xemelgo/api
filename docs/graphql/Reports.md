@@ -476,8 +476,8 @@ query ScheduledReport($input: ScheduledReportInput!) {
         name
       }
       recurrence {
+        dayOfMonth
         daysOfWeek
-        excludeDates
       }
       reportParameters {
         customProperties
@@ -543,11 +543,9 @@ query ScheduledReport($input: ScheduledReportInput!) {
           }
         ],
         "recurrence": {
+          "dayOfMonth": 10,
           "daysOfWeek": [
             "FRIDAY"
-          ],
-          "excludeDates": [
-            1719792000000
           ]
         },
         "reportParameters": {
@@ -617,8 +615,8 @@ query ScheduledReports($input: ScheduledReportsInput!) {
         name
       }
       recurrence {
+        dayOfMonth
         daysOfWeek
-        excludeDates
       }
       reportParameters {
         customProperties
@@ -687,11 +685,9 @@ query ScheduledReports($input: ScheduledReportsInput!) {
             }
           ],
           "recurrence": {
+            "dayOfMonth": 10,
             "daysOfWeek": [
               "FRIDAY"
-            ],
-            "excludeDates": [
-              1719792000000
             ]
           },
           "reportParameters": {
@@ -893,8 +889,8 @@ mutation CreateScheduledReport($input: CreateScheduledReportInput!) {
         name
       }
       recurrence {
+        dayOfMonth
         daysOfWeek
-        excludeDates
       }
       reportParameters {
         customProperties
@@ -920,6 +916,7 @@ mutation CreateScheduledReport($input: CreateScheduledReportInput!) {
     "endDate": 1719792000000,
     "name": "Forklift 7",
     "recurrence": {
+      "dayOfMonth": 10,
       "daysOfWeek": [
         "FRIDAY"
       ],
@@ -1018,11 +1015,9 @@ mutation CreateScheduledReport($input: CreateScheduledReportInput!) {
           }
         ],
         "recurrence": {
+          "dayOfMonth": 10,
           "daysOfWeek": [
             "FRIDAY"
-          ],
-          "excludeDates": [
-            1719792000000
           ]
         },
         "reportParameters": {
@@ -1534,8 +1529,8 @@ mutation UpdateScheduledReport($input: UpdateScheduledReportInput!) {
         name
       }
       recurrence {
+        dayOfMonth
         daysOfWeek
-        excludeDates
       }
       reportParameters {
         customProperties
@@ -1563,6 +1558,7 @@ mutation UpdateScheduledReport($input: UpdateScheduledReportInput!) {
     "id": "updatescheduledreport-001",
     "name": "Forklift 7",
     "recurrence": {
+      "dayOfMonth": 10,
       "daysOfWeek": [
         "FRIDAY"
       ],
@@ -1660,11 +1656,9 @@ mutation UpdateScheduledReport($input: UpdateScheduledReportInput!) {
           }
         ],
         "recurrence": {
+          "dayOfMonth": 10,
           "daysOfWeek": [
             "FRIDAY"
-          ],
-          "excludeDates": [
-            1719792000000
           ]
         },
         "reportParameters": {
@@ -1977,6 +1971,7 @@ The recurrence rule of a scheduled report.
 
 | Field | Type | Description |
 |---|---|---|
+| `dayOfMonth` | `Int` | For MONTHLY schedules, the day of the month to fire on (1–31). 1 is the first day. 31 is the last day of every month (clamped to 28/29/30 when the month is shorter). When omitted, fires on the same calendar day as the previous run or startDate, which drifts after short months. |
 | `daysOfWeek` | [`[DayOfWeek!]`](#type-dayofweek) | For WEEKLY schedules, the days to fire on |
 | `excludeDates` | `[AWSTimestamp!]` | Epoch-millisecond dates to skip firing on |
 | `hour` | `Int` | Hour of day to fire, from 0 to 23, in the schedule's timezone |
@@ -1991,6 +1986,7 @@ Recurrence rule for creating or updating a scheduled report.
 
 | Field | Type | Description |
 |---|---|---|
+| `dayOfMonth` | `Int` | For MONTHLY schedules, the day of the month to fire on (1–31). 1 is the first day. 31 is the last day of every month (clamped to 28/29/30 when the month is shorter). When omitted, fires on the same calendar day as the previous run or startDate, which drifts after short months. |
 | `daysOfWeek` | [`[DayOfWeek!]`](#type-dayofweek) | For WEEKLY schedules, the days to fire on |
 | `excludeDates` | `[AWSTimestamp!]` | Epoch-millisecond dates to skip firing on |
 | `hour` | `Int` | Hour of day to fire, from 0 to 23, in the schedule's timezone; required for recurring types |
