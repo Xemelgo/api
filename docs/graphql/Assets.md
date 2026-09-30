@@ -386,12 +386,49 @@ Result of the assetTypes query.
 
 ### createAssets
 
-Creates one or more assets and returns their identifiers.
+Creates one or more assets. If creation succeeds but complete asset details are unavailable, the response includes the created assets' `id` and `uuid`, along with an error. Do not retry creation for those assets.
 
 ```graphql
 mutation CreateAssets($input: CreateAssetsInput!) {
   createAssets(input: $input) {
-    assetIds
+    assets {
+      comments
+      containerId
+      creationDate
+      customProperties
+      description
+      dueDate
+      id
+      images
+      lastDetectionDate
+      lastUpdatedDate
+      name
+      quantity
+      requestStatus
+      state
+      transferOrderId
+      transferStatus
+      uuid
+      lastDetectedAtLocation {
+        id
+        name
+      }
+      location {
+        id
+        name
+      }
+      owner {
+        id
+      }
+      trackers {
+        serial
+      }
+      type {
+        id
+        name
+        number
+      }
+    }
   }
 }
 ```
@@ -438,8 +475,49 @@ mutation CreateAssets($input: CreateAssetsInput!) {
 {
   "data": {
     "createAssets": {
-      "assetIds": [
-        "example"
+      "assets": [
+        {
+          "comments": "Inspected and approved",
+          "containerId": "container-001",
+          "creationDate": 1719792000000,
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "description": "Electric counterbalance forklift",
+          "dueDate": 1719792000000,
+          "id": "asset-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
+          "lastDetectionDate": 1719792000000,
+          "lastUpdatedDate": 1719792000000,
+          "name": "Forklift 7",
+          "quantity": 1,
+          "requestStatus": "AVAILABLE",
+          "state": "ACTIVE",
+          "transferOrderId": "transferorder-001",
+          "transferStatus": "example",
+          "uuid": "uu-001",
+          "lastDetectedAtLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "location": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "owner": {
+            "id": "assetowner-001"
+          },
+          "trackers": [
+            {
+              "serial": "E28011700000020ABC12345"
+            }
+          ],
+          "type": {
+            "id": "assettype-001",
+            "name": "Forklift 7",
+            "number": "AST-1024"
+          }
+        }
       ]
     }
   }
@@ -487,7 +565,7 @@ Result of the createAssets mutation.
 
 | Field | Type | Description |
 |---|---|---|
-| `assetIds` | `[String!]` | Identifiers of the created assets. |
+| `assets` | [`[Asset!]`](#type-asset) | The created assets. |
 
 ---
 

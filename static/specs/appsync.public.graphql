@@ -1230,7 +1230,10 @@ input CreateAssetsInput {
 """Result of the createAssets mutation."""
 type CreateAssetsPayload {
   """Identifiers of the created assets."""
-  assetIds: [String!]
+  assetIds: [String!] @deprecated(reason: "Use assets { id } instead")
+
+  """The created assets."""
+  assets: [Asset!]
 }
 
 """Input for creating a container, optionally with its initial contents."""
@@ -1430,8 +1433,11 @@ type CreateInventoryPartsPayload {
 
 """Result of the createInventory mutation."""
 type CreateInventoryPayload {
+  """The created inventory items."""
+  inventory: [Inventory!]
+
   """Identifiers of the created inventory items."""
-  inventoryIds: [String!]!
+  inventoryIds: [String!]! @deprecated(reason: "Use inventory { id } instead")
 }
 
 """
@@ -1594,7 +1600,10 @@ input CreatePackagesInput {
 """Result of the createPackages mutation."""
 type CreatePackagesPayload {
   """Identifiers of the created packages."""
-  packageIds: [String!]!
+  packageIds: [String!]! @deprecated(reason: "Use packages { id } instead")
+
+  """The created packages."""
+  packages: [Package!]
 }
 
 """Input for creating a scheduled report."""
@@ -2991,7 +3000,11 @@ type Mutation {
   """Creates one or more asset types and returns their identifiers."""
   createAssetTypes(input: CreateAssetTypesInput!): CreateAssetTypesPayload
 
-  """Creates one or more assets and returns their identifiers."""
+  """
+  Creates one or more assets.
+  If creation succeeds but complete asset details are unavailable, the response includes
+  the created assets' `id` and `uuid`, along with an error. Do not retry creation for those assets.
+  """
   createAssets(input: CreateAssetsInput!): CreateAssetsPayload
 
   """
@@ -3002,7 +3015,11 @@ type Mutation {
   """Creates one or more container types and returns their identifiers."""
   createContainerTypes(input: CreateContainerTypesInput!): CreateContainerTypesPayload
 
-  """Create one or more inventory items and return their identifiers."""
+  """
+  Creates one or more inventory items.
+  If creation succeeds but complete inventory item details are unavailable, the response includes
+  the created inventory items' `id` and `uuid`, along with an error. Do not retry creation for those inventory items.
+  """
   createInventory(input: CreateInventoryInput!): CreateInventoryPayload
 
   """Creates an Inventory Cycle Count."""
@@ -3027,7 +3044,11 @@ type Mutation {
   """Creates a package transfer order and returns the created order."""
   createPackageTransferOrder(input: CreatePackageTransferOrderInput!): CreatePackageTransferOrderPayload
 
-  """Creates one or more packages and returns their identifiers."""
+  """
+  Creates one or more packages.
+  If creation succeeds but complete package details are unavailable, the response includes
+  the created packages' `id` and `uuid`, along with an error. Do not retry creation for those packages.
+  """
   createPackages(input: CreatePackagesInput!): CreatePackagesPayload
 
   """
@@ -4518,6 +4539,13 @@ type RunReportResult {
 
 """The recurrence rule of a scheduled report."""
 type ScheduledRecurrence {
+  """
+  For MONTHLY schedules, the day of the month to fire on (1–31). 1 is the first day.
+  31 is the last day of every month (clamped to 28/29/30 when the month is shorter).
+  When omitted, fires on the same calendar day as the previous run or startDate, which drifts after short months.
+  """
+  dayOfMonth: Int
+
   """For WEEKLY schedules, the days to fire on"""
   daysOfWeek: [DayOfWeek!]
 
@@ -4542,6 +4570,13 @@ type ScheduledRecurrence {
 
 """Recurrence rule for creating or updating a scheduled report."""
 input ScheduledRecurrenceInput {
+  """
+  For MONTHLY schedules, the day of the month to fire on (1–31). 1 is the first day.
+  31 is the last day of every month (clamped to 28/29/30 when the month is shorter).
+  When omitted, fires on the same calendar day as the previous run or startDate, which drifts after short months.
+  """
+  dayOfMonth: Int
+
   """For WEEKLY schedules, the days to fire on"""
   daysOfWeek: [DayOfWeek!]
 

@@ -683,12 +683,49 @@ Result of the consumeInventory mutation.
 
 ### createInventory
 
-Create one or more inventory items and return their identifiers.
+Creates one or more inventory items. If creation succeeds but complete inventory item details are unavailable, the response includes the created inventory items' `id` and `uuid`, along with an error. Do not retry creation for those inventory items.
 
 ```graphql
 mutation CreateInventory($input: CreateInventoryInput!) {
   createInventory(input: $input) {
-    inventoryIds
+    inventory {
+      comments
+      consumedDate
+      containerId
+      creationDate
+      customerPartNumber
+      customProperties
+      description
+      expirationDate
+      id
+      images
+      isConsumed
+      lastDetectionDate
+      lastUpdatedDate
+      lotNumber
+      name
+      quantity
+      state
+      transferOrderId
+      transferStatus
+      uuid
+      lastDetectedAtLocation {
+        id
+        name
+      }
+      location {
+        id
+        name
+      }
+      part {
+        id
+        name
+        number
+      }
+      trackers {
+        serial
+      }
+    }
   }
 }
 ```
@@ -738,8 +775,49 @@ mutation CreateInventory($input: CreateInventoryInput!) {
 {
   "data": {
     "createInventory": {
-      "inventoryIds": [
-        "example"
+      "inventory": [
+        {
+          "comments": "Inspected and approved",
+          "consumedDate": 1719792000000,
+          "containerId": "container-001",
+          "creationDate": 1719792000000,
+          "customerPartNumber": "example",
+          "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "description": "Electric counterbalance forklift",
+          "expirationDate": 1719792000000,
+          "id": "inventory-001",
+          "images": [
+            "https://cdn.example.com/asset-1024.png"
+          ],
+          "isConsumed": true,
+          "lastDetectionDate": 1719792000000,
+          "lastUpdatedDate": 1719792000000,
+          "lotNumber": "example",
+          "name": "Forklift 7",
+          "quantity": 1,
+          "state": "ACTIVE",
+          "transferOrderId": "transferorder-001",
+          "transferStatus": "example",
+          "uuid": "uu-001",
+          "lastDetectedAtLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "location": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "part": {
+            "id": "inventorypart-001",
+            "name": "Forklift 7",
+            "number": "AST-1024"
+          },
+          "trackers": [
+            {
+              "serial": "E28011700000020ABC12345"
+            }
+          ]
+        }
       ]
     }
   }
@@ -790,7 +868,7 @@ Result of the createInventory mutation.
 
 | Field | Type | Description |
 |---|---|---|
-| `inventoryIds` | `[String!]!` | Identifiers of the created inventory items. |
+| `inventory` | [`[Inventory!]`](#type-inventory) | The created inventory items. |
 
 ---
 

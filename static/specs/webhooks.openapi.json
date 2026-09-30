@@ -60,7 +60,10 @@
                               "type": "string"
                             },
                             "itemUpdate": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "additionalProperties": true
                             },
                             "location": {
@@ -75,7 +78,10 @@
                               }
                             },
                             "previousFieldValues": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "additionalProperties": true
                             },
                             "uom": {
@@ -231,10 +237,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -372,12 +375,6 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "type": {
                         "type": [
                           "object",
@@ -449,6 +446,39 @@
                       },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -477,9 +507,6 @@
                   "name": "Asset Create 1",
                   "state": "incoming",
                   "trackerSerial": "TRACKER-ASSET-CREATE-1",
-                  "trackerSerials": [
-                    "TRACKER-ASSET-CREATE-1"
-                  ],
                   "type": {
                     "creationDate": 1765420060123,
                     "customProperties": {
@@ -495,7 +522,17 @@
                     "quantity": null,
                     "unit": null
                   },
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "TRACKER-ASSET-CREATE-1",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -2141,10 +2178,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -2288,15 +2322,6 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        }
-                      },
                       "type": {
                         "type": [
                           "object",
@@ -2368,6 +2393,39 @@
                       },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -2414,7 +2472,6 @@
                   "name": "Asset 1",
                   "state": "incoming",
                   "trackerSerial": null,
-                  "trackerSerials": [],
                   "type": {
                     "creationDate": 1765420060123,
                     "customProperties": {
@@ -2430,7 +2487,8 @@
                     "quantity": null,
                     "unit": null
                   },
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": null
                 }
               }
             }
@@ -2493,10 +2551,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -2640,12 +2695,6 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "type": {
                         "type": [
                           "object",
@@ -2717,6 +2766,39 @@
                       },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -2767,9 +2849,6 @@
                   "name": "Asset Move 1",
                   "state": "onhand",
                   "trackerSerial": "TRACKER-ASSET-MOVE-1",
-                  "trackerSerials": [
-                    "TRACKER-ASSET-MOVE-1"
-                  ],
                   "type": {
                     "creationDate": 1765420060123,
                     "customProperties": {
@@ -2785,7 +2864,17 @@
                     "quantity": null,
                     "unit": null
                   },
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "TRACKER-ASSET-MOVE-1",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -3363,7 +3452,10 @@
                               "type": "string"
                             },
                             "itemUpdate": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "additionalProperties": true
                             },
                             "location": {
@@ -3378,7 +3470,10 @@
                               }
                             },
                             "previousFieldValues": {
-                              "type": "object",
+                              "type": [
+                                "object",
+                                "null"
+                              ],
                               "additionalProperties": true
                             },
                             "uom": {
@@ -3554,10 +3649,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -3785,14 +3877,41 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -3874,10 +3993,17 @@
                   "quantity": null,
                   "state": "onhand",
                   "trackerSerial": "INV-TRACKER-001",
-                  "trackerSerials": [
-                    "INV-TRACKER-001"
-                  ],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "INV-TRACKER-001",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -3946,10 +4072,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -4168,14 +4291,41 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -4223,10 +4373,17 @@
                   "quantity": 13,
                   "state": "incoming",
                   "trackerSerial": "TRACKER-INV-CREATE-1",
-                  "trackerSerials": [
-                    "TRACKER-INV-CREATE-1"
-                  ],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "TRACKER-INV-CREATE-1",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -5920,10 +6077,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -6148,17 +6302,41 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -6224,8 +6402,8 @@
                   "quantity": 13,
                   "state": "incoming",
                   "trackerSerial": null,
-                  "trackerSerials": [],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": null
                 }
               }
             }
@@ -6294,10 +6472,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -6522,14 +6697,41 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -6599,10 +6801,17 @@
                   "quantity": 13,
                   "state": "onhand",
                   "trackerSerial": "TRACKER-INV-MOVE-1",
-                  "trackerSerials": [
-                    "TRACKER-INV-MOVE-1"
-                  ],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "TRACKER-INV-MOVE-1",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -6695,10 +6904,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -6926,14 +7132,41 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -7015,10 +7248,17 @@
                   "quantity": null,
                   "state": "onhand",
                   "trackerSerial": "INV-TRACKER-001",
-                  "trackerSerials": [
-                    "INV-TRACKER-001"
-                  ],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "INV-TRACKER-001",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -7081,10 +7321,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -7216,14 +7453,41 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -7251,10 +7515,17 @@
                   "name": "Package Create 1",
                   "state": "incoming",
                   "trackerSerial": "TRACKER-PKG-CREATE-1",
-                  "trackerSerials": [
-                    "TRACKER-PKG-CREATE-1"
-                  ],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "TRACKER-PKG-CREATE-1",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -7317,10 +7588,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -7452,17 +7720,41 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -7490,8 +7782,8 @@
                   "name": "Package 1",
                   "state": "incoming",
                   "trackerSerial": null,
-                  "trackerSerials": [],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": null
                 }
               }
             }
@@ -7554,10 +7846,7 @@
                         "type": "integer"
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "description": {
@@ -7695,14 +7984,41 @@
                           "null"
                         ]
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -7752,10 +8068,17 @@
                   "name": "Package Move 1",
                   "state": "onhand",
                   "trackerSerial": "TRACKER-PKG-MOVE-1",
-                  "trackerSerials": [
-                    "TRACKER-PKG-MOVE-1"
-                  ],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "TRACKER-PKG-MOVE-1",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -7841,10 +8164,7 @@
                         }
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "customer": {
@@ -8232,14 +8552,41 @@
                       "trackerSerialAttachDate": {
                         "type": "integer"
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -8301,10 +8648,17 @@
                   ],
                   "trackerSerial": "TRACKER-WO-CREATE-1",
                   "trackerSerialAttachDate": 1765420060123,
-                  "trackerSerials": [
-                    "TRACKER-WO-CREATE-1"
-                  ],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "TRACKER-WO-CREATE-1",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -8390,10 +8744,7 @@
                         }
                       },
                       "customProperties": {
-                        "type": [
-                          "object",
-                          "null"
-                        ],
+                        "type": "object",
                         "additionalProperties": true
                       },
                       "customer": {
@@ -8796,14 +9147,41 @@
                       "trackerSerialAttachDate": {
                         "type": "integer"
                       },
-                      "trackerSerials": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
                       "uuid": {
                         "type": "string"
+                      },
+                      "trackers": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "serial": {
+                              "type": "string"
+                            },
+                            "attachDate": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "encodingFormat": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "customProperties": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -8860,10 +9238,17 @@
                   "statusFlags": [],
                   "trackerSerial": "WO-TRACKER-001",
                   "trackerSerialAttachDate": 1765420060123,
-                  "trackerSerials": [
-                    "WO-TRACKER-001"
-                  ],
-                  "uuid": "11111111-1111-4111-8111-111111111111"
+                  "uuid": "11111111-1111-4111-8111-111111111111",
+                  "trackers": [
+                    {
+                      "serial": "WO-TRACKER-001",
+                      "attachDate": 1765420060123,
+                      "encodingFormat": "SGTIN-96",
+                      "customProperties": {
+                        "tagManufacturer": "Example Tag Manufacturer"
+                      }
+                    }
+                  ]
                 }
               }
             }
