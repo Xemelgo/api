@@ -75,7 +75,6 @@ const sidebars: SidebarsConfig = {
         { type: "doc", id: "Edge-Service/DataMode", label: "Data Mode" },
         { type: "doc", id: "Edge-Service/DeviceSettings", label: "Device Settings" },
         { type: "doc", id: "Edge-Service/GPIO", label: "GPIO" },
-        { type: "doc", id: "Edge-Service/TenantDevices", label: "Tenant Devices" },
       ],
     },
     {

@@ -8,7 +8,7 @@ pagination_prev: null
 
 > **Authentication:** every request needs an `IdToken` — see [Authentication](/Authentication). Send it as the `Authorization` header.
 
-The Edge Service API manages the fixed RFID readers connected to Xemelgo: which readers belong to a tenant, whether a reader is online, whether it is reading tags, and how it reads them.
+The Edge Service API manages the fixed RFID readers connected to Xemelgo: whether a reader is online, whether it is reading tags, and how it reads them.
 
 | Page | What it covers |
 | --- | --- |
@@ -16,7 +16,6 @@ The Edge Service API manages the fixed RFID readers connected to Xemelgo: which 
 | [Data Mode](./DataMode.md) | How the reader filters and reports tag reads |
 | [Device Settings](./DeviceSettings.md) | Antenna settings: power, session, RSSI filter, reader mode |
 | [GPIO](./GPIO.md) | General-purpose outputs (lights, buzzers, relays) |
-| [Tenant Devices](./TenantDevices.md) | The list of readers registered to a tenant |
 
 ## <span style={{ color: '#0D8CFF' }}>Device IDs</span>
 
@@ -26,7 +25,7 @@ The Edge Service API manages the fixed RFID readers connected to Xemelgo: which 
 | --- | --- |
 | Zebra (IoT Connector) | MAC address in capitals, without colons. `C4:7D:CC:0A:1B:2C` → `C47DCC0A1B2C` |
 | Nordic ID | The reader's serial number, for example `K123456789` |
-| Impinj | MAC address in capitals, without colons |
+| Impinj | MAC address in capitals, without colons. `00:16:25:1A:2B:3C` → `0016251A2B3C` |
 
 ## <span style={{ color: '#0D8CFF' }}>Reader Types</span>
 

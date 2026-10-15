@@ -31,7 +31,7 @@ Call [Get Data Mode Supports](#get-data-mode-supports) for the strategies a spec
 
 ### Endpoint Details
 
-- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/details/data-mode`
+- **URL:** `https://rest.api.xemelgo.com/edge/devices/{deviceId}/details/data-mode`
 - **Method:** `GET`
 
 ### Query Parameters
@@ -73,7 +73,7 @@ Returns the strategies the reader supports and a description of each filter sett
 
 ### Endpoint Details
 
-- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/details/data-mode/supports`
+- **URL:** `https://rest.api.xemelgo.com/edge/devices/{deviceId}/details/data-mode/supports`
 - **Method:** `GET`
 
 ### Query Parameters
@@ -128,7 +128,7 @@ Changes the reader's strategy and filter settings, then returns the settings now
 
 ### Endpoint Details
 
-- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/operations/data-mode`
+- **URL:** `https://rest.api.xemelgo.com/edge/devices/{deviceId}/operations/data-mode`
 - **Method:** `POST`
 
 ### Properties
