@@ -66,6 +66,19 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Edge Service API",
+      collapsed: true,
+      collapsible: true,
+      link: { type: "doc", id: "Edge-Service/index" },
+      items: [
+        { type: "doc", id: "Edge-Service/DeviceControl", label: "Device Control" },
+        { type: "doc", id: "Edge-Service/DataMode", label: "Data Mode" },
+        { type: "doc", id: "Edge-Service/DeviceSettings", label: "Device Settings" },
+        { type: "doc", id: "Edge-Service/GPIO", label: "GPIO" },
+      ],
+    },
+    {
+      type: "category",
       label: "Legacy API Docs",
       collapsed: true,
       collapsible: true,
