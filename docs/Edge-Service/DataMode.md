@@ -114,6 +114,14 @@ Returns the strategies the reader supports and a description of each filter sett
 | `strategies` | String[] | Strategies the reader supports |
 | `filterSettings` | Object | For each strategy, its settings with a `description` and a `valueType` (`number`, `string`, or `boolean`) |
 
+> Some settings are listed here under a different name than [Set Data Mode](#set-data-mode) and [Get Data Mode](#get-data-mode) use. Send them to Set Data Mode as:
+>
+> | Listed in supports | Use in Set Data Mode |
+> | --- | --- |
+> | `inRangeReportInterval` | `reportInRange` |
+> | `transitionTicks` | `transitionCommitTicks` |
+> | `transitionMaxAge` | `transitionIdleExitSecs` |
+
 ## <span style={{ color: '#0D8CFF' }}>Set Data Mode</span>
 
 Changes the reader's strategy and filter settings, then returns the settings now on the reader.
