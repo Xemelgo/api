@@ -31,12 +31,16 @@ query CycleCount($id: String!) {
     domain
     dueDate
     expectationCount
+    expectationSource
+    expectedQuantity
     id
+    locationCount
     moveLocationId
     name
     status
     submissionId
     submittedAt
+    typeCount
     updatedAt
     assignees {
       customProperties
@@ -58,6 +62,11 @@ query CycleCount($id: String!) {
       id
       lastName
       uuid
+    }
+    locations {
+      description
+      id
+      name
     }
   }
 }
@@ -88,12 +97,16 @@ query CycleCount($id: String!) {
       "domain": "ASSET",
       "dueDate": 1719792000000,
       "expectationCount": 10,
+      "expectationSource": "EXPLICIT",
+      "expectedQuantity": 1,
       "id": "cyclecount-001",
+      "locationCount": 10,
       "moveLocationId": "movelocation-001",
       "name": "Forklift 7",
       "status": "CANCELLED",
       "submissionId": "submission-001",
       "submittedAt": 1719792000000,
+      "typeCount": 10,
       "updatedAt": 1719792000000,
       "assignees": [
         {
@@ -119,7 +132,14 @@ query CycleCount($id: String!) {
         "id": "person-001",
         "lastName": "example",
         "uuid": "uu-001"
-      }
+      },
+      "locations": [
+        {
+          "description": "Electric counterbalance forklift",
+          "id": "cyclecountlocation-001",
+          "name": "Forklift 7"
+        }
+      ]
     }
   }
 }
@@ -153,12 +173,16 @@ query CycleCounts($input: CycleCountsInput) {
       domain
       dueDate
       expectationCount
+      expectationSource
+      expectedQuantity
       id
+      locationCount
       moveLocationId
       name
       status
       submissionId
       submittedAt
+      typeCount
       updatedAt
       assignees {
         id
@@ -168,6 +192,10 @@ query CycleCounts($input: CycleCountsInput) {
       }
       createdBy {
         id
+      }
+      locations {
+        id
+        name
       }
     }
   }
@@ -244,6 +272,8 @@ Filters for the counts query.
 |---|---|---|
 | `assigneeEmail` | `String` | Return Cycle Counts assigned to the active tenant user with this email address. |
 | `assigneeId` | `String` | Return Cycle Counts assigned to this person ID. |
+| `createdAfter` | `AWSTimestamp` | Return Cycle Counts created at or after this time, as an epoch timestamp in milliseconds. Inclusive. |
+| `createdBefore` | `AWSTimestamp` | Return Cycle Counts created before this time, as an epoch timestamp in milliseconds. Exclusive, so consecutive windows do not overlap. Must not be earlier than createdAfter. |
 | `domains` | [`[CycleCountDomain!]`](#type-cyclecountdomain) | Domains to return. Omit to return both Inventory and Asset Cycle Counts. |
 | `id` | `String` | Return the Cycle Count with this ID. |
 | `status` | [`[CycleCountStatus!]`](#type-cyclecountstatus) | Return Cycle Counts with any of these statuses. |
@@ -255,8 +285,8 @@ Options for listing Cycle Counts.
 | Field | Type | Description |
 |---|---|---|
 | `filter` | [`CycleCountFilterInput`](#type-cyclecountfilterinput) | Filters to apply. |
-| `limit` | `Int` | Maximum Cycle Counts to return. Defaults to 10 and must be between 1 and 10. |
-| `nextToken` | `String` | Token returned by a previous counts query. |
+| `limit` | `Int` | Maximum Cycle Counts to return. Defaults to 10 and must be between 1 and 100. When the selection includes expectationCount, typeCount, locationCount, or expectedQuantity, it must be between 1 and 10. Pages exceeding 3 MiB must be retried with a smaller limit. |
+| `nextToken` | `String` | Token returned by the previous counts query with the same filter. A token used with a different filter is rejected; start again from the first page. |
 
 #### Returns
 
@@ -289,12 +319,16 @@ mutation CancelCycleCount($input: CancelCycleCountInput!) {
       domain
       dueDate
       expectationCount
+      expectationSource
+      expectedQuantity
       id
+      locationCount
       moveLocationId
       name
       status
       submissionId
       submittedAt
+      typeCount
       updatedAt
       assignees {
         id
@@ -304,6 +338,10 @@ mutation CancelCycleCount($input: CancelCycleCountInput!) {
       }
       createdBy {
         id
+      }
+      locations {
+        id
+        name
       }
     }
   }
@@ -339,12 +377,16 @@ mutation CancelCycleCount($input: CancelCycleCountInput!) {
         "domain": "ASSET",
         "dueDate": 1719792000000,
         "expectationCount": 10,
+        "expectationSource": "EXPLICIT",
+        "expectedQuantity": 1,
         "id": "cyclecount-001",
+        "locationCount": 10,
         "moveLocationId": "movelocation-001",
         "name": "Forklift 7",
         "status": "CANCELLED",
         "submissionId": "submission-001",
         "submittedAt": 1719792000000,
+        "typeCount": 10,
         "updatedAt": 1719792000000,
         "assignees": [
           {
@@ -358,7 +400,13 @@ mutation CancelCycleCount($input: CancelCycleCountInput!) {
         ],
         "createdBy": {
           "id": "person-001"
-        }
+        },
+        "locations": [
+          {
+            "id": "cyclecountlocation-001",
+            "name": "Forklift 7"
+          }
+        ]
       }
     }
   }
@@ -409,12 +457,16 @@ mutation CreateAssetCycleCount($input: CreateAssetCycleCountInput!) {
       domain
       dueDate
       expectationCount
+      expectationSource
+      expectedQuantity
       id
+      locationCount
       moveLocationId
       name
       status
       submissionId
       submittedAt
+      typeCount
       updatedAt
       assignees {
         id
@@ -424,6 +476,10 @@ mutation CreateAssetCycleCount($input: CreateAssetCycleCountInput!) {
       }
       createdBy {
         id
+      }
+      locations {
+        id
+        name
       }
       scope {
         assetTypeIds
@@ -498,12 +554,16 @@ mutation CreateAssetCycleCount($input: CreateAssetCycleCountInput!) {
         "domain": "ASSET",
         "dueDate": 1719792000000,
         "expectationCount": 10,
+        "expectationSource": "EXPLICIT",
+        "expectedQuantity": 1,
         "id": "assetcyclecount-001",
+        "locationCount": 10,
         "moveLocationId": "movelocation-001",
         "name": "Forklift 7",
         "status": "CANCELLED",
         "submissionId": "submission-001",
         "submittedAt": 1719792000000,
+        "typeCount": 10,
         "updatedAt": 1719792000000,
         "assignees": [
           {
@@ -518,6 +578,12 @@ mutation CreateAssetCycleCount($input: CreateAssetCycleCountInput!) {
         "createdBy": {
           "id": "person-001"
         },
+        "locations": [
+          {
+            "id": "cyclecountlocation-001",
+            "name": "Forklift 7"
+          }
+        ],
         "scope": {
           "assetTypeIds": [
             "example"
@@ -582,12 +648,16 @@ mutation CreateInventoryCycleCount($input: CreateInventoryCycleCountInput!) {
       domain
       dueDate
       expectationCount
+      expectationSource
+      expectedQuantity
       id
+      locationCount
       moveLocationId
       name
       status
       submissionId
       submittedAt
+      typeCount
       updatedAt
       assignees {
         id
@@ -597,6 +667,10 @@ mutation CreateInventoryCycleCount($input: CreateInventoryCycleCountInput!) {
       }
       createdBy {
         id
+      }
+      locations {
+        id
+        name
       }
       scope {
         categoryIds
@@ -685,7 +759,7 @@ Fields for creating an Inventory Cycle Count.
 | `assigneeIds` | `[String!]` | IDs of the people eligible to work on the Cycle Count. Omit to create an unassigned Cycle Count. |
 | `blind` | `Boolean` | Whether counting clients should hide expected information from the counter. |
 | `dueDate` | `AWSTimestamp` | Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds. |
-| `expectations` | [`[InventoryCycleCountExpectationInput!]`](#type-inventorycyclecountexpectationinput) | Expected quantities supplied by the caller, with one entry for each part and location. Use this when expected inventory is managed outside Xemelgo. Supply exactly one of expectations or scope. These expectations cannot be changed after creation and require id to be supplied. |
+| `expectations` | [`[InventoryCycleCountExpectationInput!]`](#type-inventorycyclecountexpectationinput) | Expected quantities supplied by the caller, with one entry for each part and location. Use this when expected inventory is managed outside Xemelgo. Supply exactly one of expectations or scope. These expectations cannot be changed after creation, and the Cycle Count id input is required. |
 | `id` | `String!` | Caller-generated, tenant-unique identifier for the Cycle Count. Reuse it when retrying creation. Up to 256 UTF-8 bytes. |
 | `moveLocationId` | `String` | Optional destination for moved Inventory results. When omitted, each result's count location is used. |
 | `name` | `String!` | Name shown to people working with the Cycle Count. |
@@ -693,7 +767,7 @@ Fields for creating an Inventory Cycle Count.
 
 ##### InventoryCycleCountExpectationInput {#type-inventorycyclecountexpectationinput}
 
-An explicitly supplied inventory expectation.
+An expected inventory quantity that you provide for a part at a location.
 
 | Field | Type | Description |
 |---|---|---|
@@ -733,12 +807,16 @@ mutation UpdateAssetCycleCount($input: UpdateAssetCycleCountInput!) {
       domain
       dueDate
       expectationCount
+      expectationSource
+      expectedQuantity
       id
+      locationCount
       moveLocationId
       name
       status
       submissionId
       submittedAt
+      typeCount
       updatedAt
       assignees {
         id
@@ -748,6 +826,10 @@ mutation UpdateAssetCycleCount($input: UpdateAssetCycleCountInput!) {
       }
       createdBy {
         id
+      }
+      locations {
+        id
+        name
       }
       scope {
         assetTypeIds
@@ -822,12 +904,16 @@ mutation UpdateAssetCycleCount($input: UpdateAssetCycleCountInput!) {
         "domain": "ASSET",
         "dueDate": 1719792000000,
         "expectationCount": 10,
+        "expectationSource": "EXPLICIT",
+        "expectedQuantity": 1,
         "id": "assetcyclecount-001",
+        "locationCount": 10,
         "moveLocationId": "movelocation-001",
         "name": "Forklift 7",
         "status": "CANCELLED",
         "submissionId": "submission-001",
         "submittedAt": 1719792000000,
+        "typeCount": 10,
         "updatedAt": 1719792000000,
         "assignees": [
           {
@@ -842,6 +928,12 @@ mutation UpdateAssetCycleCount($input: UpdateAssetCycleCountInput!) {
         "createdBy": {
           "id": "person-001"
         },
+        "locations": [
+          {
+            "id": "cyclecountlocation-001",
+            "name": "Forklift 7"
+          }
+        ],
         "scope": {
           "assetTypeIds": [
             "example"
@@ -874,7 +966,7 @@ Fields for updating an Asset Cycle Count.
 | `id` | `String!` | ID of the Asset Cycle Count to update. |
 | `moveLocationId` | `String` | New destination for moved Asset results. Set to null to use each result's count location. |
 | `name` | `String` | New name for the Cycle Count. |
-| `scope` | [`AssetCycleCountScopeInput`](#type-assetcyclecountscopeinput) | New Asset Cycle Count scope. Omit to keep the current scope. |
+| `scope` | [`AssetCycleCountScopeInput`](#type-assetcyclecountscopeinput) | New locations, asset types, and states to include in the Cycle Count. Omit to keep the current selection. |
 
 #### Returns
 
@@ -906,12 +998,16 @@ mutation UpdateInventoryCycleCount($input: UpdateInventoryCycleCountInput!) {
       domain
       dueDate
       expectationCount
+      expectationSource
+      expectedQuantity
       id
+      locationCount
       moveLocationId
       name
       status
       submissionId
       submittedAt
+      typeCount
       updatedAt
       assignees {
         id
@@ -921,6 +1017,10 @@ mutation UpdateInventoryCycleCount($input: UpdateInventoryCycleCountInput!) {
       }
       createdBy {
         id
+      }
+      locations {
+        id
+        name
       }
       scope {
         categoryIds
@@ -995,12 +1095,16 @@ mutation UpdateInventoryCycleCount($input: UpdateInventoryCycleCountInput!) {
         "domain": "INVENTORY",
         "dueDate": 1719792000000,
         "expectationCount": 10,
+        "expectationSource": "EXPLICIT",
+        "expectedQuantity": 1,
         "id": "inventorycyclecount-001",
+        "locationCount": 10,
         "moveLocationId": "movelocation-001",
         "name": "Forklift 7",
         "status": "CANCELLED",
         "submissionId": "submission-001",
         "submittedAt": 1719792000000,
+        "typeCount": 10,
         "updatedAt": 1719792000000,
         "assignees": [
           {
@@ -1015,6 +1119,12 @@ mutation UpdateInventoryCycleCount($input: UpdateInventoryCycleCountInput!) {
         "createdBy": {
           "id": "person-001"
         },
+        "locations": [
+          {
+            "id": "cyclecountlocation-001",
+            "name": "Forklift 7"
+          }
+        ],
         "scope": {
           "categoryIds": [
             "example"
@@ -1047,7 +1157,7 @@ Fields for updating an Inventory Cycle Count.
 | `id` | `String!` | ID of the Inventory Cycle Count to update. |
 | `moveLocationId` | `String` | New destination for moved Inventory results. Set to null to use each result's count location. |
 | `name` | `String` | New name for the Cycle Count. |
-| `scope` | [`InventoryCycleCountScopeInput`](#type-inventorycyclecountscopeinput) | New Inventory Cycle Count scope. Omit to keep the current scope. |
+| `scope` | [`InventoryCycleCountScopeInput`](#type-inventorycyclecountscopeinput) | New locations, parts, and states to include in the Cycle Count. Omit to keep the current selection. |
 
 #### Returns
 
@@ -1081,14 +1191,19 @@ A request to count assets.
 | `createdBy` | [`Person`](#type-person) | Person who created the Cycle Count. Null when created by an integration. |
 | `domain` | [`CycleCountDomain!`](#type-cyclecountdomain) | The kind of records included in the Cycle Count. |
 | `dueDate` | `AWSTimestamp` | Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds. |
-| `expectationCount` | `Int` | Current number of location-and-type expectation groups. For scope-based Cycle Counts, available on single-count responses and omitted from list results. |
+| `expectationCount` | `Int` | Number of expectations: the location-and-asset-type groups currently matching the scope. Null if unavailable. |
+| `expectationSource` | [`CycleCountExpectationSource!`](#type-cyclecountexpectationsource) | Where the Cycle Count's expected quantities come from. Asset Cycle Counts always use SCOPE. |
+| `expectedQuantity` | `Float` | Total number of assets expected to be counted. Null if unavailable. |
 | `id` | `String!` | Customer-facing identifier for the Cycle Count. Up to 256 UTF-8 bytes. |
+| `locationCount` | `Int` | Number of distinct locations with expected quantities. This can differ from the number of locations selected for the Cycle Count. Null if unavailable. |
+| `locations` | [`[CycleCountLocation!]`](#type-cyclecountlocation) | Locations chosen for the Cycle Count at creation, including any with nothing expected. |
 | `moveLocationId` | `String` | Optional destination for moved Asset results. When omitted, each result's count location is used. |
 | `name` | `String!` | Name shown to people working with the Cycle Count. |
 | `scope` | [`AssetCycleCountScope!`](#type-assetcyclecountscope) | The locations, asset types, and states included in the Cycle Count. |
 | `status` | [`CycleCountStatus!`](#type-cyclecountstatus) | Current status of the Cycle Count. |
 | `submissionId` | `ID` | ID used to monitor submission processing. Null before submission. |
 | `submittedAt` | `AWSTimestamp` | Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds. |
+| `typeCount` | `Int` | Number of distinct asset types with expected quantities. Null if unavailable. |
 | `updatedAt` | `AWSTimestamp!` | Time when the Cycle Count was last updated, as an epoch timestamp in milliseconds. |
 
 #### AssetCycleCountScope {#type-assetcyclecountscope}
@@ -1098,7 +1213,7 @@ The locations, asset types, and states included in an Asset Cycle Count.
 | Field | Type | Description |
 |---|---|---|
 | `assetTypeIds` | `[String!]!` | Asset type identifiers included in the Cycle Count. An empty list includes all asset types. |
-| `categoryIds` | `[String!]!` | Item-type category identifiers included in the Cycle Count. Category members are evaluated when expectations are queried. |
+| `categoryIds` | `[String!]!` | Item-type category identifiers included in the Cycle Count. Category members are resolved when expectations are queried. |
 | `excludedAssetTypeIds` | `[String!]!` | Asset type identifiers excluded from the Cycle Count. |
 | `excludedLocations` | [`[CycleCountLocationScope!]!`](#type-cyclecountlocationscope) | Locations excluded from the Cycle Count. |
 | `expectedStates` | `[String!]!` | Asset states included in the Cycle Count. |
@@ -1111,7 +1226,7 @@ The locations, asset types, and states to include in an Asset Cycle Count.
 | Field | Type | Description |
 |---|---|---|
 | `assetTypeIds` | `[String!]` | Asset type identifiers to include. Omit to include all asset types. |
-| `categoryIds` | `[String!]` | Item-type category identifiers to include. Members are combined with assetTypeIds and evaluated when expectations are queried. |
+| `categoryIds` | `[String!]` | Item-type category identifiers to include. Members are combined with assetTypeIds and resolved when expectations are queried. |
 | `excludedAssetTypeIds` | `[String!]` | Asset type identifiers to exclude. |
 | `excludedLocations` | [`[CycleCountLocationScopeInput!]`](#type-cyclecountlocationscopeinput) | Locations to exclude. |
 | `expectedStates` | `[String!]` | Asset states to include. Omit or leave empty to use the standard countable states. |
@@ -1133,13 +1248,18 @@ Fields shared by Inventory and Asset Cycle Counts.
 | `createdBy` | [`Person`](#type-person) | Person who created the Cycle Count. Null when it was created by an integration. |
 | `domain` | [`CycleCountDomain!`](#type-cyclecountdomain) | The kind of records included in the Cycle Count. |
 | `dueDate` | `AWSTimestamp` | Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds. |
-| `expectationCount` | `Int` | Current number of location-and-type expectation groups. For scope-based Cycle Counts, available on single-count responses and omitted from list results. |
+| `expectationCount` | `Int` | Number of expectations. For a scope count, the location-and-type groups currently matching the scope. For a count created with expected quantities, the supplied lines, each counted separately. Null if unavailable. |
+| `expectationSource` | [`CycleCountExpectationSource!`](#type-cyclecountexpectationsource) | Where the Cycle Count's expected quantities come from, which also decides how it is counted. |
+| `expectedQuantity` | `Float` | Total quantity expected to be counted. Inventory quantities are added together; an inventory record without a quantity counts as one. Each asset counts as one. Null if unavailable. |
 | `id` | `String!` | Customer-facing identifier for the Cycle Count. Up to 256 UTF-8 bytes. |
+| `locationCount` | `Int` | Number of distinct locations with expected quantities. This can differ from the number of locations selected for the Cycle Count. Null if unavailable. |
+| `locations` | [`[CycleCountLocation!]`](#type-cyclecountlocation) | Locations in the Cycle Count. For a scope count, the locations chosen at creation, including any with nothing expected. For a count created with expected quantities, the distinct locations in those expectations. |
 | `moveLocationId` | `String` | Optional destination for results marked as moved. When omitted, each result's count location is used. |
 | `name` | `String!` | Name shown to people working with the Cycle Count. |
 | `status` | [`CycleCountStatus!`](#type-cyclecountstatus) | Current status of the Cycle Count. |
 | `submissionId` | `ID` | ID used to monitor submission processing. Null before submission. |
 | `submittedAt` | `AWSTimestamp` | Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds. |
+| `typeCount` | `Int` | Number of distinct parts or asset types with expected quantities. Null if unavailable. |
 | `updatedAt` | `AWSTimestamp!` | Time when the Cycle Count was last updated, as an epoch timestamp in milliseconds. |
 
 #### CycleCountDomain {#type-cyclecountdomain}
@@ -1150,6 +1270,25 @@ The kind of records included in a Cycle Count.
 |---|---|
 | `ASSET` | Assets. |
 | `INVENTORY` | Inventory records. |
+
+#### CycleCountExpectationSource {#type-cyclecountexpectationsource}
+
+Where a Cycle Count's expected quantities come from.
+
+| Value | Description |
+|---|---|
+| `EXPLICIT` | The caller supplied them as expected lines when creating the count, and each line is counted by entering a quantity. Inventory Cycle Counts only. |
+| `SCOPE` | Xemelgo calculates them from the inventory or assets matching the count's scope. Each item is counted individually, and the expectations are location-and-type groups recalculated when queried. |
+
+#### CycleCountLocation {#type-cyclecountlocation}
+
+A location in the Cycle Count, with its name. For a scope count, these are the locations chosen at creation, including any with nothing expected.
+
+| Field | Type | Description |
+|---|---|---|
+| `description` | `String` | Location description when available. |
+| `id` | `String!` | Public location identifier, including caller-supplied external identifiers. |
+| `name` | `String` | Location name when available. |
 
 #### CycleCountLocationScope {#type-cyclecountlocationscope}
 
@@ -1195,14 +1334,19 @@ A request to count inventory.
 | `createdBy` | [`Person`](#type-person) | Person who created the Cycle Count. Null when created by an integration. |
 | `domain` | [`CycleCountDomain!`](#type-cyclecountdomain) | The kind of records included in the Cycle Count. |
 | `dueDate` | `AWSTimestamp` | Time by which the Cycle Count should be completed, as an epoch timestamp in milliseconds. |
-| `expectationCount` | `Int` | Current number of location-and-type expectation groups. For scope-based Cycle Counts, available on single-count responses and omitted from list results. |
+| `expectationCount` | `Int` | Number of expectations. For a scope count, the location-and-type groups currently matching the scope. For a count created with expected quantities, the supplied lines, each counted separately. Null if unavailable. |
+| `expectationSource` | [`CycleCountExpectationSource!`](#type-cyclecountexpectationsource) | Where the Cycle Count's expected quantities come from, which also decides how it is counted. |
+| `expectedQuantity` | `Float` | Total quantity expected to be counted. Inventory quantities are added together; inventory without a quantity counts as one. Null if unavailable. |
 | `id` | `String!` | Customer-facing identifier for the Cycle Count. Up to 256 UTF-8 bytes. |
+| `locationCount` | `Int` | Number of distinct locations with expected quantities. This can differ from the number of locations selected for the Cycle Count. Null if unavailable. |
+| `locations` | [`[CycleCountLocation!]`](#type-cyclecountlocation) | Locations in the Cycle Count. For a scope count, the locations chosen at creation, including any with nothing expected. For a count created with expected quantities, the distinct locations in those expectations. |
 | `moveLocationId` | `String` | Optional destination for moved Inventory results. When omitted, each result's count location is used. |
 | `name` | `String!` | Name shown to people working with the Cycle Count. |
 | `scope` | [`InventoryCycleCountScope`](#type-inventorycyclecountscope) | The locations, parts, and states included in the Cycle Count. |
 | `status` | [`CycleCountStatus!`](#type-cyclecountstatus) | Current status of the Cycle Count. |
 | `submissionId` | `ID` | ID used to monitor submission processing. Null before submission. |
 | `submittedAt` | `AWSTimestamp` | Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds. |
+| `typeCount` | `Int` | Number of distinct parts with expected quantities. Null if unavailable. |
 | `updatedAt` | `AWSTimestamp!` | Time when the Cycle Count was last updated, as an epoch timestamp in milliseconds. |
 
 #### InventoryCycleCountScope {#type-inventorycyclecountscope}
@@ -1211,7 +1355,7 @@ The locations, parts, and states included in an Inventory Cycle Count.
 
 | Field | Type | Description |
 |---|---|---|
-| `categoryIds` | `[String!]!` | Item-type category identifiers included in the Cycle Count. Category members are evaluated when expectations are queried. |
+| `categoryIds` | `[String!]!` | Item-type category identifiers included in the Cycle Count. Category members are resolved when expectations are queried. |
 | `excludedLocations` | [`[CycleCountLocationScope!]!`](#type-cyclecountlocationscope) | Locations excluded from the Cycle Count. |
 | `excludedPartIds` | `[String!]!` | Inventory part identifiers excluded from the Cycle Count. |
 | `expectedStates` | `[String!]!` | Inventory states included in the Cycle Count. |
@@ -1224,7 +1368,7 @@ The locations, parts, and states to include in an Inventory Cycle Count.
 
 | Field | Type | Description |
 |---|---|---|
-| `categoryIds` | `[String!]` | Item-type category identifiers to include. Members are combined with partIds and evaluated when expectations are queried. |
+| `categoryIds` | `[String!]` | Item-type category identifiers to include. Members are combined with partIds and resolved when expectations are queried. |
 | `excludedLocations` | [`[CycleCountLocationScopeInput!]`](#type-cyclecountlocationscopeinput) | Locations to exclude. |
 | `excludedPartIds` | `[String!]` | Inventory part identifiers to exclude. |
 | `expectedStates` | `[String!]` | Inventory states to include. Omit or leave empty to use the standard countable states. |
