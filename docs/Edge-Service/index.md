@@ -38,7 +38,7 @@ Each reader connects to Xemelgo through an **edge app**, which decides the `edge
 
 Where responses differ, each page shows an example for each.
 
-A reader is registered with its edge app automatically the first time it connects to Xemelgo. Until then, device endpoints return the error `Device {deviceId} is not yet registered or has never been online`.
+A reader is registered with its edge app automatically the first time it connects to Xemelgo. Until then, the `details` and `operations` endpoints return the error `Device {deviceId} is not yet registered or has never been online`, [Get Edge App](./DeviceControl.md#get-edge-app) returns `200` with an empty body, and [Set Edge App](./DeviceControl.md#set-edge-app) can register the reader manually.
 
 ## <span style={{ color: '#0D8CFF' }}>Live and Cached Reads</span>
 
