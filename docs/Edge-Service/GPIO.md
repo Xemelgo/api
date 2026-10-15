@@ -19,7 +19,7 @@ General-purpose outputs (GPOs) let a reader switch external devices such as stac
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/details/gpo-settings`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/details/gpo-settings`
 - **Method:** `GET`
 
 ### Query Parameters
@@ -49,7 +49,7 @@ Turns GPOs on or off and returns the state now on the reader.
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/operations/gpo-settings`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/operations/gpo-settings`
 - **Method:** `POST`
 
 ### Properties

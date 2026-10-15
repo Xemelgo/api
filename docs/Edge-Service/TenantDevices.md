@@ -42,7 +42,7 @@ Tenant devices are the list of readers registered to a tenant. Registering a rea
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/tenants/{tenantId}/devices`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/tenants/{tenantId}/devices`
 - **Method:** `POST`
 
 ### Properties
@@ -92,7 +92,7 @@ The registered device as sent, without `tenantId`:
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/tenants/{tenantId}/devices`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/tenants/{tenantId}/devices`
 - **Method:** `GET`
 
 ### Query Parameters
@@ -132,7 +132,7 @@ The registered device as sent, without `tenantId`:
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/tenants/{tenantId}/devices/{deviceId}`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/tenants/{tenantId}/devices/{deviceId}`
 - **Method:** `GET`
 
 **StatusCode** — 200 on success
@@ -153,7 +153,7 @@ Changes the edge app recorded for a registered reader.
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/tenants/{tenantId}/devices/{deviceId}`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/tenants/{tenantId}/devices/{deviceId}`
 - **Method:** `PATCH`
 
 ### Properties
@@ -186,7 +186,7 @@ The updated [tenant device](#tenant-device-object).
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/tenants/{tenantId}/devices/{deviceId}`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/tenants/{tenantId}/devices/{deviceId}`
 - **Method:** `DELETE`
 
 **StatusCode** — 200 on success

@@ -20,7 +20,7 @@ Device settings control each antenna: whether it is enabled, its transmit power,
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/details/device-settings`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/details/device-settings`
 - **Method:** `GET`
 
 ### Query Parameters
@@ -62,7 +62,7 @@ Returns which settings the reader supports, their allowed values, and its antenn
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/details/device-settings/supports`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/details/device-settings/supports`
 - **Method:** `GET`
 
 ### Query Parameters
@@ -122,7 +122,7 @@ Changes antenna settings, then reads them back from the reader and returns them.
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/operations/device-settings`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/operations/device-settings`
 - **Method:** `POST`
 
 ### Properties

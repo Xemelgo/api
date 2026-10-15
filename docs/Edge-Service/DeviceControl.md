@@ -25,7 +25,7 @@ Returns which edge app a reader runs and whether it is connected to Xemelgo.
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/edge-app`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/edge-app`
 - **Method:** `GET`
 
 ### Path Parameters
@@ -64,7 +64,7 @@ This **overwrites** the reader's existing record and sets `connectionStatus` to 
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/edge-app`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/edge-app`
 - **Method:** `POST`
 
 ### Properties
@@ -98,7 +98,7 @@ Returns whether the reader is reading tags.
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/details/status`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/details/status`
 - **Method:** `GET`
 
 ### Query Parameters
@@ -145,7 +145,7 @@ Starts the reader reading tags.
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/operations/start`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/operations/start`
 - **Method:** `POST`
 - **Body:** none
 
@@ -177,7 +177,7 @@ Stops the reader reading tags. The reader stays connected and can be started aga
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/operations/stop`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/operations/stop`
 - **Method:** `POST`
 - **Body:** none
 
@@ -209,7 +209,7 @@ Returns the reader's model, vendor, network addresses, software versions, and su
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices/{deviceId}/details/biography`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices/{deviceId}/details/biography`
 - **Method:** `GET`
 
 ### Query Parameters
@@ -267,7 +267,7 @@ Returns the version of the Edge Service API.
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/version`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/version`
 - **Method:** `GET`
 
 **StatusCode** — 200 on success
@@ -284,7 +284,7 @@ Downloads the Xemelgo app package (`.deb`) that is installed on Zebra readers.
 
 ### Endpoint Details
 
-- **URL:** `https://<edge-service-host>/v1/devices-files/da-app`
+- **URL:** `https://io2haag9wj.execute-api.us-west-2.amazonaws.com/prod/devices-files/da-app`
 - **Method:** `GET`
 
 ### Query Parameters
