@@ -45,7 +45,6 @@ query WorkOrder($number: String) {
     }
     inputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -96,7 +95,6 @@ query WorkOrder($number: String) {
     }
     outputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -179,7 +177,6 @@ query WorkOrder($number: String) {
       "inputs": [
         {
           "category": "example",
-          "containerNumber": "example",
           "id": "workorder-001",
           "isActive": true,
           "name": "Forklift 7",
@@ -240,7 +237,6 @@ query WorkOrder($number: String) {
       "outputs": [
         {
           "category": "example",
-          "containerNumber": "example",
           "id": "workorderoutput-001",
           "isActive": true,
           "name": "Forklift 7",
@@ -1001,7 +997,6 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
     }
     inputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -1052,7 +1047,6 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
     }
     outputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -1149,7 +1143,6 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
         "inputs": [
           {
             "category": "example",
-            "containerNumber": "example",
             "id": "workorder-001",
             "isActive": true,
             "name": "Forklift 7",
@@ -1210,7 +1203,6 @@ mutation AttachWorkOrderTracker($input: [AttachWorkOrderTrackerInput!]!, $option
         "outputs": [
           {
             "category": "example",
-            "containerNumber": "example",
             "id": "workorderoutput-001",
             "isActive": true,
             "name": "Forklift 7",
@@ -1324,7 +1316,6 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
     }
     inputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -1375,7 +1366,6 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
     }
     outputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -1466,7 +1456,6 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
         "inputs": [
           {
             "category": "example",
-            "containerNumber": "example",
             "id": "workorder-001",
             "isActive": true,
             "name": "Forklift 7",
@@ -1527,7 +1516,6 @@ mutation CompleteWorkOrders($input: CompleteWorkOrdersInput!) {
         "outputs": [
           {
             "category": "example",
-            "containerNumber": "example",
             "id": "workorderoutput-001",
             "isActive": true,
             "name": "Forklift 7",
@@ -1895,7 +1883,6 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
     }
     inputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -1946,7 +1933,6 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
     }
     outputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -2045,7 +2031,6 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
       "inputs": [
         {
           "category": "example",
-          "containerNumber": "example",
           "id": "workorder-001",
           "isActive": true,
           "name": "Forklift 7",
@@ -2106,7 +2091,6 @@ mutation UpdateWorkOrderInputPart($input: UpdateWorkOrderInputPartInput!) {
       "outputs": [
         {
           "category": "example",
-          "containerNumber": "example",
           "id": "workorderoutput-001",
           "isActive": true,
           "name": "Forklift 7",
@@ -2301,7 +2285,6 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
     }
     inputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -2352,7 +2335,6 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
     }
     outputs {
       category
-      containerNumber
       id
       isActive
       name
@@ -2454,7 +2436,6 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
         "inputs": [
           {
             "category": "example",
-            "containerNumber": "example",
             "id": "workorder-001",
             "isActive": true,
             "name": "Forklift 7",
@@ -2515,7 +2496,6 @@ mutation UpdateWorkOrderProperties($input: [UpdateWorkOrderPropertiesInput!]!, $
         "outputs": [
           {
             "category": "example",
-            "containerNumber": "example",
             "id": "workorderoutput-001",
             "isActive": true,
             "name": "Forklift 7",
@@ -2783,7 +2763,6 @@ An input part consumed by a work order.
 | Field | Type | Description |
 |---|---|---|
 | `category` | `String` | Category the input part is classified under. |
-| `containerNumber` | `String` | Number of the container holding the input part, if any. |
 | `id` | `String` | Unique identifier of the input part. |
 | `isActive` | `Boolean` | Whether the input part is currently active. |
 | `name` | `String` | Display name of the input part. |
@@ -2800,7 +2779,6 @@ An output part produced by a work order.
 | Field | Type | Description |
 |---|---|---|
 | `category` | `String` | Category the output part is classified under. |
-| `containerNumber` | `String` | Number of the container holding the output part, if any. |
 | `id` | `String` | Unique identifier of the output part. |
 | `isActive` | `Boolean` | Whether the output part is currently active. |
 | `name` | `String` | Display name of the output part. |
