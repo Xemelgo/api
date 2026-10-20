@@ -5838,7 +5838,7 @@ type WorkOrderInput {
   category: String
 
   """Number of the container holding the input part, if any."""
-  containerNumber: String
+  containerNumber: String @deprecated
 
   """Unique identifier of the input part."""
   id: String
@@ -5891,7 +5891,7 @@ type WorkOrderOutput {
   category: String
 
   """Number of the container holding the output part, if any."""
-  containerNumber: String
+  containerNumber: String @deprecated
 
   """Unique identifier of the output part."""
   id: String
