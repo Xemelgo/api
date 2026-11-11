@@ -2785,9 +2785,12 @@ A category grouping asset types, resolved through the asset's type.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the category. |
 | `id` | `ID!` | Unique identifier of the category. |
 | `name` | `String` | Display name of the category. |
+| `parent` | [`AssetTypeCategory`](#type-assettypecategory) | Parent category, if the category is not a root category. |
+| `uuid` | `String` | Globally unique identifier of the category. |
 
 #### CreateAssetTransferOrderEntryInput {#type-createassettransferorderentryinput}
 
@@ -2898,6 +2901,7 @@ An inventory part (item type) describing a class of inventory items.
 
 | Field | Type | Description |
 |---|---|---|
+| `categories` | [`[InventoryPartCategory!]`](#type-inventorypartcategory) | Categories the part is directly assigned to. Each category links to its parent category, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the part was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumbers` | [`[CustomerPartNumber!]`](#type-customerpartnumber) | Per-customer part numbers mapped to this part. |
@@ -2911,6 +2915,19 @@ An inventory part (item type) describing a class of inventory items.
 | `supplier` | [`CustomerV2`](#type-customerv2) | Supplier for this inventory part, if one is attached. |
 | `unit` | `String` | Unit of measure for the part. |
 | `uuid` | `String` | Globally unique identifier of the inventory part. |
+
+#### InventoryPartCategory {#type-inventorypartcategory}
+
+A category an inventory part belongs to. Categories form a tree through their parent.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `description` | `String` | Free-text description of the category. |
+| `id` | `ID!` | Unique identifier of the category. |
+| `name` | `String` | Display name of the category. |
+| `parent` | [`InventoryPartCategory`](#type-inventorypartcategory) | Parent category, if the category is not a root category. |
+| `uuid` | `String` | Globally unique identifier of the category. |
 
 #### InventoryTransferOrder {#type-inventorytransferorder}
 

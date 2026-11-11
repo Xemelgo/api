@@ -410,6 +410,10 @@ query InventoryParts($input: InventoryPartsInput) {
       quantity
       unit
       uuid
+      categories {
+        id
+        name
+      }
       customerPartNumbers {
         customerId
         customerPartNumber
@@ -459,6 +463,12 @@ query InventoryParts($input: InventoryPartsInput) {
           "quantity": 10,
           "unit": "EA",
           "uuid": "uu-001",
+          "categories": [
+            {
+              "id": "inventorypartcategory-001",
+              "name": "Forklift 7"
+            }
+          ],
           "customerPartNumbers": [
             {
               "customerId": "customer-001",
@@ -1620,6 +1630,7 @@ An inventory part (item type) describing a class of inventory items.
 
 | Field | Type | Description |
 |---|---|---|
+| `categories` | [`[InventoryPartCategory!]`](#type-inventorypartcategory) | Categories the part is directly assigned to. Each category links to its parent category, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the part was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumbers` | [`[CustomerPartNumber!]`](#type-customerpartnumber) | Per-customer part numbers mapped to this part. |
@@ -1633,6 +1644,19 @@ An inventory part (item type) describing a class of inventory items.
 | `supplier` | [`CustomerV2`](#type-customerv2) | Supplier for this inventory part, if one is attached. |
 | `unit` | `String` | Unit of measure for the part. |
 | `uuid` | `String` | Globally unique identifier of the inventory part. |
+
+#### InventoryPartCategory {#type-inventorypartcategory}
+
+A category an inventory part belongs to. Categories form a tree through their parent.
+
+| Field | Type | Description |
+|---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `description` | `String` | Free-text description of the category. |
+| `id` | `ID!` | Unique identifier of the category. |
+| `name` | `String` | Display name of the category. |
+| `parent` | [`InventoryPartCategory`](#type-inventorypartcategory) | Parent category, if the category is not a root category. |
+| `uuid` | `String` | Globally unique identifier of the category. |
 
 #### LocationV2 {#type-locationv2}
 
