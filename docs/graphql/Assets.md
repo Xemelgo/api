@@ -1123,9 +1123,12 @@ A category grouping asset types, resolved through the asset's type.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `description` | `String` | Free-text description of the category. |
 | `id` | `ID!` | Unique identifier of the category. |
 | `name` | `String` | Display name of the category. |
+| `parent` | [`AssetTypeCategory`](#type-assettypecategory) | Parent category, if the category is not a root category. |
+| `uuid` | `String` | Globally unique identifier of the category. |
 
 #### CustomerAssetType {#type-customerassettype}
 

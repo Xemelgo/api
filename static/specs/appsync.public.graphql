@@ -154,7 +154,7 @@ type AssetCycleCount implements CycleCount {
   dueDate: AWSTimestamp
 
   """
-  Number of expectations: the location-and-asset-type groups currently matching the scope. Null if unavailable.
+  Number of expectations. With supplied quantities, the values of the filter that has them. Otherwise, the location-and-asset-type groups currently matching the scope. Null if unavailable.
   """
   expectationCount: Int
 
@@ -187,19 +187,26 @@ type AssetCycleCount implements CycleCount {
   """Name shown to people working with the Cycle Count."""
   name: String!
 
-  """The locations, asset types, and states included in the Cycle Count."""
-  scope: AssetCycleCountScope!
+  """What the Cycle Count includes."""
+  scope: AssetCycleCountScope
 
   """Current status of the Cycle Count."""
   status: CycleCountStatus!
 
-  """ID used to monitor submission processing. Null before submission."""
-  submissionId: ID
+  """
+  Identifier of the current submission. Webhook payloads for the submission carry the same identifier. Null before submission, and again after a failed submission.
+  """
+  submissionId: String
 
   """
   Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds.
   """
   submittedAt: AWSTimestamp
+
+  """
+  The scope filter whose values carry the caller's expected quantities. Null when no scope filter has them.
+  """
+  suppliedQuantities: CycleCountSuppliedQuantities
 
   """
   Number of distinct asset types with expected quantities. Null if unavailable.
@@ -219,10 +226,15 @@ type AssetCycleCountScope {
   """
   Asset type identifiers included in the Cycle Count. An empty list includes all asset types.
   """
-  assetTypeIds: [String!]!
+  assetTypeIds: [String!]! @deprecated(reason: "Use assetTypes. Will be removed.")
 
   """
-  Item-type category identifiers included in the Cycle Count. Category members are resolved when expectations are queried.
+  Asset types included in the Cycle Count. An empty list includes all asset types.
+  """
+  assetTypes: [CycleCountAssetTypeScope!]!
+
+  """
+  Category identifiers included in the Cycle Count. Their parts or asset types are looked up each time the Cycle Count is read or submitted.
   """
   categoryIds: [String!]!
 
@@ -235,6 +247,11 @@ type AssetCycleCountScope {
   """Asset states included in the Cycle Count."""
   expectedStates: [String!]!
 
+  """
+  Item fields the Cycle Count is limited to. Only items whose field has one of the listed values are included.
+  """
+  itemFields: [CycleCountItemFieldScope!]!
+
   """Locations included in the Cycle Count."""
   locations: [CycleCountLocationScope!]!
 }
@@ -243,11 +260,18 @@ type AssetCycleCountScope {
 The locations, asset types, and states to include in an Asset Cycle Count.
 """
 input AssetCycleCountScopeInput {
-  """Asset type identifiers to include. Omit to include all asset types."""
-  assetTypeIds: [String!] = []
+  """
+  Asset type identifiers to include. Omit to include all asset types. When supplied with assetTypes, both must list the same asset types.
+  """
+  assetTypeIds: [String!] = [] @deprecated(reason: "Use assetTypes. Will be removed.")
 
   """
-  Item-type category identifiers to include. Members are combined with assetTypeIds and resolved when expectations are queried.
+  Asset types to include. Omit to include all asset types. Together with categoryIds, at most 1,000.
+  """
+  assetTypes: [CycleCountAssetTypeScopeInput!] = []
+
+  """
+  Category identifiers to include. Their asset types are included alongside assetTypes, and are looked up each time the Cycle Count is read or submitted.
   """
   categoryIds: [String!] = []
 
@@ -258,11 +282,16 @@ input AssetCycleCountScopeInput {
   excludedLocations: [CycleCountLocationScopeInput!] = []
 
   """
-  Asset states to include. Omit or leave empty to use the standard countable states.
+  Asset states to include, at most 20. Omit or leave empty to use the standard countable states.
   """
   expectedStates: [String!] = []
 
-  """Locations to include. At least one location is required."""
+  """
+  Item fields to limit the Cycle Count to. Each field is combined with every other scope filter. At most 5 fields and 1,000 values in total.
+  """
+  itemFields: [CycleCountItemFieldScopeInput!] = []
+
+  """Locations to include. At least 1 and at most 100."""
   locations: [CycleCountLocationScopeInput!]!
 }
 
@@ -511,6 +540,9 @@ type AssetType {
 
 """A category grouping asset types, resolved through the asset's type."""
 type AssetTypeCategory {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
   """Free-text description of the category."""
   description: String
 
@@ -519,6 +551,12 @@ type AssetTypeCategory {
 
   """Display name of the category."""
   name: String
+
+  """Parent category, if the category is not a root category."""
+  parent: AssetTypeCategory
+
+  """Globally unique identifier of the category."""
+  uuid: String
 }
 
 """Asset type updates."""
@@ -1369,7 +1407,7 @@ input CreateInventoryCycleCountInput {
   dueDate: AWSTimestamp
 
   """
-  Expected quantities supplied by the caller, with one entry for each part and location. Use this when expected inventory is managed outside Xemelgo. Supply exactly one of expectations or scope. These expectations cannot be changed after creation, and the Cycle Count id input is required.
+  Expected lines, at most 1,000, one for each part and location. Each line is counted by entering a quantity, not by scanning, and the result does not update inventory. Use this for inventory that is not tagged. Supply exactly one of expectations or scope. The lines cannot be changed after creation.
   """
   expectations: [InventoryCycleCountExpectationInput!]
 
@@ -1387,7 +1425,7 @@ input CreateInventoryCycleCountInput {
   name: String!
 
   """
-  Selects the Inventory to count. Xemelgo calculates expected quantities from Inventory matching these locations, parts, and states. Supply exactly one of scope or expectations.
+  Selects the inventory to count, which is counted by scanning each record. Expected quantities are what Xemelgo finds in scope, unless you supply them on parts or item field values. To count tagged inventory against quantities from another system, such as an ERP, use scope with supplied quantities. Supply exactly one of scope or expectations.
   """
   scope: InventoryCycleCountScopeInput
 }
@@ -1847,7 +1885,7 @@ interface CycleCount {
   dueDate: AWSTimestamp
 
   """
-  Number of expectations. For a scope count, the location-and-type groups currently matching the scope. For a count created with expected quantities, the supplied lines, each counted separately. Null if unavailable.
+  Number of expectations. For a count created with expected lines, the lines. For a scope count with supplied quantities, the values of the filter that has them. Otherwise, the location-and-part groups currently matching the scope. Null if unavailable.
   """
   expectationCount: Int
 
@@ -1857,7 +1895,7 @@ interface CycleCount {
   expectationSource: CycleCountExpectationSource!
 
   """
-  Total quantity expected to be counted. Inventory quantities are added together; an inventory record without a quantity counts as one. Each asset counts as one. Null if unavailable.
+  Total quantity expected to be counted. Inventory quantities are added together; an inventory record without a quantity counts as one. Each asset counts as one. With supplied quantities, the caller's quantity for each value that has one, and the quantity found for every other value. Null if unavailable.
   """
   expectedQuantity: Float
 
@@ -1870,7 +1908,7 @@ interface CycleCount {
   locationCount: Int
 
   """
-  Locations in the Cycle Count. For a scope count, the locations chosen at creation, including any with nothing expected. For a count created with expected quantities, the distinct locations in those expectations.
+  Locations in the Cycle Count. For a scope count, the locations chosen at creation, including any with nothing expected. For a count created with expected lines, the distinct locations in those lines.
   """
   locations: [CycleCountLocation!]
 
@@ -1885,13 +1923,20 @@ interface CycleCount {
   """Current status of the Cycle Count."""
   status: CycleCountStatus!
 
-  """ID used to monitor submission processing. Null before submission."""
-  submissionId: ID
+  """
+  Identifier of the current submission. Webhook payloads for the submission carry the same identifier. Null before submission, and again after a failed submission.
+  """
+  submissionId: String
 
   """
   Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds.
   """
   submittedAt: AWSTimestamp
+
+  """
+  The scope filter whose values carry the caller's expected quantities. Null when no scope filter has them.
+  """
+  suppliedQuantities: CycleCountSuppliedQuantities
 
   """
   Number of distinct parts or asset types with expected quantities. Null if unavailable.
@@ -1904,7 +1949,31 @@ interface CycleCount {
   updatedAt: AWSTimestamp!
 }
 
-"""The kind of records included in a Cycle Count."""
+"""An asset type included in an Asset Cycle Count."""
+type CycleCountAssetTypeScope {
+  """Asset type identifier."""
+  assetTypeId: String!
+
+  """
+  Number of assets expected for the asset type. Null when the Cycle Count expects the assets found in its scope.
+  """
+  expectedQuantity: Int
+}
+
+"""An asset type to include in an Asset Cycle Count."""
+input CycleCountAssetTypeScopeInput {
+  """Asset type identifier."""
+  assetTypeId: String!
+
+  """
+  Number of assets expected for the asset type across the Cycle Count's locations, at most 1,000,000,000. An asset type without one expects the assets found. Cannot be combined with categoryIds or with expected quantities on item field values.
+  """
+  expectedQuantity: Int
+}
+
+"""
+The kind of records included in a Cycle Count. New values may be added.
+"""
 enum CycleCountDomain {
   """Assets."""
   ASSET
@@ -1913,15 +1982,15 @@ enum CycleCountDomain {
   INVENTORY
 }
 
-"""Where a Cycle Count's expected quantities come from."""
+"""How a Cycle Count was created."""
 enum CycleCountExpectationSource {
   """
-  The caller supplied them as expected lines when creating the count, and each line is counted by entering a quantity. Inventory Cycle Counts only.
+  With expected lines supplied by the caller. Each line is counted by entering a quantity. Inventory Cycle Counts only.
   """
   EXPLICIT
 
   """
-  Xemelgo calculates them from the inventory or assets matching the count's scope. Each item is counted individually, and the expectations are location-and-type groups recalculated when queried.
+  With a scope. Each inventory record or asset matching the scope is counted by scanning it. Expected quantities are the quantities found in scope, except where the scope supplies them.
   """
   SCOPE
 }
@@ -1955,7 +2024,79 @@ input CycleCountFilterInput {
   id: String
 
   """Return Cycle Counts with any of these statuses."""
-  status: [CycleCountStatus!]
+  status: [CycleCountStatus!] @deprecated(reason: "Use statuses. Will be removed.")
+
+  """
+  Return Cycle Counts with any of these statuses. When supplied with the deprecated status, both must list the same statuses.
+  """
+  statuses: [CycleCountStatus!]
+}
+
+"""
+What Cycle Count expectations can be grouped by. New values may be added.
+"""
+enum CycleCountGroupKey {
+  """An item field listed in the scope's itemFields, such as a lot number."""
+  ITEM_FIELD
+
+  """The part or asset type."""
+  ITEM_TYPE
+
+  """The location of the inventory or asset."""
+  LOCATION
+}
+
+"""
+An item field that limits a Cycle Count to items with one of the listed values.
+"""
+type CycleCountItemFieldScope {
+  """Item field name, such as lotNumber."""
+  field: String!
+
+  """Number of values listed for the field."""
+  valueCount: Int!
+
+  """
+  Values listed for the field. Selecting this field in a list of Cycle Counts limits the page to 5 Cycle Counts, because one Cycle Count can list up to 1,000 values.
+  """
+  values: [CycleCountItemFieldValue!]
+}
+
+"""
+An item field to limit a Cycle Count to. Only items whose field has one of the listed values are included. Items with other values are not counted, and submitting one marks it invalid.
+"""
+input CycleCountItemFieldScopeInput {
+  """
+  Item field name: lotNumber, or a text item field the tenant's configuration allows filtering by.
+  """
+  field: String!
+
+  """Values to include. At least one, without repeats."""
+  values: [CycleCountItemFieldValueInput!]!
+}
+
+"""An item field value included in a Cycle Count."""
+type CycleCountItemFieldValue {
+  """
+  Quantity expected for the value. Null when the Cycle Count expects the items found in its scope.
+  """
+  expectedQuantity: Float
+
+  """Field value."""
+  value: String!
+}
+
+"""An item field value to include in a Cycle Count."""
+input CycleCountItemFieldValueInput {
+  """
+  Quantity expected for the value across the Cycle Count's locations, at most 1,000,000,000. A value without one expects what is found. Only one item field, and not the parts or asset types too, can have expected quantities.
+  """
+  expectedQuantity: Float
+
+  """
+  Field value. Surrounding whitespace is removed. At most 256 UTF-8 bytes.
+  """
+  value: String!
 }
 
 """
@@ -1965,9 +2106,7 @@ type CycleCountLocation {
   """Location description when available."""
   description: String
 
-  """
-  Public location identifier, including caller-supplied external identifiers.
-  """
+  """Location identifier."""
   id: String!
 
   """Location name when available."""
@@ -1994,16 +2133,63 @@ input CycleCountLocationScopeInput {
   locationId: String!
 }
 
-"""The status of a Cycle Count."""
+"""A part included in an Inventory Cycle Count."""
+type CycleCountPartScope {
+  """
+  Quantity expected for the part. Null when the Cycle Count expects the inventory found in its scope.
+  """
+  expectedQuantity: Float
+
+  """Inventory part identifier."""
+  partId: String!
+}
+
+"""A part to include in an Inventory Cycle Count."""
+input CycleCountPartScopeInput {
+  """
+  Quantity expected for the part across the Cycle Count's locations, at most 1,000,000,000. A part without one expects the inventory found. Cannot be combined with categoryIds or with expected quantities on item field values.
+  """
+  expectedQuantity: Float
+
+  """Inventory part identifier."""
+  partId: String!
+}
+
+"""
+The status of a Cycle Count. New values may be added, so treat an unknown value like CREATED.
+"""
 enum CycleCountStatus {
   """Cancelled."""
   CANCELLED
 
-  """Submitted and processed successfully."""
+  """
+  Its submitted result was accepted and is final. When the count updates inventory, those updates can finish after this status is set.
+  """
   COUNTED
 
-  """Not yet completed or cancelled."""
+  """
+  Not yet submitted. A count whose submission failed returns to CREATED and can be submitted again.
+  """
   CREATED
+
+  """Submitted, and its result is not yet accepted."""
+  SUBMITTED
+}
+
+"""The scope filter whose values carry the caller's expected quantities."""
+type CycleCountSuppliedQuantities {
+  """Item field name for ITEM_FIELD. Null for ITEM_TYPE."""
+  field: String
+
+  """
+  ITEM_TYPE when the quantities are on parts or asset types, or ITEM_FIELD when they are on an item field's values.
+  """
+  key: CycleCountGroupKey!
+
+  """
+  Number of values in the filter. Grouping expectations by this key gives one expectation per value, with the supplied quantities.
+  """
+  valueCount: Int!
 }
 
 """Options for listing Cycle Counts."""
@@ -2013,7 +2199,7 @@ input CycleCountsInput {
 
   """
   Maximum Cycle Counts to return. Defaults to 10 and must be between 1 and 100. When the selection includes expectationCount, typeCount, locationCount, or expectedQuantity, it must be between 1 and 10.
-  Pages exceeding 3 MiB must be retried with a smaller limit.
+  A response larger than 3 MiB fails; retry with a smaller limit.
   """
   limit: Int
 
@@ -2321,7 +2507,7 @@ type InventoryCycleCount implements CycleCount {
   dueDate: AWSTimestamp
 
   """
-  Number of expectations. For a scope count, the location-and-type groups currently matching the scope. For a count created with expected quantities, the supplied lines, each counted separately. Null if unavailable.
+  Number of expectations. For a count created with expected lines, the lines. For a scope count with supplied quantities, the values of the filter that has them. Otherwise, the location-and-part groups currently matching the scope. Null if unavailable.
   """
   expectationCount: Int
 
@@ -2344,7 +2530,7 @@ type InventoryCycleCount implements CycleCount {
   locationCount: Int
 
   """
-  Locations in the Cycle Count. For a scope count, the locations chosen at creation, including any with nothing expected. For a count created with expected quantities, the distinct locations in those expectations.
+  Locations in the Cycle Count. For a scope count, the locations chosen at creation, including any with nothing expected. For a count created with expected lines, the distinct locations in those lines.
   """
   locations: [CycleCountLocation!]
 
@@ -2356,19 +2542,28 @@ type InventoryCycleCount implements CycleCount {
   """Name shown to people working with the Cycle Count."""
   name: String!
 
-  """The locations, parts, and states included in the Cycle Count."""
+  """
+  What the Cycle Count includes. Null for a Cycle Count created with expected lines.
+  """
   scope: InventoryCycleCountScope
 
   """Current status of the Cycle Count."""
   status: CycleCountStatus!
 
-  """ID used to monitor submission processing. Null before submission."""
-  submissionId: ID
+  """
+  Identifier of the current submission. Webhook payloads for the submission carry the same identifier. Null before submission, and again after a failed submission.
+  """
+  submissionId: String
 
   """
   Time when the Cycle Count was submitted, as an epoch timestamp in milliseconds.
   """
   submittedAt: AWSTimestamp
+
+  """
+  The scope filter whose values carry the caller's expected quantities. Null when no scope filter has them.
+  """
+  suppliedQuantities: CycleCountSuppliedQuantities
 
   """
   Number of distinct parts with expected quantities. Null if unavailable.
@@ -2408,7 +2603,7 @@ input InventoryCycleCountExpectationInput {
 """The locations, parts, and states included in an Inventory Cycle Count."""
 type InventoryCycleCountScope {
   """
-  Item-type category identifiers included in the Cycle Count. Category members are resolved when expectations are queried.
+  Category identifiers included in the Cycle Count. Their parts or asset types are looked up each time the Cycle Count is read or submitted.
   """
   categoryIds: [String!]!
 
@@ -2421,13 +2616,23 @@ type InventoryCycleCountScope {
   """Inventory states included in the Cycle Count."""
   expectedStates: [String!]!
 
+  """
+  Item fields the Cycle Count is limited to. Only items whose field has one of the listed values are included.
+  """
+  itemFields: [CycleCountItemFieldScope!]!
+
   """Locations included in the Cycle Count."""
   locations: [CycleCountLocationScope!]!
 
   """
   Inventory part identifiers included in the Cycle Count. An empty list includes all parts.
   """
-  partIds: [String!]!
+  partIds: [String!]! @deprecated(reason: "Use parts. Will be removed.")
+
+  """
+  Inventory parts included in the Cycle Count. An empty list includes all parts.
+  """
+  parts: [CycleCountPartScope!]!
 }
 
 """
@@ -2435,7 +2640,7 @@ The locations, parts, and states to include in an Inventory Cycle Count.
 """
 input InventoryCycleCountScopeInput {
   """
-  Item-type category identifiers to include. Members are combined with partIds and resolved when expectations are queried.
+  Category identifiers to include. Their parts are included alongside parts, and are looked up each time the Cycle Count is read or submitted.
   """
   categoryIds: [String!] = []
 
@@ -2446,15 +2651,27 @@ input InventoryCycleCountScopeInput {
   excludedPartIds: [String!] = []
 
   """
-  Inventory states to include. Omit or leave empty to use the standard countable states.
+  Inventory states to include, at most 20. Omit or leave empty to use the standard countable states.
   """
   expectedStates: [String!] = []
 
-  """Locations to include. At least one location is required."""
+  """
+  Item fields to limit the Cycle Count to. Each field is combined with every other scope filter. At most 5 fields and 1,000 values in total.
+  """
+  itemFields: [CycleCountItemFieldScopeInput!] = []
+
+  """Locations to include. At least 1 and at most 100."""
   locations: [CycleCountLocationScopeInput!]!
 
-  """Inventory part identifiers to include. Omit to include all parts."""
-  partIds: [String!] = []
+  """
+  Inventory part identifiers to include. Omit to include all parts. When supplied with parts, both must list the same parts.
+  """
+  partIds: [String!] = [] @deprecated(reason: "Use parts. Will be removed.")
+
+  """
+  Inventory parts to include. Omit to include all parts. Together with categoryIds, at most 1,000.
+  """
+  parts: [CycleCountPartScopeInput!] = []
 }
 
 """Input for the inventory query."""
@@ -2468,6 +2685,11 @@ input InventoryInput {
 
 """An inventory part (item type) describing a class of inventory items."""
 type InventoryPart {
+  """
+  Categories the part is directly assigned to. Each category links to its parent category, if any.
+  """
+  categories: [InventoryPartCategory!]
+
   """Epoch-millisecond timestamp when the part was created."""
   creationDate: AWSTimestamp
 
@@ -2508,6 +2730,29 @@ type InventoryPart {
   unit: String
 
   """Globally unique identifier of the inventory part."""
+  uuid: String
+}
+
+"""
+A category an inventory part belongs to. Categories form a tree through their parent.
+"""
+type InventoryPartCategory {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
+  """Free-text description of the category."""
+  description: String
+
+  """Unique identifier of the category."""
+  id: ID!
+
+  """Display name of the category."""
+  name: String
+
+  """Parent category, if the category is not a root category."""
+  parent: InventoryPartCategory
+
+  """Globally unique identifier of the category."""
   uuid: String
 }
 
@@ -5023,7 +5268,7 @@ input UpdateAssetCycleCountInput {
   name: String
 
   """
-  New locations, asset types, and states to include in the Cycle Count. Omit to keep the current selection.
+  New scope for the Cycle Count. It replaces the whole current scope, including every item field value and supplied quantity, so send everything the Cycle Count should keep. Omit to keep the current scope. Paging tokens for the Cycle Count's expectations stop working.
   """
   scope: AssetCycleCountScopeInput
 }
@@ -5245,7 +5490,7 @@ input UpdateInventoryCycleCountInput {
   name: String
 
   """
-  New locations, parts, and states to include in the Cycle Count. Omit to keep the current selection.
+  New scope for the Cycle Count. It replaces the whole current scope, including every item field value and supplied quantity, so send everything the Cycle Count should keep. Omit to keep the current scope. Paging tokens for the Cycle Count's expectations stop working.
   """
   scope: InventoryCycleCountScopeInput
 }
@@ -5838,7 +6083,7 @@ type WorkOrderInput {
   category: String
 
   """Number of the container holding the input part, if any."""
-  containerNumber: String
+  containerNumber: String @deprecated
 
   """Unique identifier of the input part."""
   id: String
@@ -5891,7 +6136,7 @@ type WorkOrderOutput {
   category: String
 
   """Number of the container holding the output part, if any."""
-  containerNumber: String
+  containerNumber: String @deprecated
 
   """Unique identifier of the output part."""
   id: String

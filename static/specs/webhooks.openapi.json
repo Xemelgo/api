@@ -1151,21 +1151,36 @@
                           "entries": {
                             "type": "array",
                             "items": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
-                                "location": {
+                              "anyOf": [
+                                {
                                   "type": "object",
                                   "properties": {
                                     "id": {
                                       "type": "string"
                                     },
-                                    "name": {
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
                                       "type": "string"
                                     },
-                                    "description": {
+                                    "note": {
                                       "type": "string"
                                     },
                                     "customProperties": {
@@ -1174,58 +1189,93 @@
                                         "type": "string"
                                       },
                                       "additionalProperties": {}
+                                    },
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "location": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        }
+                                      }
+                                    },
+                                    "assetType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        },
+                                        "number": {
+                                          "type": "string"
+                                        },
+                                        "unit": {
+                                          "type": "string"
+                                        }
+                                      }
                                     }
                                   }
                                 },
-                                "expectedQuantity": {
-                                  "type": "number",
-                                  "minimum": 0
-                                },
-                                "countedQuantity": {
-                                  "type": [
-                                    "number",
-                                    "null"
-                                  ],
-                                  "minimum": 0
-                                },
-                                "status": {
-                                  "type": "string",
-                                  "enum": [
-                                    "COUNTED",
-                                    "NOT_COUNTED",
-                                    "NOT_EVALUATED"
-                                  ]
-                                },
-                                "trackerSerial": {
-                                  "type": "string"
-                                },
-                                "note": {
-                                  "type": "string"
-                                },
-                                "customProperties": {
-                                  "type": "object",
-                                  "propertyNames": {
-                                    "type": "string"
-                                  },
-                                  "additionalProperties": {}
-                                },
-                                "reportFields": {
-                                  "type": "object",
-                                  "propertyNames": {
-                                    "type": "string"
-                                  },
-                                  "additionalProperties": {}
-                                },
-                                "assetType": {
+                                {
                                   "type": "object",
                                   "properties": {
                                     "id": {
                                       "type": "string"
                                     },
-                                    "name": {
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
                                       "type": "string"
                                     },
-                                    "description": {
+                                    "note": {
                                       "type": "string"
                                     },
                                     "customProperties": {
@@ -1235,15 +1285,129 @@
                                       },
                                       "additionalProperties": {}
                                     },
-                                    "number": {
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "value": {
                                       "type": "string"
                                     },
-                                    "unit": {
+                                    "systemQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "expectedQuantitySource": {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUPPLIED",
+                                        "SYSTEM"
+                                      ]
+                                    },
+                                    "dimension": {
+                                      "type": "string",
+                                      "const": "ITEM_TYPE"
+                                    },
+                                    "assetType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        },
+                                        "number": {
+                                          "type": "string"
+                                        },
+                                        "unit": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
+                                      "type": "string"
+                                    },
+                                    "note": {
+                                      "type": "string"
+                                    },
+                                    "customProperties": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    },
+                                    "systemQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "expectedQuantitySource": {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUPPLIED",
+                                        "SYSTEM"
+                                      ]
+                                    },
+                                    "dimension": {
+                                      "type": "string",
+                                      "const": "ITEM_FIELD"
+                                    },
+                                    "field": {
                                       "type": "string"
                                     }
                                   }
                                 }
-                              }
+                              ]
                             }
                           },
                           "assetTypes": {
@@ -1658,21 +1822,36 @@
                           "entries": {
                             "type": "array",
                             "items": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
-                                "location": {
+                              "anyOf": [
+                                {
                                   "type": "object",
                                   "properties": {
                                     "id": {
                                       "type": "string"
                                     },
-                                    "name": {
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
                                       "type": "string"
                                     },
-                                    "description": {
+                                    "note": {
                                       "type": "string"
                                     },
                                     "customProperties": {
@@ -1681,58 +1860,93 @@
                                         "type": "string"
                                       },
                                       "additionalProperties": {}
+                                    },
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "location": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        }
+                                      }
+                                    },
+                                    "assetType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        },
+                                        "number": {
+                                          "type": "string"
+                                        },
+                                        "unit": {
+                                          "type": "string"
+                                        }
+                                      }
                                     }
                                   }
                                 },
-                                "expectedQuantity": {
-                                  "type": "number",
-                                  "minimum": 0
-                                },
-                                "countedQuantity": {
-                                  "type": [
-                                    "number",
-                                    "null"
-                                  ],
-                                  "minimum": 0
-                                },
-                                "status": {
-                                  "type": "string",
-                                  "enum": [
-                                    "COUNTED",
-                                    "NOT_COUNTED",
-                                    "NOT_EVALUATED"
-                                  ]
-                                },
-                                "trackerSerial": {
-                                  "type": "string"
-                                },
-                                "note": {
-                                  "type": "string"
-                                },
-                                "customProperties": {
-                                  "type": "object",
-                                  "propertyNames": {
-                                    "type": "string"
-                                  },
-                                  "additionalProperties": {}
-                                },
-                                "reportFields": {
-                                  "type": "object",
-                                  "propertyNames": {
-                                    "type": "string"
-                                  },
-                                  "additionalProperties": {}
-                                },
-                                "assetType": {
+                                {
                                   "type": "object",
                                   "properties": {
                                     "id": {
                                       "type": "string"
                                     },
-                                    "name": {
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
                                       "type": "string"
                                     },
-                                    "description": {
+                                    "note": {
                                       "type": "string"
                                     },
                                     "customProperties": {
@@ -1742,15 +1956,129 @@
                                       },
                                       "additionalProperties": {}
                                     },
-                                    "number": {
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "value": {
                                       "type": "string"
                                     },
-                                    "unit": {
+                                    "systemQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "expectedQuantitySource": {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUPPLIED",
+                                        "SYSTEM"
+                                      ]
+                                    },
+                                    "dimension": {
+                                      "type": "string",
+                                      "const": "ITEM_TYPE"
+                                    },
+                                    "assetType": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        },
+                                        "number": {
+                                          "type": "string"
+                                        },
+                                        "unit": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
+                                      "type": "string"
+                                    },
+                                    "note": {
+                                      "type": "string"
+                                    },
+                                    "customProperties": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    },
+                                    "systemQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "expectedQuantitySource": {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUPPLIED",
+                                        "SYSTEM"
+                                      ]
+                                    },
+                                    "dimension": {
+                                      "type": "string",
+                                      "const": "ITEM_FIELD"
+                                    },
+                                    "field": {
                                       "type": "string"
                                     }
                                   }
                                 }
-                              }
+                              ]
                             }
                           },
                           "assetTypes": {
@@ -5026,21 +5354,36 @@
                           "entries": {
                             "type": "array",
                             "items": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
-                                "location": {
+                              "anyOf": [
+                                {
                                   "type": "object",
                                   "properties": {
                                     "id": {
                                       "type": "string"
                                     },
-                                    "name": {
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
                                       "type": "string"
                                     },
-                                    "description": {
+                                    "note": {
                                       "type": "string"
                                     },
                                     "customProperties": {
@@ -5049,58 +5392,93 @@
                                         "type": "string"
                                       },
                                       "additionalProperties": {}
+                                    },
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "location": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        }
+                                      }
+                                    },
+                                    "part": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        },
+                                        "number": {
+                                          "type": "string"
+                                        },
+                                        "unit": {
+                                          "type": "string"
+                                        }
+                                      }
                                     }
                                   }
                                 },
-                                "expectedQuantity": {
-                                  "type": "number",
-                                  "minimum": 0
-                                },
-                                "countedQuantity": {
-                                  "type": [
-                                    "number",
-                                    "null"
-                                  ],
-                                  "minimum": 0
-                                },
-                                "status": {
-                                  "type": "string",
-                                  "enum": [
-                                    "COUNTED",
-                                    "NOT_COUNTED",
-                                    "NOT_EVALUATED"
-                                  ]
-                                },
-                                "trackerSerial": {
-                                  "type": "string"
-                                },
-                                "note": {
-                                  "type": "string"
-                                },
-                                "customProperties": {
-                                  "type": "object",
-                                  "propertyNames": {
-                                    "type": "string"
-                                  },
-                                  "additionalProperties": {}
-                                },
-                                "reportFields": {
-                                  "type": "object",
-                                  "propertyNames": {
-                                    "type": "string"
-                                  },
-                                  "additionalProperties": {}
-                                },
-                                "part": {
+                                {
                                   "type": "object",
                                   "properties": {
                                     "id": {
                                       "type": "string"
                                     },
-                                    "name": {
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
                                       "type": "string"
                                     },
-                                    "description": {
+                                    "note": {
                                       "type": "string"
                                     },
                                     "customProperties": {
@@ -5110,15 +5488,129 @@
                                       },
                                       "additionalProperties": {}
                                     },
-                                    "number": {
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "value": {
                                       "type": "string"
                                     },
-                                    "unit": {
+                                    "systemQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "expectedQuantitySource": {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUPPLIED",
+                                        "SYSTEM"
+                                      ]
+                                    },
+                                    "dimension": {
+                                      "type": "string",
+                                      "const": "ITEM_TYPE"
+                                    },
+                                    "part": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        },
+                                        "number": {
+                                          "type": "string"
+                                        },
+                                        "unit": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
+                                      "type": "string"
+                                    },
+                                    "note": {
+                                      "type": "string"
+                                    },
+                                    "customProperties": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    },
+                                    "systemQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "expectedQuantitySource": {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUPPLIED",
+                                        "SYSTEM"
+                                      ]
+                                    },
+                                    "dimension": {
+                                      "type": "string",
+                                      "const": "ITEM_FIELD"
+                                    },
+                                    "field": {
                                       "type": "string"
                                     }
                                   }
                                 }
-                              }
+                              ]
                             }
                           },
                           "inventoryParts": {
@@ -5543,21 +6035,36 @@
                           "entries": {
                             "type": "array",
                             "items": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "string"
-                                },
-                                "location": {
+                              "anyOf": [
+                                {
                                   "type": "object",
                                   "properties": {
                                     "id": {
                                       "type": "string"
                                     },
-                                    "name": {
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
                                       "type": "string"
                                     },
-                                    "description": {
+                                    "note": {
                                       "type": "string"
                                     },
                                     "customProperties": {
@@ -5566,58 +6073,93 @@
                                         "type": "string"
                                       },
                                       "additionalProperties": {}
+                                    },
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "location": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        }
+                                      }
+                                    },
+                                    "part": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        },
+                                        "number": {
+                                          "type": "string"
+                                        },
+                                        "unit": {
+                                          "type": "string"
+                                        }
+                                      }
                                     }
                                   }
                                 },
-                                "expectedQuantity": {
-                                  "type": "number",
-                                  "minimum": 0
-                                },
-                                "countedQuantity": {
-                                  "type": [
-                                    "number",
-                                    "null"
-                                  ],
-                                  "minimum": 0
-                                },
-                                "status": {
-                                  "type": "string",
-                                  "enum": [
-                                    "COUNTED",
-                                    "NOT_COUNTED",
-                                    "NOT_EVALUATED"
-                                  ]
-                                },
-                                "trackerSerial": {
-                                  "type": "string"
-                                },
-                                "note": {
-                                  "type": "string"
-                                },
-                                "customProperties": {
-                                  "type": "object",
-                                  "propertyNames": {
-                                    "type": "string"
-                                  },
-                                  "additionalProperties": {}
-                                },
-                                "reportFields": {
-                                  "type": "object",
-                                  "propertyNames": {
-                                    "type": "string"
-                                  },
-                                  "additionalProperties": {}
-                                },
-                                "part": {
+                                {
                                   "type": "object",
                                   "properties": {
                                     "id": {
                                       "type": "string"
                                     },
-                                    "name": {
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
                                       "type": "string"
                                     },
-                                    "description": {
+                                    "note": {
                                       "type": "string"
                                     },
                                     "customProperties": {
@@ -5627,15 +6169,129 @@
                                       },
                                       "additionalProperties": {}
                                     },
-                                    "number": {
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "value": {
                                       "type": "string"
                                     },
-                                    "unit": {
+                                    "systemQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "expectedQuantitySource": {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUPPLIED",
+                                        "SYSTEM"
+                                      ]
+                                    },
+                                    "dimension": {
+                                      "type": "string",
+                                      "const": "ITEM_TYPE"
+                                    },
+                                    "part": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "description": {
+                                          "type": "string"
+                                        },
+                                        "customProperties": {
+                                          "type": "object",
+                                          "propertyNames": {
+                                            "type": "string"
+                                          },
+                                          "additionalProperties": {}
+                                        },
+                                        "number": {
+                                          "type": "string"
+                                        },
+                                        "unit": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "expectedQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "countedQuantity": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ],
+                                      "minimum": 0
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "COUNTED",
+                                        "NOT_COUNTED",
+                                        "NOT_EVALUATED"
+                                      ]
+                                    },
+                                    "trackerSerial": {
+                                      "type": "string"
+                                    },
+                                    "note": {
+                                      "type": "string"
+                                    },
+                                    "customProperties": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "reportFields": {
+                                      "type": "object",
+                                      "propertyNames": {
+                                        "type": "string"
+                                      },
+                                      "additionalProperties": {}
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    },
+                                    "systemQuantity": {
+                                      "type": "number",
+                                      "minimum": 0
+                                    },
+                                    "expectedQuantitySource": {
+                                      "type": "string",
+                                      "enum": [
+                                        "SUPPLIED",
+                                        "SYSTEM"
+                                      ]
+                                    },
+                                    "dimension": {
+                                      "type": "string",
+                                      "const": "ITEM_FIELD"
+                                    },
+                                    "field": {
                                       "type": "string"
                                     }
                                   }
                                 }
-                              }
+                              ]
                             }
                           },
                           "inventoryParts": {

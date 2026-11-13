@@ -517,41 +517,6 @@ Sent when an asset Cycle Count result is accepted. Provides submitted evidence a
 | `id` | string |
 | `name` | string |
 
-##### data.entries
-
-| Field | Type |
-|---|---|
-| `assetType` | object |
-| `countedQuantity` | number · nullable |
-| `customProperties` | object (free-form) |
-| `expectedQuantity` | number |
-| `id` | string |
-| `location` | object |
-| `note` | string |
-| `reportFields` | object (free-form) |
-| `status` | string |
-| `trackerSerial` | string |
-
-##### data.entries.assetType
-
-| Field | Type |
-|---|---|
-| `customProperties` | object (free-form) |
-| `description` | string |
-| `id` | string |
-| `name` | string |
-| `number` | string |
-| `unit` | string |
-
-##### data.entries.location
-
-| Field | Type |
-|---|---|
-| `customProperties` | object (free-form) |
-| `description` | string |
-| `id` | string |
-| `name` | string |
-
 ##### data.submittedBy
 
 | Field | Type |
@@ -754,41 +719,6 @@ Sent when an asset Cycle Count result is accepted. Provides submitted evidence, 
 | `outcome` | string |
 | `reportFields` | object (free-form) |
 | `trackerSerial` | string |
-
-##### data.entries
-
-| Field | Type |
-|---|---|
-| `assetType` | object |
-| `countedQuantity` | number · nullable |
-| `customProperties` | object (free-form) |
-| `expectedQuantity` | number |
-| `id` | string |
-| `location` | object |
-| `note` | string |
-| `reportFields` | object (free-form) |
-| `status` | string |
-| `trackerSerial` | string |
-
-##### data.entries.assetType
-
-| Field | Type |
-|---|---|
-| `customProperties` | object (free-form) |
-| `description` | string |
-| `id` | string |
-| `name` | string |
-| `number` | string |
-| `unit` | string |
-
-##### data.entries.location
-
-| Field | Type |
-|---|---|
-| `customProperties` | object (free-form) |
-| `description` | string |
-| `id` | string |
-| `name` | string |
 
 ##### data.submittedBy
 
@@ -2167,41 +2097,6 @@ Sent when an inventory Cycle Count result is accepted. Provides submitted eviden
 | `submittedBy` | object |
 | `summary` | object |
 
-##### data.entries
-
-| Field | Type |
-|---|---|
-| `countedQuantity` | number · nullable |
-| `customProperties` | object (free-form) |
-| `expectedQuantity` | number |
-| `id` | string |
-| `location` | object |
-| `note` | string |
-| `part` | object |
-| `reportFields` | object (free-form) |
-| `status` | string |
-| `trackerSerial` | string |
-
-##### data.entries.location
-
-| Field | Type |
-|---|---|
-| `customProperties` | object (free-form) |
-| `description` | string |
-| `id` | string |
-| `name` | string |
-
-##### data.entries.part
-
-| Field | Type |
-|---|---|
-| `customProperties` | object (free-form) |
-| `description` | string |
-| `id` | string |
-| `name` | string |
-| `number` | string |
-| `unit` | string |
-
 ##### data.inventoryParts
 
 | Field | Type |
@@ -2397,41 +2292,6 @@ Sent when an inventory Cycle Count result is accepted. Provides submitted eviden
 | `submittedAt` | integer |
 | `submittedBy` | object |
 | `summary` | object |
-
-##### data.entries
-
-| Field | Type |
-|---|---|
-| `countedQuantity` | number · nullable |
-| `customProperties` | object (free-form) |
-| `expectedQuantity` | number |
-| `id` | string |
-| `location` | object |
-| `note` | string |
-| `part` | object |
-| `reportFields` | object (free-form) |
-| `status` | string |
-| `trackerSerial` | string |
-
-##### data.entries.location
-
-| Field | Type |
-|---|---|
-| `customProperties` | object (free-form) |
-| `description` | string |
-| `id` | string |
-| `name` | string |
-
-##### data.entries.part
-
-| Field | Type |
-|---|---|
-| `customProperties` | object (free-form) |
-| `description` | string |
-| `id` | string |
-| `name` | string |
-| `number` | string |
-| `unit` | string |
 
 ##### data.inventory
 
