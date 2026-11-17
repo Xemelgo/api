@@ -63,6 +63,11 @@ type Asset {
   """Public image URLs for the asset."""
   images: [String]
 
+  """
+  Epoch-millisecond timestamp when the asset was last counted by a Cycle Count.
+  """
+  lastCountedDate: AWSTimestamp
+
   """Location where the asset was last detected."""
   lastDetectedAtLocation: LocationV2
 
@@ -224,11 +229,6 @@ The locations, asset types, and states included in an Asset Cycle Count.
 """
 type AssetCycleCountScope {
   """
-  Asset type identifiers included in the Cycle Count. An empty list includes all asset types.
-  """
-  assetTypeIds: [String!]! @deprecated(reason: "Use assetTypes. Will be removed.")
-
-  """
   Asset types included in the Cycle Count. An empty list includes all asset types.
   """
   assetTypes: [CycleCountAssetTypeScope!]!
@@ -260,11 +260,6 @@ type AssetCycleCountScope {
 The locations, asset types, and states to include in an Asset Cycle Count.
 """
 input AssetCycleCountScopeInput {
-  """
-  Asset type identifiers to include. Omit to include all asset types. When supplied with assetTypes, both must list the same asset types.
-  """
-  assetTypeIds: [String!] = [] @deprecated(reason: "Use assetTypes. Will be removed.")
-
   """
   Asset types to include. Omit to include all asset types. Together with categoryIds, at most 1,000.
   """
@@ -2024,11 +2019,6 @@ input CycleCountFilterInput {
   id: String
 
   """Return Cycle Counts with any of these statuses."""
-  status: [CycleCountStatus!] @deprecated(reason: "Use statuses. Will be removed.")
-
-  """
-  Return Cycle Counts with any of these statuses. When supplied with the deprecated status, both must list the same statuses.
-  """
   statuses: [CycleCountStatus!]
 }
 
@@ -2416,8 +2406,16 @@ type Inventory {
   """Image URLs for the inventory item."""
   images: [String]
 
+  """Location where the inventory item is expected to be received, if any."""
+  incomingLocation: LocationV2
+
   """Whether the item has been consumed."""
   isConsumed: Boolean
+
+  """
+  Epoch-millisecond timestamp when the item was last counted by a Cycle Count or audit.
+  """
+  lastCountedDate: AWSTimestamp
 
   """Location where the inventory item was last detected."""
   lastDetectedAtLocation: LocationV2
@@ -2625,11 +2623,6 @@ type InventoryCycleCountScope {
   locations: [CycleCountLocationScope!]!
 
   """
-  Inventory part identifiers included in the Cycle Count. An empty list includes all parts.
-  """
-  partIds: [String!]! @deprecated(reason: "Use parts. Will be removed.")
-
-  """
   Inventory parts included in the Cycle Count. An empty list includes all parts.
   """
   parts: [CycleCountPartScope!]!
@@ -2662,11 +2655,6 @@ input InventoryCycleCountScopeInput {
 
   """Locations to include. At least 1 and at most 100."""
   locations: [CycleCountLocationScopeInput!]!
-
-  """
-  Inventory part identifiers to include. Omit to include all parts. When supplied with parts, both must list the same parts.
-  """
-  partIds: [String!] = [] @deprecated(reason: "Use parts. Will be removed.")
 
   """
   Inventory parts to include. Omit to include all parts. Together with categoryIds, at most 1,000.

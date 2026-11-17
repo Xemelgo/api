@@ -2688,6 +2688,7 @@ A tracked asset.
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
 | `id` | `String` | Unique identifier of the asset, usually the asset number. |
 | `images` | `[String]` | Public image URLs for the asset. |
+| `lastCountedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last counted by a Cycle Count. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the asset was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last updated. |
@@ -2880,7 +2881,9 @@ A tracked inventory item.
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item expires. |
 | `id` | `String` | Unique identifier of the inventory item. |
 | `images` | `[String]` | Image URLs for the inventory item. |
+| `incomingLocation` | [`LocationV2`](#type-locationv2) | Location where the inventory item is expected to be received, if any. |
 | `isConsumed` | `Boolean` | Whether the item has been consumed. |
+| `lastCountedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last counted by a Cycle Count or audit. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the inventory item was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last updated. |

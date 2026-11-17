@@ -228,7 +228,7 @@ query CycleCounts($input: CycleCountsInput) {
         "INVENTORY"
       ],
       "id": "cycle-count-001",
-      "status": [
+      "statuses": [
         "CREATED"
       ]
     },
@@ -290,7 +290,7 @@ Filters for the counts query.
 | `createdBefore` | `AWSTimestamp` | Return Cycle Counts created before this time, as an epoch timestamp in milliseconds. Exclusive, so consecutive windows do not overlap. Must not be earlier than createdAfter. |
 | `domains` | [`[CycleCountDomain!]`](#type-cyclecountdomain) | Domains to return. Omit to return both Inventory and Asset Cycle Counts. |
 | `id` | `String` | Return the Cycle Count with this ID. |
-| `statuses` | [`[CycleCountStatus!]`](#type-cyclecountstatus) | Return Cycle Counts with any of these statuses. When supplied with the deprecated status, both must list the same statuses. |
+| `statuses` | [`[CycleCountStatus!]`](#type-cyclecountstatus) | Return Cycle Counts with any of these statuses. |
 
 ##### CycleCountsInput {#type-cyclecountsinput}
 
@@ -533,7 +533,7 @@ mutation CreateAssetCycleCount($input: CreateAssetCycleCountInput!) {
       ],
       "assetTypes": [
         {
-          "id": "FORKLIFT"
+          "assetTypeId": "FORKLIFT"
         }
       ]
     }
@@ -872,10 +872,10 @@ mutation UpdateAssetCycleCount($input: UpdateAssetCycleCountInput!) {
       ],
       "assetTypes": [
         {
-          "id": "FORKLIFT"
+          "assetTypeId": "FORKLIFT"
         },
         {
-          "id": "PALLET-JACK"
+          "assetTypeId": "PALLET-JACK"
         }
       ]
     }
@@ -1052,10 +1052,10 @@ mutation UpdateInventoryCycleCount($input: UpdateInventoryCycleCountInput!) {
       ],
       "parts": [
         {
-          "id": "PART-1001"
+          "partId": "PART-1001"
         },
         {
-          "id": "PART-1002"
+          "partId": "PART-1002"
         }
       ],
       "itemFields": [

@@ -135,6 +135,7 @@ query Assets($input: AssetsInput) {
       dueDate
       id
       images
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       name
@@ -201,6 +202,7 @@ query Assets($input: AssetsInput) {
           "images": [
             "https://cdn.example.com/asset-1024.png"
           ],
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "name": "Forklift 7",
@@ -400,6 +402,7 @@ mutation CreateAssets($input: CreateAssetsInput!) {
       dueDate
       id
       images
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       name
@@ -487,6 +490,7 @@ mutation CreateAssets($input: CreateAssetsInput!) {
           "images": [
             "https://cdn.example.com/asset-1024.png"
           ],
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "name": "Forklift 7",
@@ -763,6 +767,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
       dueDate
       id
       images
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       name
@@ -856,6 +861,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "images": [
             "https://cdn.example.com/asset-1024.png"
           ],
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "name": "Forklift 7",
@@ -1070,6 +1076,7 @@ A tracked asset.
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
 | `id` | `String` | Unique identifier of the asset, usually the asset number. |
 | `images` | `[String]` | Public image URLs for the asset. |
+| `lastCountedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last counted by a Cycle Count. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the asset was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last updated. |

@@ -30,6 +30,7 @@ query Inventory($input: InventoryInput) {
       id
       images
       isConsumed
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       lotNumber
@@ -39,6 +40,10 @@ query Inventory($input: InventoryInput) {
       transferOrderId
       transferStatus
       uuid
+      incomingLocation {
+        id
+        name
+      }
       lastDetectedAtLocation {
         id
         name
@@ -96,6 +101,7 @@ query Inventory($input: InventoryInput) {
             "https://cdn.example.com/asset-1024.png"
           ],
           "isConsumed": true,
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "lotNumber": "example",
@@ -105,6 +111,10 @@ query Inventory($input: InventoryInput) {
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
           "uuid": "uu-001",
+          "incomingLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -710,6 +720,7 @@ mutation CreateInventory($input: CreateInventoryInput!) {
       id
       images
       isConsumed
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       lotNumber
@@ -719,6 +730,10 @@ mutation CreateInventory($input: CreateInventoryInput!) {
       transferOrderId
       transferStatus
       uuid
+      incomingLocation {
+        id
+        name
+      }
       lastDetectedAtLocation {
         id
         name
@@ -800,6 +815,7 @@ mutation CreateInventory($input: CreateInventoryInput!) {
             "https://cdn.example.com/asset-1024.png"
           ],
           "isConsumed": true,
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "lotNumber": "example",
@@ -809,6 +825,10 @@ mutation CreateInventory($input: CreateInventoryInput!) {
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
           "uuid": "uu-001",
+          "incomingLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -1173,6 +1193,7 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
       id
       images
       isConsumed
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       lotNumber
@@ -1182,6 +1203,10 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
       transferOrderId
       transferStatus
       uuid
+      incomingLocation {
+        id
+        name
+      }
       lastDetectedAtLocation {
         id
         name
@@ -1269,6 +1294,7 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
             "https://cdn.example.com/asset-1024.png"
           ],
           "isConsumed": true,
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "lotNumber": "example",
@@ -1278,6 +1304,10 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
           "uuid": "uu-001",
+          "incomingLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
           "lastDetectedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
@@ -1609,7 +1639,9 @@ A tracked inventory item.
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item expires. |
 | `id` | `String` | Unique identifier of the inventory item. |
 | `images` | `[String]` | Image URLs for the inventory item. |
+| `incomingLocation` | [`LocationV2`](#type-locationv2) | Location where the inventory item is expected to be received, if any. |
 | `isConsumed` | `Boolean` | Whether the item has been consumed. |
+| `lastCountedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last counted by a Cycle Count or audit. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the inventory item was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last updated. |
