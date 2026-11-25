@@ -130,11 +130,14 @@ query Assets($input: AssetsInput) {
       comments
       containerId
       creationDate
+      customerAssetTypeCustomProperties
+      customerAssetTypeId
       customProperties
       description
       dueDate
       id
       images
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       name
@@ -194,6 +197,8 @@ query Assets($input: AssetsInput) {
           "comments": "Inspected and approved",
           "containerId": "container-001",
           "creationDate": 1719792000000,
+          "customerAssetTypeCustomProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "customerAssetTypeId": "customerassettype-001",
           "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "dueDate": 1719792000000,
@@ -201,6 +206,7 @@ query Assets($input: AssetsInput) {
           "images": [
             "https://cdn.example.com/asset-1024.png"
           ],
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "name": "Forklift 7",
@@ -292,8 +298,8 @@ query AssetTypes($input: AssetTypesInput) {
         name
       }
       customerAssetTypes {
+        customProperties
         customerAssetTypeId
-        customerId
       }
     }
   }
@@ -344,8 +350,8 @@ query AssetTypes($input: AssetTypesInput) {
           ],
           "customerAssetTypes": [
             {
-              "customerAssetTypeId": "customerassettype-001",
-              "customerId": "customer-001"
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "customerAssetTypeId": "customerassettype-001"
             }
           ]
         }
@@ -395,11 +401,14 @@ mutation CreateAssets($input: CreateAssetsInput!) {
       comments
       containerId
       creationDate
+      customerAssetTypeCustomProperties
+      customerAssetTypeId
       customProperties
       description
       dueDate
       id
       images
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       name
@@ -443,6 +452,7 @@ mutation CreateAssets($input: CreateAssetsInput!) {
       {
         "comments": "Inspected and approved",
         "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "customerAssetTypeCustomProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "customerAssetTypeId": "customerassettype-001",
         "description": "Electric counterbalance forklift",
         "dueDate": 1719792000000,
@@ -480,6 +490,8 @@ mutation CreateAssets($input: CreateAssetsInput!) {
           "comments": "Inspected and approved",
           "containerId": "container-001",
           "creationDate": 1719792000000,
+          "customerAssetTypeCustomProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "customerAssetTypeId": "customerassettype-001",
           "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "dueDate": 1719792000000,
@@ -487,6 +499,7 @@ mutation CreateAssets($input: CreateAssetsInput!) {
           "images": [
             "https://cdn.example.com/asset-1024.png"
           ],
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "name": "Forklift 7",
@@ -537,6 +550,7 @@ Definition of a single asset to create.
 |---|---|---|
 | `comments` | `String` | Any comments or remarks for the asset. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `customerAssetTypeCustomProperties` | `AWSJSON` | Custom properties of the customer asset type, serialized as a JSON string. Used only when the customer asset type is created; an existing one keeps its properties. |
 | `customerAssetTypeId` | `String` | Optional asset type identifier used by your customer. |
 | `description` | `String` | Free-text description of the asset. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
@@ -592,6 +606,7 @@ mutation CreateAssetTypes($input: CreateAssetTypesInput!) {
         "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "customerAssetTypes": [
           {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
             "customerAssetTypeId": "customerassettype-001",
             "customerId": "customer-001"
           }
@@ -662,6 +677,7 @@ Mapping of a customer to one of its asset type identifiers.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. Used only when the customer asset type is created. |
 | `customerAssetTypeId` | `String!` | Customer-specific asset type identifier. |
 | `customerId` | `String!` | Unique identifier of the customer. |
 
@@ -758,11 +774,14 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
       comments
       containerId
       creationDate
+      customerAssetTypeCustomProperties
+      customerAssetTypeId
       customProperties
       description
       dueDate
       id
       images
+      lastCountedDate
       lastDetectionDate
       lastUpdatedDate
       name
@@ -849,6 +868,8 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "comments": "Inspected and approved",
           "containerId": "container-001",
           "creationDate": 1719792000000,
+          "customerAssetTypeCustomProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "customerAssetTypeId": "customerassettype-001",
           "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "dueDate": 1719792000000,
@@ -856,6 +877,7 @@ mutation UpdateAssets($input: UpdateAssetsInput!) {
           "images": [
             "https://cdn.example.com/asset-1024.png"
           ],
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "name": "Forklift 7",
@@ -1066,10 +1088,13 @@ A tracked asset.
 | `containerId` | `String` | Identifier of the container holding this asset, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `customerAssetTypeCustomProperties` | `AWSJSON` | Custom properties of this asset's customer asset type, serialized as a JSON string. |
+| `customerAssetTypeId` | `String` | The customer asset type of this asset, if any. |
 | `description` | `String` | Free-text description of the asset. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
 | `id` | `String` | Unique identifier of the asset, usually the asset number. |
 | `images` | `[String]` | Public image URLs for the asset. |
+| `lastCountedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last counted by a Cycle Count. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the asset was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last updated. |
@@ -1136,6 +1161,7 @@ A customer-specific asset type mapped to an asset type.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerAssetTypeId` | `String!` | The customer's asset type for this asset type. |
 | `customerId` | `String!` | Unique identifier of the customer. |
 

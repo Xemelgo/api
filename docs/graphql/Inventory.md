@@ -24,13 +24,17 @@ query Inventory($input: InventoryInput) {
       containerId
       creationDate
       customerPartNumber
+      customerPartNumberCustomProperties
+      customerPartNumberQuantityMode
       customProperties
       description
       expirationDate
       id
       images
       isConsumed
+      lastCountedDate
       lastDetectionDate
+      lastObservedDate
       lastUpdatedDate
       lotNumber
       name
@@ -39,7 +43,15 @@ query Inventory($input: InventoryInput) {
       transferOrderId
       transferStatus
       uuid
+      incomingLocation {
+        id
+        name
+      }
       lastDetectedAtLocation {
+        id
+        name
+      }
+      lastObservedAtLocation {
         id
         name
       }
@@ -88,6 +100,8 @@ query Inventory($input: InventoryInput) {
           "containerId": "container-001",
           "creationDate": 1719792000000,
           "customerPartNumber": "example",
+          "customerPartNumberCustomProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "customerPartNumberQuantityMode": "BULK",
           "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "expirationDate": 1719792000000,
@@ -96,7 +110,9 @@ query Inventory($input: InventoryInput) {
             "https://cdn.example.com/asset-1024.png"
           ],
           "isConsumed": true,
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
+          "lastObservedDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "lotNumber": "example",
           "name": "Forklift 7",
@@ -105,7 +121,15 @@ query Inventory($input: InventoryInput) {
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
           "uuid": "uu-001",
+          "incomingLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
           "lastDetectedAtLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "lastObservedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
           },
@@ -415,8 +439,8 @@ query InventoryParts($input: InventoryPartsInput) {
         name
       }
       customerPartNumbers {
+        customProperties
         customerId
-        customerPartNumber
       }
       supplier {
         id
@@ -471,8 +495,8 @@ query InventoryParts($input: InventoryPartsInput) {
           ],
           "customerPartNumbers": [
             {
-              "customerId": "customer-001",
-              "customerPartNumber": "example"
+              "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+              "customerId": "customer-001"
             }
           ],
           "supplier": {
@@ -704,13 +728,17 @@ mutation CreateInventory($input: CreateInventoryInput!) {
       containerId
       creationDate
       customerPartNumber
+      customerPartNumberCustomProperties
+      customerPartNumberQuantityMode
       customProperties
       description
       expirationDate
       id
       images
       isConsumed
+      lastCountedDate
       lastDetectionDate
+      lastObservedDate
       lastUpdatedDate
       lotNumber
       name
@@ -719,7 +747,15 @@ mutation CreateInventory($input: CreateInventoryInput!) {
       transferOrderId
       transferStatus
       uuid
+      incomingLocation {
+        id
+        name
+      }
       lastDetectedAtLocation {
+        id
+        name
+      }
+      lastObservedAtLocation {
         id
         name
       }
@@ -751,6 +787,8 @@ mutation CreateInventory($input: CreateInventoryInput!) {
         "comments": "Inspected and approved",
         "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "customerPartNumber": "example",
+        "customerPartNumberCustomProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+        "customerPartNumberQuantityMode": "BULK",
         "description": "Electric counterbalance forklift",
         "expirationDate": 1719792000000,
         "id": "createdinventory-001",
@@ -792,6 +830,8 @@ mutation CreateInventory($input: CreateInventoryInput!) {
           "containerId": "container-001",
           "creationDate": 1719792000000,
           "customerPartNumber": "example",
+          "customerPartNumberCustomProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "customerPartNumberQuantityMode": "BULK",
           "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "expirationDate": 1719792000000,
@@ -800,7 +840,9 @@ mutation CreateInventory($input: CreateInventoryInput!) {
             "https://cdn.example.com/asset-1024.png"
           ],
           "isConsumed": true,
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
+          "lastObservedDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "lotNumber": "example",
           "name": "Forklift 7",
@@ -809,7 +851,15 @@ mutation CreateInventory($input: CreateInventoryInput!) {
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
           "uuid": "uu-001",
+          "incomingLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
           "lastDetectedAtLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "lastObservedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
           },
@@ -856,6 +906,8 @@ Definition of a single inventory item to create.
 | `comments` | `String` | Free-text comments on the item. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumber` | `String` | Optional part number used by your customer. |
+| `customerPartNumberCustomProperties` | `AWSJSON` | Custom properties of the customer part number, serialized as a JSON string. Used only when the customer part number is created; an existing one keeps its properties. |
+| `customerPartNumberQuantityMode` | [`QuantityMode`](#type-quantitymode) | How the items of the customer part number are tracked. Used only when the customer part number is created; an existing one keeps its quantity mode. When omitted, the tenant's default for new customer part numbers applies, if configured. |
 | `description` | `String` | Free-text description of the item. |
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item expires. |
 | `id` | `String!` | Serial number of the item; may match the tracker serial when items are not serialized. |
@@ -905,8 +957,10 @@ mutation CreateInventoryParts($input: CreateInventoryPartsInput!) {
         "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
         "customerPartNumbers": [
           {
+            "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
             "customerId": "customer-001",
-            "customerPartNumber": "example"
+            "customerPartNumber": "example",
+            "quantityMode": "BULK"
           }
         ],
         "description": "Electric counterbalance forklift",
@@ -977,8 +1031,10 @@ Input mapping a customer to its part number for a part.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. Used only when the customer part number is created. |
 | `customerId` | `String!` | Unique identifier of the customer. |
 | `customerPartNumber` | `String!` | The customer's part number for this part. |
+| `quantityMode` | [`QuantityMode`](#type-quantitymode) | How the items of this customer part number are tracked. Used only when the customer part number is created; when omitted, the tenant's default for new customer part numbers applies, if configured. |
 
 #### Returns
 
@@ -1167,13 +1223,17 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
       containerId
       creationDate
       customerPartNumber
+      customerPartNumberCustomProperties
+      customerPartNumberQuantityMode
       customProperties
       description
       expirationDate
       id
       images
       isConsumed
+      lastCountedDate
       lastDetectionDate
+      lastObservedDate
       lastUpdatedDate
       lotNumber
       name
@@ -1182,7 +1242,15 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
       transferOrderId
       transferStatus
       uuid
+      incomingLocation {
+        id
+        name
+      }
       lastDetectedAtLocation {
+        id
+        name
+      }
+      lastObservedAtLocation {
         id
         name
       }
@@ -1261,6 +1329,8 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
           "containerId": "container-001",
           "creationDate": 1719792000000,
           "customerPartNumber": "example",
+          "customerPartNumberCustomProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
+          "customerPartNumberQuantityMode": "BULK",
           "customProperties": "{\"weight\":\"15kg\",\"color\":\"blue\"}",
           "description": "Electric counterbalance forklift",
           "expirationDate": 1719792000000,
@@ -1269,7 +1339,9 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
             "https://cdn.example.com/asset-1024.png"
           ],
           "isConsumed": true,
+          "lastCountedDate": 1719792000000,
           "lastDetectionDate": 1719792000000,
+          "lastObservedDate": 1719792000000,
           "lastUpdatedDate": 1719792000000,
           "lotNumber": "example",
           "name": "Forklift 7",
@@ -1278,7 +1350,15 @@ mutation UpdateInventory($input: UpdateInventoryInput!) {
           "transferOrderId": "transferorder-001",
           "transferStatus": "example",
           "uuid": "uu-001",
+          "incomingLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
           "lastDetectedAtLocation": {
+            "id": "location-001",
+            "name": "Forklift 7"
+          },
+          "lastObservedAtLocation": {
             "id": "location-001",
             "name": "Forklift 7"
           },
@@ -1578,8 +1658,10 @@ A customer-specific part number mapped to an inventory part.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String!` | Unique identifier of the customer. |
 | `customerPartNumber` | `String!` | The customer's part number for this part. |
+| `quantityMode` | [`QuantityMode`](#type-quantitymode) | How the items of this customer part number are tracked. |
 
 #### CustomerV2 {#type-customerv2}
 
@@ -1605,13 +1687,19 @@ A tracked inventory item.
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumber` | `String` | Customer-specific part number for this item, if any. |
+| `customerPartNumberCustomProperties` | `AWSJSON` | Custom properties of this item's customer part number, serialized as a JSON string. |
+| `customerPartNumberQuantityMode` | [`QuantityMode`](#type-quantitymode) | How the items of this item's customer part number are tracked. |
 | `description` | `String` | Free-text description of the inventory item. |
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item expires. |
 | `id` | `String` | Unique identifier of the inventory item. |
 | `images` | `[String]` | Image URLs for the inventory item. |
+| `incomingLocation` | [`LocationV2`](#type-locationv2) | Location where the inventory item is expected to be received, if any. |
 | `isConsumed` | `Boolean` | Whether the item has been consumed. |
+| `lastCountedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last counted by a Cycle Count or audit. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the inventory item was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last detected. |
+| `lastObservedAtLocation` | [`LocationV2`](#type-locationv2) | Location where a reader last saw the inventory item. It can differ from lastDetectedAtLocation. Null unless location ranking. |
+| `lastObservedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when a reader last saw the inventory item at lastObservedAtLocation. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last updated. |
 | `location` | [`LocationV2`](#type-locationv2) | Current location of the inventory item. |
 | `lotNumber` | `String` | Lot number of the lot this item belongs to. |
@@ -1673,6 +1761,15 @@ A location in the tenant's location hierarchy.
 | `name` | `String` | Display name of the location. |
 | `parentLocationId` | `String` | Identifier of the parent location in the hierarchy, if any. |
 | `roleId` | `String` | Identifier of the location role describing how this location is used. |
+
+#### QuantityMode {#type-quantitymode}
+
+How the items of a customer part number are tracked. This is not the unit of measure; that is the part's unit field.
+
+| Value | Description |
+|---|---|
+| `BULK` | One item is a quantity of the part, held in the item's quantity field. |
+| `SINGLE` | One item is one physical thing. |
 
 #### Tracker {#type-tracker}
 
