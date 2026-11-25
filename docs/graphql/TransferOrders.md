@@ -2684,10 +2684,13 @@ A tracked asset.
 | `containerId` | `String` | Identifier of the container holding this asset, if any. |
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
+| `customerAssetTypeCustomProperties` | `AWSJSON` | Custom properties of this asset's customer asset type, serialized as a JSON string. |
+| `customerAssetTypeId` | `String` | The customer asset type of this asset, if any. |
 | `description` | `String` | Free-text description of the asset. |
 | `dueDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset is due for maintenance or calibration. |
 | `id` | `String` | Unique identifier of the asset, usually the asset number. |
 | `images` | `[String]` | Public image URLs for the asset. |
+| `lastCountedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last counted by a Cycle Count. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the asset was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last detected. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the asset was last updated. |
@@ -2840,6 +2843,7 @@ A customer-specific asset type mapped to an asset type.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerAssetTypeId` | `String!` | The customer's asset type for this asset type. |
 | `customerId` | `String!` | Unique identifier of the customer. |
 
@@ -2849,8 +2853,10 @@ A customer-specific part number mapped to an inventory part.
 
 | Field | Type | Description |
 |---|---|---|
+| `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerId` | `String!` | Unique identifier of the customer. |
 | `customerPartNumber` | `String!` | The customer's part number for this part. |
+| `quantityMode` | [`QuantityMode`](#type-quantitymode) | How the items of this customer part number are tracked. |
 
 #### CustomerV2 {#type-customerv2}
 
@@ -2876,13 +2882,19 @@ A tracked inventory item.
 | `creationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was created. |
 | `customProperties` | `AWSJSON` | Additional custom properties, serialized as a JSON string. |
 | `customerPartNumber` | `String` | Customer-specific part number for this item, if any. |
+| `customerPartNumberCustomProperties` | `AWSJSON` | Custom properties of this item's customer part number, serialized as a JSON string. |
+| `customerPartNumberQuantityMode` | [`QuantityMode`](#type-quantitymode) | How the items of this item's customer part number are tracked. |
 | `description` | `String` | Free-text description of the inventory item. |
 | `expirationDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item expires. |
 | `id` | `String` | Unique identifier of the inventory item. |
 | `images` | `[String]` | Image URLs for the inventory item. |
+| `incomingLocation` | [`LocationV2`](#type-locationv2) | Location where the inventory item is expected to be received, if any. |
 | `isConsumed` | `Boolean` | Whether the item has been consumed. |
+| `lastCountedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last counted by a Cycle Count or audit. |
 | `lastDetectedAtLocation` | [`LocationV2`](#type-locationv2) | Location where the inventory item was last detected. |
 | `lastDetectionDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last detected. |
+| `lastObservedAtLocation` | [`LocationV2`](#type-locationv2) | Location where a reader last saw the inventory item. It can differ from lastDetectedAtLocation. Null unless location ranking. |
+| `lastObservedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when a reader last saw the inventory item at lastObservedAtLocation. |
 | `lastUpdatedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the item was last updated. |
 | `location` | [`LocationV2`](#type-locationv2) | Current location of the inventory item. |
 | `lotNumber` | `String` | Lot number of the lot this item belongs to. |
@@ -3057,6 +3069,15 @@ A transfer order moving packages between locations.
 | `uuid` | `String` | Globally unique identifier of the package transfer order. |
 | `verifiedDate` | `AWSTimestamp` | Epoch-millisecond timestamp when the transfer order was verified. |
 | `verifiedQuantity` | `Int` | Quantity of packages that have been verified. |
+
+#### QuantityMode {#type-quantitymode}
+
+How the items of a customer part number are tracked. This is not the unit of measure; that is the part's unit field.
+
+| Value | Description |
+|---|---|
+| `BULK` | One item is a quantity of the part, held in the item's quantity field. |
+| `SINGLE` | One item is one physical thing. |
 
 #### RequestStatus {#type-requeststatus}
 

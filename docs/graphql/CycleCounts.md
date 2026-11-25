@@ -228,7 +228,7 @@ query CycleCounts($input: CycleCountsInput) {
         "INVENTORY"
       ],
       "id": "cycle-count-001",
-      "status": [
+      "statuses": [
         "CREATED"
       ]
     },
@@ -290,7 +290,7 @@ Filters for the counts query.
 | `createdBefore` | `AWSTimestamp` | Return Cycle Counts created before this time, as an epoch timestamp in milliseconds. Exclusive, so consecutive windows do not overlap. Must not be earlier than createdAfter. |
 | `domains` | [`[CycleCountDomain!]`](#type-cyclecountdomain) | Domains to return. Omit to return both Inventory and Asset Cycle Counts. |
 | `id` | `String` | Return the Cycle Count with this ID. |
-| `statuses` | [`[CycleCountStatus!]`](#type-cyclecountstatus) | Return Cycle Counts with any of these statuses. When supplied with the deprecated status, both must list the same statuses. |
+| `statuses` | [`[CycleCountStatus!]`](#type-cyclecountstatus) | Return Cycle Counts with any of these statuses. |
 
 ##### CycleCountsInput {#type-cyclecountsinput}
 
@@ -533,7 +533,7 @@ mutation CreateAssetCycleCount($input: CreateAssetCycleCountInput!) {
       ],
       "assetTypes": [
         {
-          "id": "FORKLIFT"
+          "assetTypeId": "FORKLIFT"
         }
       ]
     }
@@ -872,10 +872,10 @@ mutation UpdateAssetCycleCount($input: UpdateAssetCycleCountInput!) {
       ],
       "assetTypes": [
         {
-          "id": "FORKLIFT"
+          "assetTypeId": "FORKLIFT"
         },
         {
-          "id": "PALLET-JACK"
+          "assetTypeId": "PALLET-JACK"
         }
       ]
     }
@@ -1052,10 +1052,10 @@ mutation UpdateInventoryCycleCount($input: UpdateInventoryCycleCountInput!) {
       ],
       "parts": [
         {
-          "id": "PART-1001"
+          "partId": "PART-1001"
         },
         {
-          "id": "PART-1002"
+          "partId": "PART-1002"
         }
       ],
       "itemFields": [
@@ -1070,6 +1070,17 @@ mutation UpdateInventoryCycleCount($input: UpdateInventoryCycleCountInput!) {
               "value": "LOT-2024-02"
             }
           ]
+        },
+        {
+          "field": "expirationDate",
+          "range": {
+            "to": {
+              "relativeToNow": {
+                "amount": 30,
+                "unit": "DAYS"
+              }
+            }
+          }
         }
       ]
     }
@@ -1221,7 +1232,7 @@ The locations, asset types, and states included in an Asset Cycle Count.
 | `excludedAssetTypeIds` | `[String!]!` | Asset type identifiers excluded from the Cycle Count. |
 | `excludedLocations` | [`[CycleCountLocationScope!]!`](#type-cyclecountlocationscope) | Locations excluded from the Cycle Count. |
 | `expectedStates` | `[String!]!` | Asset states included in the Cycle Count. |
-| `itemFields` | [`[CycleCountItemFieldScope!]!`](#type-cyclecountitemfieldscope) | Item fields the Cycle Count is limited to. Only items whose field has one of the listed values are included. |
+| `itemFields` | [`[CycleCountItemFieldScope!]!`](#type-cyclecountitemfieldscope) | Item fields the Cycle Count is limited to. Only items that match every one of them are included. |
 | `locations` | [`[CycleCountLocationScope!]!`](#type-cyclecountlocationscope) | Locations included in the Cycle Count. |
 
 #### AssetCycleCountScopeInput {#type-assetcyclecountscopeinput}
@@ -1311,28 +1322,52 @@ What Cycle Count expectations can be grouped by. New values may be added.
 
 | Value | Description |
 |---|---|
-| `ITEM_FIELD` | An item field listed in the scope's itemFields, such as a lot number. |
+| `ITEM_FIELD` | An item field the scope's itemFields lists values for, such as a lot number. |
 | `ITEM_TYPE` | The part or asset type. |
 | `LOCATION` | The location of the inventory or asset. |
 
-#### CycleCountItemFieldScope {#type-cyclecountitemfieldscope}
+#### CycleCountItemFieldRange {#type-cyclecountitemfieldrange}
 
-An item field that limits a Cycle Count to items with one of the listed values.
+A range of a number or date item field.
 
 | Field | Type | Description |
 |---|---|---|
-| `field` | `String!` | Item field name, such as lotNumber. |
-| `valueCount` | `Int!` | Number of values listed for the field. |
-| `values` | [`[CycleCountItemFieldValue!]`](#type-cyclecountitemfieldvalue) | Values listed for the field. Selecting this field in a list of Cycle Counts limits the page to 5 Cycle Counts, because one Cycle Count can list up to 1,000 values. |
+| `from` | [`CycleCountRangeBound`](#type-cyclecountrangebound) | Inclusive lower bound. Null when the range has none. |
+| `includeMissing` | `Boolean!` | Whether items without a value are included too. |
+| `to` | [`CycleCountRangeBound`](#type-cyclecountrangebound) | Exclusive upper bound. Null when the range has none. |
+
+#### CycleCountItemFieldRangeInput {#type-cyclecountitemfieldrangeinput}
+
+A range of a number or date item field. Supply from, to, or both. Expiry dates are usually stored at midnight of the expiry day, so a window shorter than a day needs exact expiry times.
+
+| Field | Type | Description |
+|---|---|---|
+| `from` | [`CycleCountRangeBoundInput`](#type-cyclecountrangeboundinput) | Inclusive lower bound. |
+| `includeMissing` | `Boolean` | Also include items without a value, such as items never counted. |
+| `to` | [`CycleCountRangeBoundInput`](#type-cyclecountrangeboundinput) | Exclusive upper bound. |
+
+#### CycleCountItemFieldScope {#type-cyclecountitemfieldscope}
+
+An item field that limits a Cycle Count: to items with one of the listed values, to items in a range, or to items with or without a value.
+
+| Field | Type | Description |
+|---|---|---|
+| `exists` | `Boolean` | True when items must have a value for the field, false when they must not. Null for a values or range entry. |
+| `field` | `String!` | Item field name, as the inventory and assets lists name it, such as lotNumber or expirationDate. |
+| `range` | [`CycleCountItemFieldRange`](#type-cyclecountitemfieldrange) | Range the field must be in. Null for a values or exists entry. |
+| `valueCount` | `Int!` | Number of values listed for the field. 0 for a range or exists entry. |
+| `values` | [`[CycleCountItemFieldValue!]`](#type-cyclecountitemfieldvalue) | Values listed for the field. Null for a range or exists entry. Selecting this field in a list of Cycle Counts limits the page to 5 Cycle Counts, because one Cycle Count can list up to 1,000 values. |
 
 #### CycleCountItemFieldScopeInput {#type-cyclecountitemfieldscopeinput}
 
-An item field to limit a Cycle Count to. Only items whose field has one of the listed values are included. Items with other values are not counted, and submitting one marks it invalid.
+An item field to limit a Cycle Count to. Supply exactly one of values, range, and exists. Items outside it are not counted, and submitting one marks it invalid.
 
 | Field | Type | Description |
 |---|---|---|
-| `field` | `String!` | Item field name: lotNumber, or a text item field the tenant's configuration allows filtering by. |
-| `values` | [`[CycleCountItemFieldValueInput!]!`](#type-cyclecountitemfieldvalueinput) | Values to include. At least one, without repeats. |
+| `exists` | `Boolean` | True to include only items with a value for the field, false to include only items without one. |
+| `field` | `String!` | A field the inventory or assets list can filter by, such as lotNumber, expirationDate, trackerSerial, customProperties.bin, or part.customProperties.abcClass. Locations and states are set by the scope's own fields instead. |
+| `range` | [`CycleCountItemFieldRangeInput`](#type-cyclecountitemfieldrangeinput) | Range to include, for a number or date field. |
+| `values` | [`[CycleCountItemFieldValueInput!]`](#type-cyclecountitemfieldvalueinput) | Values to include. At least one, without repeats. For a number field, whole numbers. For a true or false field, true or false. |
 
 #### CycleCountItemFieldValue {#type-cyclecountitemfieldvalue}
 
@@ -1349,7 +1384,7 @@ An item field value to include in a Cycle Count.
 
 | Field | Type | Description |
 |---|---|---|
-| `expectedQuantity` | `Float` | Quantity expected for the value across the Cycle Count's locations, at most 1,000,000,000. A value without one expects what is found. Only one item field, and not the parts or asset types too, can have expected quantities. |
+| `expectedQuantity` | `Float` | Quantity expected for the value across the Cycle Count's locations, at most 1,000,000,000. A value without one expects what is found. Only one item field, and not the parts or asset types too, can have expected quantities, and it must be a text field that holds one value per item, such as lotNumber. |
 | `value` | `String!` | Field value. Surrounding whitespace is removed. At most 256 UTF-8 bytes. |
 
 #### CycleCountLocation {#type-cyclecountlocation}
@@ -1398,6 +1433,24 @@ A part to include in an Inventory Cycle Count.
 | `expectedQuantity` | `Float` | Quantity expected for the part across the Cycle Count's locations, at most 1,000,000,000. A part without one expects the inventory found. Cannot be combined with categoryIds or with expected quantities on item field values. |
 | `partId` | `String!` | Inventory part identifier. |
 
+#### CycleCountRangeBound {#type-cyclecountrangebound}
+
+One end of an item field range: a fixed number, or a time relative to now.
+
+| Field | Type | Description |
+|---|---|---|
+| `relativeToNow` | [`CycleCountTimeOffset`](#type-cyclecounttimeoffset) | Time relative to now, negative for the past, such as -30 DAYS for 30 days ago. Null for a fixed number. |
+| `value` | `Float` | Fixed number. For a date, an epoch timestamp in milliseconds. Null for a time relative to now. |
+
+#### CycleCountRangeBoundInput {#type-cyclecountrangeboundinput}
+
+One end of an item field range. Supply exactly one of value and relativeToNow.
+
+| Field | Type | Description |
+|---|---|---|
+| `relativeToNow` | [`CycleCountTimeOffsetInput`](#type-cyclecounttimeoffsetinput) | A time relative to now, for a date field, negative for the past: -30 DAYS is 30 days ago and 7 DAYS is 7 days from now. A Cycle Count created ahead of time still includes items that enter the range later. |
+| `value` | `Float` | A whole number. For a date, an epoch timestamp in milliseconds. |
+
 #### CycleCountStatus {#type-cyclecountstatus}
 
 The status of a Cycle Count. New values may be added, so treat an unknown value like CREATED.
@@ -1418,6 +1471,35 @@ The scope filter whose values carry the caller's expected quantities.
 | `field` | `String` | Item field name for ITEM_FIELD. Null for ITEM_TYPE. |
 | `key` | [`CycleCountGroupKey!`](#type-cyclecountgroupkey) | ITEM_TYPE when the quantities are on parts or asset types, or ITEM_FIELD when they are on an item field's values. |
 | `valueCount` | `Int!` | Number of values in the filter. Grouping expectations by this key gives one expectation per value, with the supplied quantities. |
+
+#### CycleCountTimeOffset {#type-cyclecounttimeoffset}
+
+A time relative to when the Cycle Count is read.
+
+| Field | Type | Description |
+|---|---|---|
+| `amount` | `Int!` | Number of units. Negative for the past. |
+| `unit` | [`CycleCountTimeUnit!`](#type-cyclecounttimeunit) | Unit of the amount. |
+
+#### CycleCountTimeOffsetInput {#type-cyclecounttimeoffsetinput}
+
+A time relative to when the Cycle Count is read. A submission reads it when it captures what the Cycle Count expects.
+
+| Field | Type | Description |
+|---|---|---|
+| `amount` | `Int!` | Number of units. Negative for the past. At most 100 years either way. |
+| `unit` | [`CycleCountTimeUnit!`](#type-cyclecounttimeunit) | Unit of the amount. |
+
+#### CycleCountTimeUnit {#type-cyclecounttimeunit}
+
+A unit of time for a Cycle Count range bound.
+
+| Value | Description |
+|---|---|
+| `DAYS` | Days of 24 hours. |
+| `HOURS` | Hours of 60 minutes. |
+| `MINUTES` | Minutes of 60 seconds. |
+| `WEEKS` | Weeks of 7 days. |
 
 #### InventoryCycleCount {#type-inventorycyclecount}
 
@@ -1461,7 +1543,7 @@ The locations, parts, and states included in an Inventory Cycle Count.
 | `excludedLocations` | [`[CycleCountLocationScope!]!`](#type-cyclecountlocationscope) | Locations excluded from the Cycle Count. |
 | `excludedPartIds` | `[String!]!` | Inventory part identifiers excluded from the Cycle Count. |
 | `expectedStates` | `[String!]!` | Inventory states included in the Cycle Count. |
-| `itemFields` | [`[CycleCountItemFieldScope!]!`](#type-cyclecountitemfieldscope) | Item fields the Cycle Count is limited to. Only items whose field has one of the listed values are included. |
+| `itemFields` | [`[CycleCountItemFieldScope!]!`](#type-cyclecountitemfieldscope) | Item fields the Cycle Count is limited to. Only items that match every one of them are included. |
 | `locations` | [`[CycleCountLocationScope!]!`](#type-cyclecountlocationscope) | Locations included in the Cycle Count. |
 | `parts` | [`[CycleCountPartScope!]!`](#type-cyclecountpartscope) | Inventory parts included in the Cycle Count. An empty list includes all parts. |
 

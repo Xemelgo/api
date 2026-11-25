@@ -49,6 +49,14 @@ type Asset {
   """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
+  """
+  Custom properties of this asset's customer asset type, serialized as a JSON string.
+  """
+  customerAssetTypeCustomProperties: AWSJSON
+
+  """The customer asset type of this asset, if any."""
+  customerAssetTypeId: String
+
   """Free-text description of the asset."""
   description: String
 
@@ -62,6 +70,11 @@ type Asset {
 
   """Public image URLs for the asset."""
   images: [String]
+
+  """
+  Epoch-millisecond timestamp when the asset was last counted by a Cycle Count.
+  """
+  lastCountedDate: AWSTimestamp
 
   """Location where the asset was last detected."""
   lastDetectedAtLocation: LocationV2
@@ -224,11 +237,6 @@ The locations, asset types, and states included in an Asset Cycle Count.
 """
 type AssetCycleCountScope {
   """
-  Asset type identifiers included in the Cycle Count. An empty list includes all asset types.
-  """
-  assetTypeIds: [String!]! @deprecated(reason: "Use assetTypes. Will be removed.")
-
-  """
   Asset types included in the Cycle Count. An empty list includes all asset types.
   """
   assetTypes: [CycleCountAssetTypeScope!]!
@@ -248,7 +256,7 @@ type AssetCycleCountScope {
   expectedStates: [String!]!
 
   """
-  Item fields the Cycle Count is limited to. Only items whose field has one of the listed values are included.
+  Item fields the Cycle Count is limited to. Only items that match every one of them are included.
   """
   itemFields: [CycleCountItemFieldScope!]!
 
@@ -260,11 +268,6 @@ type AssetCycleCountScope {
 The locations, asset types, and states to include in an Asset Cycle Count.
 """
 input AssetCycleCountScopeInput {
-  """
-  Asset type identifiers to include. Omit to include all asset types. When supplied with assetTypes, both must list the same asset types.
-  """
-  assetTypeIds: [String!] = [] @deprecated(reason: "Use assetTypes. Will be removed.")
-
   """
   Asset types to include. Omit to include all asset types. Together with categoryIds, at most 1,000.
   """
@@ -1130,6 +1133,12 @@ input CreateAssetInput {
   """Additional custom properties, serialized as a JSON string."""
   customProperties: AWSJSON
 
+  """
+  Custom properties of the customer asset type, serialized as a JSON string. Used only when the customer asset type is
+  created; an existing one keeps its properties.
+  """
+  customerAssetTypeCustomProperties: AWSJSON
+
   """Optional asset type identifier used by your customer."""
   customerAssetTypeId: String
 
@@ -1729,6 +1738,19 @@ input CreatedInventory {
   """Optional part number used by your customer."""
   customerPartNumber: String
 
+  """
+  Custom properties of the customer part number, serialized as a JSON string. Used only when the customer part number
+  is created; an existing one keeps its properties.
+  """
+  customerPartNumberCustomProperties: AWSJSON
+
+  """
+  How the items of the customer part number are tracked. Used only when the customer part number is created; an
+  existing one keeps its quantity mode. When omitted, the tenant's default for new customer part numbers applies, if
+  configured.
+  """
+  customerPartNumberQuantityMode: QuantityMode
+
   """Free-text description of the item."""
   description: String
 
@@ -1784,6 +1806,9 @@ type CurrentOperation {
 
 """A customer-specific asset type mapped to an asset type."""
 type CustomerAssetType {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
   """The customer's asset type for this asset type."""
   customerAssetTypeId: String!
 
@@ -1793,6 +1818,11 @@ type CustomerAssetType {
 
 """Mapping of a customer to one of its asset type identifiers."""
 input CustomerAssetTypeInput {
+  """
+  Additional custom properties, serialized as a JSON string. Used only when the customer asset type is created.
+  """
+  customProperties: AWSJSON
+
   """Customer-specific asset type identifier."""
   customerAssetTypeId: String!
 
@@ -1802,20 +1832,37 @@ input CustomerAssetTypeInput {
 
 """A customer-specific part number mapped to an inventory part."""
 type CustomerPartNumber {
+  """Additional custom properties, serialized as a JSON string."""
+  customProperties: AWSJSON
+
   """Unique identifier of the customer."""
   customerId: String!
 
   """The customer's part number for this part."""
   customerPartNumber: String!
+
+  """How the items of this customer part number are tracked."""
+  quantityMode: QuantityMode
 }
 
 """Input mapping a customer to its part number for a part."""
 input CustomerPartNumberInput {
+  """
+  Additional custom properties, serialized as a JSON string. Used only when the customer part number is created.
+  """
+  customProperties: AWSJSON
+
   """Unique identifier of the customer."""
   customerId: String!
 
   """The customer's part number for this part."""
   customerPartNumber: String!
+
+  """
+  How the items of this customer part number are tracked. Used only when the customer part number is created; when
+  omitted, the tenant's default for new customer part numbers applies, if configured.
+  """
+  quantityMode: QuantityMode
 }
 
 """
@@ -2024,11 +2071,6 @@ input CycleCountFilterInput {
   id: String
 
   """Return Cycle Counts with any of these statuses."""
-  status: [CycleCountStatus!] @deprecated(reason: "Use statuses. Will be removed.")
-
-  """
-  Return Cycle Counts with any of these statuses. When supplied with the deprecated status, both must list the same statuses.
-  """
   statuses: [CycleCountStatus!]
 }
 
@@ -2036,7 +2078,9 @@ input CycleCountFilterInput {
 What Cycle Count expectations can be grouped by. New values may be added.
 """
 enum CycleCountGroupKey {
-  """An item field listed in the scope's itemFields, such as a lot number."""
+  """
+  An item field the scope's itemFields lists values for, such as a lot number.
+  """
   ITEM_FIELD
 
   """The part or asset type."""
@@ -2046,33 +2090,79 @@ enum CycleCountGroupKey {
   LOCATION
 }
 
+"""A range of a number or date item field."""
+type CycleCountItemFieldRange {
+  """Inclusive lower bound. Null when the range has none."""
+  from: CycleCountRangeBound
+
+  """Whether items without a value are included too."""
+  includeMissing: Boolean!
+
+  """Exclusive upper bound. Null when the range has none."""
+  to: CycleCountRangeBound
+}
+
 """
-An item field that limits a Cycle Count to items with one of the listed values.
+A range of a number or date item field. Supply from, to, or both. Expiry dates are usually stored at midnight of the expiry day, so a window shorter than a day needs exact expiry times.
+"""
+input CycleCountItemFieldRangeInput {
+  """Inclusive lower bound."""
+  from: CycleCountRangeBoundInput
+
+  """Also include items without a value, such as items never counted."""
+  includeMissing: Boolean = false
+
+  """Exclusive upper bound."""
+  to: CycleCountRangeBoundInput
+}
+
+"""
+An item field that limits a Cycle Count: to items with one of the listed values, to items in a range, or to items with or without a value.
 """
 type CycleCountItemFieldScope {
-  """Item field name, such as lotNumber."""
+  """
+  True when items must have a value for the field, false when they must not. Null for a values or range entry.
+  """
+  exists: Boolean
+
+  """
+  Item field name, as the inventory and assets lists name it, such as lotNumber or expirationDate.
+  """
   field: String!
 
-  """Number of values listed for the field."""
+  """Range the field must be in. Null for a values or exists entry."""
+  range: CycleCountItemFieldRange
+
+  """Number of values listed for the field. 0 for a range or exists entry."""
   valueCount: Int!
 
   """
-  Values listed for the field. Selecting this field in a list of Cycle Counts limits the page to 5 Cycle Counts, because one Cycle Count can list up to 1,000 values.
+  Values listed for the field. Null for a range or exists entry. Selecting this field in a list of Cycle Counts limits the page to 5 Cycle Counts, because one Cycle Count can list up to 1,000 values.
   """
   values: [CycleCountItemFieldValue!]
 }
 
 """
-An item field to limit a Cycle Count to. Only items whose field has one of the listed values are included. Items with other values are not counted, and submitting one marks it invalid.
+An item field to limit a Cycle Count to. Supply exactly one of values, range, and exists. Items outside it are not counted, and submitting one marks it invalid.
 """
 input CycleCountItemFieldScopeInput {
   """
-  Item field name: lotNumber, or a text item field the tenant's configuration allows filtering by.
+  True to include only items with a value for the field, false to include only items without one.
+  """
+  exists: Boolean
+
+  """
+  A field the inventory or assets list can filter by, such as lotNumber, expirationDate, trackerSerial, customProperties.bin, or part.customProperties.abcClass. Locations and states are set by the scope's own fields instead.
   """
   field: String!
 
-  """Values to include. At least one, without repeats."""
-  values: [CycleCountItemFieldValueInput!]!
+  """Range to include, for a number or date field."""
+  range: CycleCountItemFieldRangeInput
+
+  """
+  Values to include. At least one, without repeats. For a number field, whole numbers. For a true or false field, true or false.
+  """
+  values: [CycleCountItemFieldValueInput!]
 }
 
 """An item field value included in a Cycle Count."""
@@ -2089,7 +2179,7 @@ type CycleCountItemFieldValue {
 """An item field value to include in a Cycle Count."""
 input CycleCountItemFieldValueInput {
   """
-  Quantity expected for the value across the Cycle Count's locations, at most 1,000,000,000. A value without one expects what is found. Only one item field, and not the parts or asset types too, can have expected quantities.
+  Quantity expected for the value across the Cycle Count's locations, at most 1,000,000,000. A value without one expects what is found. Only one item field, and not the parts or asset types too, can have expected quantities, and it must be a text field that holds one value per item, such as lotNumber.
   """
   expectedQuantity: Float
 
@@ -2156,6 +2246,34 @@ input CycleCountPartScopeInput {
 }
 
 """
+One end of an item field range: a fixed number, or a time relative to now.
+"""
+type CycleCountRangeBound {
+  """
+  Time relative to now, negative for the past, such as -30 DAYS for 30 days ago. Null for a fixed number.
+  """
+  relativeToNow: CycleCountTimeOffset
+
+  """
+  Fixed number. For a date, an epoch timestamp in milliseconds. Null for a time relative to now.
+  """
+  value: Float
+}
+
+"""
+One end of an item field range. Supply exactly one of value and relativeToNow.
+"""
+input CycleCountRangeBoundInput {
+  """
+  A time relative to now, for a date field, negative for the past: -30 DAYS is 30 days ago and 7 DAYS is 7 days from now. A Cycle Count created ahead of time still includes items that enter the range later.
+  """
+  relativeToNow: CycleCountTimeOffsetInput
+
+  """A whole number. For a date, an epoch timestamp in milliseconds."""
+  value: Float
+}
+
+"""
 The status of a Cycle Count. New values may be added, so treat an unknown value like CREATED.
 """
 enum CycleCountStatus {
@@ -2190,6 +2308,41 @@ type CycleCountSuppliedQuantities {
   Number of values in the filter. Grouping expectations by this key gives one expectation per value, with the supplied quantities.
   """
   valueCount: Int!
+}
+
+"""A time relative to when the Cycle Count is read."""
+type CycleCountTimeOffset {
+  """Number of units. Negative for the past."""
+  amount: Int!
+
+  """Unit of the amount."""
+  unit: CycleCountTimeUnit!
+}
+
+"""
+A time relative to when the Cycle Count is read. A submission reads it when it captures what the Cycle Count expects.
+"""
+input CycleCountTimeOffsetInput {
+  """Number of units. Negative for the past. At most 100 years either way."""
+  amount: Int!
+
+  """Unit of the amount."""
+  unit: CycleCountTimeUnit!
+}
+
+"""A unit of time for a Cycle Count range bound."""
+enum CycleCountTimeUnit {
+  """Days of 24 hours."""
+  DAYS
+
+  """Hours of 60 minutes."""
+  HOURS
+
+  """Minutes of 60 seconds."""
+  MINUTES
+
+  """Weeks of 7 days."""
+  WEEKS
 }
 
 """Options for listing Cycle Counts."""
@@ -2404,6 +2557,14 @@ type Inventory {
   """Customer-specific part number for this item, if any."""
   customerPartNumber: String
 
+  """
+  Custom properties of this item's customer part number, serialized as a JSON string.
+  """
+  customerPartNumberCustomProperties: AWSJSON
+
+  """How the items of this item's customer part number are tracked."""
+  customerPartNumberQuantityMode: QuantityMode
+
   """Free-text description of the inventory item."""
   description: String
 
@@ -2416,14 +2577,32 @@ type Inventory {
   """Image URLs for the inventory item."""
   images: [String]
 
+  """Location where the inventory item is expected to be received, if any."""
+  incomingLocation: LocationV2
+
   """Whether the item has been consumed."""
   isConsumed: Boolean
+
+  """
+  Epoch-millisecond timestamp when the item was last counted by a Cycle Count or audit.
+  """
+  lastCountedDate: AWSTimestamp
 
   """Location where the inventory item was last detected."""
   lastDetectedAtLocation: LocationV2
 
   """Epoch-millisecond timestamp when the item was last detected."""
   lastDetectionDate: AWSTimestamp
+
+  """
+  Location where a reader last saw the inventory item. It can differ from lastDetectedAtLocation. Null unless location ranking.
+  """
+  lastObservedAtLocation: LocationV2
+
+  """
+  Epoch-millisecond timestamp when a reader last saw the inventory item at lastObservedAtLocation.
+  """
+  lastObservedDate: AWSTimestamp
 
   """Epoch-millisecond timestamp when the item was last updated."""
   lastUpdatedDate: AWSTimestamp
@@ -2617,17 +2796,12 @@ type InventoryCycleCountScope {
   expectedStates: [String!]!
 
   """
-  Item fields the Cycle Count is limited to. Only items whose field has one of the listed values are included.
+  Item fields the Cycle Count is limited to. Only items that match every one of them are included.
   """
   itemFields: [CycleCountItemFieldScope!]!
 
   """Locations included in the Cycle Count."""
   locations: [CycleCountLocationScope!]!
-
-  """
-  Inventory part identifiers included in the Cycle Count. An empty list includes all parts.
-  """
-  partIds: [String!]! @deprecated(reason: "Use parts. Will be removed.")
 
   """
   Inventory parts included in the Cycle Count. An empty list includes all parts.
@@ -2662,11 +2836,6 @@ input InventoryCycleCountScopeInput {
 
   """Locations to include. At least 1 and at most 100."""
   locations: [CycleCountLocationScopeInput!]!
-
-  """
-  Inventory part identifiers to include. Omit to include all parts. When supplied with parts, both must list the same parts.
-  """
-  partIds: [String!] = [] @deprecated(reason: "Use parts. Will be removed.")
 
   """
   Inventory parts to include. Omit to include all parts. Together with categoryIds, at most 1,000.
@@ -3989,6 +4158,17 @@ type Person {
 
   """Globally unique identifier of the person."""
   uuid: ID!
+}
+
+"""
+How the items of a customer part number are tracked. This is not the unit of measure; that is the part's unit field.
+"""
+enum QuantityMode {
+  """One item is a quantity of the part, held in the item's quantity field."""
+  BULK
+
+  """One item is one physical thing."""
+  SINGLE
 }
 
 type Query {
